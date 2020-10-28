@@ -6,6 +6,7 @@ import (
 	m "projects/games/warf2/gmap"
 
 	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
 // MouseMode enum for managing mouse action state.
@@ -15,6 +16,10 @@ type MouseMode int
 const (
 	None MouseMode = iota
 )
+
+var startPoint = -1
+var hasClicked = false
+var firstClickedSprite = -1
 
 func handleMouse(g *Game) {
 	mouseHover(g)
@@ -33,23 +38,55 @@ func handleMouse(g *Game) {
 		}
 
 		mouseClick(g, idx)
-
+	} else if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
+		mouseUp()
 	} else if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
 		g.mouseMode = None
 	}
 }
 
 func mouseClick(g *Game, idx int) {
-	// s := &g.Gmap.Tiles[idx].Sprite
-
 	switch g.mouseMode {
 
 	case None:
 		// Identity
+		if !hasClicked {
+			if m.IsWallOrSelected(g.Gmap.Tiles[idx].Sprite) {
+				firstClickedSprite = g.Gmap.Tiles[idx].Sprite
+				g.Gmap.Tiles[idx].Sprite = setWallToFirstClicked()
+				startPoint = idx
+				hasClicked = true
+			}
+		} else if startPoint >= 0 {
+			x1, y1 := m.IdxToXY(startPoint)
+			x2, y2 := m.IdxToXY(idx)
+
+			if x1 > x2 {
+				x1, x2 = x2, x1
+			}
+
+			if y1 > y2 {
+				y1, y2 = y2, y1
+			}
+
+			for x := x1; x <= x2; x++ {
+				for y := y1; y <= y2; y++ {
+					i := m.XYToIdx(x, y)
+					if m.IsWallOrSelected(g.Gmap.Tiles[i].Sprite) {
+						g.Gmap.Tiles[i].Sprite = setWallToFirstClicked()
+					}
+				}
+			}
+		}
 
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", g.mouseMode)
 	}
+}
+
+func mouseUp() {
+	startPoint = -1
+	hasClicked = false
 }
 
 func mouseHover(g *Game) {
@@ -66,4 +103,12 @@ func mousePos() int {
 	mx, my = mx/m.TileSize, my/m.TileSize
 
 	return mx + (my * m.TilesW)
+}
+
+func setWallToFirstClicked() int {
+	if m.IsWall(firstClickedSprite) {
+		return m.WallSelectedSolid
+	} else {
+		return m.WallSolid
+	}
 }

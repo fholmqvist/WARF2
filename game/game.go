@@ -22,7 +22,8 @@ import (
 type Game struct {
 	/* ----------------------------- In-game objects ---------------------------- */
 
-	Gmap m.Map
+	Gmap          m.Map
+	SelectedWalls m.Map
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 
@@ -50,10 +51,12 @@ type Game struct {
 // NewGame returns a pointer to an instantiated and initiated game.
 func NewGame(debug bool) *Game {
 	gmap := makeMap()
+	selected := makeMap()
 	generateTempMap(&gmap)
 
 	game := Game{
-		Gmap: gmap,
+		Gmap:          gmap,
+		SelectedWalls: selected,
 
 		Data: &entity.Data{},
 

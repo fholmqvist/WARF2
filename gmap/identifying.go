@@ -109,3 +109,8 @@ func IsWall(tile int) bool {
 func IsSelectedWall(tile int) bool {
 	return tile >= WallSelectedSolid && tile <= WallSelectedExposed
 }
+
+// IsWallOrSelected returns whether tile is of type Wall or SelectedWall.
+func IsWallOrSelected(tile int) bool {
+	return IsWall(tile) || IsSelectedWall(tile)
+}
