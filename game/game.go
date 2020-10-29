@@ -7,9 +7,10 @@ import (
 	"os"
 
 	ch "projects/games/warf2/characters"
-	"projects/games/warf2/entity"
+	e "projects/games/warf2/entity"
 	m "projects/games/warf2/gmap"
 	h "projects/games/warf2/helpers"
+	j "projects/games/warf2/jobsystem"
 	u "projects/games/warf2/ui"
 
 	"github.com/golang/freetype/truetype"
@@ -24,6 +25,7 @@ type Game struct {
 
 	Gmap          m.Map
 	SelectedWalls m.Map
+	JobSystem     j.JobSystem
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 
@@ -33,7 +35,7 @@ type Game struct {
 
 	/* ----------------------------- External state ----------------------------- */
 
-	Data *entity.Data
+	Data *e.Data
 
 	/* ----------------------------- Internal state ----------------------------- */
 
@@ -58,7 +60,7 @@ func NewGame(debug bool) *Game {
 		Gmap:          gmap,
 		SelectedWalls: selected,
 
-		Data: &entity.Data{},
+		Data: &e.Data{},
 
 		time:      h.Time{Frame: 1},
 		debug:     debug,
