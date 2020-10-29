@@ -5,4 +5,5 @@ package jobsystem
 // eligible workers.
 type Worker interface {
 	Available() bool
+	SetAvailable(bool) bool
 }

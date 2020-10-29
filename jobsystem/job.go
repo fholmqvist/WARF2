@@ -5,9 +5,8 @@ package jobsystem
 // the job system.
 type Job interface {
 	WaitingForWorker() bool
-	SetWorker(*Worker) bool
-	OnGoing() bool
-	Done() bool
+	SetWorker(Worker) bool
+	CheckState() JobState
 }
 
 // JobSystem manages all ingame jobs
@@ -27,7 +26,7 @@ func (j *JobSystem) Update() {
 func (j *JobSystem) removeFinishedJobs() {
 	var jobs []Job
 	for _, job := range j.Jobs {
-		if !job.Done() {
+		if job.CheckState() != Done {
 			jobs = append(jobs, job)
 		}
 	}
@@ -44,7 +43,7 @@ func (j *JobSystem) assignWorkers() {
 		foundWorker := false
 		for _, worker := range availableWorkers {
 			if worker.Available() {
-				foundWorker = job.SetWorker(&worker)
+				foundWorker = job.SetWorker(worker)
 			}
 		}
 
