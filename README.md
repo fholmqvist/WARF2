@@ -21,3 +21,27 @@ Built with [Golang](https://golang.org/) and the [Ebiten](https://ebiten.org/) f
 ✅ Random walker
 
 ✅ A* pathfinding
+
+✅ Wall select and deselect
+
+✅ Job System
+
+✅ Digging walls Job
+
+## To be done
+
+❌ Resources
+
+❌ Digging yields resources
+
+❌ Fetching and storing resources
+
+❌ Rooms
+
+❌ UI
+
+❌ Better world gen
+
+❌ More/better graphics
+
+❌ Much more
