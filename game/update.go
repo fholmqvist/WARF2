@@ -1,6 +1,8 @@
 package game
 
 import (
+	"projects/games/warf2/characters"
+
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -11,9 +13,16 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	handleMouse(g)
 	handleKeyboard(g)
 
-	g.testChar.Walk(&g.WorldMap)
+	g.updateCharacters()
 
 	g.JobSystem.Update()
 
 	return nil
+}
+
+func (g *Game) updateCharacters() {
+	for _, worker := range g.JobSystem.Workers {
+		ch := worker.(*characters.Character)
+		ch.Walk(&g.WorldMap)
+	}
 }

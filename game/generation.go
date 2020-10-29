@@ -172,7 +172,7 @@ func floodFill(x, y int, mp *m.Map, island int, inverse bool) {
 	}
 }
 
-func testChar(mp m.Map) *ch.Character {
+func randomChar(mp m.Map) *ch.Character {
 	var availableSpots []int
 	for i := range mp.Tiles {
 		if m.IsGround(mp.Tiles[i].Sprite) {
@@ -182,7 +182,7 @@ func testChar(mp m.Map) *ch.Character {
 
 	return &ch.Character{
 		Entity: e.Entity{
-			Sprite: ch.DwarfGreen,
+			Sprite: rand.Intn(ch.DwarfTeal),
 			Idx:    availableSpots[rand.Intn(len(availableSpots))],
 		},
 	}

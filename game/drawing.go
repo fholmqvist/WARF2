@@ -2,10 +2,9 @@ package game
 
 import (
 	"fmt"
+	"projects/games/warf2/characters"
 	h "projects/games/warf2/helpers"
-	m "projects/games/warf2/worldmap"
 
-	"github.com/beefsack/go-astar"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
 )
@@ -16,10 +15,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	g.ui.Draw(screen, g.gameFont, *g.Data)
 
-	t := g.testChar
-
-	drawPathForTestCharacter(g, screen)
-	h.DrawGraphic(t.Entity.Idx, t.Entity.Sprite, screen, g.tilesDwarves, 1)
+	drawWorkers(g, screen)
 
 	drawTPS(g, screen)
 }
@@ -36,28 +32,9 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 	}
 }
 
-func drawPathForTestCharacter(g *Game, screen *ebiten.Image) {
-	from, ok := g.WorldMap.GetTileByIndex(g.testChar.Entity.Idx)
-	if !ok {
-		return
-	}
-
-	to, ok := g.WorldMap.GetTileByIndex(g.mousePos)
-	if !ok {
-		return
-	}
-
-	path, _, ok := astar.Path(from, to)
-	if !ok {
-		return
-	}
-
-	for _, t := range path {
-		tile := t.(*m.Tile)
-		h.DrawGraphic(tile.Idx, m.WallSelectedSolid, screen, g.tilesWorld, 0.85)
-	}
-
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		g.testChar.Walker.InitiateWalkByPath(path)
+func drawWorkers(g *Game, screen *ebiten.Image) {
+	for _, worker := range g.JobSystem.Workers {
+		ch := worker.(*characters.Character)
+		h.DrawGraphic(ch.Entity.Idx, ch.Entity.Sprite, screen, g.tilesDwarves, 1)
 	}
 }

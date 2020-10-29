@@ -11,7 +11,6 @@ import (
 
 func handleKeyboard(g *Game) {
 	handleTilesettingInput(g)
-	handleCharacterInput(g.testChar, &g.WorldMap, &g.time)
 }
 
 func handleTilesettingInput(g *Game) {

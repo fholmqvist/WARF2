@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 
-	ch "projects/games/warf2/characters"
 	e "projects/games/warf2/entity"
 	h "projects/games/warf2/helpers"
 	j "projects/games/warf2/jobsystem"
@@ -43,10 +42,6 @@ type Game struct {
 	mouseMode MouseMode
 	mousePos  int
 	ui        u.UI
-
-	/* ------------------------------ Experimental ------------------------------ */
-
-	testChar *ch.Character
 }
 
 // NewGame returns a pointer to an instantiated and initiated game.
@@ -71,12 +66,12 @@ func NewGame(debug bool) *Game {
 				Color: color.White,
 			},
 		},
-
-		testChar: testChar(worldmap),
 	}
 
 	game.JobSystem.Map = &game.WorldMap
-	game.JobSystem.Workers = append(game.JobSystem.Workers, game.testChar)
+	for i := 0; i < 4; i++ {
+		game.JobSystem.Workers = append(game.JobSystem.Workers, randomChar(game.WorldMap))
+	}
 
 	loadAssets(&game)
 

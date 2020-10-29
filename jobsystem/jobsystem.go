@@ -1,6 +1,7 @@
 package jobsystem
 
 import (
+	"math/rand"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -19,6 +20,7 @@ func (j *JobSystem) Update() {
 	j.assignWorkers()
 	j.checkForDiggingJobs()
 	j.performWork()
+	j.reorderJobs()
 }
 
 func (j *JobSystem) removeFinishedJobs() {
@@ -114,6 +116,13 @@ func (j *JobSystem) performWork() {
 		if !worker.HasJob() {
 			continue
 		}
+
 		worker.PerformWork(j.Map)
 	}
+}
+
+func (j *JobSystem) reorderJobs() {
+	rand.Shuffle(len(j.Jobs), func(i, k int) {
+		j.Jobs[i], j.Jobs[k] = j.Jobs[k], j.Jobs[i]
+	})
 }

@@ -9,7 +9,7 @@ type Worker interface {
 	HasJob() bool
 	SetJob(Job) bool
 	Available() bool
-	SetAvailable(bool)
+	SetToAvailable()
 	MoveTo(int, *worldmap.Map) bool
 	PerformWork(*worldmap.Map)
 }

@@ -32,9 +32,7 @@ func (d *Digging) SetWorkerAndMove(worker Worker, mp *worldmap.Map) bool {
 		return false
 	}
 
-	worker.SetAvailable(false)
 	d.worker = &worker
-
 	worker.SetJob(d)
 
 	return true

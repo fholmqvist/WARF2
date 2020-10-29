@@ -15,10 +15,12 @@ func (ch *Character) HasJob() bool {
 // given character.
 func (ch *Character) SetJob(job jobsystem.Job) bool {
 	if job == nil {
+		ch.SetToAvailable()
 		return false
 	}
 
 	ch.job = &job
+	ch.state = jobsystem.WorkerHasJob
 	return true
 }
 
@@ -27,15 +29,10 @@ func (ch *Character) Available() bool {
 	return ch.state == jobsystem.WorkerIdle
 }
 
-// SetAvailable sets availability of worker.
-func (ch *Character) SetAvailable(available bool) {
-	if available {
-		ch.state = jobsystem.WorkerIdle
-		ch.job = nil
-		return
-	}
-
-	ch.state = jobsystem.WorkerHasJob
+// SetToAvailable sets availability of worker.
+func (ch *Character) SetToAvailable() {
+	ch.state = jobsystem.WorkerIdle
+	ch.job = nil
 }
 
 // MoveTo calculates a new path
@@ -43,16 +40,19 @@ func (ch *Character) SetAvailable(available bool) {
 func (ch *Character) MoveTo(idx int, mp *worldmap.Map) bool {
 	from, ok := mp.GetTileByIndex(ch.Entity.Idx)
 	if !ok {
+		ch.SetToAvailable()
 		return false
 	}
 
 	to, ok := mp.GetTileByIndex(idx)
 	if !ok {
+		ch.SetToAvailable()
 		return false
 	}
 
 	ok = ch.Walker.InitiateWalk(from, to)
 	if !ok {
+		ch.SetToAvailable()
 		return false
 	}
 
@@ -66,10 +66,13 @@ func (ch *Character) PerformWork(mp *worldmap.Map) {
 	job := *ch.job
 
 	if ch.Entity.Idx != job.GetDestination() {
+		if len(ch.Walker.path) == 0 {
+			ch.SetToAvailable()
+		}
+
 		return
 	}
 
-	work := job.PerformWork(mp)
-	work()
-	ch.SetAvailable(true)
+	job.PerformWork(mp)()
+	ch.SetToAvailable()
 }
