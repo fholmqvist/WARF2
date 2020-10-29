@@ -19,20 +19,24 @@ func (d *Digging) WaitingForWorker() bool {
 	return d.worker == nil && d.state == New
 }
 
-// SetWorker sets worker for digging,
-// and returns a bool whether setting
-// was successful.
-func (d *Digging) SetWorker(worker Worker) bool {
+// SetWorkerAndMove sets worker for digging,
+// and returns a bool whether setting was successful.
+// On success, worker proceeds to move to destination.
+func (d *Digging) SetWorkerAndMove(worker Worker, mp *worldmap.Map) bool {
 	if !d.WaitingForWorker() {
 		return false
 	}
 
-	ok := worker.SetAvailable(false)
+	ok := worker.MoveTo(d.destination, mp)
 	if !ok {
 		return false
 	}
 
+	worker.SetAvailable(false)
 	d.worker = &worker
+
+	worker.SetJob(d)
+
 	return true
 }
 
@@ -46,4 +50,18 @@ func (d *Digging) CheckState() JobState {
 // tile of to-be-dug wall is still selected.
 func (d *Digging) NeedsToBeRemoved(mp *worldmap.Map) bool {
 	return !worldmap.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite)
+}
+
+// PerformWork is the function to get
+// called when worker arrives at destination.
+func (d *Digging) PerformWork(mp *worldmap.Map) func() {
+	return func() {
+		mp.Tiles[d.wallIdx].Sprite = worldmap.Ground
+	}
+}
+
+// GetDestination returns the
+// destination for the worker.
+func (d *Digging) GetDestination() int {
+	return d.destination
 }

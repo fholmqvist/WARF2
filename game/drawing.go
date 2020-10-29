@@ -58,6 +58,6 @@ func drawPathForTestCharacter(g *Game, screen *ebiten.Image) {
 	}
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		g.testChar.Walker.InitiateWalk(path)
+		g.testChar.Walker.InitiateWalkByPath(path)
 	}
 }

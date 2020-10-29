@@ -4,6 +4,7 @@ import (
 	"log"
 	"math/rand"
 	e "projects/games/warf2/entity"
+	"projects/games/warf2/jobsystem"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -12,6 +13,9 @@ import (
 type Character struct {
 	Entity e.Entity
 	Walker Walker
+
+	state jobsystem.WorkerState
+	job   *jobsystem.Job
 }
 
 // Walk placeholder, called every frame.

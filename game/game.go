@@ -76,6 +76,7 @@ func NewGame(debug bool) *Game {
 	}
 
 	game.JobSystem.Map = &game.WorldMap
+	game.JobSystem.Workers = append(game.JobSystem.Workers, game.testChar)
 
 	loadAssets(&game)
 

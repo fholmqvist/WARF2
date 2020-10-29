@@ -59,9 +59,31 @@ func (w *Walker) moveLeft(mp *m.Map, e *e.Entity) bool {
 	return false
 }
 
-// InitiateWalk sets a new path
+// InitiateWalk attempts to set
+// a new path based on the given
+// destinations and proceeds to start
+// walking it if it was successful.
+// Return value determins whether
+// path was found.
+func (w *Walker) InitiateWalk(from, to *m.Tile) bool {
+	path, _, ok := astar.Path(from, to)
+	if !ok {
+		return false
+	}
+
+	var pathIdxs []int
+	for _, t := range m.Reverse(path) {
+		tile := t.(*m.Tile)
+		pathIdxs = append(pathIdxs, tile.Idx)
+	}
+
+	w.path = pathIdxs
+	return true
+}
+
+// InitiateWalkByPath sets a new path
 // and proceeds to start walking it.
-func (w *Walker) InitiateWalk(path []astar.Pather) {
+func (w *Walker) InitiateWalkByPath(path []astar.Pather) {
 	var pathIdxs []int
 	for _, t := range m.Reverse(path) {
 		tile := t.(*m.Tile)

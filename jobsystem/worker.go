@@ -1,9 +1,15 @@
 package jobsystem
 
+import "projects/games/warf2/worldmap"
+
 // Worker defines the interface
 // for all characters who are
 // eligible workers.
 type Worker interface {
+	HasJob() bool
+	SetJob(Job) bool
 	Available() bool
-	SetAvailable(bool) bool
+	SetAvailable(bool)
+	MoveTo(int, *worldmap.Map) bool
+	PerformWork(*worldmap.Map)
 }
