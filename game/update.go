@@ -13,7 +13,6 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 	g.testChar.Walk(&g.WorldMap)
 
-	g.JobSystem.CheckForDiggingJobs(&g.WorldMap)
 	g.JobSystem.Update()
 
 	return nil

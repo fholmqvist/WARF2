@@ -2,6 +2,7 @@ package jobsystem
 
 import (
 	"fmt"
+	"projects/games/warf2/worldmap"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -12,6 +13,7 @@ type Job interface {
 	WaitingForWorker() bool
 	SetWorker(Worker) bool
 	CheckState() JobState
+	NeedsToBeRemoved(*worldmap.Map) bool
 }
 
 // JobSystem manages all ingame jobs
@@ -19,6 +21,7 @@ type Job interface {
 type JobSystem struct {
 	Jobs    []Job
 	Workers []Worker
+	Map     *worldmap.Map
 }
 
 // Update runs every frame, handling
@@ -26,64 +29,15 @@ type JobSystem struct {
 func (j *JobSystem) Update() {
 	j.removeFinishedJobs()
 	j.assignWorkers()
+	j.checkForDiggingJobs()
 
 	fmt.Println("JOBS:", len(j.Jobs))
-}
-
-// CheckForDiggingJobs is called by
-// the consumer of the JobSystem in
-// the equivalent update loop.
-func (j *JobSystem) CheckForDiggingJobs(mp *m.Map) {
-	for _, wall := range mp.Tiles {
-		if !m.IsSelectedWall(wall.Sprite) {
-			continue
-		}
-
-		hasFoundJob := false
-		neighbors := m.SurroundingTilesEight(wall.Idx)
-		for _, destination := range neighbors {
-			if hasFoundJob {
-				break
-			}
-
-			if m.IsColliding(mp, destination.Idx, destination.Dir) {
-				continue
-			}
-
-			if j.diggingJobAlreadyExists(destination.Idx, wall.Idx) {
-				continue
-			}
-
-			diggingJob := Digging{
-				worker:      nil,
-				state:       New,
-				destination: destination.Idx,
-				wallIdx:     wall.Idx,
-			}
-
-			j.Jobs = append(j.Jobs, &diggingJob)
-			hasFoundJob = true
-		}
-	}
-}
-
-func (j *JobSystem) diggingJobAlreadyExists(dIdx, wIdx int) bool {
-	for _, job := range j.Jobs {
-		d, ok := job.(*Digging)
-		if !ok {
-			continue
-		}
-		if d.destination == dIdx && d.wallIdx == wIdx {
-			return true
-		}
-	}
-	return false
 }
 
 func (j *JobSystem) removeFinishedJobs() {
 	var jobs []Job
 	for _, job := range j.Jobs {
-		if job.CheckState() != Done {
+		if !job.NeedsToBeRemoved(j.Map) {
 			jobs = append(jobs, job)
 		}
 	}
@@ -119,4 +73,51 @@ func (j *JobSystem) availableWorkers() []Worker {
 		}
 	}
 	return workers
+}
+
+func (j *JobSystem) checkForDiggingJobs() {
+	for _, wall := range j.Map.Tiles {
+		if !m.IsSelectedWall(wall.Sprite) {
+			continue
+		}
+
+		hasFoundJob := false
+		neighbors := m.SurroundingTilesEight(wall.Idx)
+		for _, destination := range neighbors {
+			if hasFoundJob {
+				break
+			}
+
+			if m.IsColliding(j.Map, destination.Idx, destination.Dir) {
+				continue
+			}
+
+			if j.diggingJobAlreadyExists(destination.Idx, wall.Idx) {
+				continue
+			}
+
+			diggingJob := Digging{
+				worker:      nil,
+				state:       New,
+				destination: destination.Idx,
+				wallIdx:     wall.Idx,
+			}
+
+			j.Jobs = append(j.Jobs, &diggingJob)
+			hasFoundJob = true
+		}
+	}
+}
+
+func (j *JobSystem) diggingJobAlreadyExists(dIdx, wIdx int) bool {
+	for _, job := range j.Jobs {
+		d, ok := job.(*Digging)
+		if !ok {
+			continue
+		}
+		if d.destination == dIdx && d.wallIdx == wIdx {
+			return true
+		}
+	}
+	return false
 }
