@@ -23,9 +23,9 @@ func (t *Tile) PathNeighbors() []astar.Pather {
 
 	for _, offset := range offsets {
 		offsetX, offsetY := offset[0], offset[1]
-		neighbor := t.Map.GetTile(t.X+offsetX, t.Y+offsetY)
+		neighbor, ok := t.Map.GetTile(t.X+offsetX, t.Y+offsetY)
 
-		if !IsExposed(neighbor.Sprite) {
+		if !ok || !IsExposed(neighbor.Sprite) {
 			continue
 		}
 

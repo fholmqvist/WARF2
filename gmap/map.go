@@ -7,13 +7,22 @@ type Map struct {
 }
 
 // GetTile returns a pointer to a tile
-// from the XY-indexed tile on the map.
-func (m Map) GetTile(x, y int) *Tile {
-	idx := x + y*TilesW
+// from the XY-indexed tile on the map,
+// and a bool to determine whether the
+// function was successful.
+func (m Map) GetTile(x, y int) (*Tile, bool) {
+	return m.GetTileByIndex(x + y*TilesW)
+}
+
+// GetTileByIndex returns a pointer
+// to a tile from the map and a bool
+// to determine whether the function
+// was successful.
+func (m Map) GetTileByIndex(idx int) (*Tile, bool) {
 	if idx < 0 || idx >= TilesT {
-		return nil
+		return nil, false
 	}
-	return &m.Tiles[idx]
+	return &m.Tiles[idx], true
 }
 
 // Tile data struct

@@ -46,16 +46,24 @@ func handleMouse(g *Game) {
 }
 
 func mouseClick(g *Game, idx int) {
+
 	switch g.mouseMode {
 
 	case None:
 		// Identity
 		if !hasClicked {
-			if !m.IsWallOrSelected(g.Gmap.Tiles[idx].Sprite) {
+			tile, ok := g.Gmap.GetTileByIndex(idx)
+			if !ok {
 				return
 			}
-			firstClickedSprite = g.Gmap.Tiles[idx].Sprite
-			g.Gmap.Tiles[idx].Sprite = setWallToFirstClicked()
+
+			if !m.IsWallOrSelected(tile.Sprite) {
+				return
+			}
+
+			firstClickedSprite = tile.Sprite
+			tile.Sprite = setWallToFirstClicked()
+
 			startPoint = idx
 			hasClicked = true
 
@@ -73,11 +81,14 @@ func mouseClick(g *Game, idx int) {
 
 			for x := x1; x <= x2; x++ {
 				for y := y1; y <= y2; y++ {
-					i := m.XYToIdx(x, y)
-					if !m.IsWallOrSelected(g.Gmap.Tiles[i].Sprite) {
+					tile, ok := g.Gmap.GetTile(x, y)
+					if !ok {
 						continue
 					}
-					g.Gmap.Tiles[i].Sprite = setWallToFirstClicked()
+					if !m.IsWallOrSelected(tile.Sprite) {
+						continue
+					}
+					tile.Sprite = setWallToFirstClicked()
 				}
 			}
 		}

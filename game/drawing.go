@@ -43,13 +43,17 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 }
 
 func drawPathForTestCharacter(g *Game, screen *ebiten.Image) {
-	idx := g.mousePos
-	cIdx := g.testChar.Entity.Idx
-	cX, cY := m.IdxToX(cIdx), m.IdxToY(cIdx)
-	x, y := m.IdxToX(idx), m.IdxToY(idx)
+	from, ok := g.Gmap.GetTileByIndex(g.testChar.Entity.Idx)
+	if !ok {
+		return
+	}
 
-	path, _, ok := astar.Path(g.Gmap.GetTile(cX, cY), g.Gmap.GetTile(x, y))
+	to, ok := g.Gmap.GetTileByIndex(g.mousePos)
+	if !ok {
+		return
+	}
 
+	path, _, ok := astar.Path(from, to)
 	if !ok {
 		return
 	}
