@@ -80,13 +80,13 @@ func IndexOutOfBounds(idx int, dir Direction) bool {
 	case Up:
 		return overflowUp(idx)
 	case UpLeft:
-		return overflowUp(idx)
+		return overflowUpLeft(idx)
 	case Down:
 		return overflowDown(idx)
 	case DownLeft:
 		return overflowDown(idx)
 	case UpRight:
-		return overflowUpRight(idx)
+		return overflowUp(idx)
 	case DownRight:
 		return overflowDownRight(idx)
 	case Left:
@@ -110,7 +110,7 @@ func overflowDown(idx int) bool {
 	return idx > (TilesT - TilesW)
 }
 
-func overflowUpRight(idx int) bool {
+func overflowUpLeft(idx int) bool {
 	return idx < TilesW+1
 }
 

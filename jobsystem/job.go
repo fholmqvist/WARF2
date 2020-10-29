@@ -1,7 +1,6 @@
 package jobsystem
 
 import (
-	"fmt"
 	"projects/games/warf2/worldmap"
 	m "projects/games/warf2/worldmap"
 )
@@ -30,8 +29,6 @@ func (j *JobSystem) Update() {
 	j.removeFinishedJobs()
 	j.assignWorkers()
 	j.checkForDiggingJobs()
-
-	fmt.Println("JOBS:", len(j.Jobs))
 }
 
 func (j *JobSystem) removeFinishedJobs() {
@@ -82,7 +79,7 @@ func (j *JobSystem) checkForDiggingJobs() {
 		}
 
 		hasFoundJob := false
-		neighbors := m.SurroundingTilesEight(wall.Idx)
+		neighbors := m.SurroundingTilesFour(wall.Idx)
 		for _, destination := range neighbors {
 			if hasFoundJob {
 				break

@@ -55,19 +55,19 @@ func SurroundingTilesEight(idx int) []TileDir {
 	firstFour := SurroundingTilesFour(idx)
 	corners := []TileDir{
 		{
-			Idx: OneTileUp(OneTileLeft(idx)),
+			Idx: OneTileUpLeft(idx),
 			Dir: UpLeft,
 		},
 		{
-			Idx: OneTileUp(OneTileRight(idx)),
+			Idx: OneTileUpRight(idx),
 			Dir: UpRight,
 		},
 		{
-			Idx: OneTileDown(OneTileLeft(idx)),
+			Idx: OneTileDownLeft(idx),
 			Dir: DownLeft,
 		},
 		{
-			Idx: OneTileDown(OneTileRight(idx)),
+			Idx: OneTileDownRight(idx),
 			Dir: DownRight,
 		},
 	}
