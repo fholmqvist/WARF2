@@ -1,4 +1,4 @@
-package gmap
+package worldmap
 
 // Game constants.
 const (

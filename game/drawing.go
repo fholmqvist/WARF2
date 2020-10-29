@@ -2,8 +2,8 @@ package game
 
 import (
 	"fmt"
-	m "projects/games/warf2/gmap"
 	h "projects/games/warf2/helpers"
+	m "projects/games/warf2/worldmap"
 
 	"github.com/beefsack/go-astar"
 	"github.com/hajimehoshi/ebiten"
@@ -25,14 +25,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func drawMap(g *Game, screen *ebiten.Image) {
-	for idx, tile := range g.Gmap.Tiles {
+	for idx, tile := range g.WorldMap.Tiles {
 		h.DrawGraphic(idx, tile.Sprite, screen, g.tilesWorld, 1)
-	}
-
-	for idx, tile := range g.SelectedWalls.Tiles {
-		if m.IsSelectedWall(tile.Sprite) {
-			h.DrawGraphic(idx, tile.Sprite, screen, g.tilesWorld, 1)
-		}
 	}
 }
 
@@ -43,12 +37,12 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 }
 
 func drawPathForTestCharacter(g *Game, screen *ebiten.Image) {
-	from, ok := g.Gmap.GetTileByIndex(g.testChar.Entity.Idx)
+	from, ok := g.WorldMap.GetTileByIndex(g.testChar.Entity.Idx)
 	if !ok {
 		return
 	}
 
-	to, ok := g.Gmap.GetTileByIndex(g.mousePos)
+	to, ok := g.WorldMap.GetTileByIndex(g.mousePos)
 	if !ok {
 		return
 	}

@@ -1,4 +1,4 @@
-package gmap
+package worldmap
 
 // FixWalls sets the graphic for all
 // wall types so that solid and exposed

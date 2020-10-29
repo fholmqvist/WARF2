@@ -11,7 +11,10 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	handleMouse(g)
 	handleKeyboard(g)
 
-	g.testChar.Walk(&g.Gmap)
+	g.testChar.Walk(&g.WorldMap)
+
+	g.JobSystem.CheckForDiggingJobs(&g.WorldMap)
+	g.JobSystem.Update()
 
 	return nil
 }

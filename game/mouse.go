@@ -3,7 +3,7 @@ package game
 import (
 	"fmt"
 
-	m "projects/games/warf2/gmap"
+	m "projects/games/warf2/worldmap"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
@@ -34,7 +34,7 @@ func handleMouse(g *Game) {
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		if g.debug {
-			fmt.Println("tile:", idx, m.GraphicName(g.Gmap.Tiles[idx].Idx))
+			fmt.Println("tile:", idx, m.GraphicName(g.WorldMap.Tiles[idx].Idx))
 		}
 
 		mouseClick(g, idx)
@@ -52,7 +52,7 @@ func mouseClick(g *Game, idx int) {
 	case None:
 		// Identity
 		if !hasClicked {
-			tile, ok := g.Gmap.GetTileByIndex(idx)
+			tile, ok := g.WorldMap.GetTileByIndex(idx)
 			if !ok {
 				return
 			}
@@ -62,7 +62,7 @@ func mouseClick(g *Game, idx int) {
 			}
 
 			firstClickedSprite = tile.Sprite
-			tile.Sprite = setWallToFirstClicked()
+			tile.Sprite = invertSelected(firstClickedSprite)
 
 			startPoint = idx
 			hasClicked = true
@@ -81,14 +81,18 @@ func mouseClick(g *Game, idx int) {
 
 			for x := x1; x <= x2; x++ {
 				for y := y1; y <= y2; y++ {
-					tile, ok := g.Gmap.GetTile(x, y)
+					tile, ok := g.WorldMap.GetTile(x, y)
 					if !ok {
 						continue
 					}
 					if !m.IsWallOrSelected(tile.Sprite) {
 						continue
 					}
-					tile.Sprite = setWallToFirstClicked()
+					if m.IsWall(firstClickedSprite) {
+						tile.Sprite = setToSelected(tile.Sprite)
+					} else {
+						tile.Sprite = setToNormal(tile.Sprite)
+					}
 				}
 			}
 		}
@@ -119,9 +123,38 @@ func mousePos() int {
 	return mx + (my * m.TilesW)
 }
 
-func setWallToFirstClicked() int {
-	if m.IsWall(firstClickedSprite) {
+func invertSelected(sprite int) int {
+	if m.IsWall(sprite) {
+		if sprite == m.WallSolid {
+			return m.WallSelectedSolid
+		}
+		return m.WallSelectedExposed
+	}
+
+	if sprite == m.WallSelectedSolid {
+		return m.WallSolid
+	}
+	return m.WallExposed
+}
+
+func setToSelected(sprite int) int {
+	if m.IsSelectedWall(sprite) {
+		return sprite
+	}
+
+	if sprite == m.WallSolid {
 		return m.WallSelectedSolid
 	}
-	return m.WallSolid
+	return m.WallSelectedExposed
+}
+
+func setToNormal(sprite int) int {
+	if m.IsWall(sprite) {
+		return sprite
+	}
+
+	if sprite == m.WallSelectedSolid {
+		return m.WallSolid
+	}
+	return m.WallExposed
 }

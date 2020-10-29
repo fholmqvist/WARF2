@@ -2,7 +2,7 @@ package helpers
 
 import (
 	"math/rand"
-	m "projects/games/warf2/gmap"
+	m "projects/games/warf2/worldmap"
 	"time"
 )
 

@@ -1,4 +1,4 @@
-package gmap
+package worldmap
 
 // DrawHLine draws a horizontal line of specified
 // sprite from index, to the right, for a number of

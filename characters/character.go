@@ -4,7 +4,7 @@ import (
 	"log"
 	"math/rand"
 	e "projects/games/warf2/entity"
-	m "projects/games/warf2/gmap"
+	m "projects/games/warf2/worldmap"
 )
 
 // Character is the foundational struct

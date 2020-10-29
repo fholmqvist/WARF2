@@ -8,10 +8,10 @@ import (
 
 	ch "projects/games/warf2/characters"
 	e "projects/games/warf2/entity"
-	m "projects/games/warf2/gmap"
 	h "projects/games/warf2/helpers"
 	j "projects/games/warf2/jobsystem"
 	u "projects/games/warf2/ui"
+	m "projects/games/warf2/worldmap"
 
 	"github.com/golang/freetype/truetype"
 	"github.com/hajimehoshi/ebiten"
@@ -23,9 +23,8 @@ import (
 type Game struct {
 	/* ----------------------------- In-game objects ---------------------------- */
 
-	Gmap          m.Map
-	SelectedWalls m.Map
-	JobSystem     j.JobSystem
+	WorldMap  m.Map
+	JobSystem *j.JobSystem
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 
@@ -52,13 +51,12 @@ type Game struct {
 
 // NewGame returns a pointer to an instantiated and initiated game.
 func NewGame(debug bool) *Game {
-	gmap := makeMap()
-	selected := makeMap()
-	generateTempMap(&gmap)
+	worldmap := makeMap()
+	generateTempMap(&worldmap)
 
 	game := Game{
-		Gmap:          gmap,
-		SelectedWalls: selected,
+		WorldMap:  worldmap,
+		JobSystem: &j.JobSystem{},
 
 		Data: &e.Data{},
 
@@ -74,7 +72,7 @@ func NewGame(debug bool) *Game {
 			},
 		},
 
-		testChar: testChar(gmap),
+		testChar: testChar(worldmap),
 	}
 
 	loadAssets(&game)

@@ -2,8 +2,8 @@ package game
 
 import (
 	c "projects/games/warf2/characters"
-	m "projects/games/warf2/gmap"
 	h "projects/games/warf2/helpers"
+	m "projects/games/warf2/worldmap"
 
 	e "github.com/hajimehoshi/ebiten"
 	i "github.com/hajimehoshi/ebiten/inpututil"
@@ -11,7 +11,7 @@ import (
 
 func handleKeyboard(g *Game) {
 	handleTilesettingInput(g)
-	handleCharacterInput(g.testChar, &g.Gmap, &g.time)
+	handleCharacterInput(g.testChar, &g.WorldMap, &g.time)
 }
 
 func handleTilesettingInput(g *Game) {

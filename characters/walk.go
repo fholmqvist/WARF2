@@ -2,7 +2,7 @@ package characters
 
 import (
 	e "projects/games/warf2/entity"
-	m "projects/games/warf2/gmap"
+	m "projects/games/warf2/worldmap"
 
 	"github.com/beefsack/go-astar"
 )

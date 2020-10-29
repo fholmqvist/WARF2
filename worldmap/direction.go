@@ -1,4 +1,4 @@
-package gmap
+package worldmap
 
 import "fmt"
 
@@ -85,6 +85,30 @@ func OneTileLeft(idx int) int {
 // OneTileRight returns idx one column right.
 func OneTileRight(idx int) int {
 	return idx + 1
+}
+
+// OneTileUpLeft returns idx one column left,
+// one row up.
+func OneTileUpLeft(idx int) int {
+	return OneTileUp(OneTileLeft(idx))
+}
+
+// OneTileUpRight returns idx one column right,
+// one row up.
+func OneTileUpRight(idx int) int {
+	return OneTileUp(OneTileRight(idx))
+}
+
+// OneTileDownLeft returns idx one column left,
+// one row up.
+func OneTileDownLeft(idx int) int {
+	return OneTileDown(OneTileLeft(idx))
+}
+
+// OneTileDownRight returns idx one column right,
+// one row down.
+func OneTileDownRight(idx int) int {
+	return OneTileDown(OneTileRight(idx))
 }
 
 // NextIdxToDir returns the direction needed

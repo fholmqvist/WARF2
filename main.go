@@ -7,11 +7,11 @@ import (
 	"github.com/hajimehoshi/ebiten"
 
 	g "projects/games/warf2/game"
-	"projects/games/warf2/gmap"
-	m "projects/games/warf2/gmap"
+	"projects/games/warf2/worldmap"
+	m "projects/games/warf2/worldmap"
 )
 
-var _ astar.Pather = &gmap.Tile{}
+var _ astar.Pather = &worldmap.Tile{}
 
 func main() {
 	g := g.NewGame(false)

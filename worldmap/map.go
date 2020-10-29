@@ -1,4 +1,4 @@
-package gmap
+package worldmap
 
 // Map holds all the tiles
 // for a game.

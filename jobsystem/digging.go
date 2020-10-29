@@ -3,8 +3,10 @@ package jobsystem
 // Digging defines the job
 // for digging walls.
 type Digging struct {
-	worker *Worker
-	state  JobState
+	worker      *Worker
+	state       JobState
+	destination int
+	wallIdx     int
 }
 
 // WaitingForWorker returns
