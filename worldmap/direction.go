@@ -1,6 +1,8 @@
 package worldmap
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Direction type for collision checking.
 type Direction int
@@ -49,6 +51,34 @@ func DirectionToText(dir Direction) string {
 	}
 
 	return "Unknown direction"
+}
+
+// IndexAtDirection returns the index
+// at the direction from the current index.
+func IndexAtDirection(idx int, dir Direction) int {
+	switch dir {
+
+	case Up:
+		return OneTileUp(idx)
+	case Right:
+		return OneTileRight(idx)
+	case Down:
+		return OneTileDown(idx)
+	case Left:
+		return OneTileLeft(idx)
+	case UpLeft:
+		return OneTileUpLeft(idx)
+	case UpRight:
+		return OneTileUpRight(idx)
+	case DownLeft:
+		return OneTileDownLeft(idx)
+	case DownRight:
+		return OneTileDownRight(idx)
+
+	default:
+		fmt.Println("unknown direction:", DirectionToText(dir))
+		return -1
+	}
 }
 
 // OppositeDirection returns the inverse of the given direction.

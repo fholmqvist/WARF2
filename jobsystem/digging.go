@@ -54,7 +54,11 @@ func (d *Digging) NeedsToBeRemoved(mp *worldmap.Map) bool {
 // called when worker arrives at destination.
 func (d *Digging) PerformWork(mp *worldmap.Map) func() bool {
 	return func() bool {
-		mp.Tiles[d.wallIdx].Sprite = worldmap.Ground
+		t := &mp.Tiles[d.wallIdx]
+		t.Sprite = worldmap.Ground
+		for _, nb := range worldmap.SurroundingTilesFour(t.Idx) {
+			mp.FixWall(&mp.Tiles[nb.Idx])
+		}
 		return true
 	}
 }

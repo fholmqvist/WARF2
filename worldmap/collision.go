@@ -13,50 +13,9 @@ func IsColliding(mp *Map, idx int, dir Direction) bool {
 		return true
 	}
 
-	switch dir {
-
-	case Up:
-		t, ok := mp.GetTileByIndex(OneTileUp(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	case Right:
-		t, ok := mp.GetTileByIndex(OneTileRight(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	case Down:
-		t, ok := mp.GetTileByIndex(OneTileDown(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	case Left:
-		t, ok := mp.GetTileByIndex(OneTileLeft(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	case UpLeft:
-		t, ok := mp.GetTileByIndex(OneTileUpLeft(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	case UpRight:
-		t, ok := mp.GetTileByIndex(OneTileUpRight(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	case DownLeft:
-		t, ok := mp.GetTileByIndex(OneTileDownLeft(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	case DownRight:
-		t, ok := mp.GetTileByIndex(OneTileDownRight(idx))
-		if !ok || Blocking(t.Sprite) {
-			return true
-		}
-	default:
-		fmt.Println("unknown direction:", DirectionToText(dir))
+	t, ok := mp.GetTileByIndexAndDirection(idx, dir)
+	if !ok || Blocking(t.Sprite) {
+		return true
 	}
 
 	return false

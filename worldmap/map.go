@@ -6,7 +6,7 @@ type Map struct {
 	Tiles []Tile
 }
 
-// GetTile returns a pointer to a tile
+// GetTile returns a pointer to the tile
 // from the XY-indexed tile on the map,
 // and a bool to determine whether the
 // function was successful.
@@ -15,7 +15,7 @@ func (m Map) GetTile(x, y int) (*Tile, bool) {
 }
 
 // GetTileByIndex returns a pointer
-// to a tile from the map and a bool
+// to the tile from the map and a bool
 // to determine whether the function
 // was successful.
 func (m Map) GetTileByIndex(idx int) (*Tile, bool) {
@@ -23,6 +23,18 @@ func (m Map) GetTileByIndex(idx int) (*Tile, bool) {
 		return nil, false
 	}
 	return &m.Tiles[idx], true
+}
+
+// GetTileByIndexAndDirection returns a pointer
+// to the tile from the map given the current index
+// and a new direction. It also returns a boolean value
+// to determine whether the function was successful.
+func (m Map) GetTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
+	t, ok := m.GetTileByIndex(IndexAtDirection(idx, dir))
+	if !ok {
+		return nil, false
+	}
+	return t, true
 }
 
 // Tile data struct
