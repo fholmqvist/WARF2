@@ -66,7 +66,7 @@ func (j *JobSystem) availableWorkers() []Worker {
 
 func (j *JobSystem) checkForDiggingJobs() {
 	for _, wall := range j.Map.Tiles {
-		if !m.IsSelectedWall(wall.Sprite) {
+		if !m.IsSelectedWall(wall.Sprite) || !wall.NeedsInteraction {
 			continue
 		}
 
@@ -91,6 +91,10 @@ func (j *JobSystem) checkForDiggingJobs() {
 				destination: destination.Idx,
 				wallIdx:     wall.Idx,
 			}
+
+			// We have satisfied the need
+			// as a worker is on the way.
+			wall.NeedsInteraction = false
 
 			j.Jobs = append(j.Jobs, &diggingJob)
 			hasFoundJob = true

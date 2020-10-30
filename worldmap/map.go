@@ -39,11 +39,12 @@ func (m Map) GetTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 
 // Tile data struct
 type Tile struct {
-	Idx    int
-	X, Y   int
-	Sprite int
-	Island int
-	Map    *Map
+	Idx              int
+	X, Y             int
+	Sprite           int
+	Island           int
+	Map              *Map
+	NeedsInteraction bool
 }
 
 // CreateTile returns a new tile

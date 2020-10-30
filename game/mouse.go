@@ -3,6 +3,7 @@ package game
 import (
 	"fmt"
 
+	"projects/games/warf2/worldmap"
 	m "projects/games/warf2/worldmap"
 
 	"github.com/hajimehoshi/ebiten"
@@ -39,7 +40,7 @@ func handleMouse(g *Game) {
 
 		mouseClick(g, idx)
 	} else if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
-		mouseUp()
+		mouseUp(g)
 	} else if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
 		g.mouseMode = None
 	}
@@ -68,33 +69,7 @@ func mouseClick(g *Game, idx int) {
 			hasClicked = true
 
 		} else if startPoint >= 0 {
-			x1, y1 := m.IdxToXY(startPoint)
-			x2, y2 := m.IdxToXY(idx)
-
-			if x1 > x2 {
-				x1, x2 = x2, x1
-			}
-
-			if y1 > y2 {
-				y1, y2 = y2, y1
-			}
-
-			for x := x1; x <= x2; x++ {
-				for y := y1; y <= y2; y++ {
-					tile, ok := g.WorldMap.GetTile(x, y)
-					if !ok {
-						continue
-					}
-					if !m.IsWallOrSelected(tile.Sprite) {
-						continue
-					}
-					if m.IsWall(firstClickedSprite) {
-						tile.Sprite = setToSelected(tile.Sprite)
-					} else {
-						tile.Sprite = setToNormal(tile.Sprite)
-					}
-				}
-			}
+			runJobOverRangeOfTiles(g, idx, setWalls)
 		}
 
 	default:
@@ -102,7 +77,11 @@ func mouseClick(g *Game, idx int) {
 	}
 }
 
-func mouseUp() {
+func mouseUp(g *Game) {
+	if startPoint >= 0 {
+		runJobOverRangeOfTiles(g, mousePos(), wallNeedsInteraction)
+	}
+
 	startPoint = -1
 	hasClicked = false
 }
@@ -123,6 +102,47 @@ func mousePos() int {
 	return mx + (my * m.TilesW)
 }
 
+func runJobOverRangeOfTiles(g *Game, idx int, f func(*worldmap.Tile)) {
+	x1, y1 := m.IdxToXY(startPoint)
+	x2, y2 := m.IdxToXY(idx)
+
+	if x1 > x2 {
+		x1, x2 = x2, x1
+	}
+
+	if y1 > y2 {
+		y1, y2 = y2, y1
+	}
+
+	for x := x1; x <= x2; x++ {
+		for y := y1; y <= y2; y++ {
+			tile, ok := g.WorldMap.GetTile(x, y)
+			if !ok {
+				continue
+			}
+			f(tile)
+		}
+	}
+}
+
+func setWalls(tile *worldmap.Tile) {
+	if !m.IsWallOrSelected(tile.Sprite) {
+		return
+	}
+	if m.IsWall(firstClickedSprite) {
+		setToSelected(tile)
+	} else {
+		setToNormalInteractFalse(tile)
+	}
+}
+
+func wallNeedsInteraction(tile *worldmap.Tile) {
+	if !m.IsSelectedWall(tile.Sprite) {
+		return
+	}
+	tile.NeedsInteraction = true
+}
+
 func invertSelected(sprite int) int {
 	if m.IsWall(sprite) {
 		if sprite == m.WallSolid {
@@ -137,24 +157,35 @@ func invertSelected(sprite int) int {
 	return m.WallExposed
 }
 
-func setToSelected(sprite int) int {
-	if m.IsSelectedWall(sprite) {
-		return sprite
+func setToSelected(tile *m.Tile) {
+	if m.IsSelectedWall(tile.Sprite) {
+		return
 	}
 
-	if sprite == m.WallSolid {
-		return m.WallSelectedSolid
+	if tile.Sprite == m.WallSolid {
+		tile.Sprite = m.WallSelectedSolid
+		return
 	}
-	return m.WallSelectedExposed
+	tile.Sprite = m.WallSelectedExposed
 }
 
-func setToNormal(sprite int) int {
-	if m.IsWall(sprite) {
-		return sprite
+func setToNormalInteractFalse(tile *m.Tile) {
+	if m.IsWall(tile.Sprite) {
+		return
 	}
 
-	if sprite == m.WallSelectedSolid {
-		return m.WallSolid
+	// Resetting here as this state is
+	// no longer valid. With that said,
+	// this premature assumption will
+	// probably bite me in the ass
+	// sometime in the future when I
+	// rediscover this after hours
+	// of (unnecessary?) debugging.
+	tile.NeedsInteraction = false
+
+	if tile.Sprite == m.WallSelectedSolid {
+		tile.Sprite = m.WallSolid
+		return
 	}
-	return m.WallExposed
+	tile.Sprite = m.WallExposed
 }

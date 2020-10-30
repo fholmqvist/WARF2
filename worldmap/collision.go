@@ -7,7 +7,9 @@ func NotColliding(mp *Map, idx int, dir Direction) bool {
 	return !IsColliding(mp, idx, dir)
 }
 
-// IsColliding returns whether character will collide on next step.
+// IsColliding returns whether the given
+// position is colliding with the entity
+// that desires to move to it.
 func IsColliding(mp *Map, idx int, dir Direction) bool {
 	if IndexOutOfBounds(idx, dir) {
 		return true
