@@ -73,6 +73,10 @@ func (ch *Character) PerformWork(mp *worldmap.Map) {
 		return
 	}
 
-	job.PerformWork(mp)()
+	finished := job.PerformWork(mp)()
+	if !finished {
+		return
+	}
+
 	ch.SetToAvailable()
 }

@@ -52,9 +52,10 @@ func (d *Digging) NeedsToBeRemoved(mp *worldmap.Map) bool {
 
 // PerformWork is the function to get
 // called when worker arrives at destination.
-func (d *Digging) PerformWork(mp *worldmap.Map) func() {
-	return func() {
+func (d *Digging) PerformWork(mp *worldmap.Map) func() bool {
+	return func() bool {
 		mp.Tiles[d.wallIdx].Sprite = worldmap.Ground
+		return true
 	}
 }
 

@@ -12,6 +12,6 @@ type Job interface {
 	SetWorkerAndMove(Worker, *worldmap.Map) bool
 	CheckState() JobState
 	NeedsToBeRemoved(*worldmap.Map) bool
-	PerformWork(*worldmap.Map) func()
+	PerformWork(*worldmap.Map) func() bool
 	GetDestination() int
 }
