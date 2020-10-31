@@ -3,15 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/beefsack/go-astar"
 	"github.com/hajimehoshi/ebiten"
 
 	g "projects/games/warf2/game"
-	"projects/games/warf2/worldmap"
 	m "projects/games/warf2/worldmap"
 )
-
-var _ astar.Pather = &worldmap.Tile{}
 
 func main() {
 	g := g.NewGame()
