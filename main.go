@@ -14,7 +14,7 @@ import (
 var _ astar.Pather = &worldmap.Tile{}
 
 func main() {
-	g := g.NewGame(false)
+	g := g.NewGame()
 
 	factor := 1
 	ebiten.SetWindowSize(m.ScreenWidth*factor, m.ScreenHeight*factor)

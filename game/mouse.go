@@ -36,10 +36,6 @@ func handleMouse(g *Game) {
 	g.mousePos = idx
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		if g.debug {
-			fmt.Println("tile:", idx, m.GraphicName(g.WorldMap.Tiles[idx].Idx))
-		}
-
 		mouseClick(g, idx)
 	} else if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		mouseUp(g)

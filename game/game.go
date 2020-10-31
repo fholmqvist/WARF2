@@ -45,7 +45,7 @@ type Game struct {
 }
 
 // NewGame returns a pointer to an instantiated and initiated game.
-func NewGame(debug bool) *Game {
+func NewGame() *Game {
 	worldmap := makeMap()
 	generateTempMap(&worldmap)
 
@@ -56,7 +56,6 @@ func NewGame(debug bool) *Game {
 		Data: &e.Data{},
 
 		time:      h.Time{Frame: 1},
-		debug:     debug,
 		mouseMode: None,
 		ui: u.UI{
 			MouseMode: u.Element{
