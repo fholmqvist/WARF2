@@ -22,7 +22,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 func drawMap(g *Game, screen *ebiten.Image) {
 	for idx, tile := range g.WorldMap.Tiles {
-		h.DrawGraphic(idx, tile.Sprite, screen, g.tilesWorld, 1)
+		h.DrawGraphic(idx, tile.Sprite, screen, g.worldTiles, 1)
 	}
 }
 
@@ -35,6 +35,6 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 func drawWorkers(g *Game, screen *ebiten.Image) {
 	for _, worker := range g.JobSystem.Workers {
 		ch := worker.(*characters.Character)
-		h.DrawGraphic(ch.Entity.Idx, ch.Entity.Sprite, screen, g.tilesDwarves, 1)
+		h.DrawGraphic(ch.Entity.Idx, ch.Entity.Sprite, screen, g.dwarfTiles, 1)
 	}
 }

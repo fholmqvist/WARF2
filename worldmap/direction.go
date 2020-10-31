@@ -53,6 +53,17 @@ func DirectionToText(dir Direction) string {
 	return "Unknown direction"
 }
 
+// FourDirections returns four directions.
+func FourDirections() []Direction {
+	return []Direction{Up, Down, Left, Right}
+}
+
+// EightDirections returns eight directions.
+func EightDirections() []Direction {
+	return append(FourDirections(),
+		[]Direction{UpLeft, UpRight, DownLeft, DownRight}...)
+}
+
 // IndexAtDirection returns the index
 // at the direction from the current index.
 func IndexAtDirection(idx int, dir Direction) int {

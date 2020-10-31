@@ -18,6 +18,8 @@ const (
 	None MouseMode = iota
 )
 
+// This cluster of variables
+// help with (de)selecting walls.
 var startPoint = -1
 var hasClicked = false
 var firstClickedSprite = -1
@@ -58,17 +60,24 @@ func mouseClick(g *Game, idx int) {
 				return
 			}
 
-			if !m.IsWallOrSelected(tile.Sprite) {
-				return
+			firstClickedSprite = tile.Sprite
+
+			// Selecting a non-wall defaults to
+			// wall in order to enable wall selection
+			// without having first clicked on a wall.
+			if !m.IsSelectedWall(firstClickedSprite) {
+				firstClickedSprite = m.WallSolid
 			}
 
-			firstClickedSprite = tile.Sprite
-			tile.Sprite = invertSelected(firstClickedSprite)
+			if m.IsWallOrSelected(tile.Sprite) {
+				tile.Sprite = invertSelected(firstClickedSprite)
+			}
 
 			startPoint = idx
 			hasClicked = true
 
-		} else if startPoint >= 0 {
+		}
+		if startPoint >= 0 {
 			runJobOverRangeOfTiles(g, idx, setWalls)
 		}
 

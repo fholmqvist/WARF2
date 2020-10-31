@@ -22,20 +22,20 @@ import (
 type Game struct {
 	/* ----------------------------- In-game objects ---------------------------- */
 
-	WorldMap  m.Map
-	JobSystem *j.JobSystem
+	WorldMap m.Map
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 
-	tilesWorld   *ebiten.Image
-	tilesDwarves *ebiten.Image
-	gameFont     font.Face
+	worldTiles *ebiten.Image
+	dwarfTiles *ebiten.Image
+	gameFont   font.Face
 
-	/* ----------------------------- External state ----------------------------- */
+	/* ------------------------------ Public state ------------------------------ */
 
-	Data *e.Data
+	JobSystem *j.JobSystem
+	Data      *e.Data
 
-	/* ----------------------------- Internal state ----------------------------- */
+	/* ------------------------------ Private state ----------------------------- */
 
 	time      h.Time
 	debug     bool
@@ -84,24 +84,26 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func loadAssets(g *Game) {
-	/* --------------------------------- Tileset -------------------------------- */
-
+	// Setting worldTiles
 	worldTiles, _, err := ebitenutil.NewImageFromFile("art/world.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
 	}
 
-	g.tilesWorld = worldTiles
+	g.worldTiles = worldTiles
 
+	// Setting dwarfTiles
 	dwarfTiles, _, err := ebitenutil.NewImageFromFile("art/dwarf.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
 	}
 
-	g.tilesDwarves = dwarfTiles
+	g.dwarfTiles = dwarfTiles
 
-	/* ---------------------------------- Font ---------------------------------- */
+	setFont(g)
+}
 
+func setFont(g *Game) {
 	f, err := os.Open("art/barcade_brawl.ttf")
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)

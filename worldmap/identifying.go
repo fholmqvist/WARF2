@@ -30,49 +30,22 @@ func GraphicName(sprite int) string {
 // adjacent tiles of a given index.
 func SurroundingTilesFour(idx int) []TileDir {
 	return []TileDir{
-		{
-			Idx: OneTileUp(idx),
-			Dir: Up,
-		},
-		{
-			Idx: OneTileRight(idx),
-			Dir: Right,
-		},
-		{
-			Idx: OneTileDown(idx),
-			Dir: Down,
-		},
-		{
-			Idx: OneTileLeft(idx),
-			Dir: Left,
-		},
-	}
+		{Idx: OneTileUp(idx), Dir: Up},
+		{Idx: OneTileRight(idx), Dir: Right},
+		{Idx: OneTileDown(idx), Dir: Down},
+		{Idx: OneTileLeft(idx), Dir: Left}}
 }
 
 // SurroundingTilesEight returns eight
 // adjacent tiles of a given index.
 func SurroundingTilesEight(idx int) []TileDir {
-	firstFour := SurroundingTilesFour(idx)
 	corners := []TileDir{
-		{
-			Idx: OneTileUpLeft(idx),
-			Dir: UpLeft,
-		},
-		{
-			Idx: OneTileUpRight(idx),
-			Dir: UpRight,
-		},
-		{
-			Idx: OneTileDownLeft(idx),
-			Dir: DownLeft,
-		},
-		{
-			Idx: OneTileDownRight(idx),
-			Dir: DownRight,
-		},
-	}
+		{Idx: OneTileUpLeft(idx), Dir: UpLeft},
+		{Idx: OneTileUpRight(idx), Dir: UpRight},
+		{Idx: OneTileDownLeft(idx), Dir: DownLeft},
+		{Idx: OneTileDownRight(idx), Dir: DownRight}}
 
-	return append(firstFour, corners...)
+	return append(SurroundingTilesFour(idx), corners...)
 }
 
 // IsNone returns whether tile is of type None.

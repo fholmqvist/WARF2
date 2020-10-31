@@ -55,6 +55,10 @@ func (d *Digging) NeedsToBeRemoved(mp *worldmap.Map) bool {
 func (d *Digging) PerformWork(mp *worldmap.Map) func() bool {
 	return func() bool {
 		t := &mp.Tiles[d.wallIdx]
+		if !worldmap.IsSelectedWall(t.Sprite) {
+			// Job is, in a sense, done.
+			return true
+		}
 		t.Sprite = worldmap.Ground
 		for _, nb := range worldmap.SurroundingTilesFour(t.Idx) {
 			mp.FixWall(&mp.Tiles[nb.Idx])

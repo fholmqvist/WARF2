@@ -71,13 +71,12 @@ func (j *JobSystem) checkForDiggingJobs() {
 		}
 
 		hasFoundJob := false
-		neighbors := m.SurroundingTilesFour(wall.Idx)
-		for _, destination := range neighbors {
+		for _, destination := range m.SurroundingTilesFour(wall.Idx) {
 			if hasFoundJob {
 				break
 			}
 
-			if m.IsColliding(j.Map, destination.Idx, destination.Dir) {
+			if m.IsColliding(j.Map, wall.Idx, destination.Dir) {
 				continue
 			}
 

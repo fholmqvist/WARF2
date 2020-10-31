@@ -10,12 +10,12 @@ func NotColliding(mp *Map, idx int, dir Direction) bool {
 // IsColliding returns whether the given
 // position is colliding with the entity
 // that desires to move to it.
-func IsColliding(mp *Map, idx int, dir Direction) bool {
-	if IndexOutOfBounds(idx, dir) {
+func IsColliding(mp *Map, current int, next Direction) bool {
+	if IndexOutOfBounds(current, next) {
 		return true
 	}
 
-	t, ok := mp.GetTileByIndexAndDirection(idx, dir)
+	t, ok := mp.GetTileByIndexAndDirection(current, next)
 	if !ok || Blocking(t.Sprite) {
 		return true
 	}
