@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"projects/games/warf2/entity"
 	h "projects/games/warf2/helpers"
 	j "projects/games/warf2/jobsystem"
 	u "projects/games/warf2/ui"
@@ -32,7 +33,7 @@ type Game struct {
 	/* ------------------------------ Public state ------------------------------ */
 
 	JobSystem *j.JobSystem
-	Data      *Data
+	Data      *entity.Data
 
 	/* ------------------------------ Private state ----------------------------- */
 
@@ -52,7 +53,7 @@ func NewGame() *Game {
 		WorldMap:  worldmap,
 		JobSystem: &j.JobSystem{},
 
-		Data: &Data{},
+		Data: &entity.Data{},
 
 		time:      h.Time{Frame: 1},
 		mouseMode: None,
