@@ -35,6 +35,6 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 func drawWorkers(g *Game, screen *ebiten.Image) {
 	for _, worker := range g.JobSystem.Workers {
 		ch := worker.(*characters.Character)
-		h.DrawGraphic(ch.Entity.Idx, ch.Entity.Sprite, screen, g.dwarfTiles, 1)
+		h.DrawGraphic(ch.Idx, ch.Sprite, screen, g.dwarfTiles, 1)
 	}
 }

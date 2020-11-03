@@ -38,7 +38,7 @@ func (ch *Character) SetToAvailable() {
 // MoveTo calculates a new path
 // and sends worker to it.
 func (ch *Character) MoveTo(idx int, mp *worldmap.Map) bool {
-	from, ok := mp.GetTileByIndex(ch.Entity.Idx)
+	from, ok := mp.GetTileByIndex(ch.Idx)
 	if !ok {
 		ch.SetToAvailable()
 		return false
@@ -50,7 +50,7 @@ func (ch *Character) MoveTo(idx int, mp *worldmap.Map) bool {
 		return false
 	}
 
-	ok = ch.Walker.InitiateWalk(from, to)
+	ok = ch.InitiateWalk(from, to)
 	if !ok {
 		ch.SetToAvailable()
 		return false
@@ -65,8 +65,8 @@ func (ch *Character) MoveTo(idx int, mp *worldmap.Map) bool {
 func (ch *Character) PerformWork(mp *worldmap.Map) {
 	job := *ch.job
 
-	if ch.Entity.Idx != job.GetDestination() {
-		if len(ch.Walker.path) == 0 {
+	if ch.Idx != job.GetDestination() {
+		if len(ch.path) == 0 {
 			ch.SetToAvailable()
 		}
 

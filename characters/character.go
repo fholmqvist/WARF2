@@ -11,8 +11,8 @@ import (
 // Character is the foundational struct
 // for in game characters.
 type Character struct {
-	Entity e.Entity
-	Walker Walker
+	e.Entity
+	Walker
 
 	state jobsystem.WorkerState
 	job   *jobsystem.Job
@@ -20,7 +20,7 @@ type Character struct {
 
 // Walk placeholder, called every frame.
 func (ch *Character) Walk(mp *m.Map) {
-	if len(ch.Walker.path) == 0 {
+	if len(ch.path) == 0 {
 		ch.randomWalk(mp)
 		return
 	}
@@ -36,28 +36,28 @@ func (ch *Character) randomWalk(mp *m.Map) {
 			log.Fatal(err)
 		}
 
-		ch.Walker.Move(mp, &ch.Entity, dir)
+		ch.Move(mp, &ch.Entity, dir)
 	}
 }
 
 func (ch *Character) traversePath(mp *m.Map) {
-	if len(ch.Walker.path) == 0 {
+	if len(ch.path) == 0 {
 		return
 	}
 
-	next := ch.Walker.path[0]
+	next := ch.path[0]
 
-	if ch.Entity.Idx == next {
-		ch.Walker.path = ch.Walker.path[1:]
+	if ch.Idx == next {
+		ch.path = ch.path[1:]
 		return
 	}
 
-	dir, err := m.NextIdxToDir(ch.Entity.Idx, next)
+	dir, err := m.NextIdxToDir(ch.Idx, next)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if ch.Walker.Move(mp, &ch.Entity, dir) {
-		ch.Walker.path = ch.Walker.path[1:]
+	if ch.Move(mp, &ch.Entity, dir) {
+		ch.path = ch.path[1:]
 	}
 }

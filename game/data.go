@@ -1,4 +1,4 @@
-package entity
+package game
 
 // Data holds all the data/state for
 // numerical values like finance, happiness etc
