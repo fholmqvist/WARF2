@@ -51,12 +51,19 @@ func mouseClick(g *Game, idx int) {
 	case None:
 		// Identity
 		if !hasClicked {
+			// Get tile from real tiles
 			tile, ok := g.WorldMap.GetTileByIndex(idx)
 			if !ok {
 				return
 			}
 
 			firstClickedSprite = tile.Sprite
+
+			// Replace that tile with one from SelectedTiles
+			tile, ok = g.WorldMap.GetSelectionTileByIndex(idx)
+			if !ok {
+				return
+			}
 
 			// Selecting a non-wall defaults to
 			// wall in order to enable wall selection
@@ -74,7 +81,7 @@ func mouseClick(g *Game, idx int) {
 
 		}
 		if startPoint >= 0 {
-			runJobOverRangeOfTiles(g, idx, setWalls)
+			runJobOverRangeOfTiles(g, idx, m.Map.GetTile, setWalls)
 		}
 
 	default:
@@ -84,7 +91,7 @@ func mouseClick(g *Game, idx int) {
 
 func mouseUp(g *Game) {
 	if startPoint >= 0 {
-		runJobOverRangeOfTiles(g, mousePos(), wallNeedsInteraction)
+		runJobOverRangeOfTiles(g, mousePos(), m.Map.GetTile, wallNeedsInteraction)
 	}
 
 	startPoint = -1
@@ -107,7 +114,7 @@ func mousePos() int {
 	return mx + (my * m.TilesW)
 }
 
-func runJobOverRangeOfTiles(g *Game, idx int, f func(*worldmap.Tile)) {
+func runJobOverRangeOfTiles(g *Game, idx int, fTile func(worldmap.Map, int, int) (*worldmap.Tile, bool), tileF func(*worldmap.Tile)) {
 	x1, y1 := m.IdxToXY(startPoint)
 	x2, y2 := m.IdxToXY(idx)
 
@@ -121,11 +128,11 @@ func runJobOverRangeOfTiles(g *Game, idx int, f func(*worldmap.Tile)) {
 
 	for x := x1; x <= x2; x++ {
 		for y := y1; y <= y2; y++ {
-			tile, ok := g.WorldMap.GetTile(x, y)
+			tile, ok := fTile(g.WorldMap, x, y)
 			if !ok {
 				continue
 			}
-			f(tile)
+			tileF(tile)
 		}
 	}
 }

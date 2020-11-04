@@ -3,7 +3,8 @@ package worldmap
 // Map holds all the tiles
 // for a game.
 type Map struct {
-	Tiles []Tile
+	Tiles         []Tile
+	SelectedTiles []Tile
 }
 
 // GetTile returns a pointer to the tile
@@ -14,15 +15,35 @@ func (m Map) GetTile(x, y int) (*Tile, bool) {
 	return m.GetTileByIndex(x + y*TilesW)
 }
 
+// GetSelectionTile returns a pointer to the tile
+// from the XY-indexed tile from the selected-layer
+// on map, and a bool to determine whether the
+// function was successful.
+func (m Map) GetSelectionTile(x, y int) (*Tile, bool) {
+	return m.GetSelectionTileByIndex(x + y*TilesW)
+}
+
 // GetTileByIndex returns a pointer
 // to the tile from the map and a bool
 // to determine whether the function
 // was successful.
 func (m Map) GetTileByIndex(idx int) (*Tile, bool) {
+	return getTileFrom(idx, m.Tiles)
+}
+
+// GetSelectionTileByIndex returns a pointer
+// to the tile from the selected-tiles
+// layer and a bool to determine whether
+// the  function was successful.
+func (m Map) GetSelectionTileByIndex(idx int) (*Tile, bool) {
+	return getTileFrom(idx, m.SelectedTiles)
+}
+
+func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
 	if idx < 0 || idx >= TilesT {
 		return nil, false
 	}
-	return &m.Tiles[idx], true
+	return &tiles[idx], true
 }
 
 // GetTileByIndexAndDirection returns a pointer

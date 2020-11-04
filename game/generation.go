@@ -14,16 +14,22 @@ import (
 /* --------------------------------------------------------------------------- */
 
 func makeMap() m.Map {
-	mp := m.Map{}
+	mp := &m.Map{}
+
+	mp.Tiles = newTiles(mp, m.Ground)
+	mp.SelectedTiles = newTiles(mp, m.Transparent)
+
+	return *mp
+}
+
+func newTiles(mp *m.Map, sprite int) []m.Tile {
 	t := make([]m.Tile, m.TilesW*m.TilesH)
 
 	for i := range t {
-		t[i] = m.CreateTile(i, m.Ground, &mp)
+		t[i] = m.CreateTile(i, sprite, mp)
 	}
 
-	mp.Tiles = t
-
-	return mp
+	return t
 }
 
 func generateTempMap(mp *m.Map) {
