@@ -21,8 +21,16 @@ const (
 // This cluster of variables
 // help with (de)selecting walls.
 var startPoint = -1
+var endPoint = -1
 var hasClicked = false
 var firstClickedSprite = -1
+
+// Remembering last frame
+// in order to reset selected
+// tiles without having to
+// redraw the entire screen.
+var previousStartPoint = -1
+var previousEndPoint = -1
 
 func handleMouse(g *Game) {
 	mouseHover(g)
@@ -33,26 +41,24 @@ func handleMouse(g *Game) {
 		return
 	}
 
-	g.mousePos = idx
-
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseClick(g, idx)
 	} else if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
+		endPoint = idx
 		mouseUp(g)
 	} else if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
 		g.mouseMode = None
 	}
 }
 
-func mouseClick(g *Game, idx int) {
-
+func mouseClick(g *Game, currentMousePos int) {
 	switch g.mouseMode {
 
 	case None:
 		// Identity
 		if !hasClicked {
 			// Get tile from real tiles
-			tile, ok := g.WorldMap.GetTileByIndex(idx)
+			tile, ok := g.WorldMap.GetTileByIndex(currentMousePos)
 			if !ok {
 				return
 			}
@@ -60,7 +66,7 @@ func mouseClick(g *Game, idx int) {
 			firstClickedSprite = tile.Sprite
 
 			// Replace that tile with one from SelectedTiles
-			tile, ok = g.WorldMap.GetSelectionTileByIndex(idx)
+			tile, ok = g.WorldMap.GetSelectionTileByIndex(currentMousePos)
 			if !ok {
 				return
 			}
@@ -76,12 +82,14 @@ func mouseClick(g *Game, idx int) {
 				tile.Sprite = invertSelected(firstClickedSprite)
 			}
 
-			startPoint = idx
+			startPoint = currentMousePos
 			hasClicked = true
 
 		}
+
 		if startPoint >= 0 {
-			runJobOverRangeOfTiles(g, idx, m.Map.GetTile, setWalls)
+			removeOldSelectionTiles(g)
+			selectionWalls(g, startPoint, currentMousePos)
 		}
 
 	default:
@@ -91,7 +99,7 @@ func mouseClick(g *Game, idx int) {
 
 func mouseUp(g *Game) {
 	if startPoint >= 0 {
-		runJobOverRangeOfTiles(g, mousePos(), m.Map.GetTile, wallNeedsInteraction)
+		mouseUpSetWalls(g, startPoint, endPoint)
 	}
 
 	startPoint = -1
@@ -99,10 +107,7 @@ func mouseUp(g *Game) {
 }
 
 func mouseHover(g *Game) {
-	// idx := mousePos()
-
 	switch g.mouseMode {
-
 	default:
 	}
 }
@@ -114,9 +119,83 @@ func mousePos() int {
 	return mx + (my * m.TilesW)
 }
 
-func runJobOverRangeOfTiles(g *Game, idx int, fTile func(worldmap.Map, int, int) (*worldmap.Tile, bool), tileF func(*worldmap.Tile)) {
-	x1, y1 := m.IdxToXY(startPoint)
-	x2, y2 := m.IdxToXY(idx)
+// Attempting to collapse these three similar
+// functions into one just made the interface
+// that much more complicated. Sometimes, not
+// having DRY everywhere ain't that bad.
+func mouseUpSetWalls(g *Game, start, end int) {
+	x1, y1, x2, y2 := tileRange(start, end)
+
+	for x := x1; x <= x2; x++ {
+		for y := y1; y <= y2; y++ {
+			selectionTile, ok := g.WorldMap.GetSelectionTile(x, y)
+			if !ok {
+				continue
+			}
+
+			// No change
+			if m.IsNone(selectionTile.Sprite) {
+				continue
+			}
+
+			tile, ok := g.WorldMap.GetTile(x, y)
+			if !ok {
+				continue
+			}
+			setWalls(tile)
+			selectionTile.Sprite = m.None
+		}
+	}
+}
+
+func selectionWalls(g *Game, start, end int) {
+	x1, y1, x2, y2 := tileRange(start, end)
+
+	for x := x1; x <= x2; x++ {
+		for y := y1; y <= y2; y++ {
+			tile, ok := g.WorldMap.GetTile(x, y)
+			if !ok {
+				continue
+			}
+
+			if !m.IsWallOrSelected(tile.Sprite) {
+				continue
+			}
+
+			selectionTile, ok := g.WorldMap.GetSelectionTile(x, y)
+			if !ok {
+				continue
+			}
+
+			// In order to invert between (un)selected
+			selectionTile.Sprite = tile.Sprite
+
+			setWalls(selectionTile)
+		}
+	}
+
+	previousStartPoint = start
+	previousEndPoint = end
+}
+
+func removeOldSelectionTiles(g *Game) {
+	x1, y1, x2, y2 := tileRange(previousStartPoint, previousEndPoint)
+
+	for x := x1; x <= x2; x++ {
+		for y := y1; y <= y2; y++ {
+			selectionTile, ok := g.WorldMap.GetSelectionTile(x, y)
+			if !ok {
+				continue
+			}
+
+			selectionTile.Sprite = m.None
+		}
+	}
+}
+
+func tileRange(start, end int) (int, int, int, int) {
+	x1, y1 := m.IdxToXY(start)
+	x2, y2 := m.IdxToXY(end)
 
 	if x1 > x2 {
 		x1, x2 = x2, x1
@@ -126,33 +205,20 @@ func runJobOverRangeOfTiles(g *Game, idx int, fTile func(worldmap.Map, int, int)
 		y1, y2 = y2, y1
 	}
 
-	for x := x1; x <= x2; x++ {
-		for y := y1; y <= y2; y++ {
-			tile, ok := fTile(g.WorldMap, x, y)
-			if !ok {
-				continue
-			}
-			tileF(tile)
-		}
-	}
+	return x1, y1, x2, y2
 }
 
 func setWalls(tile *worldmap.Tile) {
 	if !m.IsWallOrSelected(tile.Sprite) {
 		return
 	}
+
 	if m.IsWall(firstClickedSprite) {
 		setToSelected(tile)
-	} else {
-		setToNormalInteractFalse(tile)
-	}
-}
-
-func wallNeedsInteraction(tile *worldmap.Tile) {
-	if !m.IsSelectedWall(tile.Sprite) {
 		return
 	}
-	tile.NeedsInteraction = true
+
+	setToNormalInteractFalse(tile)
 }
 
 func invertSelected(sprite int) int {
@@ -173,6 +239,8 @@ func setToSelected(tile *m.Tile) {
 	if m.IsSelectedWall(tile.Sprite) {
 		return
 	}
+
+	tile.NeedsInteraction = true
 
 	if tile.Sprite == m.WallSolid {
 		tile.Sprite = m.WallSelectedSolid

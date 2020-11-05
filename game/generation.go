@@ -17,7 +17,7 @@ func makeMap() m.Map {
 	mp := &m.Map{}
 
 	mp.Tiles = newTiles(mp, m.Ground)
-	mp.SelectedTiles = newTiles(mp, m.Transparent)
+	mp.SelectedTiles = newTiles(mp, m.None)
 
 	return *mp
 }

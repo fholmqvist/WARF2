@@ -40,7 +40,6 @@ type Game struct {
 	time      h.Time
 	debug     bool
 	mouseMode MouseMode
-	mousePos  int
 	ui        u.UI
 }
 

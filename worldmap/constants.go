@@ -19,7 +19,7 @@ const (
 
 // World tiles.
 const (
-	Transparent = iota
+	None = iota
 	Ground
 	BoundarySolid
 	BoundaryExposed

@@ -6,7 +6,7 @@ import "fmt"
 // graphics constant based on its index.
 func GraphicName(sprite int) string {
 	switch sprite {
-	case Transparent:
+	case None:
 		return "Transparent"
 	case Ground:
 		return "Ground"
@@ -50,7 +50,7 @@ func SurroundingTilesEight(idx int) []TileDir {
 
 // IsNone returns whether tile is of type None.
 func IsNone(tile int) bool {
-	return tile == Transparent
+	return tile == None
 }
 
 // IsGround returns whether tile is of type Ground.
