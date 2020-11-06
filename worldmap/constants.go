@@ -1,6 +1,9 @@
 package worldmap
 
-// Game constants.
+// Game constants that relate
+// to map and drawing. Not put
+// in game package to prevent
+// cyclic dependencies.
 const (
 	TileSize = 16
 	TilesetW = 16
@@ -17,7 +20,7 @@ const (
 	CycleLength = TPS * 8
 )
 
-// World tiles.
+// World tile sprite constant.
 const (
 	None = iota
 
