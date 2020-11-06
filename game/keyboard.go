@@ -27,6 +27,11 @@ func handleTilesettingInput(g *Game) {
 		*mm = mouse.FloorTiles
 		*mt = "GOWARF - FLOOR TILES"
 	}
+
+	if i.IsKeyJustPressed(e.Key2) {
+		*mm = mouse.ResetFloor
+		*mt = "GOWARF - RESET FLOOR TILES"
+	}
 }
 
 func handleCharacterInput(chr *c.Character, mp *m.Map, t *h.Time) {
