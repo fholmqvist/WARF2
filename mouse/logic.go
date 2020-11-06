@@ -9,16 +9,6 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-// Mode enum for managing mouse action state.
-type Mode int
-
-// Mode enum.
-const (
-	None Mode = iota
-	FloorTiles
-	ResetFloor
-)
-
 // This cluster of variables
 // help with (de)selecting walls.
 var startPoint = -1
@@ -49,14 +39,14 @@ func (s *System) Handle(mp *m.Map) {
 		endPoint = idx
 		s.mouseUp(mp)
 	} else if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
-		s.Mode = None
+		s.Mode = Normal
 	}
 }
 
 func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 	switch s.Mode {
 
-	case None:
+	case Normal:
 		noneMode(mp, currentMousePos)
 
 	case FloorTiles:

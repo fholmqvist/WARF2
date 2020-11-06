@@ -19,7 +19,7 @@ func handleTilesettingInput(g *Game) {
 	mt := &g.ui.MouseMode.Text
 
 	if i.IsKeyJustPressed(e.KeyEscape) {
-		*mm = mouse.None
+		*mm = mouse.Normal
 		*mt = "GOWARF"
 	}
 }
