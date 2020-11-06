@@ -20,11 +20,25 @@ const (
 // World tiles.
 const (
 	None = iota
+
 	Ground
+
 	BoundarySolid
 	BoundaryExposed
+
 	WallSolid
 	WallExposed
 	WallSelectedSolid
 	WallSelectedExposed
+
+	FloorBricksOne = iota + 8
+	FloorBricksTwo
+	FloorBricksThree
+	FloorBricksFour
+	FloorBricksFive
+	FloorBricksSix
+	FloorBricksSeven
+	FloorBricksEight
+	FloorBricksNine
+	FloorBricksTen
 )

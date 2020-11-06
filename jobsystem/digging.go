@@ -59,7 +59,7 @@ func (d *Digging) PerformWork(mp *worldmap.Map) func() bool {
 			// Job is, in a sense, done.
 			return true
 		}
-		t.Sprite = worldmap.Ground
+		t.Sprite = worldmap.RandomFloorBrick()
 		for _, nb := range worldmap.SurroundingTilesFour(t.Idx) {
 			mp.FixWall(&mp.Tiles[nb.Idx])
 		}

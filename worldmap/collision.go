@@ -27,7 +27,7 @@ func IsColliding(mp *Map, current int, next Direction) bool {
 // answering whether the tile at the
 // current index is Blocking movement.
 func Blocking(tile int) bool {
-	return !(IsNone(tile) || IsGround(tile))
+	return IsAnyWall(tile)
 }
 
 // IndexOutOfBounds checks whether the given index
