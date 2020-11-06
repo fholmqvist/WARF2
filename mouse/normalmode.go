@@ -7,7 +7,7 @@ import (
 func noneMode(mp *m.Map, currentMousePos int) {
 	firstClick(mp, currentMousePos,
 		func() {
-			// Get tile from real tiles
+			// Get tile from real tiles.
 			tile, ok := mp.GetTileByIndex(currentMousePos)
 			if !ok {
 				return
@@ -15,7 +15,7 @@ func noneMode(mp *m.Map, currentMousePos int) {
 
 			firstClickedSprite = tile.Sprite
 
-			// Replace that tile with one from SelectedTiles
+			// Replace that tile with one from SelectedTiles.
 			tile, ok = mp.GetSelectionTileByIndex(currentMousePos)
 			if !ok {
 				return
@@ -76,7 +76,7 @@ func selectionWalls(mp *m.Map, x, y int) {
 		return
 	}
 
-	// In order to invert between (un)selected
+	// In order to invert between (un)selected.
 	selectionTile.Sprite = tile.Sprite
 
 	setWalls(selectionTile)

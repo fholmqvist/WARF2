@@ -37,11 +37,18 @@ func (s *System) Handle(mp *m.Map) {
 
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		s.mouseClick(mp, idx)
-	} else if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
+		return
+	}
+
+	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		endPoint = idx
 		s.mouseUp(mp)
-	} else if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
+		return
+	}
+
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
 		s.Mode = Normal
+		return
 	}
 }
 
@@ -70,6 +77,7 @@ func (s *System) mouseUp(mp *m.Map) {
 	unsetHasClicked()
 }
 
+// TODO: Overlays, placeholders, highlights...
 func (s *System) mouseHover(mp *m.Map) {
 	switch s.Mode {
 	default:

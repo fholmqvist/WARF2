@@ -6,14 +6,21 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
-func firstClick(mp *m.Map, currentMousePos int, click func(), drags []func(*m.Map, int, int)) {
+// Most mouse modes share the same functionality:
+// 	1. Handle the first click.
+// 	2. Handle the dragging of mouse to select some range.
+
+// These two functions below wrap this functionality
+// and use lambdas to inject specific behaviour.
+
+func firstClick(mp *m.Map, currentMousePos int, clickF func(), dragFs []func(*m.Map, int, int)) {
 	if !hasClicked {
-		click()
+		clickF()
 		setHasClicked(currentMousePos)
 	}
 
 	if startPoint >= 0 {
-		mouseRange(mp, currentMousePos, startPoint, drags)
+		mouseRange(mp, currentMousePos, startPoint, dragFs)
 	}
 }
 
