@@ -1,19 +1,58 @@
-package game
+package mouse
 
 import (
 	m "projects/games/warf2/worldmap"
 )
 
+func noneMode(mp *m.Map, currentMousePos int) {
+	// Identity
+	if !hasClicked {
+		// Get tile from real tiles
+		tile, ok := mp.GetTileByIndex(currentMousePos)
+		if !ok {
+			return
+		}
+
+		firstClickedSprite = tile.Sprite
+
+		// Replace that tile with one from SelectedTiles
+		tile, ok = mp.GetSelectionTileByIndex(currentMousePos)
+		if !ok {
+			return
+		}
+
+		// Selecting a non-wall defaults to
+		// wall in order to enable wall selection
+		// without having first clicked on a wall.
+		if !m.IsSelectedWall(firstClickedSprite) {
+			firstClickedSprite = m.WallSolid
+		}
+
+		if m.IsWallOrSelected(tile.Sprite) {
+			tile.Sprite = invertSelected(firstClickedSprite)
+		}
+
+		startPoint = currentMousePos
+		hasClicked = true
+
+	}
+
+	if startPoint >= 0 {
+		removeOldSelectionTiles(mp)
+		selectionWalls(mp, startPoint, currentMousePos)
+	}
+}
+
 // Attempting to collapse these three similar
 // functions into one just made the interface
 // that much more complicated. Sometimes, not
 // having DRY everywhere ain't that bad.
-func mouseUpSetWalls(g *Game, start, end int) {
+func mouseUpSetWalls(mp *m.Map, start, end int) {
 	x1, y1, x2, y2 := tileRange(start, end)
 
 	for x := x1; x <= x2; x++ {
 		for y := y1; y <= y2; y++ {
-			selectionTile, ok := g.WorldMap.GetSelectionTile(x, y)
+			selectionTile, ok := mp.GetSelectionTile(x, y)
 			if !ok {
 				continue
 			}
@@ -23,7 +62,7 @@ func mouseUpSetWalls(g *Game, start, end int) {
 				continue
 			}
 
-			tile, ok := g.WorldMap.GetTile(x, y)
+			tile, ok := mp.GetTile(x, y)
 			if !ok {
 				continue
 			}
@@ -33,12 +72,12 @@ func mouseUpSetWalls(g *Game, start, end int) {
 	}
 }
 
-func selectionWalls(g *Game, start, end int) {
+func selectionWalls(mp *m.Map, start, end int) {
 	x1, y1, x2, y2 := tileRange(start, end)
 
 	for x := x1; x <= x2; x++ {
 		for y := y1; y <= y2; y++ {
-			tile, ok := g.WorldMap.GetTile(x, y)
+			tile, ok := mp.GetTile(x, y)
 			if !ok {
 				continue
 			}
@@ -47,7 +86,7 @@ func selectionWalls(g *Game, start, end int) {
 				continue
 			}
 
-			selectionTile, ok := g.WorldMap.GetSelectionTile(x, y)
+			selectionTile, ok := mp.GetSelectionTile(x, y)
 			if !ok {
 				continue
 			}
@@ -63,12 +102,12 @@ func selectionWalls(g *Game, start, end int) {
 	previousEndPoint = end
 }
 
-func removeOldSelectionTiles(g *Game) {
+func removeOldSelectionTiles(mp *m.Map) {
 	x1, y1, x2, y2 := tileRange(previousStartPoint, previousEndPoint)
 
 	for x := x1; x <= x2; x++ {
 		for y := y1; y <= y2; y++ {
-			selectionTile, ok := g.WorldMap.GetSelectionTile(x, y)
+			selectionTile, ok := mp.GetSelectionTile(x, y)
 			if !ok {
 				continue
 			}

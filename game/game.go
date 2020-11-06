@@ -9,6 +9,7 @@ import (
 	"projects/games/warf2/entity"
 	h "projects/games/warf2/helpers"
 	j "projects/games/warf2/jobsystem"
+	"projects/games/warf2/mouse"
 	u "projects/games/warf2/ui"
 	m "projects/games/warf2/worldmap"
 
@@ -35,12 +36,15 @@ type Game struct {
 	JobSystem *j.JobSystem
 	Data      *entity.Data
 
+	/* ------------------------------- Interaction ------------------------------ */
+
+	mouseSystem mouse.System
+
 	/* ------------------------------ Private state ----------------------------- */
 
-	time      h.Time
-	debug     bool
-	mouseMode MouseMode
-	ui        u.UI
+	time  h.Time
+	debug bool
+	ui    u.UI
 }
 
 // NewGame returns a pointer to an instantiated and initiated game.
@@ -54,8 +58,8 @@ func NewGame() *Game {
 
 		Data: &entity.Data{},
 
-		time:      h.Time{Frame: 1},
-		mouseMode: None,
+		time:        h.Time{Frame: 1},
+		mouseSystem: mouse.System{},
 		ui: u.UI{
 			MouseMode: u.Element{
 				Text:  "GOWARF",

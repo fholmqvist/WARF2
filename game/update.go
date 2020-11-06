@@ -10,7 +10,7 @@ import (
 func (g *Game) Update(screen *ebiten.Image) error {
 	g.time.Tick()
 
-	handleMouse(g)
+	g.mouseSystem.Handle(&g.WorldMap)
 	handleKeyboard(g)
 
 	g.updateCharacters()

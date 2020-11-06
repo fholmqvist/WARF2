@@ -3,6 +3,7 @@ package game
 import (
 	c "projects/games/warf2/characters"
 	h "projects/games/warf2/helpers"
+	"projects/games/warf2/mouse"
 	m "projects/games/warf2/worldmap"
 
 	e "github.com/hajimehoshi/ebiten"
@@ -14,11 +15,11 @@ func handleKeyboard(g *Game) {
 }
 
 func handleTilesettingInput(g *Game) {
-	mm := &g.mouseMode
+	mm := &g.mouseSystem.Mode
 	mt := &g.ui.MouseMode.Text
 
 	if i.IsKeyJustPressed(e.KeyEscape) {
-		*mm = None
+		*mm = mouse.None
 		*mt = "GOWARF"
 	}
 }
