@@ -22,6 +22,11 @@ func handleTilesettingInput(g *Game) {
 		*mm = mouse.Normal
 		*mt = "GOWARF"
 	}
+
+	if i.IsKeyJustPressed(e.Key1) {
+		*mm = mouse.FloorTiles
+		*mt = "GOWARF - FLOOR TILES"
+	}
 }
 
 func handleCharacterInput(chr *c.Character, mp *m.Map, t *h.Time) {

@@ -5,7 +5,6 @@ import (
 )
 
 func noneMode(mp *m.Map, currentMousePos int) {
-	// Identity
 	if !hasClicked {
 		// Get tile from real tiles
 		tile, ok := mp.GetTileByIndex(currentMousePos)
@@ -32,9 +31,7 @@ func noneMode(mp *m.Map, currentMousePos int) {
 			tile.Sprite = invertSelected(firstClickedSprite)
 		}
 
-		startPoint = currentMousePos
-		hasClicked = true
-
+		setHasClicked(currentMousePos)
 	}
 
 	if startPoint >= 0 {

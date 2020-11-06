@@ -62,8 +62,7 @@ func (s *System) mouseUp(mp *m.Map) {
 		mouseUpSetWalls(mp, startPoint, endPoint)
 	}
 
-	startPoint = -1
-	hasClicked = false
+	unsetHasClicked()
 }
 
 func (s *System) mouseHover(mp *m.Map) {
@@ -77,4 +76,14 @@ func mousePos() int {
 	mx, my = mx/m.TileSize, my/m.TileSize
 
 	return mx + (my * m.TilesW)
+}
+
+func setHasClicked(currentMousePos int) {
+	startPoint = currentMousePos
+	hasClicked = true
+}
+
+func unsetHasClicked() {
+	startPoint = -1
+	hasClicked = false
 }

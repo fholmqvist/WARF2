@@ -2,8 +2,10 @@ package worldmap
 
 import "fmt"
 
-// GraphicName returns the name of the corresponding
-// graphics constant based on its index.
+// GraphicName returns the
+// name of the corresponding
+// graphics constant based
+// on its index.
 func GraphicName(sprite int) string {
 	switch sprite {
 	case None:
@@ -48,42 +50,56 @@ func SurroundingTilesEight(idx int) []TileDir {
 	return append(SurroundingTilesFour(idx), corners...)
 }
 
-// IsNone returns whether tile is of type None.
+// IsNone returns if
+// tile is of type None.
 func IsNone(tile int) bool {
 	return tile == None
 }
 
-// IsGround returns whether tile is of type Ground.
+// IsGround returns if
+// tile is of type Ground.
 func IsGround(tile int) bool {
 	return tile == Ground
 }
 
-// IsExposed returns whether tile is in the open.
+// IsExposed returns if
+// tile is in the open.
 func IsExposed(tile int) bool {
 	return !(IsBoundary(tile) || IsWall(tile) || IsSelectedWall(tile))
 }
 
-// IsAnyWall returns whether tile is any type of wall.
+// IsAnyWall returns if
+// tile is any type of wall.
 func IsAnyWall(tile int) bool {
 	return IsBoundary(tile) || IsWall(tile) || IsSelectedWall(tile)
 }
 
-// IsBoundary returns whether tile is of type Boundary.
+// IsBoundary returns if
+// tile is of type Boundary.
 func IsBoundary(tile int) bool {
 	return tile >= BoundarySolid && tile <= BoundaryExposed
 }
 
-// IsWall returns whether tile is of type Wall.
+// IsWall returns if
+// tile is of type Wall.
 func IsWall(tile int) bool {
 	return tile >= WallSolid && tile <= WallExposed
 }
 
-// IsSelectedWall returns whether tile is of type SelectedWall.
+// IsSelectedWall returns if
+// tile is of type SelectedWall.
 func IsSelectedWall(tile int) bool {
 	return tile >= WallSelectedSolid && tile <= WallSelectedExposed
 }
 
-// IsWallOrSelected returns whether tile is of type Wall or SelectedWall.
+// IsWallOrSelected returns if
+// tile is of type Wall or SelectedWall.
 func IsWallOrSelected(tile int) bool {
 	return IsWall(tile) || IsSelectedWall(tile)
+}
+
+// IsFloorTile returns if
+// tile is of type FloorBrick.
+func IsFloorTile(tile int) bool {
+	return tile >= FloorBricksOne && tile <= FloorBricksTen
 }
