@@ -25,11 +25,15 @@ func firstClick(mp *m.Map, currentMousePos int, clickF func(), dragFs []func(*m.
 }
 
 func mouseRange(mp *m.Map, start, end int, fs []func(*m.Map, int, int)) {
+	if len(fs) == 0 {
+		return
+	}
+
 	x1, y1, x2, y2 := tileRange(start, end)
 
-	for x := x1; x <= x2; x++ {
-		for y := y1; y <= y2; y++ {
-			for _, f := range fs {
+	for _, f := range fs {
+		for x := x1; x <= x2; x++ {
+			for y := y1; y <= y2; y++ {
 				f(mp, x, y)
 			}
 		}

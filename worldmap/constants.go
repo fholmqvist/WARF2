@@ -45,3 +45,11 @@ const (
 	FloorBricksNine
 	FloorBricksTen
 )
+
+// Item tile sprite constant.
+const (
+	NoItem = iota
+
+	BookShelfOne
+	BookShelfTwo
+)

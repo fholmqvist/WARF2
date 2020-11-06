@@ -5,38 +5,47 @@ package worldmap
 type Map struct {
 	Tiles         []Tile
 	SelectedTiles []Tile
+	Items         []Tile
 }
 
 // GetTile returns a pointer to the tile
 // from the XY-indexed tile on the map,
-// and a bool to determine whether the
+// and a bool to determine if the
 // function was successful.
 func (m Map) GetTile(x, y int) (*Tile, bool) {
 	return m.GetTileByIndex(x + y*TilesW)
 }
 
-// GetSelectionTile returns a pointer to the tile
-// from the XY-indexed tile from the selected-layer
-// on map, and a bool to determine whether the
-// function was successful.
+// GetSelectionTile returns a pointer to
+// the tile from the XY-indexed tile from
+// the selected layer on map, and a bool
+// to determine if the function was successful.
 func (m Map) GetSelectionTile(x, y int) (*Tile, bool) {
 	return m.GetSelectionTileByIndex(x + y*TilesW)
 }
 
 // GetTileByIndex returns a pointer
-// to the tile from the map and a bool
-// to determine whether the function
-// was successful.
+// to the tile from the map and a
+// bool to determine if the
+// function was successful.
 func (m Map) GetTileByIndex(idx int) (*Tile, bool) {
 	return getTileFrom(idx, m.Tiles)
 }
 
-// GetSelectionTileByIndex returns a pointer
-// to the tile from the selected-tiles
-// layer and a bool to determine whether
-// the  function was successful.
+// GetSelectionTileByIndex returns a
+// pointer to the tile from the selected
+// tiles layer and a bool to determine if
+// the function was successful.
 func (m Map) GetSelectionTileByIndex(idx int) (*Tile, bool) {
 	return getTileFrom(idx, m.SelectedTiles)
+}
+
+// GetItemTileByIndex returns a pointer
+// to the tile from the item layer and
+// a bool to determine if the function
+// was successful.
+func (m Map) GetItemTileByIndex(idx int) (*Tile, bool) {
+	return getTileFrom(idx, m.Items)
 }
 
 func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
@@ -49,7 +58,7 @@ func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
 // GetTileByIndexAndDirection returns a pointer
 // to the tile from the map given the current index
 // and a new direction. It also returns a boolean value
-// to determine whether the function was successful.
+// to determine if the function was successful.
 func (m Map) GetTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 	t, ok := m.GetTileByIndex(IndexAtDirection(idx, dir))
 	if !ok {

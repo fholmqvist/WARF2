@@ -29,6 +29,7 @@ type Game struct {
 
 	worldTiles *ebiten.Image
 	dwarfTiles *ebiten.Image
+	itemTiles  *ebiten.Image
 	gameFont   font.Face
 
 	/* ------------------------------ Public state ------------------------------ */
@@ -86,7 +87,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func loadAssets(g *Game) {
-	// Setting worldTiles
+	// Setting worldTiles.
 	worldTiles, _, err := ebitenutil.NewImageFromFile("art/world.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
@@ -94,13 +95,21 @@ func loadAssets(g *Game) {
 
 	g.worldTiles = worldTiles
 
-	// Setting dwarfTiles
+	// Setting dwarfTiles.
 	dwarfTiles, _, err := ebitenutil.NewImageFromFile("art/dwarf.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
 	}
 
 	g.dwarfTiles = dwarfTiles
+
+	// Setting itemTiles.
+	itemTiles, _, err := ebitenutil.NewImageFromFile("art/item.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatalf("could not open file: %v", err)
+	}
+
+	g.itemTiles = itemTiles
 
 	setFont(g)
 }

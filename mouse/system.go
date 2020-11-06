@@ -21,8 +21,12 @@ type Mode int
 // Mode enum.
 const (
 	Normal Mode = iota
+
 	FloorTiles
 	ResetFloor
+
+	PlaceItem
+	RemoveItem
 )
 
 // Handle all the mouse interactivity.
@@ -63,6 +67,12 @@ func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 
 	case ResetFloor:
 		resetFloorMode(mp, currentMousePos)
+
+	case PlaceItem:
+		placeItemMode(mp, currentMousePos)
+
+	case RemoveItem:
+		removeItemMode(mp, currentMousePos)
 
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)

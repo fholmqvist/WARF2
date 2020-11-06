@@ -18,6 +18,7 @@ func makeMap() m.Map {
 
 	mp.Tiles = newTiles(mp, m.Ground)
 	mp.SelectedTiles = newTiles(mp, m.None)
+	mp.Items = newTiles(mp, m.None)
 
 	return *mp
 }

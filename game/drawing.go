@@ -27,6 +27,9 @@ func drawMap(g *Game, screen *ebiten.Image) {
 	for idx, tile := range g.WorldMap.SelectedTiles {
 		h.DrawGraphic(idx, tile.Sprite, screen, g.worldTiles, 1)
 	}
+	for idx, tile := range g.WorldMap.Items {
+		h.DrawGraphic(idx, tile.Sprite, screen, g.itemTiles, 1)
+	}
 }
 
 func drawTPS(g *Game, screen *ebiten.Image) {

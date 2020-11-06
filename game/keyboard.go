@@ -18,22 +18,34 @@ func handleTilesettingInput(g *Game) {
 	mm := &g.mouseSystem.Mode
 	mt := &g.ui.MouseMode.Text
 
-	if i.IsKeyJustPressed(e.KeyEscape) {
-		*mm = mouse.Normal
-		*mt = "GOWARF"
-	}
-
 	if i.IsKeyJustPressed(e.Key1) {
-		*mm = mouse.FloorTiles
-		*mt = "GOWARF - FLOOR TILES"
+		*mm = mouse.Normal
+		*mt = "GOWARF - WALL MODE"
 	}
 
 	if i.IsKeyJustPressed(e.Key2) {
+		*mm = mouse.FloorTiles
+		*mt = "GOWARF - FLOORTILE MODE"
+	}
+
+	if i.IsKeyJustPressed(e.Key3) {
 		*mm = mouse.ResetFloor
-		*mt = "GOWARF - RESET FLOOR TILES"
+		*mt = "GOWARF - RESET FLOORTILE MODE"
+	}
+
+	if i.IsKeyJustPressed(e.Key4) {
+		*mm = mouse.PlaceItem
+		*mt = "GOWARF - PLACE ITEM MODE"
+	}
+
+	if i.IsKeyJustPressed(e.Key5) {
+		*mm = mouse.RemoveItem
+		*mt = "GOWARF - REMOVE ITEM MODE"
 	}
 }
 
+// For debugging purposes using
+// in-game moveable character.
 func handleCharacterInput(chr *c.Character, mp *m.Map, t *h.Time) {
 	if !t.TimeToMove() {
 		return
@@ -42,17 +54,27 @@ func handleCharacterInput(chr *c.Character, mp *m.Map, t *h.Time) {
 	w := &chr.Walker
 	et := &chr.Entity
 
-	if key(e.KeyUp) {
+	if keyIsHeld(e.KeyUp) {
 		w.Move(mp, et, m.Up)
-	} else if key(e.KeyRight) {
+		return
+	}
+
+	if keyIsHeld(e.KeyRight) {
 		w.Move(mp, et, m.Right)
-	} else if key(e.KeyDown) {
+		return
+	}
+
+	if keyIsHeld(e.KeyDown) {
 		w.Move(mp, et, m.Down)
-	} else if key(e.KeyLeft) {
+		return
+	}
+
+	if keyIsHeld(e.KeyLeft) {
 		w.Move(mp, et, m.Left)
+		return
 	}
 }
 
-func key(k e.Key) bool {
+func keyIsHeld(k e.Key) bool {
 	return i.KeyPressDuration(k) > 0
 }
