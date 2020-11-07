@@ -16,7 +16,7 @@ func IsColliding(mp *Map, current int, next Direction) bool {
 	}
 
 	t, ok := mp.GetTileByIndexAndDirection(current, next)
-	if !ok || Blocking(t.Sprite) {
+	if !ok || Blocking(t) {
 		return true
 	}
 
@@ -26,8 +26,8 @@ func IsColliding(mp *Map, current int, next Direction) bool {
 // Blocking returns a boolean value
 // answering whether the tile at the
 // current index is Blocking movement.
-func Blocking(tile int) bool {
-	return IsAnyWall(tile)
+func Blocking(tile *Tile) bool {
+	return IsAnyWall(tile.Sprite) || tile.Blocked
 }
 
 // IndexOutOfBounds checks whether the given index

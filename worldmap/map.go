@@ -75,6 +75,7 @@ type Tile struct {
 	Island           int
 	Map              *Map
 	NeedsInteraction bool
+	Blocked          bool
 }
 
 // CreateTile returns a new tile

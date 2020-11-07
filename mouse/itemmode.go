@@ -22,6 +22,7 @@ func placeItemMode(mp *m.Map, currentMousePos int) {
 			}
 
 			item.Sprite = m.RandomBookshelf()
+			tile.Blocked = true
 		},
 		[]func(*m.Map, int, int){})
 }
@@ -35,6 +36,13 @@ func removeItemMode(mp *m.Map, currentMousePos int) {
 			}
 
 			item.Sprite = m.NoItem
+
+			tile, ok := mp.GetTileByIndex(currentMousePos)
+			if !ok {
+				return
+			}
+
+			tile.Blocked = false
 		},
 		[]func(*m.Map, int, int){})
 }

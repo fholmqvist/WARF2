@@ -52,4 +52,6 @@ const (
 
 	BookShelfOne
 	BookShelfTwo
+	BookShelfThree
+	BookShelfFour
 )

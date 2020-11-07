@@ -12,7 +12,10 @@ var (
 		FloorBricksTen,
 	}
 
-	bookShelves = []int{BookShelfOne, BookShelfTwo}
+	bookShelves = []int{
+		BookShelfOne, BookShelfTwo, BookShelfThree,
+		BookShelfFour,
+	}
 )
 
 // RandomFloorBrick returns
