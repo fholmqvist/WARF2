@@ -18,6 +18,10 @@ var (
 		BookShelfSeven, BookShelfEight, BookShelfNine,
 		BookShelfTen,
 	}
+
+	furniture = []int{
+		ChairLeft, Table, ChairRight,
+	}
 )
 
 // RandomFloorBrick returns
@@ -30,4 +34,10 @@ func RandomFloorBrick() int {
 // the sprite for a random BookShelf.
 func RandomBookshelf() int {
 	return bookShelves[rand.Intn(len(bookShelves))]
+}
+
+// RandomFurniture returns
+// the sprite for a random Furniture.
+func RandomFurniture() int {
+	return furniture[rand.Intn(len(furniture))]
 }

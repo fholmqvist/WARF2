@@ -60,4 +60,8 @@ const (
 	BookShelfEight
 	BookShelfNine
 	BookShelfTen
+
+	ChairLeft
+	Table
+	ChairRight
 )

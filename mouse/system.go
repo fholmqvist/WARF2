@@ -26,6 +26,7 @@ const (
 	ResetFloor
 
 	PlaceItem
+	PlaceFurniture
 	RemoveItem
 )
 
@@ -70,6 +71,9 @@ func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 
 	case PlaceItem:
 		placeItemMode(mp, currentMousePos)
+
+	case PlaceFurniture:
+		placeFurnitureMode(mp, currentMousePos)
 
 	case RemoveItem:
 		removeItemMode(mp, currentMousePos)

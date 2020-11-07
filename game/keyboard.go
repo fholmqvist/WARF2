@@ -39,6 +39,11 @@ func handleTilesettingInput(g *Game) {
 	}
 
 	if i.IsKeyJustPressed(e.Key5) {
+		*mm = mouse.PlaceFurniture
+		*mt = "GOWARF - PLACE FURNITURE MODE"
+	}
+
+	if i.IsKeyJustPressed(e.Key6) {
 		*mm = mouse.RemoveItem
 		*mt = "GOWARF - REMOVE ITEM MODE"
 	}

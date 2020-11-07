@@ -63,7 +63,7 @@ func NewGame() *Game {
 		mouseSystem: mouse.System{},
 		ui: u.UI{
 			MouseMode: u.Element{
-				Text:  "GOWARF",
+				Text:  "GOWARF - WALL MODE",
 				X:     m.TileSize,
 				Y:     m.TileSize*m.TilesH - m.TileSize,
 				Color: color.White,

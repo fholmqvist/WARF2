@@ -1,10 +1,8 @@
 package mouse
 
-import (
-	m "projects/games/warf2/worldmap"
-)
+import m "projects/games/warf2/worldmap"
 
-func placeItemMode(mp *m.Map, currentMousePos int) {
+func placeFurnitureMode(mp *m.Map, currentMousePos int) {
 	firstClick(mp, currentMousePos,
 		func() {
 			tile, ok := mp.GetTileByIndex(currentMousePos)
@@ -21,8 +19,7 @@ func placeItemMode(mp *m.Map, currentMousePos int) {
 				return
 			}
 
-			item.Sprite = m.RandomBookshelf()
-			tile.Blocked = true
+			item.Sprite = m.RandomFurniture()
 		},
 		[]func(*m.Map, int, int){})
 }
