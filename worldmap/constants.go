@@ -54,4 +54,10 @@ const (
 	BookShelfTwo
 	BookShelfThree
 	BookShelfFour
+	BookShelfFive
+	BookShelfSix
+	BookShelfSeven
+	BookShelfEight
+	BookShelfNine
+	BookShelfTen
 )

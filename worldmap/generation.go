@@ -14,7 +14,9 @@ var (
 
 	bookShelves = []int{
 		BookShelfOne, BookShelfTwo, BookShelfThree,
-		BookShelfFour,
+		BookShelfFour, BookShelfFive, BookShelfSix,
+		BookShelfSeven, BookShelfEight, BookShelfNine,
+		BookShelfTen,
 	}
 )
 
