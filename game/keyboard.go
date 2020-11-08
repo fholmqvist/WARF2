@@ -9,42 +9,61 @@ import (
 	i "github.com/hajimehoshi/ebiten/inpututil"
 )
 
+// SetMouseMode set the internal mousemode,
+// and updates the equivalent UI text(s).
+func (g *Game) SetMouseMode(mode mouse.Mode) {
+	g.mouseSystem.Mode = mode
+	mt := &g.ui.MouseMode.Text
+
+	switch mode {
+
+	case mouse.Normal:
+		*mt = "GOWARF - WALL MODE"
+
+	case mouse.FloorTiles:
+		*mt = "GOWARF - FLOORTILE MODE"
+
+	case mouse.ResetFloor:
+		*mt = "GOWARF - RESET FLOORTILE MODE"
+
+	case mouse.PlaceItem:
+		*mt = "GOWARF - PLACE ITEM MODE"
+
+	case mouse.PlaceFurniture:
+		*mt = "GOWARF - PLACE FURNITURE MODE"
+
+	case mouse.RemoveItem:
+		*mt = "GOWARF - REMOVE ITEM MODE"
+	}
+}
+
 func handleKeyboard(g *Game) {
 	handleTilesettingInput(g)
 }
 
 func handleTilesettingInput(g *Game) {
-	mm := &g.mouseSystem.Mode
-	mt := &g.ui.MouseMode.Text
-
 	if i.IsKeyJustPressed(e.Key1) {
-		*mm = mouse.Normal
-		*mt = "GOWARF - WALL MODE"
+		g.SetMouseMode(mouse.Normal)
 	}
 
 	if i.IsKeyJustPressed(e.Key2) {
-		*mm = mouse.FloorTiles
-		*mt = "GOWARF - FLOORTILE MODE"
+		g.SetMouseMode(mouse.FloorTiles)
 	}
 
 	if i.IsKeyJustPressed(e.Key3) {
-		*mm = mouse.ResetFloor
-		*mt = "GOWARF - RESET FLOORTILE MODE"
+		g.SetMouseMode(mouse.ResetFloor)
 	}
 
 	if i.IsKeyJustPressed(e.Key4) {
-		*mm = mouse.PlaceItem
-		*mt = "GOWARF - PLACE ITEM MODE"
+		g.SetMouseMode(mouse.PlaceItem)
 	}
 
 	if i.IsKeyJustPressed(e.Key5) {
-		*mm = mouse.PlaceFurniture
-		*mt = "GOWARF - PLACE FURNITURE MODE"
+		g.SetMouseMode(mouse.PlaceFurniture)
 	}
 
 	if i.IsKeyJustPressed(e.Key6) {
-		*mm = mouse.RemoveItem
-		*mt = "GOWARF - REMOVE ITEM MODE"
+		g.SetMouseMode(mouse.RemoveItem)
 	}
 }
 

@@ -62,7 +62,6 @@ func NewGame() *Game {
 		mouseSystem: mouse.System{},
 		ui: u.UI{
 			MouseMode: u.Element{
-				Text:  "GOWARF - WALL MODE",
 				X:     m.TileSize,
 				Y:     m.TileSize*m.TilesH - m.TileSize,
 				Color: color.White,
@@ -74,6 +73,8 @@ func NewGame() *Game {
 	for i := 0; i < 4; i++ {
 		game.JobSystem.Workers = append(game.JobSystem.Workers, randomChar(game.WorldMap))
 	}
+
+	game.SetMouseMode(mouse.Normal)
 
 	loadAssets(&game)
 
