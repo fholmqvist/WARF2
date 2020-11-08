@@ -6,7 +6,7 @@ import (
 )
 
 func removeItemMode(mp *m.Map, currentMousePos int) {
-	firstClick(mp, currentMousePos,
+	clickFunctions(mp, currentMousePos,
 		func() {
 			iTile, ok := mp.GetItemTileByIndex(currentMousePos)
 			if !ok {

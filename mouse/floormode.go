@@ -3,7 +3,7 @@ package mouse
 import m "projects/games/warf2/worldmap"
 
 func floorTileMode(mp *m.Map, currentMousePos int) {
-	firstClick(mp, currentMousePos,
+	clickFunctions(mp, currentMousePos,
 		func() {
 			tile, ok := mp.GetTileByIndex(currentMousePos)
 			if !ok {
@@ -45,7 +45,7 @@ func floorTileSelection(mp *m.Map, x, y int) {
 }
 
 func resetFloorMode(mp *m.Map, currentMousePos int) {
-	firstClick(mp, currentMousePos,
+	clickFunctions(mp, currentMousePos,
 		func() {
 			if !hasClicked {
 				tile, ok := mp.GetTileByIndex(currentMousePos)

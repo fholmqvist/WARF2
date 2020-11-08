@@ -5,7 +5,7 @@ import (
 )
 
 func noneMode(mp *m.Map, currentMousePos int) {
-	firstClick(mp, currentMousePos,
+	clickFunctions(mp, currentMousePos,
 		func() {
 			// Get tile from real tiles.
 			tile, ok := mp.GetTileByIndex(currentMousePos)

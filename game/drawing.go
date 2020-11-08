@@ -2,7 +2,7 @@ package game
 
 import (
 	"fmt"
-	"projects/games/warf2/characters"
+	"projects/games/warf2/character"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -39,7 +39,7 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 
 func drawWorkers(g *Game, screen *ebiten.Image) {
 	for _, worker := range g.JobSystem.Workers {
-		ch := worker.(*characters.Character)
-		DrawGraphic(ch.Idx, ch.Sprite, screen, g.dwarfTiles, 1)
+		dwarf := worker.(*character.Dwarf)
+		DrawGraphic(dwarf.Idx, dwarf.Sprite, screen, g.dwarfTiles, 1)
 	}
 }

@@ -2,7 +2,7 @@ package game
 
 import (
 	"math/rand"
-	ch "projects/games/warf2/characters"
+	ch "projects/games/warf2/character"
 	e "projects/games/warf2/entity"
 	m "projects/games/warf2/worldmap"
 )
@@ -179,7 +179,7 @@ func floodFill(x, y int, mp *m.Map, island int, inverse bool) {
 	}
 }
 
-func randomChar(mp m.Map) *ch.Character {
+func randomChar(mp m.Map) *ch.Dwarf {
 	var availableSpots []int
 	for i := range mp.Tiles {
 		if m.IsGround(mp.Tiles[i].Sprite) {
@@ -187,7 +187,7 @@ func randomChar(mp m.Map) *ch.Character {
 		}
 	}
 
-	return &ch.Character{
+	return &ch.Dwarf{
 		Entity: e.Entity{
 			Sprite: rand.Intn(ch.DwarfTeal),
 			Idx:    availableSpots[rand.Intn(len(availableSpots))],

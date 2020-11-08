@@ -1,4 +1,4 @@
-package characters
+package character
 
 import (
 	"projects/games/warf2/jobsystem"
@@ -7,13 +7,13 @@ import (
 
 // HasJob returns whether
 // characters job is nil.
-func (ch *Character) HasJob() bool {
+func (ch *Dwarf) HasJob() bool {
 	return ch.job != nil
 }
 
 // SetJob sets job for
 // given character.
-func (ch *Character) SetJob(job jobsystem.Job) bool {
+func (ch *Dwarf) SetJob(job jobsystem.Job) bool {
 	if job == nil {
 		ch.SetToAvailable()
 		return false
@@ -25,19 +25,19 @@ func (ch *Character) SetJob(job jobsystem.Job) bool {
 }
 
 // Available checks whether worker is available.
-func (ch *Character) Available() bool {
+func (ch *Dwarf) Available() bool {
 	return ch.state == jobsystem.WorkerIdle
 }
 
 // SetToAvailable sets availability of worker.
-func (ch *Character) SetToAvailable() {
+func (ch *Dwarf) SetToAvailable() {
 	ch.state = jobsystem.WorkerIdle
 	ch.job = nil
 }
 
 // MoveTo calculates a new path
 // and sends worker to it.
-func (ch *Character) MoveTo(idx int, mp *worldmap.Map) bool {
+func (ch *Dwarf) MoveTo(idx int, mp *worldmap.Map) bool {
 	from, ok := mp.GetTileByIndex(ch.Idx)
 	if !ok {
 		ch.SetToAvailable()
@@ -62,7 +62,7 @@ func (ch *Character) MoveTo(idx int, mp *worldmap.Map) bool {
 
 // PerformWork checks if the character is ready,
 // and performs the given work.
-func (ch *Character) PerformWork(mp *worldmap.Map) {
+func (ch *Dwarf) PerformWork(mp *worldmap.Map) {
 	job := *ch.job
 
 	if ch.Idx != job.GetDestination() {

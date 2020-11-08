@@ -13,3 +13,17 @@ func IsBlocking(sprite int) bool {
 	}
 	return false
 }
+
+// IsBookShelf returns
+// if tile is of any
+// type of BookShelf.
+func IsBookShelf(sprite int) bool {
+	return sprite >= BookShelfOne && sprite <= BookShelfTen
+}
+
+// IsChair returns
+// if tile is of any
+// type of Chair.
+func IsChair(sprite int) bool {
+	return sprite >= ChairLeft && sprite <= ChairRight
+}

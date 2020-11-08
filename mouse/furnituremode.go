@@ -6,7 +6,7 @@ import (
 )
 
 func placeFurnitureMode(mp *m.Map, currentMousePos int) {
-	firstClick(mp, currentMousePos,
+	clickFunctions(mp, currentMousePos,
 		func() {
 			tile, ok := mp.GetTileByIndex(currentMousePos)
 			if !ok {

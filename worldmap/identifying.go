@@ -52,54 +52,54 @@ func SurroundingTilesEight(idx int) []TileDir {
 
 // IsNone returns if
 // tile is of type None.
-func IsNone(tile int) bool {
-	return tile == None
+func IsNone(sprite int) bool {
+	return sprite == None
 }
 
 // IsGround returns if
 // tile is of type Ground.
-func IsGround(tile int) bool {
-	return tile == Ground
+func IsGround(sprite int) bool {
+	return sprite == Ground
 }
 
 // IsExposed returns if
 // tile is in the open.
-func IsExposed(tile int) bool {
-	return !IsAnyWall(tile)
+func IsExposed(sprite int) bool {
+	return !IsAnyWall(sprite)
 }
 
 // IsAnyWall returns if
 // tile is any type of wall.
-func IsAnyWall(tile int) bool {
-	return IsBoundary(tile) || IsWall(tile) || IsSelectedWall(tile)
+func IsAnyWall(sprite int) bool {
+	return IsBoundary(sprite) || IsWall(sprite) || IsSelectedWall(sprite)
 }
 
 // IsBoundary returns if
 // tile is of type Boundary.
-func IsBoundary(tile int) bool {
-	return tile >= BoundarySolid && tile <= BoundaryExposed
+func IsBoundary(sprite int) bool {
+	return sprite >= BoundarySolid && sprite <= BoundaryExposed
 }
 
 // IsWall returns if
 // tile is of type Wall.
-func IsWall(tile int) bool {
-	return tile >= WallSolid && tile <= WallExposed
+func IsWall(sprite int) bool {
+	return sprite >= WallSolid && sprite <= WallExposed
 }
 
 // IsSelectedWall returns if
 // tile is of type SelectedWall.
-func IsSelectedWall(tile int) bool {
-	return tile >= WallSelectedSolid && tile <= WallSelectedExposed
+func IsSelectedWall(sprite int) bool {
+	return sprite >= WallSelectedSolid && sprite <= WallSelectedExposed
 }
 
 // IsWallOrSelected returns if
 // tile is of type Wall or SelectedWall.
-func IsWallOrSelected(tile int) bool {
-	return IsWall(tile) || IsSelectedWall(tile)
+func IsWallOrSelected(sprite int) bool {
+	return IsWall(sprite) || IsSelectedWall(sprite)
 }
 
 // IsFloorTile returns if
 // tile is of type FloorBrick.
-func IsFloorTile(tile int) bool {
-	return tile >= FloorBricksOne && tile <= FloorBricksTen
+func IsFloorTile(sprite int) bool {
+	return sprite >= FloorBricksOne && sprite <= FloorBricksTen
 }

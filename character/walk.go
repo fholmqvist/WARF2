@@ -1,4 +1,4 @@
-package characters
+package character
 
 import (
 	e "projects/games/warf2/entity"

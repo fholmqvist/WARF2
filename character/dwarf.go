@@ -1,4 +1,4 @@
-package characters
+package character
 
 import (
 	"log"
@@ -8,9 +8,9 @@ import (
 	m "projects/games/warf2/worldmap"
 )
 
-// Character is the foundational struct
+// Dwarf is the foundational struct
 // for in game characters.
-type Character struct {
+type Dwarf struct {
 	e.Entity
 	Walker
 
@@ -19,16 +19,16 @@ type Character struct {
 }
 
 // Walk placeholder, called every frame.
-func (ch *Character) Walk(mp *m.Map) {
-	if len(ch.path) == 0 {
-		ch.randomWalk(mp)
+func (d *Dwarf) Walk(mp *m.Map) {
+	if len(d.path) == 0 {
+		d.randomWalk(mp)
 		return
 	}
 
-	ch.traversePath(mp)
+	d.traversePath(mp)
 }
 
-func (ch *Character) randomWalk(mp *m.Map) {
+func (d *Dwarf) randomWalk(mp *m.Map) {
 	// Pause most of the time
 	if rand.Intn(100) > 90 {
 		dir, err := m.GetDirection(rand.Intn(4))
@@ -36,28 +36,28 @@ func (ch *Character) randomWalk(mp *m.Map) {
 			log.Fatal(err)
 		}
 
-		ch.Move(mp, &ch.Entity, dir)
+		d.Move(mp, &d.Entity, dir)
 	}
 }
 
-func (ch *Character) traversePath(mp *m.Map) {
-	if len(ch.path) == 0 {
+func (d *Dwarf) traversePath(mp *m.Map) {
+	if len(d.path) == 0 {
 		return
 	}
 
-	next := ch.path[0]
+	next := d.path[0]
 
-	if ch.Idx == next {
-		ch.path = ch.path[1:]
+	if d.Idx == next {
+		d.path = d.path[1:]
 		return
 	}
 
-	dir, err := m.NextIdxToDir(ch.Idx, next)
+	dir, err := m.NextIdxToDir(d.Idx, next)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if ch.Move(mp, &ch.Entity, dir) {
-		ch.path = ch.path[1:]
+	if d.Move(mp, &d.Entity, dir) {
+		d.path = d.path[1:]
 	}
 }

@@ -13,14 +13,14 @@ import (
 // These two functions below wrap this functionality
 // and use lambdas to inject specific behaviour.
 
-func firstClick(mp *m.Map, currentMousePos int, clickF func(), dragFs []func(*m.Map, int, int)) {
+func clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick []func(*m.Map, int, int)) {
 	if !hasClicked {
-		clickF()
+		firstClick()
 		setHasClicked(currentMousePos)
 	}
 
 	if startPoint >= 0 {
-		mouseRange(mp, currentMousePos, startPoint, dragFs)
+		mouseRange(mp, currentMousePos, startPoint, dragClick)
 	}
 }
 
