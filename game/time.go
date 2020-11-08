@@ -1,4 +1,4 @@
-package helpers
+package game
 
 import (
 	"math/rand"

@@ -1,16 +1,26 @@
 package mouse
 
-import m "projects/games/warf2/worldmap"
+import (
+	"projects/games/warf2/item"
+	m "projects/games/warf2/worldmap"
+)
 
 func removeItemMode(mp *m.Map, currentMousePos int) {
 	firstClick(mp, currentMousePos,
 		func() {
-			item, ok := mp.GetItemTileByIndex(currentMousePos)
+			iTile, ok := mp.GetItemTileByIndex(currentMousePos)
 			if !ok {
 				return
 			}
 
-			item.Sprite = m.NoItem
+			iTile.Sprite = item.NoItem
+
+			tile, ok := mp.GetTileByIndex(currentMousePos)
+			if !ok {
+				return
+			}
+
+			tile.Blocked = false
 		},
 		[]func(*m.Map, int, int){})
 }

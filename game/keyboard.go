@@ -2,7 +2,6 @@ package game
 
 import (
 	c "projects/games/warf2/characters"
-	h "projects/games/warf2/helpers"
 	"projects/games/warf2/mouse"
 	m "projects/games/warf2/worldmap"
 
@@ -51,7 +50,7 @@ func handleTilesettingInput(g *Game) {
 
 // For debugging purposes using
 // in-game moveable character.
-func handleCharacterInput(chr *c.Character, mp *m.Map, t *h.Time) {
+func handleCharacterInput(chr *c.Character, mp *m.Map, t *Time) {
 	if !t.TimeToMove() {
 		return
 	}

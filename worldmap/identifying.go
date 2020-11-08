@@ -65,7 +65,7 @@ func IsGround(tile int) bool {
 // IsExposed returns if
 // tile is in the open.
 func IsExposed(tile int) bool {
-	return !(IsBoundary(tile) || IsWall(tile) || IsSelectedWall(tile))
+	return !IsAnyWall(tile)
 }
 
 // IsAnyWall returns if

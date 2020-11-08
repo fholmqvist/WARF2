@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"projects/games/warf2/entity"
-	h "projects/games/warf2/helpers"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	u "projects/games/warf2/ui"
@@ -43,7 +42,7 @@ type Game struct {
 
 	/* ------------------------------ Private state ----------------------------- */
 
-	time  h.Time
+	time  Time
 	debug bool
 	ui    u.UI
 }
@@ -59,7 +58,7 @@ func NewGame() *Game {
 
 		Data: &entity.Data{},
 
-		time:        h.Time{Frame: 1},
+		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},
 		ui: u.UI{
 			MouseMode: u.Element{
