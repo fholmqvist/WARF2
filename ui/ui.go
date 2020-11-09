@@ -1,3 +1,5 @@
+// Package ui handles all the
+// in-game graphical overlays.
 package ui
 
 import (

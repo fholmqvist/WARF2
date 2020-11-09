@@ -1,3 +1,5 @@
+// Package room defines all
+// the different in-game rooms.
 package room
 
 import "projects/games/warf2/character"

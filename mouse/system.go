@@ -1,3 +1,5 @@
+// Package mouse handles all
+// mouse-oriented interactions.
 package mouse
 
 import (

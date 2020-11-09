@@ -1,3 +1,6 @@
+// Package game contains
+// the root struct for all
+// the data needed to run the game.
 package game
 
 import (

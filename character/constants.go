@@ -1,3 +1,5 @@
+// Package character contains all
+// functionality for in-game characters.
 package character
 
 // Dwarves

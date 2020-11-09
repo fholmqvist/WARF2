@@ -1,3 +1,6 @@
+// Package worldmap handles all
+// the in-game rendering of in-game
+// tiles and their functionality.
 package worldmap
 
 // Map holds all the tiles
