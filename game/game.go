@@ -53,8 +53,8 @@ type Game struct {
 
 // NewGame returns a pointer to an instantiated and initiated game.
 func NewGame() *Game {
-	//game := tempGame()
-	game := loadGame()
+	game := tempGame()
+	//game := loadGame()
 
 	game.SetMouseMode(mouse.Normal)
 

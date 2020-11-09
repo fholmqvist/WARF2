@@ -51,6 +51,14 @@ func (m Map) GetItemTileByIndex(idx int) (*Tile, bool) {
 	return getTileFrom(idx, m.Items)
 }
 
+// ResetIslands resets the islands
+// after using flood fill.
+func (m *Map) ResetIslands() {
+	for i := range m.Tiles {
+		m.Tiles[i].Island = 0
+	}
+}
+
 func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
 	if idx < 0 || idx >= TilesT {
 		return nil, false

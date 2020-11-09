@@ -132,16 +132,34 @@ func fillIslands(mp *m.Map, inverse bool) {
 
 		x, y := m.IdxToXY(i)
 
-		if inverse {
-			if m.IsWall(t.Sprite) {
-				floodFill(x, y, mp, island, true)
-				island++
-			}
-		} else {
-			if m.IsGround(t.Sprite) {
-				floodFill(x, y, mp, island, false)
-				island++
-			}
+		if m.IsWall(t.Sprite) {
+			floodFill(x, y, mp, island, func(idx int) bool {
+				if !m.IsAnyWall(mp.Tiles[idx].Sprite) {
+					return false
+				}
+
+				if mp.Tiles[idx].Island == island {
+					return false
+				}
+
+				mp.Tiles[idx].Island = island
+				return true
+			})
+			island++
+		} else if m.IsGround(t.Sprite) {
+			floodFill(x, y, mp, island, func(idx int) bool {
+				if !m.IsGround(mp.Tiles[idx].Sprite) {
+					return false
+				}
+
+				if mp.Tiles[idx].Island == island {
+					return false
+				}
+
+				mp.Tiles[idx].Island = island
+				return true
+			})
+			island++
 		}
 	}
 
@@ -157,7 +175,7 @@ func fillIslands(mp *m.Map, inverse bool) {
 			continue
 		}
 
-		if len(islandTiles) <= 3 {
+		if len(islandTiles) <= 5 {
 			for _, currentIslandIdx := range islandTiles {
 				mp.Tiles[currentIslandIdx].Island = 0
 				if inverse {
@@ -169,9 +187,7 @@ func fillIslands(mp *m.Map, inverse bool) {
 		}
 	}
 
-	for i := range mp.Tiles {
-		mp.Tiles[i].Island = 0
-	}
+	mp.ResetIslands()
 }
 
 func setInnerWalls(mp *m.Map) {
@@ -183,34 +199,25 @@ func setInnerWalls(mp *m.Map) {
 }
 
 // Inverse flips between filling walls (false) and filling ground (true).
-func floodFill(x, y int, mp *m.Map, island int, inverse bool) {
+func floodFill(x, y int, mp *m.Map, island int, predicate func(int) bool) {
 	idx := m.XYToIdx(x, y)
 
-	if inverse && m.IsGround(mp.Tiles[idx].Sprite) {
+	ok := predicate(idx)
+	if !ok {
 		return
 	}
-
-	if !inverse && !m.IsGround(mp.Tiles[idx].Sprite) {
-		return
-	}
-
-	if mp.Tiles[idx].Island == island {
-		return
-	}
-
-	mp.Tiles[idx].Island = island
 
 	if y > 0 {
-		floodFill(x, y-1, mp, island, inverse)
+		floodFill(x, y-1, mp, island, predicate)
 	}
 	if x > 0 {
-		floodFill(x-1, y, mp, island, inverse)
+		floodFill(x-1, y, mp, island, predicate)
 	}
 	if y < m.TilesH-1 {
-		floodFill(x, y+1, mp, island, inverse)
+		floodFill(x, y+1, mp, island, predicate)
 	}
 	if x < m.TilesW-1 {
-		floodFill(x+1, y, mp, island, inverse)
+		floodFill(x+1, y, mp, island, predicate)
 	}
 }
 
