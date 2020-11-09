@@ -133,7 +133,7 @@ func fillIslands(mp *m.Map, inverse bool) {
 		x, y := m.IdxToXY(i)
 
 		if m.IsWall(t.Sprite) {
-			floodFill(x, y, mp, island, func(idx int) bool {
+			m.FloodFill(x, y, mp, island, func(idx int) bool {
 				if !m.IsAnyWall(mp.Tiles[idx].Sprite) {
 					return false
 				}
@@ -147,7 +147,7 @@ func fillIslands(mp *m.Map, inverse bool) {
 			})
 			island++
 		} else if m.IsGround(t.Sprite) {
-			floodFill(x, y, mp, island, func(idx int) bool {
+			m.FloodFill(x, y, mp, island, func(idx int) bool {
 				if !m.IsGround(mp.Tiles[idx].Sprite) {
 					return false
 				}
@@ -196,29 +196,6 @@ func setInnerWalls(mp *m.Map) {
 
 	m.DrawVLine(mp, m.TilesW+1, m.TilesH-1, m.WallSolid)
 	m.DrawVLine(mp, m.TilesW-2, m.TilesH-1, m.WallSolid)
-}
-
-// Inverse flips between filling walls (false) and filling ground (true).
-func floodFill(x, y int, mp *m.Map, island int, predicate func(int) bool) {
-	idx := m.XYToIdx(x, y)
-
-	ok := predicate(idx)
-	if !ok {
-		return
-	}
-
-	if y > 0 {
-		floodFill(x, y-1, mp, island, predicate)
-	}
-	if x > 0 {
-		floodFill(x-1, y, mp, island, predicate)
-	}
-	if y < m.TilesH-1 {
-		floodFill(x, y+1, mp, island, predicate)
-	}
-	if x < m.TilesW-1 {
-		floodFill(x+1, y, mp, island, predicate)
-	}
 }
 
 func placeNewDwarf(mp m.Map) ch.Dwarf {

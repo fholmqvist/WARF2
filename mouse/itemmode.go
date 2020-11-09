@@ -31,8 +31,8 @@ func placeItemMode(mp *m.Map, currentMousePos int) {
 		func() {
 			placeItem(mp, currentMousePos)
 		},
-		// This is a bit unfortunate, but it works.
-		[]func(*m.Map, int, int){
-			func(*m.Map, int, int) { placeItem(mp, currentMousePos) },
-		})
+		func(*m.Map, int, int) {
+			placeItem(mp, currentMousePos)
+		},
+	)
 }

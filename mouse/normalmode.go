@@ -32,9 +32,9 @@ func noneMode(mp *m.Map, currentMousePos int) {
 				tile.Sprite = invertSelected(firstClickedSprite)
 			}
 		},
-		[]func(*m.Map, int, int){
-			removeOldSelectionTiles,
-			selectionWalls,
+		func(mp *m.Map, x int, y int) {
+			removeOldSelectionTiles(mp, x, y)
+			selectionWalls(mp, x, y)
 		})
 }
 

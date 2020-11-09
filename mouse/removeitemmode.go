@@ -22,5 +22,5 @@ func removeItemMode(mp *m.Map, currentMousePos int) {
 
 			tile.Blocked = false
 		},
-		[]func(*m.Map, int, int){})
+		func(*m.Map, int, int) {})
 }

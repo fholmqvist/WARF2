@@ -27,5 +27,5 @@ func placeFurnitureMode(mp *m.Map, currentMousePos int) {
 				tile.Blocked = true
 			}
 		},
-		[]func(*m.Map, int, int){})
+		func(*m.Map, int, int) {})
 }

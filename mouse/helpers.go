@@ -13,7 +13,7 @@ import (
 // These two functions below wrap this functionality
 // and use lambdas to inject specific behaviour.
 
-func clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick []func(*m.Map, int, int)) {
+func clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick func(*m.Map, int, int)) {
 	if !hasClicked {
 		firstClick()
 		setHasClicked(currentMousePos)
@@ -24,18 +24,12 @@ func clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick
 	}
 }
 
-func mouseRange(mp *m.Map, start, end int, fs []func(*m.Map, int, int)) {
-	if len(fs) == 0 {
-		return
-	}
-
+func mouseRange(mp *m.Map, start, end int, f func(*m.Map, int, int)) {
 	x1, y1, x2, y2 := tileRange(start, end)
 
-	for _, f := range fs {
-		for x := x1; x <= x2; x++ {
-			for y := y1; y <= y2; y++ {
-				f(mp, x, y)
-			}
+	for x := x1; x <= x2; x++ {
+		for y := y1; y <= y2; y++ {
+			f(mp, x, y)
 		}
 	}
 

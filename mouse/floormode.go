@@ -22,9 +22,8 @@ func floorTileMode(mp *m.Map, currentMousePos int) {
 
 			tile.Sprite = m.RandomFloorBrick()
 		},
-		[]func(*m.Map, int, int){
-			floorTileSelection,
-		})
+		floorTileSelection,
+	)
 }
 
 func floorTileSelection(mp *m.Map, x, y int) {
@@ -62,9 +61,8 @@ func resetFloorMode(mp *m.Map, currentMousePos int) {
 				tile.Sprite = m.Ground
 			}
 		},
-		[]func(*m.Map, int, int){
-			resetFloorSelection,
-		})
+		resetFloorSelection,
+	)
 }
 
 func resetFloorSelection(mp *m.Map, x int, y int) {
