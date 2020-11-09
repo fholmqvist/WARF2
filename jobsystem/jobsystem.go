@@ -11,9 +11,9 @@ import (
 // JobSystem manages all ingame jobs
 // for dwarves.
 type JobSystem struct {
-	Jobs    []Job
-	Workers []Worker
-	Map     *m.Map
+	Jobs    []Job    `json:"jobs"`
+	Workers []Worker `json:"-"`
+	Map     *m.Map   `json:"-"`
 }
 
 // Update runs every frame, handling

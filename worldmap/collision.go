@@ -15,7 +15,7 @@ func IsColliding(mp *Map, current int, next Direction) bool {
 		return true
 	}
 
-	t, ok := mp.GetTileByIndexAndDirection(current, next)
+	t, ok := mp.getTileByIndexAndDirection(current, next)
 	if !ok || Blocking(t) {
 		return true
 	}

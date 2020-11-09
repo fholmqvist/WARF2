@@ -12,6 +12,8 @@ import (
 func main() {
 	g := g.NewGame()
 
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	factor := 1
 	ebiten.SetWindowSize(m.ScreenWidth*factor, m.ScreenHeight*factor)
 	ebiten.SetWindowTitle("GOWARF")

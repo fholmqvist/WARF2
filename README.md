@@ -26,7 +26,11 @@ Built with [Golang](https://golang.org/) and the [Ebiten](https://ebiten.org/) f
 
 ✅ Job System
 
-✅ Digging walls Job
+✅ Job: Digging walls
+
+✅ Items
+
+✅ Saving/loading
 
 ## To be done
 

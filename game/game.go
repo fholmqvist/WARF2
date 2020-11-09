@@ -4,11 +4,11 @@
 package game
 
 import (
-	"image/color"
 	"io/ioutil"
 	"log"
 	"os"
 
+	"projects/games/warf2/character"
 	"projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
@@ -26,6 +26,7 @@ type Game struct {
 	/* ----------------------------- In-game objects ---------------------------- */
 
 	WorldMap m.Map
+	Dwarves  []character.Dwarf
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 
@@ -52,34 +53,14 @@ type Game struct {
 
 // NewGame returns a pointer to an instantiated and initiated game.
 func NewGame() *Game {
-	worldmap := makeMap()
-	generateTempMap(&worldmap)
-
-	game := Game{
-		WorldMap:  worldmap,
-		JobSystem: &j.JobSystem{},
-
-		Data: &entity.Data{},
-
-		time:        Time{Frame: 1},
-		mouseSystem: mouse.System{},
-		ui: u.UI{
-			MouseMode: u.Element{
-				X:     m.TileSize,
-				Y:     m.TileSize*m.TilesH - m.TileSize,
-				Color: color.White,
-			},
-		},
-	}
-
-	game.JobSystem.Map = &game.WorldMap
-	for i := 0; i < 4; i++ {
-		game.JobSystem.Workers = append(game.JobSystem.Workers, randomChar(game.WorldMap))
-	}
+	//game := tempGame()
+	game := loadGame()
 
 	game.SetMouseMode(mouse.Normal)
 
 	loadAssets(&game)
+
+	game.saveGame()
 
 	return &game
 }

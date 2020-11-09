@@ -53,17 +53,6 @@ func DirectionToText(dir Direction) string {
 	return "Unknown direction"
 }
 
-// FourDirections returns four directions.
-func FourDirections() []Direction {
-	return []Direction{Up, Down, Left, Right}
-}
-
-// EightDirections returns eight directions.
-func EightDirections() []Direction {
-	return append(FourDirections(),
-		[]Direction{UpLeft, UpRight, DownLeft, DownRight}...)
-}
-
 // IndexAtDirection returns the index
 // at the direction from the current index.
 func IndexAtDirection(idx int, dir Direction) int {
@@ -90,22 +79,6 @@ func IndexAtDirection(idx int, dir Direction) int {
 		fmt.Println("unknown direction:", DirectionToText(dir))
 		return -1
 	}
-}
-
-// OppositeDirection returns the inverse of the given direction.
-func OppositeDirection(d Direction) (Direction, error) {
-	switch d {
-	case Up:
-		return Down, nil
-	case Right:
-		return Left, nil
-	case Down:
-		return Up, nil
-	case Left:
-		return Right, nil
-	}
-
-	return Up, fmt.Errorf("no opposite direction for: %d", d)
 }
 
 // OneTileUp returns idx one row up.

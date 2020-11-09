@@ -1,9 +1,14 @@
 package game
 
 import (
+	"image/color"
 	"math/rand"
 	ch "projects/games/warf2/character"
+	"projects/games/warf2/entity"
 	e "projects/games/warf2/entity"
+	j "projects/games/warf2/jobsystem"
+	"projects/games/warf2/mouse"
+	u "projects/games/warf2/ui"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -12,6 +17,36 @@ import (
 /* --------------------------------------------------------------------------- */
 /* This is just a placeholder for map generation and/or loading at the moment. */
 /* --------------------------------------------------------------------------- */
+
+func tempGame() Game {
+	worldmap := makeMap()
+	generateTempMap(&worldmap)
+
+	game := Game{
+		WorldMap:  worldmap,
+		JobSystem: &j.JobSystem{},
+		Data:      &entity.Data{},
+
+		time:        Time{Frame: 1},
+		mouseSystem: mouse.System{},
+		ui: u.UI{
+			MouseMode: u.Element{
+				X:     m.TileSize,
+				Y:     m.TileSize*m.TilesH - m.TileSize,
+				Color: color.White,
+			},
+		},
+	}
+
+	game.JobSystem.Map = &game.WorldMap
+	for i := 0; i < 4; i++ {
+		dwarf := placeNewDwarf(game.WorldMap)
+		game.Dwarves = append(game.Dwarves, dwarf)
+		game.JobSystem.Workers = append(game.JobSystem.Workers, &dwarf)
+	}
+
+	return game
+}
 
 func makeMap() m.Map {
 	mp := &m.Map{}
@@ -179,7 +214,7 @@ func floodFill(x, y int, mp *m.Map, island int, inverse bool) {
 	}
 }
 
-func randomChar(mp m.Map) *ch.Dwarf {
+func placeNewDwarf(mp m.Map) ch.Dwarf {
 	var availableSpots []int
 	for i := range mp.Tiles {
 		if m.IsGround(mp.Tiles[i].Sprite) {
@@ -187,7 +222,7 @@ func randomChar(mp m.Map) *ch.Dwarf {
 		}
 	}
 
-	return &ch.Dwarf{
+	return ch.Dwarf{
 		Entity: e.Entity{
 			Sprite: rand.Intn(ch.DwarfTeal),
 			Idx:    availableSpots[rand.Intn(len(availableSpots))],

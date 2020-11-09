@@ -6,9 +6,9 @@ package worldmap
 // Map holds all the tiles
 // for a game.
 type Map struct {
-	Tiles         []Tile
-	SelectedTiles []Tile
-	Items         []Tile
+	Tiles         []Tile `json:"t"`
+	SelectedTiles []Tile `json:"s"`
+	Items         []Tile `json:"i"`
 }
 
 // GetTile returns a pointer to the tile
@@ -58,11 +58,11 @@ func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
 	return &tiles[idx], true
 }
 
-// GetTileByIndexAndDirection returns a pointer
+// getTileByIndexAndDirection returns a pointer
 // to the tile from the map given the current index
 // and a new direction. It also returns a boolean value
 // to determine if the function was successful.
-func (m Map) GetTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
+func (m Map) getTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 	t, ok := m.GetTileByIndex(IndexAtDirection(idx, dir))
 	if !ok {
 		return nil, false
@@ -72,13 +72,14 @@ func (m Map) GetTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 
 // Tile data struct
 type Tile struct {
-	Idx              int
-	X, Y             int
-	Sprite           int
-	Island           int
-	Map              *Map
-	NeedsInteraction bool
-	Blocked          bool
+	Idx              int  `json:"i"`
+	X                int  `json:"x"`
+	Y                int  `json:"y"`
+	Sprite           int  `json:"s"`
+	Island           int  `json:"-"`
+	Map              *Map `json:"-"`
+	NeedsInteraction bool `json:"n"`
+	Blocked          bool `json:"b"`
 }
 
 // CreateTile returns a new tile
