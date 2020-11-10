@@ -1,6 +1,7 @@
 package mouse
 
 import (
+	"fmt"
 	m "projects/games/warf2/worldmap"
 
 	"github.com/hajimehoshi/ebiten"
@@ -20,12 +21,17 @@ func clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick
 	}
 
 	if startPoint >= 0 {
-		mouseRange(mp, currentMousePos, startPoint, dragClick)
+		FuncOverRange(mp, currentMousePos, startPoint, dragClick)
 	}
 }
 
-func mouseRange(mp *m.Map, start, end int, f func(*m.Map, int, int)) {
-	x1, y1, x2, y2 := tileRange(start, end)
+// FuncOverRange runs over a map
+// between the start and end
+// points against the supplied
+// function.
+func FuncOverRange(mp *m.Map, start, end int, f func(*m.Map, int, int)) {
+	x1, y1, x2, y2 := TileRange(start, end)
+	fmt.Println("START X:", x1, "END X:", x2, "START Y:", y1, "END Y:", y2)
 
 	for x := x1; x <= x2; x++ {
 		for y := y1; y <= y2; y++ {
@@ -37,7 +43,11 @@ func mouseRange(mp *m.Map, start, end int, f func(*m.Map, int, int)) {
 	previousEndPoint = end
 }
 
-func tileRange(start, end int) (int, int, int, int) {
+// TileRange returns a
+// two-dimensional range
+// between start and end,
+// regardless of direction.
+func TileRange(start, end int) (int, int, int, int) {
 	x1, y1 := m.IdxToXY(start)
 	x2, y2 := m.IdxToXY(end)
 

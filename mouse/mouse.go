@@ -93,14 +93,14 @@ func (s *System) mouseUp(mp *m.Map) {
 	switch s.Mode {
 
 	case Normal:
-		mouseRange(mp, startPoint, endPoint, mouseUpSetWalls)
+		FuncOverRange(mp, startPoint, endPoint, mouseUpSetWalls)
 
 	case FloorTiles:
-		mouseRange(mp, startPoint, endPoint, floorTiles)
+		FuncOverRange(mp, startPoint, endPoint, floorTiles)
 	}
 
+	FuncOverRange(mp, startPoint, endPoint, removeOldSelectionTiles)
 	unsetHasClicked()
-	mouseRange(mp, startPoint, endPoint, removeOldSelectionTiles)
 }
 
 // TODO: Overlays, placeholders, highlights...
