@@ -22,8 +22,8 @@ import (
 type SaveGame struct {
 	WorldMap  m.Map         `json:"w"`
 	Dwarves   []dwarf.Dwarf `json:"dw"`
-	JobSystem *j.JobSystem  `json:"j"`
-	Data      *entity.Data  `json:"da"`
+	JobSystem j.JobSystem   `json:"j"`
+	Data      entity.Data   `json:"da"`
 }
 
 func (g Game) saveGame() {

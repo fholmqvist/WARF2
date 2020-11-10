@@ -24,8 +24,8 @@ func tempGame() Game {
 
 	game := Game{
 		WorldMap:  worldmap,
-		JobSystem: &j.JobSystem{},
-		Data:      &entity.Data{},
+		JobSystem: j.JobSystem{},
+		Data:      entity.Data{},
 
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},

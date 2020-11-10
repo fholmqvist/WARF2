@@ -1,7 +1,7 @@
 package room
 
 import (
-	"projects/games/warf2/character"
+	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
 	"projects/games/warf2/worldmap"
 )
@@ -40,7 +40,7 @@ func NewLibrary(tiles []worldmap.Tile, items []worldmap.Tile) *Library {
 }
 
 // Use library.
-func (l *Library) Use(dwarf *character.Dwarf) {
+func (l *Library) Use(dwarf *dwarf.Dwarf) {
 	// Every amount of time add
 	// more knowledge to Dwarf
 	// based on the amount of

@@ -12,7 +12,7 @@ import (
 func (g *Game) Draw(screen *ebiten.Image) {
 	drawMap(g, screen)
 
-	g.ui.Draw(screen, g.gameFont, *g.Data)
+	g.ui.Draw(screen, g.gameFont, g.Data)
 
 	drawWorkers(g, screen)
 

@@ -3,7 +3,7 @@
 package room
 
 import (
-	"projects/games/warf2/character"
+	"projects/games/warf2/dwarf"
 	"projects/games/warf2/worldmap"
 )
 
@@ -21,6 +21,6 @@ type Room struct {
 }
 
 // Use room with given dwarf.
-func (r *Room) Use(d character.Dwarf) {
+func (r *Room) Use(d dwarf.Dwarf) {
 
 }

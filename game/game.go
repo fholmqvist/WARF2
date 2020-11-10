@@ -12,6 +12,7 @@ import (
 	"projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
+	"projects/games/warf2/room"
 	u "projects/games/warf2/ui"
 	m "projects/games/warf2/worldmap"
 
@@ -27,6 +28,7 @@ type Game struct {
 
 	WorldMap m.Map
 	Dwarves  []dwarf.Dwarf
+	Rooms    room.System
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 
@@ -37,8 +39,8 @@ type Game struct {
 
 	/* ------------------------------ Public state ------------------------------ */
 
-	JobSystem *j.JobSystem
-	Data      *entity.Data
+	JobSystem j.JobSystem
+	Data      entity.Data
 
 	/* ------------------------------- Interaction ------------------------------ */
 
