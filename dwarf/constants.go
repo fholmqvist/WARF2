@@ -1,6 +1,7 @@
-// Package character contains all
-// functionality for in-game characters.
-package character
+// Package dwarf contains all
+// functionality for in-game
+// dwarves.
+package dwarf
 
 // Dwarves
 const (

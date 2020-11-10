@@ -1,7 +1,7 @@
 package game
 
 import (
-	"projects/games/warf2/character"
+	"projects/games/warf2/dwarf"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -22,7 +22,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 func (g *Game) updateCharacters() {
 	for _, worker := range g.JobSystem.Workers {
-		dwarf := worker.(*character.Dwarf)
+		dwarf := worker.(*dwarf.Dwarf)
 		dwarf.Walk(&g.WorldMap)
 	}
 }

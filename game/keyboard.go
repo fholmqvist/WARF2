@@ -1,7 +1,7 @@
 package game
 
 import (
-	d "projects/games/warf2/character"
+	d "projects/games/warf2/dwarf"
 	"projects/games/warf2/mouse"
 	m "projects/games/warf2/worldmap"
 

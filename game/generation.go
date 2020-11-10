@@ -3,7 +3,7 @@ package game
 import (
 	"image/color"
 	"math/rand"
-	ch "projects/games/warf2/character"
+	d "projects/games/warf2/dwarf"
 	"projects/games/warf2/entity"
 	e "projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
@@ -198,7 +198,7 @@ func setInnerWalls(mp *m.Map) {
 	m.DrawVLine(mp, m.TilesW-2, m.TilesH-1, m.WallSolid)
 }
 
-func placeNewDwarf(mp m.Map) ch.Dwarf {
+func placeNewDwarf(mp m.Map) d.Dwarf {
 	var availableSpots []int
 	for i := range mp.Tiles {
 		if m.IsGround(mp.Tiles[i].Sprite) {
@@ -206,9 +206,9 @@ func placeNewDwarf(mp m.Map) ch.Dwarf {
 		}
 	}
 
-	return ch.Dwarf{
+	return d.Dwarf{
 		Entity: e.Entity{
-			Sprite: rand.Intn(ch.DwarfTeal),
+			Sprite: rand.Intn(d.DwarfTeal),
 			Idx:    availableSpots[rand.Intn(len(availableSpots))],
 		},
 	}

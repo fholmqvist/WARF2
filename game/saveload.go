@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"projects/games/warf2/character"
+	"projects/games/warf2/dwarf"
 	"projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
@@ -20,10 +20,10 @@ import (
 // struct of game that is safe for
 // marshaling to JSON.
 type SaveGame struct {
-	WorldMap  m.Map             `json:"w"`
-	Dwarves   []character.Dwarf `json:"dw"`
-	JobSystem *j.JobSystem      `json:"j"`
-	Data      *entity.Data      `json:"da"`
+	WorldMap  m.Map         `json:"w"`
+	Dwarves   []dwarf.Dwarf `json:"dw"`
+	JobSystem *j.JobSystem  `json:"j"`
+	Data      *entity.Data  `json:"da"`
 }
 
 func (g Game) saveGame() {

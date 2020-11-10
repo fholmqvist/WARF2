@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"projects/games/warf2/character"
+	"projects/games/warf2/dwarf"
 	"projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
@@ -26,7 +26,7 @@ type Game struct {
 	/* ----------------------------- In-game objects ---------------------------- */
 
 	WorldMap m.Map
-	Dwarves  []character.Dwarf
+	Dwarves  []dwarf.Dwarf
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 

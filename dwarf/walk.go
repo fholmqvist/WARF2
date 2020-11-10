@@ -1,4 +1,4 @@
-package character
+package dwarf
 
 import (
 	e "projects/games/warf2/entity"

@@ -2,10 +2,25 @@
 // the different in-game rooms.
 package room
 
-import "projects/games/warf2/character"
+import (
+	"projects/games/warf2/character"
+	"projects/games/warf2/worldmap"
+)
 
-// Room interface for
-// all room related functionality.
-type Room interface {
-	Use(dwarf *character.Dwarf)
+// System for gathering data
+// and functionality related to rooms.
+type System struct {
+	Libraries []Room
+}
+
+// Room wraps all the functionality
+// and data related to a room.
+type Room struct {
+	Floors []worldmap.Tile
+	Items  []worldmap.Tile
+}
+
+// Use room with given dwarf.
+func (r *Room) Use(d character.Dwarf) {
+
 }
