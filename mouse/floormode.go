@@ -16,13 +16,16 @@ func floorTileMode(mp *m.Map, currentMousePos int) {
 				return
 			}
 
-			if m.IsFloorTile(tile.Sprite) {
+			if m.IsFloorBrick(tile.Sprite) {
 				return
 			}
 
 			tile.Sprite = m.RandomFloorBrick()
 		},
-		floorTileSelection,
+		func(mp *m.Map, x int, y int) {
+			removeOldSelectionTiles(mp, x, y)
+			floorTileSelection(mp, x, y)
+		},
 	)
 }
 
@@ -36,7 +39,29 @@ func floorTileSelection(mp *m.Map, x, y int) {
 		return
 	}
 
-	if m.IsFloorTile(tile.Sprite) {
+	selectionTile, ok := mp.GetSelectionTile(x, y)
+	if !ok {
+		return
+	}
+
+	if m.IsFloorBrick(selectionTile.Sprite) {
+		return
+	}
+
+	selectionTile.Sprite = m.FloorBricksOne
+}
+
+func floorTiles(mp *m.Map, x, y int) {
+	tile, ok := mp.GetTile(x, y)
+	if !ok {
+		return
+	}
+
+	if m.IsAnyWall(tile.Sprite) {
+		return
+	}
+
+	if m.IsFloorBrick(tile.Sprite) {
 		return
 	}
 

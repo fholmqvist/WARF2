@@ -91,21 +91,6 @@ func removeOldSelectionTiles(mp *m.Map, x, y int) {
 	selectionTile.Sprite = m.None
 }
 
-func tileRange(start, end int) (int, int, int, int) {
-	x1, y1 := m.IdxToXY(start)
-	x2, y2 := m.IdxToXY(end)
-
-	if x1 > x2 {
-		x1, x2 = x2, x1
-	}
-
-	if y1 > y2 {
-		y1, y2 = y2, y1
-	}
-
-	return x1, y1, x2, y2
-}
-
 func setWalls(tile *m.Tile) {
 	if !m.IsWallOrSelected(tile.Sprite) {
 		return

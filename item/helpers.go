@@ -27,3 +27,11 @@ func IsBookShelf(sprite int) bool {
 func IsChair(sprite int) bool {
 	return sprite >= ChairLeft && sprite <= ChairRight
 }
+
+// IsLibraryItem returns
+// if tile is of any
+// type item that are
+// included in libraries.
+func IsLibraryItem(sprite int) bool {
+	return sprite >= ChairLeft && sprite <= ChairRight
+}

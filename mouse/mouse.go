@@ -96,38 +96,11 @@ func (s *System) mouseUp(mp *m.Map) {
 		mouseRange(mp, startPoint, endPoint, mouseUpSetWalls)
 
 	case FloorTiles:
-		// TODO - Library placeholder
-		island := 1
-		mouseRange(mp, startPoint, endPoint, func(mp *m.Map, x, y int) {
-			m.FloodFill(x, y, mp, island, func(i int) bool {
-				idx := m.XYToIdx(x, y)
-
-				if !m.IsFloorTile(mp.Tiles[idx].Sprite) {
-					return false
-				}
-
-				if mp.Tiles[idx].Island == island {
-					return false
-				}
-
-				mp.Tiles[idx].Island = island
-				return true
-			})
-		})
-
-		islands := 0
-		for i := range mp.Tiles {
-			if mp.Tiles[i].Island == island {
-				islands++
-			}
-		}
-
-		fmt.Println(islands)
-
-		mp.ResetIslands()
+		mouseRange(mp, startPoint, endPoint, floorTiles)
 	}
 
 	unsetHasClicked()
+	mouseRange(mp, startPoint, endPoint, removeOldSelectionTiles)
 }
 
 // TODO: Overlays, placeholders, highlights...

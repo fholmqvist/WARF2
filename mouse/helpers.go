@@ -37,6 +37,21 @@ func mouseRange(mp *m.Map, start, end int, f func(*m.Map, int, int)) {
 	previousEndPoint = end
 }
 
+func tileRange(start, end int) (int, int, int, int) {
+	x1, y1 := m.IdxToXY(start)
+	x2, y2 := m.IdxToXY(end)
+
+	if x1 > x2 {
+		x1, x2 = x2, x1
+	}
+
+	if y1 > y2 {
+		y1, y2 = y2, y1
+	}
+
+	return x1, y1, x2, y2
+}
+
 func mousePos() int {
 	mx, my := ebiten.CursorPosition()
 	mx, my = mx/m.TileSize, my/m.TileSize

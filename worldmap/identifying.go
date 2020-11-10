@@ -98,8 +98,8 @@ func IsWallOrSelected(sprite int) bool {
 	return IsWall(sprite) || IsSelectedWall(sprite)
 }
 
-// IsFloorTile returns if
+// IsFloorBrick returns if
 // tile is of type FloorBrick.
-func IsFloorTile(sprite int) bool {
+func IsFloorBrick(sprite int) bool {
 	return sprite >= FloorBricksOne && sprite <= FloorBricksTen
 }

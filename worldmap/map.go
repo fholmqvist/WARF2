@@ -3,6 +3,8 @@
 // tiles and their functionality.
 package worldmap
 
+import "projects/games/warf2/item"
+
 // Map holds all the tiles
 // for a game.
 type Map struct {
@@ -57,6 +59,30 @@ func (m *Map) ResetIslands() {
 	for i := range m.Tiles {
 		m.Tiles[i].Island = 0
 	}
+}
+
+// IslandsFor returns the island
+// tiles for a given island number.
+func (m *Map) IslandsFor(island int) []Tile {
+	var islands []Tile
+	for i := range m.Tiles {
+		if m.Tiles[i].Island == island {
+			islands = append(islands, m.Tiles[i])
+		}
+	}
+	return islands
+}
+
+// ItemsFor returns all the
+// items for a given set of tiles.
+func (m *Map) ItemsFor(tiles []Tile) []Tile {
+	var items []Tile
+	for _, tile := range tiles {
+		if item.IsLibraryItem(m.Items[tile.Idx].Sprite) {
+			items = append(items, m.Items[tile.Idx])
+		}
+	}
+	return items
 }
 
 func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
