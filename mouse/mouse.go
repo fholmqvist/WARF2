@@ -8,6 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 
+	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -33,7 +34,7 @@ const (
 )
 
 // Handle all the mouse interactivity.
-func (s *System) Handle(mp *m.Map) {
+func (s *System) Handle(mp *m.Map, rs *room.System) {
 	s.mouseHover(mp)
 
 	idx := mousePos()
@@ -49,7 +50,7 @@ func (s *System) Handle(mp *m.Map) {
 
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		endPoint = idx
-		s.mouseUp(mp)
+		s.mouseUp(mp, rs)
 		return
 	}
 
@@ -85,7 +86,7 @@ func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 	}
 }
 
-func (s *System) mouseUp(mp *m.Map) {
+func (s *System) mouseUp(mp *m.Map, rs *room.System) {
 	if startPoint == -1 {
 		return
 	}
@@ -96,7 +97,28 @@ func (s *System) mouseUp(mp *m.Map) {
 		FuncOverRange(mp, startPoint, endPoint, mouseUpSetWalls)
 
 	case FloorTiles:
-		FuncOverRange(mp, startPoint, endPoint, floorTiles)
+		r := room.NewRoom()
+
+		addTilesToRoom := func(mp *m.Map, r *room.Room, x, y int) {
+			tile, ok := mp.GetTile(x, y)
+			if !ok {
+				return
+			}
+
+			if !m.IsFloorBrick(tile.Sprite) {
+				return
+			}
+
+			r.Floors = append(r.Floors, *tile)
+		}
+
+		FuncOverRange(mp, startPoint, endPoint, func(mp *m.Map, x int, y int) {
+			floorTiles(mp, x, y)
+			addTilesToRoom(mp, &r, x, y)
+		})
+
+		// TODO: Check for existing room, extend.
+		rs.Libraries = append(rs.Libraries, r)
 	}
 
 	FuncOverRange(mp, startPoint, endPoint, removeOldSelectionTiles)

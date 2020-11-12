@@ -25,12 +25,10 @@ type Room struct {
 }
 
 // NewRoom returns a new room.
-func NewRoom(mp *worldmap.Map, islands []worldmap.Tile) Room {
+func NewRoom() Room {
 	globalID++
 	return Room{
-		id:     globalID,
-		Floors: islands,
-		Items:  mp.ItemsFor(islands),
+		id: globalID,
 	}
 }
 
