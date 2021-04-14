@@ -104,7 +104,7 @@ func (m Map) getTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 	return t, true
 }
 
-// Tile data struct
+// Tile data struct.
 type Tile struct {
 	Idx              int  `json:"i"`
 	X                int  `json:"x"`

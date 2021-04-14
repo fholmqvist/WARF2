@@ -54,10 +54,21 @@ type Game struct {
 }
 
 // NewGame returns a pointer to an instantiated and initiated game.
-func NewGame() *Game {
-	game := tempGame()
-	//game := loadGame()
+func NewGame(arg string) *Game {
+	var game Game
 
+	switch arg {
+
+	case "library":
+		game = GenerateGame(0, emptyMap())
+
+	case "load":
+		game = loadGame()
+
+	default:
+		game = GenerateGame(4, standardMap())
+
+	}
 	game.SetMouseMode(mouse.Normal)
 
 	loadAssets(&game)

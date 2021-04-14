@@ -18,13 +18,10 @@ import (
 /* This is just a placeholder for map generation and/or loading at the moment. */
 /* --------------------------------------------------------------------------- */
 
-func tempGame() Game {
-	worldmap := makeMap()
-	generateTempMap(&worldmap)
-
+func GenerateGame(dwarves int, worldmap *m.Map) Game {
 	game := Game{
-		WorldMap:  worldmap,
-		JobSystem: j.JobSystem{},
+		WorldMap:  *worldmap,
+		JobSystem: j.JobSystem{Map: worldmap},
 		Data:      entity.Data{},
 
 		time:        Time{Frame: 1},
@@ -38,8 +35,7 @@ func tempGame() Game {
 		},
 	}
 
-	game.JobSystem.Map = &game.WorldMap
-	for i := 0; i < 4; i++ {
+	for i := 0; i < dwarves; i++ {
 		dwarf := placeNewDwarf(game.WorldMap)
 		game.Dwarves = append(game.Dwarves, dwarf)
 		game.JobSystem.Workers = append(game.JobSystem.Workers, &dwarf)
@@ -48,27 +44,8 @@ func tempGame() Game {
 	return game
 }
 
-func makeMap() m.Map {
-	mp := &m.Map{}
-
-	mp.Tiles = newTiles(mp, m.Ground)
-	mp.SelectedTiles = newTiles(mp, m.None)
-	mp.Items = newTiles(mp, m.None)
-
-	return *mp
-}
-
-func newTiles(mp *m.Map, sprite int) []m.Tile {
-	t := make([]m.Tile, m.TilesW*m.TilesH)
-
-	for i := range t {
-		t[i] = m.CreateTile(i, sprite, mp)
-	}
-
-	return t
-}
-
-func generateTempMap(mp *m.Map) {
+func standardMap() *m.Map {
+	mp := makeMap()
 	automata(mp)
 	fillIslands(mp, true)
 	fillIslands(mp, false)
@@ -80,6 +57,20 @@ func generateTempMap(mp *m.Map) {
 	m.DrawVLine(mp, m.TilesW-1, m.TilesH, m.BoundarySolid)
 
 	mp.FixWalls()
+	return mp
+}
+
+func emptyMap() *m.Map {
+	mp := makeMap()
+
+	m.DrawHLine(mp, 0, m.TilesW, m.BoundarySolid)
+	m.DrawHLine(mp, m.TilesT-m.TilesW-1, m.TilesW, m.BoundarySolid)
+
+	m.DrawVLine(mp, 0, m.TilesH, m.BoundarySolid)
+	m.DrawVLine(mp, m.TilesW-1, m.TilesH, m.BoundarySolid)
+
+	mp.FixWalls()
+	return mp
 }
 
 func automata(mp *m.Map) {
@@ -212,4 +203,24 @@ func placeNewDwarf(mp m.Map) d.Dwarf {
 			Idx:    availableSpots[rand.Intn(len(availableSpots))],
 		},
 	}
+}
+
+func makeMap() *m.Map {
+	mp := &m.Map{}
+
+	mp.Tiles = newTiles(mp, m.Ground)
+	mp.SelectedTiles = newTiles(mp, m.None)
+	mp.Items = newTiles(mp, m.None)
+
+	return mp
+}
+
+func newTiles(mp *m.Map, sprite int) []m.Tile {
+	t := make([]m.Tile, m.TilesW*m.TilesH)
+
+	for i := range t {
+		t[i] = m.CreateTile(i, sprite, mp)
+	}
+
+	return t
 }

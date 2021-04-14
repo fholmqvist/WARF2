@@ -1,9 +1,7 @@
 package game
 
 import (
-	d "projects/games/warf2/dwarf"
 	"projects/games/warf2/mouse"
-	m "projects/games/warf2/worldmap"
 
 	e "github.com/hajimehoshi/ebiten"
 	i "github.com/hajimehoshi/ebiten/inpututil"
@@ -65,39 +63,4 @@ func handleTilesettingInput(g *Game) {
 	if i.IsKeyJustPressed(e.Key6) {
 		g.SetMouseMode(mouse.RemoveItem)
 	}
-}
-
-// For debugging purposes using
-// in-game moveable character.
-func handleCharacterInput(chr *d.Dwarf, mp *m.Map, t *Time) {
-	if !t.TimeToMove() {
-		return
-	}
-
-	w := &chr.Walker
-	et := &chr.Entity
-
-	if keyIsHeld(e.KeyUp) {
-		w.Move(mp, et, m.Up)
-		return
-	}
-
-	if keyIsHeld(e.KeyRight) {
-		w.Move(mp, et, m.Right)
-		return
-	}
-
-	if keyIsHeld(e.KeyDown) {
-		w.Move(mp, et, m.Down)
-		return
-	}
-
-	if keyIsHeld(e.KeyLeft) {
-		w.Move(mp, et, m.Left)
-		return
-	}
-}
-
-func keyIsHeld(k e.Key) bool {
-	return i.KeyPressDuration(k) > 0
 }

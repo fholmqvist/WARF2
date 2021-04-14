@@ -65,9 +65,7 @@ func loadGame() Game {
 	filename := "./saves/testing.json"
 	file, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.Println("Unable to load file", filename)
-		log.Println("Creating new map")
-		return tempGame()
+		log.Fatal("Unable to load file:", filename, err)
 	}
 
 	sg := SaveGame{}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/hajimehoshi/ebiten"
 
@@ -10,7 +11,12 @@ import (
 )
 
 func main() {
-	g := g.NewGame()
+	var arg string
+	if len(os.Args) > 1 {
+		arg = os.Args[1]
+	}
+
+	g := g.NewGame(arg)
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
