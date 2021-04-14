@@ -1,54 +1,77 @@
 package worldmap
 
-// DrawHLine draws a horizontal line of specified
-// sprite from index, to the right, for a number of
-// n tiles.
-func DrawHLine(mp *Map, idx, n, spr int) {
-	for i := idx; i < idx+n; i++ {
-		mp.Tiles[i].Sprite = spr
-	}
-}
-
-// DrawVLine draws a vertical line of specified
-// sprite from index, to the right, for a number of
-// n tiles.
-func DrawVLine(mp *Map, idx, n, spr int) {
-	for i := idx; i < idx+TilesW*n; i += TilesW {
-		mp.Tiles[i].Sprite = spr
-	}
-}
-
-// DrawHRandomLine draws a horizontal line of a
-// randomized sprite from index, to the right,
+// Draws a horizontal line of specified
+// sprite from index, to the right,
 // for a number of n tiles.
-func DrawHRandomLine(mp *Map, idx, n int, f func() int) {
+func DrawHLineIdx(mp *Map, idx, n, spr int) {
+	for i := idx; i < idx+n; i++ {
+		mp.Tiles[i].Sprite = spr
+	}
+}
+
+// Draws a vertical line of specified
+// sprite from index, to the right,
+// for a number of n tiles.
+func DrawVLineIdx(mp *Map, idx, n, spr int) {
+	for i := idx; i < idx+TilesW*n; i += TilesW {
+		mp.Tiles[i].Sprite = spr
+	}
+}
+
+// Draws a horizontal line of a
+// randomized sprite from index,
+// to the right, for a number of n tiles.
+func DrawHRandomLineIdx(mp *Map, idx, n int, f func() int) {
 	for i := idx; i < idx+n; i++ {
 		mp.Tiles[i].Sprite = f()
 	}
 }
 
-// DrawVRandomLine draws a vertical line of specified
-// sprite from index, to the right, for a number of
-// n tiles.
-func DrawVRandomLine(mp *Map, idx, n int, f func() int) {
+// Draws a vertical line of specified
+// sprite from index, to the right,
+// for a number of n tiles.
+func DrawVRandomLineIdx(mp *Map, idx, n int, f func() int) {
 	for i := idx; i < idx+TilesW*n; i += TilesW {
 		mp.Tiles[i].Sprite = f()
 	}
 }
 
-func (m *Map) DrawRandomSquare(x1, y1, x2, y2 int, f func() int) {
+// Draws a square of sprite.
+func (m *Map) DrawSquare(x1, y1, x2, y2, sprite int) {
 	for x := x1; x < x2; x++ {
 		for y := y1; y < y2; y++ {
-			idx := XYToIdx(x, y)
-			m.Tiles[idx].Sprite = f()
+			m.Tiles[XYToIdx(x, y)].Sprite = sprite
 		}
 	}
 }
 
+// Draws a square of random sprites.
+func (m *Map) DrawRandomSquare(x1, y1, x2, y2 int, f func() int) {
+	for x := x1; x < x2; x++ {
+		for y := y1; y < y2; y++ {
+			m.Tiles[XYToIdx(x, y)].Sprite = f()
+		}
+	}
+}
+
+// Draws a square with function that
+// mutates underlying WorldMap.
+// What could possibly go wrong.
 func (m *Map) DrawSquareMutate(x1, y1, x2, y2 int, f func(int, int)) {
 	for x := x1; x < x2; x++ {
 		for y := y1; y < y2; y++ {
 			f(x, y)
+		}
+	}
+}
+
+// Draws a square outline of sprite.
+func (m *Map) DrawOutline(x1, y1, x2, y2, sprite int) {
+	for x := x1; x < x2; x++ {
+		for y := y1; y < y2; y++ {
+			if x == x1 || x == x2-1 || y == y1 || y == y2-1 {
+				m.Tiles[XYToIdx(x, y)].Sprite = sprite
+			}
 		}
 	}
 }

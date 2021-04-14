@@ -3,17 +3,11 @@ package worldmap
 import "math/rand"
 
 func (m *Map) CreateBoundaryWalls() {
-	DrawHLine(m, 0, TilesW, BoundarySolid)
-	DrawHLine(m, TilesT-TilesW-1, TilesW, BoundarySolid)
-	DrawVLine(m, 0, TilesH, BoundarySolid)
-	DrawVLine(m, TilesW-1, TilesH, BoundarySolid)
+	m.DrawOutline(0, 0, TilesW, TilesH, BoundarySolid)
 }
 
 func (m *Map) CreateOutmostWalls() {
-	DrawHLine(m, TilesW+1, (TilesW-1)*2, WallSolid)
-	DrawHLine(m, TilesT-(TilesW*2)-1, TilesW, WallSolid)
-	DrawVLine(m, TilesW+1, TilesH-1, WallSolid)
-	DrawVLine(m, TilesW-2, TilesH-1, WallSolid)
+	m.DrawOutline(1, 1, TilesW-1, TilesH-1, WallSolid)
 }
 
 func (m *Map) RandomizeWalls(chance int) {

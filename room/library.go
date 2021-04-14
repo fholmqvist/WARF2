@@ -38,12 +38,8 @@ func (l *Library) Use(dwarf *dwarf.Dwarf) {
 }
 
 func (l *Library) generateBookShelves(m *worldmap.Map, x1, y1, x2, y2 int) {
-	middle := middle(x1, x2)
 	for y := y1; y < y2; y += 4 {
 		for x := x1; x < x2; x++ {
-			if x == middle {
-				continue
-			}
 			idx := worldmap.XYToIdx(x, y)
 			item.PlaceRandomIdx(m, idx, item.RandomBookshelf)
 		}
@@ -52,12 +48,16 @@ func (l *Library) generateBookShelves(m *worldmap.Map, x1, y1, x2, y2 int) {
 
 func (l *Library) generateFurniture(m *worldmap.Map, x1, y1, x2, y2 int) {
 	for y := y1 + 2; y < y2; y += 4 {
-		item.Place(m, x1, y, item.ChairLeft)
-		item.Place(m, x1+1, y, item.Table)
-		item.Place(m, x1+2, y, item.ChairRight)
+		for x := x1; x < x2-1; x += 3 {
+			item.Place(m, x, y, item.ChairLeft)
+			item.Place(m, x+1, y, item.Table)
+			if x+2 < x2 {
+				item.Place(m, x+2, y, item.ChairRight)
+			}
+		}
 	}
 }
 
-func middle(x1, x2 int) int {
-	return x1 + ((x2 - x1) / 2)
-}
+// func middle(x1, x2 int) int {
+// 	return x1 + ((x2 - x1) / 2)
+// }
