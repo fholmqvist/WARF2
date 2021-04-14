@@ -3,8 +3,6 @@
 // tiles and their functionality.
 package worldmap
 
-import "projects/games/warf2/item"
-
 // Map holds all the tiles
 // for a game.
 type Map struct {
@@ -53,6 +51,15 @@ func (m Map) GetItemTileByIndex(idx int) (*Tile, bool) {
 	return getTileFrom(idx, m.Items)
 }
 
+// GetItemTile returns a pointer
+// to the tile from the item layer and
+// a bool to determine if the function
+// was successful.
+func (m Map) GetItemTile(x, y int) (*Tile, bool) {
+	idx := XYToIdx(x, y)
+	return getTileFrom(idx, m.Items)
+}
+
 // ResetIslands resets the islands
 // after using flood fill.
 func (m *Map) ResetIslands() {
@@ -75,15 +82,15 @@ func (m *Map) IslandsFor(island int) []Tile {
 
 // ItemsFor returns all the
 // items for a given set of tiles.
-func (m *Map) ItemsFor(tiles []Tile) []Tile {
-	var items []Tile
-	for _, tile := range tiles {
-		if item.IsLibraryItem(m.Items[tile.Idx].Sprite) {
-			items = append(items, m.Items[tile.Idx])
-		}
-	}
-	return items
-}
+// func (m *Map) ItemsFor(tiles []Tile) []Tile {
+// 	var items []Tile
+// 	for _, tile := range tiles {
+// 		if item.IsLibraryItem(m.Items[tile.Idx].Sprite) {
+// 			items = append(items, m.Items[tile.Idx])
+// 		}
+// 	}
+// 	return items
+// }
 
 func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
 	if idx < 0 || idx >= TilesT {

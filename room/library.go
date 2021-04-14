@@ -2,6 +2,7 @@ package room
 
 import (
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/item"
 	"projects/games/warf2/worldmap"
 )
 
@@ -9,21 +10,18 @@ import (
 // dwarves and increases
 // their knowledge.
 type Library struct {
-	bookShelfAmount int
-	chairAmount     int
+	// bookShelfAmount int
+	// chairAmount     int
 
-	tiles []worldmap.Tile
-	items []worldmap.Tile
+	// tiles []worldmap.Tile
+	// items []worldmap.Tile
 }
 
 func NewLibrary(m *worldmap.Map, x1, y1, x2, y2 int) Library {
 	l := Library{}
-	for x := x1; x < x2; x++ {
-		for y := y1; y < y2; y++ {
-			m.SetFloorTile(x, y)
-		}
-	}
-
+	m.SetFloorTiles(x1, y1, x2, y2)
+	l.generateBookShelves(m, x1, y1, x2, y2)
+	l.generateFurniture(m, x1, y1, x2, y2)
 	return l
 }
 
@@ -37,4 +35,29 @@ func (l *Library) Use(dwarf *dwarf.Dwarf) {
 
 	// If chair has an adjacent table,
 	// stress decreases even faster.
+}
+
+func (l *Library) generateBookShelves(m *worldmap.Map, x1, y1, x2, y2 int) {
+	middle := middle(x1, x2)
+	for y := y1; y < y2; y += 4 {
+		for x := x1; x < x2; x++ {
+			if x == middle {
+				continue
+			}
+			idx := worldmap.XYToIdx(x, y)
+			item.PlaceRandomIdx(m, idx, item.RandomBookshelf)
+		}
+	}
+}
+
+func (l *Library) generateFurniture(m *worldmap.Map, x1, y1, x2, y2 int) {
+	for y := y1 + 2; y < y2; y += 4 {
+		item.Place(m, x1, y, item.ChairLeft)
+		item.Place(m, x1+1, y, item.Table)
+		item.Place(m, x1+2, y, item.ChairRight)
+	}
+}
+
+func middle(x1, x2 int) int {
+	return x1 + ((x2 - x1) / 2)
 }
