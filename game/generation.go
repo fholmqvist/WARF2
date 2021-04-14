@@ -12,12 +12,6 @@ import (
 	m "projects/games/warf2/worldmap"
 )
 
-/* --------------------------------------------------------------------------- */
-/*                                     TODO                                    */
-/* --------------------------------------------------------------------------- */
-/* This is just a placeholder for map generation and/or loading at the moment. */
-/* --------------------------------------------------------------------------- */
-
 func GenerateGame(dwarves int, worldmap *m.Map) Game {
 	game := Game{
 		WorldMap:  *worldmap,

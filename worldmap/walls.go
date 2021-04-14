@@ -1,10 +1,28 @@
 package worldmap
 
+import "math/rand"
+
 func (m *Map) CreateBoundaryWalls() {
 	DrawHLine(m, 0, TilesW, BoundarySolid)
 	DrawHLine(m, TilesT-TilesW-1, TilesW, BoundarySolid)
 	DrawVLine(m, 0, TilesH, BoundarySolid)
 	DrawVLine(m, TilesW-1, TilesH, BoundarySolid)
+}
+
+func (m *Map) CreateOutmostWalls() {
+	DrawHLine(m, TilesW+1, (TilesW-1)*2, WallSolid)
+	DrawHLine(m, TilesT-(TilesW*2)-1, TilesW, WallSolid)
+	DrawVLine(m, TilesW+1, TilesH-1, WallSolid)
+	DrawVLine(m, TilesW-2, TilesH-1, WallSolid)
+}
+
+func (m *Map) RandomizeWalls(chance int) {
+	for i := range m.Tiles {
+		risk := rand.Intn(100)
+		if risk < chance {
+			m.Tiles[i].Sprite = WallSolid
+		}
+	}
 }
 
 // FixWalls sets the graphic for all
@@ -25,7 +43,6 @@ func (m *Map) FixWall(t *Tile) {
 	if t.Idx >= TilesBottom {
 		return
 	}
-
 	if IsBoundary(t.Sprite) {
 		if IsExposed(m.Tiles[OneTileDown(t.Idx)].Sprite) {
 			m.Tiles[t.Idx].Sprite = BoundaryExposed
@@ -34,7 +51,6 @@ func (m *Map) FixWall(t *Tile) {
 		}
 		return
 	}
-
 	if IsWall(t.Sprite) {
 		if IsExposed(m.Tiles[OneTileDown(t.Idx)].Sprite) {
 			m.Tiles[t.Idx].Sprite = WallExposed
@@ -43,7 +59,6 @@ func (m *Map) FixWall(t *Tile) {
 		}
 		return
 	}
-
 	if IsSelectedWall(t.Sprite) {
 		if IsExposed(m.Tiles[OneTileDown(t.Idx)].Sprite) {
 			m.Tiles[t.Idx].Sprite = WallSelectedExposed

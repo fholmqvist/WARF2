@@ -13,8 +13,6 @@ var (
 	}
 )
 
-// RandomFloorBrick returns
-// the sprite for a random FloorBrick.
 func RandomFloorBrick() int {
 	return floorTiles[rand.Intn(len(floorTiles))]
 }
@@ -23,26 +21,54 @@ func RandomFloorBrick() int {
 // of tiles based on the predicate
 // function and sets the tiles island
 // number to the given island number.
-func FloodFill(x, y int, mp *Map, island int, predicate func(int) bool) {
+func FloodFill(x, y int, m *Map, island int, predicate func(int) bool) {
 	idx := XYToIdx(x, y)
-
 	ok := predicate(idx)
 	if !ok {
 		return
 	}
-
 	if y > 0 {
-		FloodFill(x, y-1, mp, island, predicate)
+		FloodFill(x, y-1, m, island, predicate)
 	}
 	if x > 0 {
-		FloodFill(x-1, y, mp, island, predicate)
+		FloodFill(x-1, y, m, island, predicate)
 	}
 	if y < TilesH-1 {
-		FloodFill(x, y+1, mp, island, predicate)
+		FloodFill(x, y+1, m, island, predicate)
 	}
 	if x < TilesW-1 {
-		FloodFill(x+1, y, mp, island, predicate)
+		FloodFill(x+1, y, m, island, predicate)
 	}
+}
+
+func FloodFillWalls(x, y int, m *Map, island int) {
+	FloodFill(x, y, m, island, func(idx int) bool {
+		if !IsAnyWall(m.Tiles[idx].Sprite) {
+			return false
+		}
+
+		if m.Tiles[idx].Island == island {
+			return false
+		}
+
+		m.Tiles[idx].Island = island
+		return true
+	})
+}
+
+func FloodFillGround(x, y int, m *Map, island int) {
+	FloodFill(x, y, m, island, func(idx int) bool {
+		if !IsGround(m.Tiles[idx].Sprite) {
+			return false
+		}
+
+		if m.Tiles[idx].Island == island {
+			return false
+		}
+
+		m.Tiles[idx].Island = island
+		return true
+	})
 }
 
 // Inverse flips between filling walls (false) and filling ground (true).
@@ -52,40 +78,15 @@ func (m *Map) FillIslands(inverse bool) {
 		if t.Island != 0 {
 			continue
 		}
-
 		x, y := IdxToXY(i)
-
 		if IsWall(t.Sprite) {
-			FloodFill(x, y, m, island, func(idx int) bool {
-				if !IsAnyWall(m.Tiles[idx].Sprite) {
-					return false
-				}
-
-				if m.Tiles[idx].Island == island {
-					return false
-				}
-
-				m.Tiles[idx].Island = island
-				return true
-			})
+			FloodFillWalls(x, y, m, island)
 			island++
 		} else if IsGround(t.Sprite) {
-			FloodFill(x, y, m, island, func(idx int) bool {
-				if !IsGround(m.Tiles[idx].Sprite) {
-					return false
-				}
-
-				if m.Tiles[idx].Island == island {
-					return false
-				}
-
-				m.Tiles[idx].Island = island
-				return true
-			})
+			FloodFillGround(x, y, m, island)
 			island++
 		}
 	}
-
 	for currentIsland := 1; currentIsland <= island; currentIsland++ {
 		var islandTiles []int
 		for _, t := range m.Tiles {
@@ -93,11 +94,9 @@ func (m *Map) FillIslands(inverse bool) {
 				islandTiles = append(islandTiles, t.Idx)
 			}
 		}
-
 		if len(islandTiles) == 0 {
 			continue
 		}
-
 		if len(islandTiles) <= 5 {
 			for _, currentIslandIdx := range islandTiles {
 				m.Tiles[currentIslandIdx].Island = 0
@@ -109,17 +108,14 @@ func (m *Map) FillIslands(inverse bool) {
 			}
 		}
 	}
-
 	m.ResetIslands()
 }
 
 func (m *Map) Automata() {
-	m.randomizeWalls(40)
-	m.setInnerWalls()
-
+	m.RandomizeWalls(40)
+	m.CreateOutmostWalls()
 	for i := range m.Tiles {
 		neighbors := 0
-
 		for _, st := range SurroundingTilesEight(i) {
 			if IndexOutOfBounds(st.Idx, st.Dir) {
 				continue
@@ -129,7 +125,6 @@ func (m *Map) Automata() {
 				neighbors++
 			}
 		}
-
 		if neighbors > 3 {
 			if rand.Intn(100) < 80 {
 				m.Tiles[i].Sprite = WallSolid
@@ -140,22 +135,5 @@ func (m *Map) Automata() {
 			}
 		}
 	}
-
-	m.setInnerWalls()
-}
-
-func (m *Map) randomizeWalls(chance int) {
-	for i := range m.Tiles {
-		risk := rand.Intn(100)
-		if risk < chance {
-			m.Tiles[i].Sprite = WallSolid
-		}
-	}
-}
-
-func (m *Map) setInnerWalls() {
-	DrawHLine(m, TilesW+1, (TilesW-1)*2, WallSolid)
-	DrawHLine(m, TilesT-(TilesW*2)-1, TilesW, WallSolid)
-	DrawVLine(m, TilesW+1, TilesH-1, WallSolid)
-	DrawVLine(m, TilesW-2, TilesH-1, WallSolid)
+	m.CreateOutmostWalls()
 }
