@@ -13,6 +13,25 @@ var (
 	}
 )
 
+func (mp *Map) SetFloorTile(x, y int) {
+	tile, ok := mp.GetTile(x, y)
+	if !ok {
+		return
+	}
+	if IsAnyWall(tile.Sprite) {
+		return
+	}
+	if IsFloorBrick(tile.Sprite) {
+		return
+	}
+	tile.Sprite = RandomFloorBrick()
+}
+
+func (mp *Map) SetFloorTileIdx(idx int) {
+	x, y := IdxToXY(idx)
+	mp.SetFloorTile(x, y)
+}
+
 func RandomFloorBrick() int {
 	return floorTiles[rand.Intn(len(floorTiles))]
 }

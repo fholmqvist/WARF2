@@ -2,7 +2,6 @@ package room
 
 import (
 	"projects/games/warf2/dwarf"
-	"projects/games/warf2/item"
 	"projects/games/warf2/worldmap"
 )
 
@@ -10,7 +9,6 @@ import (
 // dwarves and increases
 // their knowledge.
 type Library struct {
-	tileAmount      int
 	bookShelfAmount int
 	chairAmount     int
 
@@ -18,25 +16,15 @@ type Library struct {
 	items []worldmap.Tile
 }
 
-// NewLibrary takes a slice of
-// tiles and items and returns
-// a new library.
-func NewLibrary(tiles []worldmap.Tile, items []worldmap.Tile) *Library {
+func NewLibrary(m *worldmap.Map, x1, y1, x2, y2 int) Library {
 	l := Library{}
-
-	l.tileAmount = len(tiles)
-
-	for _, i := range items {
-		if item.IsBookShelf(i.Sprite) {
-			l.bookShelfAmount++
-		}
-
-		if item.IsChair(i.Sprite) {
-			l.chairAmount++
+	for x := x1; x < x2; x++ {
+		for y := y1; y < y2; y++ {
+			m.SetFloorTile(x, y)
 		}
 	}
 
-	return &l
+	return l
 }
 
 // Use library.

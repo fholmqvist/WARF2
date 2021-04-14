@@ -12,7 +12,7 @@ var globalID uint16 = 0
 // System for gathering data
 // and functionality related to rooms.
 type System struct {
-	Libraries []Room
+	Libraries []Library
 }
 
 // Room wraps all the functionality

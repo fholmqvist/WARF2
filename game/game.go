@@ -61,6 +61,7 @@ func NewGame(arg string) *Game {
 
 	case "library":
 		game = GenerateGame(0, emptyMap())
+		game.AddLibrary(4, 4, 12, 12)
 
 	case "load":
 		game = loadGame()
