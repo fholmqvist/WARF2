@@ -1,4 +1,4 @@
-# WARF (WIP, NOT WORKED ON CURRENTLY)
+# WARF (WIP)
 
 A base building game, inspired by Roguelikes and the original Dungeon Keeper series.
 
