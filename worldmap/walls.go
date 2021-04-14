@@ -1,5 +1,12 @@
 package worldmap
 
+func (m *Map) CreateBoundaryWalls() {
+	DrawHLine(m, 0, TilesW, BoundarySolid)
+	DrawHLine(m, TilesT-TilesW-1, TilesW, BoundarySolid)
+	DrawVLine(m, 0, TilesH, BoundarySolid)
+	DrawVLine(m, TilesW-1, TilesH, BoundarySolid)
+}
+
 // FixWalls sets the graphic for all
 // wall types so that solid and exposed
 // variants match with the surrounding

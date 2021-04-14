@@ -34,159 +34,29 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 			},
 		},
 	}
-
 	for i := 0; i < dwarves; i++ {
 		dwarf := placeNewDwarf(game.WorldMap)
 		game.Dwarves = append(game.Dwarves, dwarf)
 		game.JobSystem.Workers = append(game.JobSystem.Workers, &dwarf)
 	}
-
 	return game
 }
 
 func standardMap() *m.Map {
 	mp := makeMap()
-	automata(mp)
-	fillIslands(mp, true)
-	fillIslands(mp, false)
-
-	m.DrawHLine(mp, 0, m.TilesW, m.BoundarySolid)
-	m.DrawHLine(mp, m.TilesT-m.TilesW-1, m.TilesW, m.BoundarySolid)
-
-	m.DrawVLine(mp, 0, m.TilesH, m.BoundarySolid)
-	m.DrawVLine(mp, m.TilesW-1, m.TilesH, m.BoundarySolid)
-
+	mp.Automata()
+	mp.FillIslands(true)
+	mp.FillIslands(false)
+	mp.CreateBoundaryWalls()
 	mp.FixWalls()
 	return mp
 }
 
 func emptyMap() *m.Map {
 	mp := makeMap()
-
-	m.DrawHLine(mp, 0, m.TilesW, m.BoundarySolid)
-	m.DrawHLine(mp, m.TilesT-m.TilesW-1, m.TilesW, m.BoundarySolid)
-
-	m.DrawVLine(mp, 0, m.TilesH, m.BoundarySolid)
-	m.DrawVLine(mp, m.TilesW-1, m.TilesH, m.BoundarySolid)
-
+	mp.CreateBoundaryWalls()
 	mp.FixWalls()
 	return mp
-}
-
-func automata(mp *m.Map) {
-	randomizeWalls(mp, 40)
-	setInnerWalls(mp)
-
-	for i := range mp.Tiles {
-		neighbors := 0
-
-		for _, st := range m.SurroundingTilesEight(i) {
-			if m.IndexOutOfBounds(st.Idx, st.Dir) {
-				continue
-			}
-
-			if m.IsAnyWall(mp.Tiles[st.Idx].Sprite) {
-				neighbors++
-			}
-		}
-
-		if neighbors > 3 {
-			if rand.Intn(100) < 80 {
-				mp.Tiles[i].Sprite = m.WallSolid
-			}
-		} else {
-			if rand.Intn(100) < 80 {
-				mp.Tiles[i].Sprite = m.Ground
-			}
-		}
-	}
-
-	setInnerWalls(mp)
-}
-
-func randomizeWalls(mp *m.Map, chance int) {
-	for i := range mp.Tiles {
-		risk := rand.Intn(100)
-		if risk < chance {
-			mp.Tiles[i].Sprite = m.WallSolid
-		}
-	}
-}
-
-// Inverse flips between filling walls (false) and filling ground (true).
-func fillIslands(mp *m.Map, inverse bool) {
-	island := 1
-	for i, t := range mp.Tiles {
-		if t.Island != 0 {
-			continue
-		}
-
-		x, y := m.IdxToXY(i)
-
-		if m.IsWall(t.Sprite) {
-			m.FloodFill(x, y, mp, island, func(idx int) bool {
-				if !m.IsAnyWall(mp.Tiles[idx].Sprite) {
-					return false
-				}
-
-				if mp.Tiles[idx].Island == island {
-					return false
-				}
-
-				mp.Tiles[idx].Island = island
-				return true
-			})
-			island++
-		} else if m.IsGround(t.Sprite) {
-			m.FloodFill(x, y, mp, island, func(idx int) bool {
-				if !m.IsGround(mp.Tiles[idx].Sprite) {
-					return false
-				}
-
-				if mp.Tiles[idx].Island == island {
-					return false
-				}
-
-				mp.Tiles[idx].Island = island
-				return true
-			})
-			island++
-		}
-	}
-
-	for currentIsland := 1; currentIsland <= island; currentIsland++ {
-		var islandTiles []int
-		for _, t := range mp.Tiles {
-			if t.Island == currentIsland {
-				islandTiles = append(islandTiles, t.Idx)
-			}
-		}
-
-		if len(islandTiles) == 0 {
-			continue
-		}
-
-		if len(islandTiles) <= 5 {
-			for _, currentIslandIdx := range islandTiles {
-				mp.Tiles[currentIslandIdx].Island = 0
-				if inverse {
-					mp.Tiles[currentIslandIdx].Sprite = m.Ground
-				} else {
-					mp.Tiles[currentIslandIdx].Sprite = m.WallSolid
-				}
-			}
-		}
-	}
-
-	mp.ResetIslands()
-}
-
-func setInnerWalls(mp *m.Map) {
-	m.DrawHLine(mp, m.TilesW+1, (m.TilesW-1)*2, m.WallSolid)
-	m.DrawHLine(mp, m.TilesT-(m.TilesW*2)-1, m.TilesW, m.WallSolid)
-
-	m.DrawVLine(mp, m.TilesW+1, m.TilesH-1, m.WallSolid)
-	m.DrawVLine(mp, m.TilesW-2, m.TilesH-1, m.WallSolid)
 }
 
 func placeNewDwarf(mp m.Map) d.Dwarf {
@@ -196,7 +66,6 @@ func placeNewDwarf(mp m.Map) d.Dwarf {
 			availableSpots = append(availableSpots, mp.Tiles[i].Idx)
 		}
 	}
-
 	return d.Dwarf{
 		Entity: e.Entity{
 			Sprite: rand.Intn(d.DwarfTeal),
@@ -207,20 +76,16 @@ func placeNewDwarf(mp m.Map) d.Dwarf {
 
 func makeMap() *m.Map {
 	mp := &m.Map{}
-
 	mp.Tiles = newTiles(mp, m.Ground)
 	mp.SelectedTiles = newTiles(mp, m.None)
 	mp.Items = newTiles(mp, m.None)
-
 	return mp
 }
 
 func newTiles(mp *m.Map, sprite int) []m.Tile {
 	t := make([]m.Tile, m.TilesW*m.TilesH)
-
 	for i := range t {
 		t[i] = m.CreateTile(i, sprite, mp)
 	}
-
 	return t
 }
