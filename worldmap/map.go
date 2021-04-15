@@ -68,9 +68,9 @@ func (m *Map) ResetIslands() {
 	}
 }
 
-// IslandsFor returns the island
+// TilesForIsland returns the island
 // tiles for a given island number.
-func (m *Map) IslandsFor(island int) []Tile {
+func (m *Map) TilesForIsland(island int) []Tile {
 	var islands []Tile
 	for i := range m.Tiles {
 		if m.Tiles[i].Island == island {

@@ -38,6 +38,17 @@ func SurroundingTilesFour(idx int) []TileDir {
 		{Idx: OneTileLeft(idx), Dir: Left}}
 }
 
+func SurroundingWallTilesFour(m *Map, idx int) []TileDir {
+	tiles := SurroundingTilesFour(idx)
+	wallTiles := []TileDir{}
+	for _, t := range tiles {
+		if IsAnyWall(m.Tiles[t.Idx].Sprite) {
+			wallTiles = append(wallTiles, t)
+		}
+	}
+	return wallTiles
+}
+
 // SurroundingTilesEight returns eight
 // adjacent tiles of a given index.
 func SurroundingTilesEight(idx int) []TileDir {
@@ -50,56 +61,85 @@ func SurroundingTilesEight(idx int) []TileDir {
 	return append(SurroundingTilesFour(idx), corners...)
 }
 
-// IsNone returns if
-// tile is of type None.
 func IsNone(sprite int) bool {
 	return sprite == None
 }
 
-// IsGround returns if
-// tile is of type Ground.
 func IsGround(sprite int) bool {
 	return sprite == Ground
 }
 
-// IsExposed returns if
-// tile is in the open.
 func IsExposed(sprite int) bool {
 	return !IsAnyWall(sprite)
 }
 
-// IsAnyWall returns if
-// tile is any type of wall.
 func IsAnyWall(sprite int) bool {
 	return IsBoundary(sprite) || IsWall(sprite) || IsSelectedWall(sprite)
 }
 
-// IsBoundary returns if
-// tile is of type Boundary.
 func IsBoundary(sprite int) bool {
 	return sprite >= BoundarySolid && sprite <= BoundaryExposed
 }
 
-// IsWall returns if
-// tile is of type Wall.
 func IsWall(sprite int) bool {
 	return sprite >= WallSolid && sprite <= WallExposed
 }
 
-// IsSelectedWall returns if
-// tile is of type SelectedWall.
 func IsSelectedWall(sprite int) bool {
 	return sprite >= WallSelectedSolid && sprite <= WallSelectedExposed
 }
 
-// IsWallOrSelected returns if
-// tile is of type Wall or SelectedWall.
 func IsWallOrSelected(sprite int) bool {
 	return IsWall(sprite) || IsSelectedWall(sprite)
 }
 
-// IsFloorBrick returns if
-// tile is of type FloorBrick.
 func IsFloorBrick(sprite int) bool {
 	return sprite >= FloorBricksOne && sprite <= FloorBricksTen
+}
+
+// If we're only surrounded by two walls,
+// and those two walls are aligned,
+// we are in a door opening.
+func IsDoorOpening(m *Map, idx int) bool {
+	tiles := SurroundingWallTilesFour(m, idx)
+	if len(tiles) != 2 {
+		return false
+	}
+	// Vertical opening.
+	if tiles[0].Dir == Up && tiles[1].Dir == Down {
+		return true
+	}
+	if tiles[0].Dir == Down && tiles[1].Dir == Up {
+		return true
+	}
+	// Horizontal opening.
+	if tiles[0].Dir == Left && tiles[1].Dir == Right {
+		return true
+	}
+	if tiles[0].Dir == Right && tiles[1].Dir == Left {
+		return true
+	}
+	return false
+}
+
+func (mp *Map) FindNearestDoorOpenings(x, y, island int) []Tile {
+	tiles := []Tile{}
+	FloodFill(x, y, mp, island, func(idx int) bool {
+		if !IsGround(mp.Tiles[idx].Sprite) {
+			return false
+		}
+
+		if mp.Tiles[idx].Island == island {
+			return false
+		}
+
+		if IsDoorOpening(mp, idx) {
+			tiles = append(tiles, mp.Tiles[idx])
+			return false
+		}
+
+		mp.Tiles[idx].Island = island
+		return true
+	})
+	return tiles
 }

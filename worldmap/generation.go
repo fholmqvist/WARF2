@@ -94,6 +94,26 @@ func FloodFillGround(x, y int, m *Map, island int) {
 	})
 }
 
+func (mp *Map) FloodFillRoom(x, y, island int, f func() int) {
+	FloodFill(x, y, mp, island, func(idx int) bool {
+		if !IsGround(mp.Tiles[idx].Sprite) {
+			return false
+		}
+
+		if mp.Tiles[idx].Island == island {
+			return false
+		}
+
+		if IsDoorOpening(mp, idx) {
+			return false
+		}
+
+		mp.Tiles[idx].Sprite = f()
+		mp.Tiles[idx].Island = island
+		return true
+	})
+}
+
 // Inverse flips between filling walls (false) and filling ground (true).
 func (m *Map) FillIslands(inverse bool) {
 	island := 1

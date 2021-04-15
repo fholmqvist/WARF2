@@ -62,7 +62,19 @@ func NewGame(arg string) *Game {
 	case "library":
 		game = GenerateGame(0, emptyMap())
 		game.WorldMap.DrawOutline(3, 3, 26, 13, m.WallSolid)
+		game.WorldMap.Tiles[m.XYToIdx(14, 3)].Sprite = m.Ground
+		game.WorldMap.Tiles[m.XYToIdx(3, 8)].Sprite = m.Ground
 		game.AddLibrary(4, 4, 25, 12)
+		game.WorldMap.FixWalls()
+
+	case "walls":
+		game = GenerateGame(0, emptyMap())
+		game.WorldMap.DrawOutline(5, 5, 10, 10, m.WallSolid)
+		game.WorldMap.Tiles[m.XYToIdx(5, 7)].Sprite = m.Ground
+		game.WorldMap.Tiles[m.XYToIdx(7, 5)].Sprite = m.Ground
+		mp := &game.WorldMap
+		mp.FloodFillRoom(6, 6, 99, m.RandomFloorBrick)
+		game.WorldMap.ResetIslands()
 		game.WorldMap.FixWalls()
 
 	case "load":
