@@ -1,12 +1,15 @@
 package mouse
 
 import (
+	"fmt"
 	m "projects/games/warf2/worldmap"
 )
 
 func noneMode(mp *m.Map, currentMousePos int) {
 	clickFunctions(mp, currentMousePos,
 		func() {
+			printMousePos(currentMousePos)
+
 			// Get tile from real tiles.
 			tile, ok := mp.GetTileByIndex(currentMousePos)
 			if !ok {
@@ -151,4 +154,9 @@ func setToNormalInteractFalse(tile *m.Tile) {
 		return
 	}
 	tile.Sprite = m.WallExposed
+}
+
+func printMousePos(idx int) {
+	x, y := m.IdxToXY(idx)
+	fmt.Printf("IDX: %d. XY: {%d, %d}.\n", idx, x, y)
 }

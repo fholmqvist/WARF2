@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"time"
 
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/entity"
@@ -60,6 +61,7 @@ func NewGame(arg string) *Game {
 	switch arg {
 
 	case "library":
+		// Debugging and testing library generation.
 		game = GenerateGame(0, emptyMap())
 		game.WorldMap.DrawOutline(3, 3, 26, 13, m.WallSolid)
 		game.WorldMap.Tiles[m.XYToIdx(14, 3)].Sprite = m.Ground
@@ -68,14 +70,35 @@ func NewGame(arg string) *Game {
 		game.WorldMap.FixWalls()
 
 	case "walls":
+		// Debugging and testing wall and floor fills.
 		game = GenerateGame(0, emptyMap())
+		mp := &game.WorldMap
+
+		// Room 1.
 		game.WorldMap.DrawOutline(5, 5, 10, 10, m.WallSolid)
 		game.WorldMap.Tiles[m.XYToIdx(5, 7)].Sprite = m.Ground
 		game.WorldMap.Tiles[m.XYToIdx(7, 5)].Sprite = m.Ground
-		mp := &game.WorldMap
-		mp.FloodFillRoom(6, 6, 99, m.RandomFloorBrick)
-		game.WorldMap.ResetIslands()
-		game.WorldMap.FixWalls()
+
+		// Room 2.
+		game.WorldMap.DrawOutline(12, 5, 24, 12, m.WallSolid)
+		game.WorldMap.Tiles[m.XYToIdx(23, 8)].Sprite = m.Ground
+		game.WorldMap.Tiles[m.XYToIdx(16, 11)].Sprite = m.Ground
+
+		// Room 3.
+		game.WorldMap.DrawOutline(26, 5, 38, 12, m.WallSolid)
+		game.WorldMap.DrawOutline(32, 11, 38, 18, m.WallSolid)
+		game.WorldMap.Tiles[536].Sprite = m.Ground
+		for idx := 539; idx <= 542; idx++ {
+			game.WorldMap.Tiles[idx].Sprite = m.Ground
+		}
+
+		go func() {
+			time.Sleep(time.Second)
+			_ = mp.FloodFillRoom(6, 6, m.RandomFloorBrick)
+			_ = mp.FloodFillRoom(13, 6, m.RandomFloorBrick)
+			_ = mp.FloodFillRoom(27, 6, m.RandomFloorBrick)
+			mp.FixWalls()
+		}()
 
 	case "load":
 		game = loadGame()
