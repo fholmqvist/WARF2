@@ -69,7 +69,7 @@ func NewGame(arg string) *Game {
 
 		go func() {
 			time.Sleep(time.Millisecond * 500)
-			game.AddLibrary(4, 4)
+			game.Rooms.AddLibrary(&game.WorldMap, 4, 4)
 			game.WorldMap.FixWalls()
 		}()
 

@@ -96,7 +96,11 @@ func (l *Library) generateFurniture(mp *m.Map, t m.Tile, every int) {
 		return
 	}
 	for x := t.X; x < t.X+3; x++ {
-		if m.IsAnyWall(mp.Tiles[m.XYToIdx(x, t.Y)].Sprite) {
+		spr := mp.Tiles[m.XYToIdx(x, t.Y)].Sprite
+		if m.IsAnyWall(spr) {
+			return
+		}
+		if !m.IsFloorBrick(spr) {
 			return
 		}
 	}

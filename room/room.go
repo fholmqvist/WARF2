@@ -15,6 +15,11 @@ type System struct {
 	Libraries []Library
 }
 
+func (s *System) AddLibrary(mp *worldmap.Map, x, y int) {
+	l := NewLibrary(mp, x, y)
+	s.Libraries = append(s.Libraries, l)
+}
+
 // Room wraps all the functionality
 // and data related to a room.
 type Room struct {

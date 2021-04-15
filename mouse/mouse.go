@@ -15,7 +15,8 @@ import (
 // System for handling
 // all functionality by mouse.
 type System struct {
-	Mode Mode
+	Mode       Mode
+	roomSystem room.System
 }
 
 // Mode enum for managing mouse action state.
@@ -31,6 +32,8 @@ const (
 	PlaceItem
 	PlaceFurniture
 	RemoveItem
+
+	Library
 )
 
 // Handle all the mouse interactivity.
@@ -75,6 +78,10 @@ func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 
 	case RemoveItem:
 		removeItemMode(mp, currentMousePos)
+
+	case Library:
+		x, y := m.IdxToXY(currentMousePos)
+		s.roomSystem.AddLibrary(mp, x, y)
 
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)
