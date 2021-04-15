@@ -63,11 +63,15 @@ func NewGame(arg string) *Game {
 	case "library":
 		// Debugging and testing library generation.
 		game = GenerateGame(0, emptyMap())
-		game.WorldMap.DrawOutline(3, 3, 26, 13, m.WallSolid)
-		game.WorldMap.Tiles[m.XYToIdx(14, 3)].Sprite = m.Ground
-		game.WorldMap.Tiles[m.XYToIdx(3, 8)].Sprite = m.Ground
-		game.AddLibrary(4, 4, 25, 12)
-		game.WorldMap.FixWalls()
+		game.WorldMap.DrawOutline(2, 2, m.TilesW-2, m.TilesH-2, m.WallSolid)
+		game.WorldMap.Tiles[m.XYToIdx(14, 2)].Sprite = m.Ground
+		game.WorldMap.Tiles[m.XYToIdx(2, 8)].Sprite = m.Ground
+
+		go func() {
+			time.Sleep(time.Millisecond * 500)
+			game.AddLibrary(4, 4)
+			game.WorldMap.FixWalls()
+		}()
 
 	case "walls":
 		// Debugging and testing wall and floor fills.
@@ -93,7 +97,7 @@ func NewGame(arg string) *Game {
 		}
 
 		go func() {
-			time.Sleep(time.Second)
+			time.Sleep(time.Millisecond * 500)
 			_ = mp.FloodFillRoom(6, 6, m.RandomFloorBrick)
 			_ = mp.FloodFillRoom(13, 6, m.RandomFloorBrick)
 			_ = mp.FloodFillRoom(27, 6, m.RandomFloorBrick)

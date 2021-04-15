@@ -36,6 +36,11 @@ func Place(mp *m.Map, x, y, sprite int) {
 	}
 }
 
+func PlaceRandom(mp *m.Map, x, y int, f func() int) {
+	idx := m.XYToIdx(x, y)
+	PlaceRandomIdx(mp, idx, f)
+}
+
 func PlaceRandomIdx(mp *m.Map, idx int, f func() int) {
 	tile, ok := mp.GetTileByIndex(idx)
 	if !ok {

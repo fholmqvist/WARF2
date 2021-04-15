@@ -101,6 +101,9 @@ func IsFloorBrick(sprite int) bool {
 // and those two walls are aligned,
 // we are in a door opening.
 func IsDoorOpening(m *Map, idx int) bool {
+	if IsAnyWall(m.Tiles[idx].Sprite) {
+		return false
+	}
 	tiles := SurroundingWallTilesFour(m, idx)
 	if len(tiles) != 2 {
 		return false

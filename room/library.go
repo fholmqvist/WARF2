@@ -1,9 +1,11 @@
 package room
 
 import (
+	"math/rand"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
 	"projects/games/warf2/worldmap"
+	m "projects/games/warf2/worldmap"
 )
 
 // Library room relaxes
@@ -13,15 +15,22 @@ type Library struct {
 	// bookShelfAmount int
 	// chairAmount     int
 
-	// tiles []worldmap.Tile
+	tiles []worldmap.Tile
 	// items []worldmap.Tile
 }
 
-func NewLibrary(m *worldmap.Map, x1, y1, x2, y2 int) Library {
+func NewLibrary(mp *m.Map, x, y int) Library {
 	l := Library{}
-	m.SetFloorTiles(x1, y1, x2, y2)
-	l.generateBookShelves(m, x1, y1, x2, y2)
-	l.generateFurniture(m, x1, y1, x2, y2)
+	tiles := mp.FloodFillRoom(x, y, m.RandomFloorBrick)
+	bookShelfRows := 0
+	for _, t := range tiles {
+		bookShelfRows += l.generateBookshelves(mp, t, 4)
+		l.generateFurniture(mp, t, 4)
+	}
+	l.tiles = tiles
+	for i := 0; i < bookShelfRows; i++ {
+		l.cleanupBookshelves(mp, y+(i*4))
+	}
 	return l
 }
 
@@ -37,27 +46,61 @@ func (l *Library) Use(dwarf *dwarf.Dwarf) {
 	// stress decreases even faster.
 }
 
-func (l *Library) generateBookShelves(m *worldmap.Map, x1, y1, x2, y2 int) {
-	for y := y1; y < y2; y += 4 {
-		for x := x1; x < x2; x++ {
-			idx := worldmap.XYToIdx(x, y)
-			item.PlaceRandomIdx(m, idx, item.RandomBookshelf)
+func (l *Library) generateBookshelves(mp *m.Map, t m.Tile, every int) int {
+	earlyExists := []bool{
+		t.Y%every != 0,
+		m.IsDoorOpening(mp, m.OneTileUp(t.Idx)),
+		m.IsDoorOpening(mp, m.OneTileDown(t.Idx)),
+		m.IsDoorOpening(mp, m.OneTileLeft(t.Idx)),
+		m.IsDoorOpening(mp, m.OneTileRight(t.Idx)),
+		m.IsAnyWall(mp.Tiles[m.OneTileDown(t.Idx)].Sprite),
+	}
+	for _, ee := range earlyExists {
+		if ee {
+			return 0
 		}
 	}
+	item.PlaceRandom(mp, t.X, t.Y, item.RandomBookshelf)
+	return 1
 }
 
-func (l *Library) generateFurniture(m *worldmap.Map, x1, y1, x2, y2 int) {
-	for y := y1 + 2; y < y2; y += 4 {
-		for x := x1; x < x2-1; x += 3 {
-			item.Place(m, x, y, item.ChairLeft)
-			item.Place(m, x+1, y, item.Table)
-			if x+2 < x2 {
-				item.Place(m, x+2, y, item.ChairRight)
-			}
+// In case where bookshelves run
+// through an entire room unbroken.
+func (l *Library) cleanupBookshelves(mp *m.Map, y int) {
+	items := []m.Tile{}
+	for _, t := range l.tiles {
+		if t.Y == y {
+			items = append(items, mp.Items[t.Idx])
 		}
 	}
+	if len(items) == 0 {
+		return
+	}
+	for _, i := range items {
+		if i.Sprite == item.NoItem {
+			return
+		}
+	}
+	mp.Items[items[rand.Intn(len(items))].Idx].Sprite = item.NoItem
 }
 
-// func middle(x1, x2 int) int {
-// 	return x1 + ((x2 - x1) / 2)
-// }
+func (l *Library) generateFurniture(mp *m.Map, t m.Tile, every int) {
+	newY := t.Y + 2
+	if newY%every != 0 {
+		return
+	}
+	if m.IsAnyWall(mp.Tiles[m.OneTileLeft(t.Idx)].Sprite) {
+		return
+	}
+	if mp.Items[m.OneTileLeft(t.Idx)].Sprite != item.NoItem {
+		return
+	}
+	for x := t.X; x < t.X+3; x++ {
+		if m.IsAnyWall(mp.Tiles[m.XYToIdx(x, t.Y)].Sprite) {
+			return
+		}
+	}
+	item.Place(mp, t.X, t.Y, item.ChairLeft)
+	item.Place(mp, t.X+1, t.Y, item.Table)
+	item.Place(mp, t.X+2, t.Y, item.ChairRight)
+}
