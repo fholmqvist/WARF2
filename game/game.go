@@ -63,19 +63,26 @@ func NewGame(arg string) *Game {
 	case "library":
 		// Debugging and testing library generation.
 		game = GenerateGame(0, emptyMap())
-		game.WorldMap.DrawOutline(2, 2, m.TilesW-2, m.TilesH-2, m.WallSolid)
-		game.WorldMap.Tiles[m.XYToIdx(14, 2)].Sprite = m.Ground
-		game.WorldMap.Tiles[m.XYToIdx(2, 8)].Sprite = m.Ground
-
+		i := 0
+		debugLibrary(&game, i)
 		go func() {
-			time.Sleep(time.Millisecond * 500)
-			game.Rooms.AddLibrary(&game.WorldMap, 4, 4)
-			game.WorldMap.FixWalls()
+			for {
+				time.Sleep(time.Second)
+				if i == 0 {
+					i = 1
+				} else {
+					i = 0
+				}
+				game.WorldMap.Clear()
+				debugLibrary(&game, i)
+			}
 		}()
+
+		game.WorldMap.FixWalls()
 
 	case "walls":
 		// Debugging and testing wall and floor fills.
-		game = GenerateGame(0, emptyMap())
+		game = GenerateGame(0, boundariesMap())
 		mp := &game.WorldMap
 
 		// Room 1.
@@ -108,7 +115,7 @@ func NewGame(arg string) *Game {
 		game = loadGame()
 
 	default:
-		game = GenerateGame(4, standardMap())
+		game = GenerateGame(4, normalMap())
 
 	}
 	game.SetMouseMode(mouse.Normal)

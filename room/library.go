@@ -1,7 +1,6 @@
 package room
 
 import (
-	"math/rand"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
 	"projects/games/warf2/worldmap"
@@ -22,14 +21,25 @@ type Library struct {
 func NewLibrary(mp *m.Map, x, y int) Library {
 	l := Library{}
 	tiles := mp.FloodFillRoom(x, y, m.RandomFloorBrick)
-	bookShelfRows := 0
+	bookShelfRows := []int{}
 	for _, t := range tiles {
-		bookShelfRows += l.generateBookshelves(mp, t, 4)
+		row := l.generateBookshelves(mp, t, 4)
+		if row > 0 {
+			hasRow := false
+			for _, existingRow := range bookShelfRows {
+				if existingRow == row {
+					hasRow = true
+				}
+			}
+			if !hasRow {
+				bookShelfRows = append(bookShelfRows, row)
+			}
+		}
 		l.generateFurniture(mp, t, 4)
 	}
 	l.tiles = tiles
-	for i := 0; i < bookShelfRows; i++ {
-		l.cleanupBookshelves(mp, y+(i*4))
+	for _, row := range bookShelfRows {
+		l.cleanupBookshelves(mp, row)
 	}
 	return l
 }
@@ -54,6 +64,8 @@ func (l *Library) generateBookshelves(mp *m.Map, t m.Tile, every int) int {
 		m.IsDoorOpening(mp, m.OneTileLeft(t.Idx)),
 		m.IsDoorOpening(mp, m.OneTileRight(t.Idx)),
 		m.IsAnyWall(mp.Tiles[m.OneTileDown(t.Idx)].Sprite),
+		m.IsAnyWall(mp.Tiles[m.OneTileDownLeft(t.Idx)].Sprite),
+		m.IsAnyWall(mp.Tiles[m.OneTileDownRight(t.Idx)].Sprite),
 	}
 	for _, ee := range earlyExists {
 		if ee {
@@ -61,7 +73,7 @@ func (l *Library) generateBookshelves(mp *m.Map, t m.Tile, every int) int {
 		}
 	}
 	item.PlaceRandom(mp, t.X, t.Y, item.RandomBookshelf)
-	return 1
+	return t.Y
 }
 
 // In case where bookshelves run
@@ -76,12 +88,22 @@ func (l *Library) cleanupBookshelves(mp *m.Map, y int) {
 	if len(items) == 0 {
 		return
 	}
-	for _, i := range items {
-		if i.Sprite == item.NoItem {
-			return
+	shelves := 0
+	for i, it := range items {
+		if i == 0 || i == len(items)-1 {
+			continue
+		}
+		if item.IsBookShelf(it.Sprite) {
+			shelves++
 		}
 	}
-	mp.Items[items[rand.Intn(len(items))].Idx].Sprite = item.NoItem
+	spaceEvery := 8
+	if shelves < spaceEvery {
+		return
+	}
+	for i := 0; i < shelves/spaceEvery; i++ {
+		mp.Items[items[spaceEvery*i].Idx].Sprite = item.NoItem
+	}
 }
 
 func (l *Library) generateFurniture(mp *m.Map, t m.Tile, every int) {

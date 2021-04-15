@@ -11,6 +11,28 @@ type Map struct {
 	Items         []Tile `json:"i"`
 }
 
+func New() *Map {
+	mp := &Map{}
+	mp.Tiles = newTiles(mp, Ground)
+	mp.SelectedTiles = newTiles(mp, None)
+	mp.Items = newTiles(mp, None)
+	return mp
+}
+
+func newTiles(mp *Map, sprite int) []Tile {
+	t := make([]Tile, TilesW*TilesH)
+	for i := range t {
+		t[i] = CreateTile(i, sprite, mp)
+	}
+	return t
+}
+
+func (m *Map) Clear() {
+	m.Tiles = newTiles(m, Ground)
+	m.SelectedTiles = newTiles(m, None)
+	m.Items = newTiles(m, None)
+}
+
 // GetTile returns a pointer to the tile
 // from the XY-indexed tile on the map,
 // and a bool to determine if the

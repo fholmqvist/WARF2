@@ -36,8 +36,8 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 	return game
 }
 
-func standardMap() *m.Map {
-	mp := makeMap()
+func normalMap() *m.Map {
+	mp := m.New()
 	mp.Automata()
 	mp.FillIslands(true)
 	mp.FillIslands(false)
@@ -46,11 +46,15 @@ func standardMap() *m.Map {
 	return mp
 }
 
-func emptyMap() *m.Map {
-	mp := makeMap()
+func boundariesMap() *m.Map {
+	mp := m.New()
 	mp.CreateBoundaryWalls()
 	mp.FixWalls()
 	return mp
+}
+
+func emptyMap() *m.Map {
+	return m.New()
 }
 
 func placeNewDwarf(mp m.Map) d.Dwarf {
@@ -68,18 +72,12 @@ func placeNewDwarf(mp m.Map) d.Dwarf {
 	}
 }
 
-func makeMap() *m.Map {
-	mp := &m.Map{}
-	mp.Tiles = newTiles(mp, m.Ground)
-	mp.SelectedTiles = newTiles(mp, m.None)
-	mp.Items = newTiles(mp, m.None)
-	return mp
-}
-
-func newTiles(mp *m.Map, sprite int) []m.Tile {
-	t := make([]m.Tile, m.TilesW*m.TilesH)
-	for i := range t {
-		t[i] = m.CreateTile(i, sprite, mp)
+func debugLibrary(game *Game, offset int) {
+	game.WorldMap.DrawOutline(6, 5+offset, 38, 14+offset, m.WallSolid)
+	game.WorldMap.DrawOutline(24, 13+offset, 38, 22+offset, m.WallSolid)
+	game.WorldMap.Tiles[620+m.TilesW*offset].Sprite = m.Ground
+	for idx := 623 + m.TilesW*offset; idx <= 634+m.TilesW*offset; idx++ {
+		game.WorldMap.Tiles[idx].Sprite = m.Ground
 	}
-	return t
+	game.Rooms.AddLibrary(&game.WorldMap, 7, 7+offset)
 }
