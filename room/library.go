@@ -33,7 +33,7 @@ func NewLibrary(mp *m.Map, x, y int) Library {
 	lastShelfRow := -1
 	for _, t := range l.tiles {
 		if t.Y == firstRow {
-			if !m.IsAnyWall(mp.Tiles[m.OneTileUp(t.Idx)].Sprite) {
+			if !m.IsAnyWall(mp.OneTileUp(t.Idx).Sprite) {
 				continue
 			}
 			item.PlaceRandom(mp, t.X, t.Y, item.RandomBookshelf)
@@ -74,9 +74,9 @@ func (l *Library) generateBookshelves(mp *m.Map, t m.Tile) {
 		m.IsDoorOpening(mp, m.OneTileDown(t.Idx)),
 		m.IsDoorOpening(mp, m.OneTileLeft(t.Idx)),
 		m.IsDoorOpening(mp, m.OneTileRight(t.Idx)),
-		m.IsAnyWall(mp.Tiles[m.OneTileDown(t.Idx)].Sprite),
-		m.IsAnyWall(mp.Tiles[m.OneTileDownLeft(t.Idx)].Sprite),
-		m.IsAnyWall(mp.Tiles[m.OneTileDownRight(t.Idx)].Sprite),
+		m.IsAnyWall(mp.OneTileDown(t.Idx).Sprite),
+		m.IsAnyWall(mp.OneTileDownLeft(t.Idx).Sprite),
+		m.IsAnyWall(mp.OneTileDownRight(t.Idx).Sprite),
 	}
 	for _, ee := range earlyExists {
 		if ee {

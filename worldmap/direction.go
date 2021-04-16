@@ -81,48 +81,68 @@ func IndexAtDirection(idx int, dir Direction) int {
 	}
 }
 
-// OneTileUp returns idx one row up.
 func OneTileUp(idx int) int {
 	return idx - TilesW
 }
 
-// OneTileDown returns idx one row down.
+func (m *Map) OneTileUp(idx int) Tile {
+	return m.Tiles[OneTileUp(idx)]
+}
+
 func OneTileDown(idx int) int {
 	return idx + TilesW
 }
 
-// OneTileLeft returns idx one column left.
+func (m *Map) OneTileDown(idx int) Tile {
+	return m.Tiles[OneTileDown(idx)]
+}
+
 func OneTileLeft(idx int) int {
 	return idx - 1
 }
 
-// OneTileRight returns idx one column right.
+func (m *Map) OneTileLeft(idx int) Tile {
+	return m.Tiles[OneTileLeft(idx)]
+}
+
 func OneTileRight(idx int) int {
 	return idx + 1
 }
 
-// OneTileUpLeft returns idx one column left,
-// one row up.
+func (m *Map) OneTileRight(idx int) Tile {
+	return m.Tiles[OneTileRight(idx)]
+}
+
 func OneTileUpLeft(idx int) int {
 	return OneTileUp(OneTileLeft(idx))
 }
 
-// OneTileUpRight returns idx one column right,
-// one row up.
+func (m *Map) OneTileUpLeft(idx int) Tile {
+	return m.Tiles[OneTileUp(OneTileLeft(idx))]
+}
+
 func OneTileUpRight(idx int) int {
 	return OneTileUp(OneTileRight(idx))
 }
 
-// OneTileDownLeft returns idx one column left,
-// one row up.
+func (m *Map) OneTileUpRight(idx int) Tile {
+	return m.Tiles[OneTileUp(OneTileRight(idx))]
+}
+
 func OneTileDownLeft(idx int) int {
 	return OneTileDown(OneTileLeft(idx))
 }
 
-// OneTileDownRight returns idx one column right,
-// one row down.
+func (m *Map) OneTileDownLeft(idx int) Tile {
+	return m.Tiles[OneTileDown(OneTileLeft(idx))]
+}
+
 func OneTileDownRight(idx int) int {
 	return OneTileDown(OneTileRight(idx))
+}
+
+func (m *Map) OneTileDownRight(idx int) Tile {
+	return m.Tiles[OneTileDown(OneTileRight(idx))]
 }
 
 // NextIdxToDir returns the direction needed
