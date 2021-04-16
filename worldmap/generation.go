@@ -95,7 +95,7 @@ func FloodFillGround(x, y int, m *Map, island int) {
 }
 
 // Resets islands!
-func (mp *Map) FloodFillRoom(x, y int, f func() int) []Tile {
+func (mp *Map) FloodFillRoom(x, y int, f func() int) Tiles {
 	island := 99
 	tiles := []Tile{}
 	FloodFill(x, y, mp, island, func(idx int) bool {

@@ -63,21 +63,14 @@ func NewGame(arg string) *Game {
 	case "library":
 		// Debugging and testing library generation.
 		game = GenerateGame(0, emptyMap())
-		i := 0
-		debugLibrary(&game, i)
-		go func() {
-			for {
-				time.Sleep(time.Second)
-				if i == 0 {
-					i = 1
-				} else {
-					i = 0
-				}
-				game.WorldMap.Clear()
-				debugLibrary(&game, i)
-			}
-		}()
-
+		game.WorldMap.DrawOutline(6, 5, 38, 14, m.WallSolid)
+		game.WorldMap.DrawOutline(24, 13, 38, 22, m.WallSolid)
+		game.WorldMap.Tiles[252].Sprite = m.Ground
+		game.WorldMap.Tiles[620].Sprite = m.Ground
+		for idx := 623; idx <= 634; idx++ {
+			game.WorldMap.Tiles[idx].Sprite = m.Ground
+		}
+		game.Rooms.AddLibrary(&game.WorldMap, 7, 7)
 		game.WorldMap.FixWalls()
 
 	case "walls":

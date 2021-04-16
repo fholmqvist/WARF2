@@ -71,13 +71,3 @@ func placeNewDwarf(mp m.Map) d.Dwarf {
 		},
 	}
 }
-
-func debugLibrary(game *Game, offset int) {
-	game.WorldMap.DrawOutline(6, 5+offset, 38, 14+offset, m.WallSolid)
-	game.WorldMap.DrawOutline(24, 13+offset, 38, 22+offset, m.WallSolid)
-	game.WorldMap.Tiles[620+m.TilesW*offset].Sprite = m.Ground
-	for idx := 623 + m.TilesW*offset; idx <= 634+m.TilesW*offset; idx++ {
-		game.WorldMap.Tiles[idx].Sprite = m.Ground
-	}
-	game.Rooms.AddLibrary(&game.WorldMap, 7, 7+offset)
-}
