@@ -17,7 +17,9 @@ type System struct {
 
 func (s *System) AddLibrary(mp *worldmap.Map, x, y int) {
 	l := NewLibrary(mp, x, y)
-	s.Libraries = append(s.Libraries, l)
+	if l != nil {
+		s.Libraries = append(s.Libraries, *l)
+	}
 }
 
 // Room wraps all the functionality

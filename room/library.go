@@ -13,47 +13,24 @@ import (
 // dwarves and increases
 // their knowledge.
 type Library struct {
-	// bookShelfAmount int
-	// chairAmount     int
-
 	tiles worldmap.Tiles
-	// items []worldmap.Tile
 }
 
-func NewLibrary(mp *m.Map, x, y int) Library {
+func NewLibrary(mp *m.Map, x, y int) *Library {
 	l := Library{}
 	tiles := mp.FloodFillRoom(x, y, m.RandomFloorBrick)
 	if len(tiles) == 0 {
 		fmt.Println("TODO: Fix early library creation")
-		return Library{}
+		return nil
 	}
 	sort.Sort(tiles)
 	l.tiles = tiles
 	firstRow := tiles[0].Y
 	lastShelfRow := -1
 	for _, t := range l.tiles {
-		if t.Y == firstRow {
-			if !m.IsAnyWall(mp.OneTileUp(t.Idx).Sprite) {
-				continue
-			}
-			item.PlaceRandom(mp, t.X, t.Y, item.RandomBookshelf)
-			continue
-		}
-		if (firstRow-t.Y)%4 == 0 {
-			l.generateBookshelves(mp, t)
-			lastShelfRow = t.Y
-			continue
-		}
-		if (firstRow-t.Y)%2 == 0 {
-			l.generateFurniture(mp, t)
-			continue
-		}
-		if t.Y == lastShelfRow+1 {
-			l.cleanupBookshelves(mp, lastShelfRow)
-			lastShelfRow = -1
-		}
+		lastShelfRow = l.placeItems(mp, t, firstRow, lastShelfRow)
 	}
-	return l
+	return &l
 }
 
 // Use library.
@@ -66,6 +43,28 @@ func (l *Library) Use(dwarf *dwarf.Dwarf) {
 
 	// If chair has an adjacent table,
 	// stress decreases even faster.
+}
+
+func (l *Library) placeItems(mp *worldmap.Map, t worldmap.Tile, firstRow int, lastShelfRow int) int {
+	if t.Y == firstRow {
+		if !m.IsAnyWall(mp.OneTileUp(t.Idx).Sprite) {
+			return lastShelfRow
+		}
+		item.PlaceRandom(mp, t.X, t.Y, item.RandomBookshelf)
+		return lastShelfRow
+	}
+	if (firstRow-t.Y)%4 == 0 {
+		l.generateBookshelves(mp, t)
+		return t.Y
+	}
+	if (firstRow-t.Y)%2 == 0 {
+		l.generateFurniture(mp, t)
+	}
+	if t.Y == lastShelfRow+1 {
+		l.breakupBookshelves(mp, lastShelfRow)
+		return -1
+	}
+	return lastShelfRow
 }
 
 func (l *Library) generateBookshelves(mp *m.Map, t m.Tile) {
@@ -88,7 +87,7 @@ func (l *Library) generateBookshelves(mp *m.Map, t m.Tile) {
 
 // In case where bookshelves run
 // through an entire room unbroken.
-func (l *Library) cleanupBookshelves(mp *m.Map, y int) {
+func (l *Library) breakupBookshelves(mp *m.Map, y int) {
 	items := []m.Tile{}
 	for _, t := range l.tiles {
 		if t.Y == y {
