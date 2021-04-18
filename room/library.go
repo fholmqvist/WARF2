@@ -1,7 +1,6 @@
 package room
 
 import (
-	"fmt"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
 	"projects/games/warf2/worldmap"
@@ -20,7 +19,6 @@ func NewLibrary(mp *m.Map, x, y int) *Library {
 	l := Library{}
 	tiles := mp.FloodFillRoom(x, y, m.RandomFloorBrick)
 	if len(tiles) == 0 {
-		fmt.Println("TODO: Fix early library creation")
 		return nil
 	}
 	sort.Sort(tiles)
