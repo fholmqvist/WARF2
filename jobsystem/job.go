@@ -1,7 +1,7 @@
 package jobsystem
 
 import (
-	"projects/games/warf2/worldmap"
+	m "projects/games/warf2/worldmap"
 )
 
 // Job declares the common interface
@@ -9,9 +9,9 @@ import (
 // the job system.
 type Job interface {
 	WaitingForWorker() bool
-	SetWorkerAndMove(Worker, *worldmap.Map) bool
+	SetWorkerAndMove(Worker, *m.Map) bool
 	CheckState() JobState
-	NeedsToBeRemoved(*worldmap.Map) bool
-	PerformWork(*worldmap.Map) func() bool
+	NeedsToBeRemoved(*m.Map) bool
+	PerformWork(*m.Map) func() bool
 	GetDestination() int
 }

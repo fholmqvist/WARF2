@@ -2,7 +2,7 @@ package dwarf
 
 import (
 	"projects/games/warf2/jobsystem"
-	"projects/games/warf2/worldmap"
+	m "projects/games/warf2/worldmap"
 )
 
 // HasJob returns whether
@@ -37,7 +37,7 @@ func (d *Dwarf) SetToAvailable() {
 
 // MoveTo calculates a new path
 // and sends worker to it.
-func (d *Dwarf) MoveTo(idx int, mp *worldmap.Map) bool {
+func (d *Dwarf) MoveTo(idx int, mp *m.Map) bool {
 	from, ok := mp.GetTileByIndex(d.Idx)
 	if !ok {
 		d.SetToAvailable()
@@ -62,7 +62,7 @@ func (d *Dwarf) MoveTo(idx int, mp *worldmap.Map) bool {
 
 // PerformWork checks if the character is ready,
 // and performs the given work.
-func (d *Dwarf) PerformWork(mp *worldmap.Map) {
+func (d *Dwarf) PerformWork(mp *m.Map) {
 	job := *d.job
 
 	if d.Idx != job.GetDestination() {

@@ -4,7 +4,7 @@ package room
 
 import (
 	"projects/games/warf2/dwarf"
-	"projects/games/warf2/worldmap"
+	m "projects/games/warf2/worldmap"
 )
 
 var globalID uint16 = 0
@@ -15,7 +15,7 @@ type System struct {
 	Libraries []Library
 }
 
-func (s *System) AddLibrary(mp *worldmap.Map, x, y int) {
+func (s *System) AddLibrary(mp *m.Map, x, y int) {
 	l := NewLibrary(mp, x, y)
 	if l != nil {
 		s.Libraries = append(s.Libraries, *l)
@@ -25,8 +25,8 @@ func (s *System) AddLibrary(mp *worldmap.Map, x, y int) {
 // Room wraps all the functionality
 // and data related to a room.
 type Room struct {
-	Floors []worldmap.Tile
-	Items  []worldmap.Tile
+	Floors []m.Tile
+	Items  []m.Tile
 
 	id uint16
 }

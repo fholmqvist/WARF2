@@ -2,13 +2,13 @@ package tests
 
 import (
 	"projects/games/warf2/mouse"
-	"projects/games/warf2/worldmap"
+	m "projects/games/warf2/worldmap"
 	"testing"
 )
 
-var m = worldmap.Map{
-	Tiles:         make([]worldmap.Tile, 9),
-	SelectedTiles: make([]worldmap.Tile, 9),
+var mp = m.Map{
+	Tiles:         make([]m.Tile, 9),
+	SelectedTiles: make([]m.Tile, 9),
 }
 
 func TestTileRange(t *testing.T) {
@@ -25,10 +25,10 @@ func TestTileRange(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		copy := m
+		copy := mp
 
-		mouse.FuncOverRange(&copy, tt.start, tt.end, func(mp *worldmap.Map, x, y int) {
-			idx := worldmap.XYToIdx(x, y)
+		mouse.FuncOverRange(&copy, tt.start, tt.end, func(mp *m.Map, x, y int) {
+			idx := m.XYToIdx(x, y)
 			mp.Tiles[idx].Sprite = -1
 		})
 

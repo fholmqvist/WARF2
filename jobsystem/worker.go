@@ -1,6 +1,6 @@
 package jobsystem
 
-import "projects/games/warf2/worldmap"
+import m "projects/games/warf2/worldmap"
 
 // Worker defines the interface
 // for all characters who are
@@ -10,6 +10,6 @@ type Worker interface {
 	SetJob(Job) bool
 	Available() bool
 	SetToAvailable()
-	MoveTo(int, *worldmap.Map) bool
-	PerformWork(*worldmap.Map)
+	MoveTo(int, *m.Map) bool
+	PerformWork(*m.Map)
 }

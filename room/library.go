@@ -3,7 +3,6 @@ package room
 import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
-	"projects/games/warf2/worldmap"
 	m "projects/games/warf2/worldmap"
 	"sort"
 )
@@ -12,7 +11,7 @@ import (
 // dwarves and increases
 // their knowledge.
 type Library struct {
-	tiles worldmap.Tiles
+	tiles m.Tiles
 }
 
 func NewLibrary(mp *m.Map, x, y int) *Library {
@@ -23,8 +22,10 @@ func NewLibrary(mp *m.Map, x, y int) *Library {
 	}
 	sort.Sort(tiles)
 	l.tiles = tiles
-	firstRow := tiles[0].Y
-	lastShelfRow := -1
+	var (
+		firstRow     = tiles[0].Y
+		lastShelfRow = -1
+	)
 	for _, t := range l.tiles {
 		lastShelfRow = l.placeItems(mp, t, firstRow, lastShelfRow)
 	}
@@ -43,7 +44,7 @@ func (l *Library) Use(dwarf *dwarf.Dwarf) {
 	// stress decreases even faster.
 }
 
-func (l *Library) placeItems(mp *worldmap.Map, t worldmap.Tile, firstRow int, lastShelfRow int) int {
+func (l *Library) placeItems(mp *m.Map, t m.Tile, firstRow int, lastShelfRow int) int {
 	if t.Y == firstRow {
 		if !m.IsAnyWall(mp.OneTileUp(t.Idx).Sprite) {
 			return lastShelfRow
