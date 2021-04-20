@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"projects/games/warf2/mouse"
 
 	e "github.com/hajimehoshi/ebiten"
@@ -12,27 +13,36 @@ import (
 func (g *Game) SetMouseMode(mode mouse.Mode) {
 	g.mouseSystem.Mode = mode
 	mt := &g.ui.MouseMode.Text
+	state := ""
 
 	switch mode {
 
 	case mouse.Normal:
-		*mt = "GOWARF - WALL MODE"
+		state = "GOWARF - WALL MODE"
 
 	case mouse.FloorTiles:
-		*mt = "GOWARF - FLOORTILE MODE"
+		state = "GOWARF - FLOORTILE MODE"
 
 	case mouse.ResetFloor:
-		*mt = "GOWARF - RESET FLOORTILE MODE"
+		state = "GOWARF - RESET FLOORTILE MODE"
 
 	case mouse.PlaceItem:
-		*mt = "GOWARF - PLACE ITEM MODE"
+		state = "GOWARF - PLACE ITEM MODE"
 
 	case mouse.PlaceFurniture:
-		*mt = "GOWARF - PLACE FURNITURE MODE"
+		state = "GOWARF - PLACE FURNITURE MODE"
 
 	case mouse.RemoveItem:
-		*mt = "GOWARF - REMOVE ITEM MODE"
+		state = "GOWARF - REMOVE ITEM MODE"
+
+	case mouse.Library:
+		state = "GOWARF - LIBRARY"
+
+	default:
+		fmt.Println("no such mouse mode:", mode)
 	}
+
+	*mt = "GOWARF - " + state
 }
 
 func handleKeyboard(g *Game) {
