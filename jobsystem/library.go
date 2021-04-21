@@ -8,8 +8,12 @@ type LibraryRead struct {
 	readingTime int
 }
 
+func NewLibraryRead(w *Worker, destination, readingTime int) *LibraryRead {
+	return &LibraryRead{w, destination, readingTime}
+}
+
 func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
-	return l.readingTime == 0
+	return l.readingTime <= 0
 }
 
 func (l *LibraryRead) PerformWork(*m.Map) func() bool {

@@ -7,7 +7,12 @@ import (
 	"math/rand"
 	m "projects/games/warf2/worldmap"
 	"sort"
+	"time"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 // JobSystem manages all ingame jobs
 // for dwarves.
@@ -25,7 +30,6 @@ func (j *JobSystem) Update() {
 	j.assignWorkers()
 	j.checkForDiggingJobs()
 	j.performWork()
-	j.reorderJobs()
 }
 
 func (j *JobSystem) sortJobs() {
@@ -132,14 +136,21 @@ func (j *JobSystem) performWork() {
 	}
 }
 
-func (j *JobSystem) reorderJobs() {
-	rand.Shuffle(len(j.Jobs), func(i, k int) {
-		j.Jobs[i], j.Jobs[k] = j.Jobs[k], j.Jobs[i]
-	})
-}
-
 /* ----------------------------- sort.Interface ----------------------------- */
 
-func (jb *JobSystem) Len() int           { return len(jb.Jobs) }
-func (jb *JobSystem) Less(i, j int) bool { return jb.Jobs[i].Priority() < jb.Jobs[j].Priority() }
-func (jb *JobSystem) Swap(i, j int)      { jb.Jobs[i], jb.Jobs[j] = jb.Jobs[j], jb.Jobs[i] }
+func (jb *JobSystem) Len() int {
+	return len(jb.Jobs)
+}
+
+func (jb *JobSystem) Less(i, j int) bool {
+	fst := jb.Jobs[i].Priority()
+	snd := jb.Jobs[j].Priority()
+	if fst == snd {
+		return rand.Intn(2) == 1
+	}
+	return fst < snd
+}
+
+func (jb *JobSystem) Swap(i, j int) {
+	jb.Jobs[i], jb.Jobs[j] = jb.Jobs[j], jb.Jobs[i]
+}
