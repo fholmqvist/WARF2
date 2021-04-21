@@ -45,14 +45,14 @@ func (j *JobSystem) removeFinishedJobs() {
 func (j *JobSystem) assignWorkers() {
 	availableWorkers := j.availableWorkers()
 	for _, job := range j.Jobs {
-		if !job.WaitingForWorker() {
+		if !WaitingForWorker(job) {
 			continue
 		}
 
 		foundWorker := false
 		for _, worker := range availableWorkers {
 			if worker.Available() {
-				foundWorker = job.SetWorkerAndMove(worker, j.Map)
+				foundWorker = SetWorkerAndMove(job, worker, j.Map)
 			}
 		}
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -16,9 +17,11 @@ func main() {
 		arg = os.Args[1]
 	}
 
-	g := g.NewGame(arg)
+	logo()
 
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetFlags(log.Lshortfile)
+
+	g := g.NewGame(arg)
 
 	factor := 1
 	ebiten.SetWindowSize(m.ScreenWidth*factor, m.ScreenHeight*factor)
@@ -28,4 +31,8 @@ func main() {
 	if err := ebiten.RunGame(g); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func logo() {
+	fmt.Printf("\nStarting!\n\n")
 }

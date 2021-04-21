@@ -40,19 +40,23 @@ func (g Game) saveGame() {
 // Saves the current
 // game to disk.
 func (sg SaveGame) saveToDisk() {
+	_, err := os.Stat("./saves/")
+	if os.IsNotExist(err) {
+		err := os.MkdirAll("saves", 0755)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	filename := "testing.json"
-
 	file, err := os.Create(fmt.Sprintf("./saves/%s", filename))
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
-
 	m, err := json.Marshal(sg)
 	if err != nil {
 		log.Fatal(m, err)
 	}
-
 	_, err = io.WriteString(file, string(m))
 	if err != nil {
 		log.Fatal(err)

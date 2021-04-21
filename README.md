@@ -31,7 +31,7 @@ I have since switched to another linter ([golangci-lint](https://golangci-lint.r
 
 ✅ Wall system
 
-✅ Activity system.
+✅ Job/Activity system.
 
 ## WIP
 
