@@ -19,28 +19,30 @@ I have since switched to another linter ([golangci-lint](https://golangci-lint.r
 
 ## Implemented
 
-✅ Basic world graphics
+✅ Basic graphics (world, dwarves, items).
 
-✅ Basic dwarf graphics
+✅ Cellular automata, flood fills, pathfinding.
 
-✅ Cellular automata
+✅ Mouse and keyboard input.
 
-✅ Flood filling
-
-✅ Mouse and keyboard input
-
-✅ Collision detection
-
-✅ Random walker
-
-✅ A* pathfinding
-
-✅ Wall select and deselect
-
-✅ Job System
-
-✅ Job: Digging walls
-
-✅ Items
+✅ Collision detection.
 
 ✅ Saving/loading
+
+✅ Wall system
+
+✅ Activity system.
+
+## WIP
+
+🔹 Library system.
+
+🔹 UI system.
+
+## TODO
+
+❌ UI - Graphics, components, menus.
+
+❌ Activities - Eating, resting, reading.
+
+❌ Sound system.
