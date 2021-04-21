@@ -72,3 +72,7 @@ func (d *Digging) PerformWork(mp *m.Map) func() bool {
 func (d *Digging) GetDestination() int {
 	return d.destination
 }
+
+func (d *Digging) Priority() int {
+	return 0
+}

@@ -14,4 +14,5 @@ type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
 	PerformWork(*m.Map) func() bool
 	GetDestination() int
+	Priority() int
 }
