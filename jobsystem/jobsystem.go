@@ -95,7 +95,6 @@ func (j *JobSystem) checkForDiggingJobs() {
 
 			diggingJob := Digging{
 				worker:      nil,
-				state:       New,
 				destination: destination.Idx,
 				wallIdx:     wall.Idx,
 			}

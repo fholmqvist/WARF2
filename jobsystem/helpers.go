@@ -3,7 +3,7 @@ package jobsystem
 import m "projects/games/warf2/worldmap"
 
 func WaitingForWorker(j Job) bool {
-	return j.GetWorker() == nil && j.GetState() == New
+	return j.GetWorker() == nil
 }
 
 // Sets worker for digging, returns whether setting was successful.

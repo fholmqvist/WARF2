@@ -14,7 +14,5 @@ type Job interface {
 
 	GetWorker() *Worker
 	SetWorker(*Worker)
-	GetState() JobState
-	SetState(JobState)
 	GetDestination() int
 }
