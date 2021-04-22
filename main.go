@@ -34,5 +34,17 @@ func main() {
 }
 
 func logo() {
-	fmt.Printf("\nStarting!\n\n")
+	lines := []string{
+		"##########################",
+		"########          ########",
+		"########   WARF   ########",
+		"########          ########",
+		"##########################",
+		"by Fredrik Holmqvist"
+	}
+	fmt.Println()
+	for _, line := range lines {
+		fmt.Println(line)
+	}
+	fmt.Println()
 }
