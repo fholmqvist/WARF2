@@ -46,3 +46,5 @@ I have since switched to another linter ([golangci-lint](https://golangci-lint.r
 ❌ Activities - Eating, resting, reading.
 
 ❌ Sound system.
+
+❌ And more.

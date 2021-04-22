@@ -145,10 +145,12 @@ func (jb *JobSystem) Len() int {
 func (jb *JobSystem) Less(i, j int) bool {
 	fst := jb.Jobs[i].Priority()
 	snd := jb.Jobs[j].Priority()
+	// Randomize equally prioritized.
 	if fst == snd {
 		return rand.Intn(2) == 1
 	}
-	return fst < snd
+	// Highest priority first.
+	return fst > snd
 }
 
 func (jb *JobSystem) Swap(i, j int) {

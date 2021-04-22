@@ -7,27 +7,37 @@ import (
 )
 
 func TestWorkQueue(t *testing.T) {
-	js := &j.JobSystem{
-		Jobs: []j.Job{
-			j.NewLibraryRead(nil, 0, 1),
-			j.NewLibraryRead(nil, 1, 1),
-			j.NewLibraryRead(nil, 2, 1),
-		},
-		Map:     &worldmap.Map{},
-		Workers: []j.Worker{},
-	}
-	firstOrder := []int{}
+	js := jobSystemWithJobs()
+	originalOrder := []int{}
 	for _, v := range js.Jobs {
-		firstOrder = append(firstOrder, v.GetDestination())
+		originalOrder = append(originalOrder, v.GetDestination())
 	}
 	js.Update()
-	identical := 0
+	sameAsBefore := 0
 	for i, v := range js.Jobs {
-		if v.GetDestination() == firstOrder[i] {
-			identical++
+		if v.GetDestination() == originalOrder[i] {
+			sameAsBefore++
 		}
 	}
-	if identical == 3 {
+	allOfThem := 6
+	if allOfThem == sameAsBefore {
 		t.Fatalf("should be random, wasn't")
 	}
+}
+
+func jobSystemWithJobs() *j.JobSystem {
+	js := &j.JobSystem{
+		Jobs: []j.Job{
+			j.NewLibraryRead(nil, 10, 1),
+			j.NewLibraryRead(nil, 11, 1),
+			j.NewLibraryRead(nil, 12, 1),
+			j.NewDigging(nil, 20, 0),
+			j.NewDigging(nil, 21, 0),
+			j.NewDigging(nil, 22, 0),
+		},
+		Map:     worldmap.New(),
+		Workers: []j.Worker{},
+	}
+	js.Map.Tiles[0].Sprite = worldmap.WallSelectedSolid
+	return js
 }

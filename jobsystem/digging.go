@@ -10,6 +10,10 @@ type Digging struct {
 	wallIdx     int
 }
 
+func NewDigging(w *Worker, destination, wallIdx int) *Digging {
+	return &Digging{w, destination, wallIdx}
+}
+
 // Checks if the tile of to-be-dug wall is still selected.
 func (d *Digging) NeedsToBeRemoved(mp *m.Map) bool {
 	return !m.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite)
@@ -32,7 +36,7 @@ func (d *Digging) PerformWork(mp *m.Map) func() bool {
 }
 
 func (d *Digging) Priority() int {
-	return 0
+	return 1
 }
 
 func (d *Digging) GetWorker() *Worker {
