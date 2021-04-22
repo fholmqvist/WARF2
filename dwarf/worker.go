@@ -65,12 +65,12 @@ func (d *Dwarf) MoveTo(idx int, mp *m.Map) bool {
 func (d *Dwarf) PerformWork(mp *m.Map) {
 	job := *d.job
 
-	// if d.Idx != job.GetDestination() {
-	// 	if len(d.path) == 0 {
-	// 		d.SetToAvailable()
-	// 	}
-	// 	return
-	// }
+	if d.Idx != job.GetDestination() {
+		if len(d.path) == 0 {
+			d.SetToAvailable()
+		}
+		return
+	}
 
 	finished := job.PerformWork(mp)
 	if !finished {
