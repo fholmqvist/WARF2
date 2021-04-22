@@ -1,6 +1,8 @@
 package jobsystem
 
-import m "projects/games/warf2/worldmap"
+import (
+	m "projects/games/warf2/worldmap"
+)
 
 func WaitingForWorker(j Job) bool {
 	return j.GetWorker() == nil

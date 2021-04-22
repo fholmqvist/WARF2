@@ -24,17 +24,13 @@ func (j *JobSystem) checkForDiggingJobs() {
 				continue
 			}
 
-			diggingJob := Digging{
-				worker:      nil,
-				destination: destination.Idx,
-				wallIdx:     wall.Idx,
-			}
+			diggingJob := NewDigging(destination.Idx, wall.Idx)
 
 			// We have satisfied the need
 			// as a worker is on the way.
 			wall.NeedsInteraction = false
 
-			j.Jobs = append(j.Jobs, &diggingJob)
+			j.Jobs = append(j.Jobs, diggingJob)
 			hasFoundJob = true
 		}
 	}

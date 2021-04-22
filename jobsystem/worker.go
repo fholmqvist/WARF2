@@ -12,4 +12,7 @@ type Worker interface {
 	SetToAvailable()
 	MoveTo(int, *m.Map) bool
 	PerformWork(*m.Map)
+	GetPosition() int
+	GetState() WorkerState
+	SetState(WorkerState)
 }

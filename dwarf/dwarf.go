@@ -33,6 +33,9 @@ func New(startingIdx int) Dwarf {
 // Walk placeholder, called every frame.
 func (d *Dwarf) Walk(mp *m.Map) {
 	if len(d.path) == 0 {
+		if d.HasJob() {
+			return
+		}
 		d.randomWalk(mp)
 		return
 	}

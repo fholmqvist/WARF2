@@ -101,7 +101,7 @@ func (l *Library) breakupBookshelves(mp *m.Map, y int) {
 		if i == 0 || i == len(items)-1 {
 			continue
 		}
-		if item.IsBookShelf(it.Sprite) {
+		if item.IsBookshelf(it.Sprite) {
 			shelves++
 		}
 	}

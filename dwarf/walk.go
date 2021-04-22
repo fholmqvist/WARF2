@@ -80,15 +80,3 @@ func (w *Walker) InitiateWalk(from, to *m.Tile) bool {
 	w.path = pathIdxs
 	return true
 }
-
-// InitiateWalkByPath sets a new path
-// and proceeds to start walking it.
-func (w *Walker) InitiateWalkByPath(path []astar.Pather) {
-	var pathIdxs []int
-	for _, t := range m.Reverse(path) {
-		tile := t.(*m.Tile)
-		pathIdxs = append(pathIdxs, tile.Idx)
-	}
-
-	w.path = pathIdxs
-}

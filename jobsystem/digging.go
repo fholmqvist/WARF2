@@ -10,8 +10,8 @@ type Digging struct {
 	wallIdx     int
 }
 
-func NewDigging(w *Worker, destination, wallIdx int) *Digging {
-	return &Digging{w, destination, wallIdx}
+func NewDigging(destination, wallIdx int) *Digging {
+	return &Digging{nil, destination, wallIdx}
 }
 
 // Checks if the tile of to-be-dug wall is still selected.

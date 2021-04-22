@@ -2,28 +2,46 @@ package game
 
 import (
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/item"
 	"projects/games/warf2/jobsystem"
+	"projects/games/warf2/worldmap"
 )
 
 const (
 	TIME_FACTOR         = 20
-	LIBRARY_READ_CUTOFF = 50
+	LIBRARY_READ_CUTOFF = 0
 )
 
 func (g *Game) checkForLibraryReading() {
 	for _, worker := range g.JobSystem.AvailableWorkers {
-		d := worker.(*dwarf.Dwarf)
-		if d.Needs.ToRead < LIBRARY_READ_CUTOFF {
+		dwf := worker.(*dwarf.Dwarf)
+		if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
 			continue
 		}
-		j := jobsystem.NewLibraryRead(d, 0, int(d.Characteristics.DesireToRead*TIME_FACTOR))
-		d.SetJob(j)
+		destination, ok := getBookshelfDestination(&g.WorldMap, *dwf)
+		if !ok {
+			continue
+		}
+		j := jobsystem.NewLibraryRead(destination, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
+		jobsystem.SetWorkerAndMove(j, worker, &g.WorldMap)
 		g.JobSystem.Jobs = append(g.JobSystem.Jobs, j)
 		/////////////////////////////////////////////////
 		// TODO
 		//
 		// This is not great.
 		/////////////////////////////////////////////////
-		d.Needs.ToRead = 0
+		dwf.Needs.ToRead = 0
 	}
+}
+
+func getBookshelfDestination(m *worldmap.Map, dwf dwarf.Dwarf) (int, bool) {
+	bookshelf, ok := item.FindNearestBookshelf(m, dwf.Idx)
+	if !ok {
+		return -1, false
+	}
+	destination := m.OneTileDown(bookshelf)
+	if !worldmap.IsExposed(destination.Sprite) {
+		return -1, false
+	}
+	return destination.Idx, true
 }

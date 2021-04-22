@@ -14,10 +14,10 @@ func IsBlocking(sprite int) bool {
 	return false
 }
 
-// IsBookShelf returns
+// IsBookshelf returns
 // if tile is of any
 // type of BookShelf.
-func IsBookShelf(sprite int) bool {
+func IsBookshelf(sprite int) bool {
 	return sprite >= BookShelfOne && sprite <= BookShelfTen
 }
 

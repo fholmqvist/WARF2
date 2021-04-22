@@ -28,12 +28,12 @@ func TestWorkQueue(t *testing.T) {
 func jobSystemWithJobs() *j.JobSystem {
 	js := &j.JobSystem{
 		Jobs: []j.Job{
-			j.NewLibraryRead(nil, 10, 1),
-			j.NewLibraryRead(nil, 11, 1),
-			j.NewLibraryRead(nil, 12, 1),
-			j.NewDigging(nil, 20, 0),
-			j.NewDigging(nil, 21, 0),
-			j.NewDigging(nil, 22, 0),
+			j.NewLibraryRead(10, 1),
+			j.NewLibraryRead(11, 1),
+			j.NewLibraryRead(12, 1),
+			j.NewDigging(20, 0),
+			j.NewDigging(21, 0),
+			j.NewDigging(22, 0),
 		},
 		Map:     worldmap.New(),
 		Workers: []j.Worker{},
