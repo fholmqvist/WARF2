@@ -106,7 +106,11 @@ func (s *System) mouseUp(mp *m.Map, rs *room.System) {
 	unsetHasClicked()
 }
 
-// TODO: Overlays, placeholders, highlights...
+/////////////////////////////////////////////////
+// TODO
+//
+// Overlays, placeholders, highlights...
+/////////////////////////////////////////////////
 func (s *System) mouseHover(mp *m.Map) {
 	switch s.Mode {
 	default:

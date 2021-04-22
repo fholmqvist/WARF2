@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	d "projects/games/warf2/dwarf"
 	"projects/games/warf2/entity"
-	e "projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	u "projects/games/warf2/ui"
@@ -29,9 +28,7 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 		},
 	}
 	for i := 0; i < dwarves; i++ {
-		dwarf := placeNewDwarf(game.WorldMap)
-		game.Dwarves = append(game.Dwarves, dwarf)
-		game.JobSystem.Workers = append(game.JobSystem.Workers, &dwarf)
+		addDwarfToGame(&game)
 	}
 	return game
 }
@@ -64,10 +61,12 @@ func placeNewDwarf(mp m.Map) d.Dwarf {
 			availableSpots = append(availableSpots, mp.Tiles[i].Idx)
 		}
 	}
-	return d.Dwarf{
-		Entity: e.Entity{
-			Sprite: rand.Intn(d.DwarfTeal),
-			Idx:    availableSpots[rand.Intn(len(availableSpots))],
-		},
-	}
+	startingPosition := availableSpots[rand.Intn(len(availableSpots))]
+	return d.New(startingPosition)
+}
+
+func addDwarfToGame(g *Game) {
+	dwarf := placeNewDwarf(g.WorldMap)
+	g.Dwarves = append(g.Dwarves, dwarf)
+	g.JobSystem.Workers = append(g.JobSystem.Workers, &dwarf)
 }

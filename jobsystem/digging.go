@@ -20,19 +20,17 @@ func (d *Digging) NeedsToBeRemoved(mp *m.Map) bool {
 }
 
 // Ran on arrival.
-func (d *Digging) PerformWork(mp *m.Map) func() bool {
-	return func() bool {
-		t := &mp.Tiles[d.wallIdx]
-		if !m.IsSelectedWall(t.Sprite) {
-			// Job is, in a sense, done.
-			return true
-		}
-		t.Sprite = m.Ground
-		for _, nb := range m.SurroundingTilesFour(t.Idx) {
-			mp.FixWall(&mp.Tiles[nb.Idx])
-		}
+func (d *Digging) PerformWork(mp *m.Map) bool {
+	t := &mp.Tiles[d.wallIdx]
+	if !m.IsSelectedWall(t.Sprite) {
+		// Job is, in a sense, done.
 		return true
 	}
+	t.Sprite = m.Ground
+	for _, nb := range m.SurroundingTilesFour(t.Idx) {
+		mp.FixWall(&mp.Tiles[nb.Idx])
+	}
+	return true
 }
 
 func (d *Digging) Priority() int {

@@ -23,3 +23,8 @@ func (c *Clock) Increment() {
 func (c *Clock) FreshTurn() bool {
 	return c.time == 0
 }
+
+// Half that of FreshTurn.
+func (c *Clock) HalfTurn() bool {
+	return c.time%(maxTurns/2) == 0
+}

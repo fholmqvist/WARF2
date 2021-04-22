@@ -9,7 +9,7 @@ import (
 // the job system.
 type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
-	PerformWork(*m.Map) func() bool
+	PerformWork(*m.Map) bool
 	Priority() int
 
 	GetWorker() *Worker

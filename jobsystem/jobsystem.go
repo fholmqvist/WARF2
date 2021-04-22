@@ -17,22 +17,30 @@ func init() {
 // JobSystem manages all ingame jobs
 // for dwarves.
 type JobSystem struct {
-	Jobs    []Job    `json:"jobs"`
-	Workers []Worker `json:"-"`
-	Map     *m.Map   `json:"-"`
+	Jobs             []Job    `json:"jobs"`
+	Workers          []Worker `json:"-"`
+	AvailableWorkers []Worker `json:"-"`
+	Map              *m.Map   `json:"-"`
 }
 
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
 func (j *JobSystem) Update() {
-	j.sortJobs()
+	j.sortPriority()
 	j.removeFinishedJobs()
-	j.assignWorkers()
+	j.AvailableWorkers = j.availableWorkers()
+
+	/* ---------------------------------- Check --------------------------------- */
+
 	j.checkForDiggingJobs()
+
+	/* ----------------------------- Assign and work ---------------------------- */
+
+	j.assignWorkers(j.AvailableWorkers)
 	j.performWork()
 }
 
-func (j *JobSystem) sortJobs() {
+func (j *JobSystem) sortPriority() {
 	sort.Sort(j)
 }
 
@@ -46,8 +54,7 @@ func (j *JobSystem) removeFinishedJobs() {
 	j.Jobs = jobs
 }
 
-func (j *JobSystem) assignWorkers() {
-	availableWorkers := j.availableWorkers()
+func (j *JobSystem) assignWorkers(availableWorkers []Worker) {
 	for _, job := range j.Jobs {
 		if !WaitingForWorker(job) {
 			continue
@@ -77,61 +84,11 @@ func (j *JobSystem) availableWorkers() []Worker {
 	return workers
 }
 
-func (j *JobSystem) checkForDiggingJobs() {
-	for _, wall := range j.Map.Tiles {
-		if !m.IsSelectedWall(wall.Sprite) || !wall.NeedsInteraction {
-			continue
-		}
-
-		hasFoundJob := false
-		for _, destination := range m.SurroundingTilesFour(wall.Idx) {
-			if hasFoundJob {
-				break
-			}
-
-			if m.IsColliding(j.Map, wall.Idx, destination.Dir) {
-				continue
-			}
-
-			if j.diggingJobAlreadyExists(destination.Idx, wall.Idx) {
-				continue
-			}
-
-			diggingJob := Digging{
-				worker:      nil,
-				destination: destination.Idx,
-				wallIdx:     wall.Idx,
-			}
-
-			// We have satisfied the need
-			// as a worker is on the way.
-			wall.NeedsInteraction = false
-
-			j.Jobs = append(j.Jobs, &diggingJob)
-			hasFoundJob = true
-		}
-	}
-}
-
-func (j *JobSystem) diggingJobAlreadyExists(dIdx, wIdx int) bool {
-	for _, job := range j.Jobs {
-		d, ok := job.(*Digging)
-		if !ok {
-			continue
-		}
-		if d.destination == dIdx && d.wallIdx == wIdx {
-			return true
-		}
-	}
-	return false
-}
-
 func (j *JobSystem) performWork() {
 	for _, worker := range j.Workers {
 		if !worker.HasJob() {
 			continue
 		}
-
 		worker.PerformWork(j.Map)
 	}
 }

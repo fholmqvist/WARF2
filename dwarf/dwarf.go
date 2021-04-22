@@ -13,9 +13,21 @@ import (
 type Dwarf struct {
 	e.Entity
 	Walker
+	Characteristics
+	Needs
 
 	state jobsystem.WorkerState
 	job   *jobsystem.Job
+}
+
+func New(startingIdx int) Dwarf {
+	return Dwarf{
+		Entity: e.Entity{
+			Sprite: rand.Intn(DwarfTeal),
+			Idx:    startingIdx,
+		},
+		Characteristics: GenerateCharacteristics(),
+	}
 }
 
 // Walk placeholder, called every frame.

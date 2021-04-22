@@ -13,16 +13,32 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	g.mouseSystem.Handle(&g.WorldMap, &g.Rooms)
 	handleKeyboard(g)
 
-	g.updateCharacters()
+	g.updateDwarves()
 
 	g.JobSystem.Update()
 
 	return nil
 }
 
-func (g *Game) updateCharacters() {
+func (g *Game) updateDwarves() {
 	for _, worker := range g.JobSystem.Workers {
 		dwarf := worker.(*dwarf.Dwarf)
 		dwarf.Walk(&g.WorldMap)
 	}
+	if !g.time.NewCycle() {
+		return
+	}
+	for _, worker := range g.JobSystem.Workers {
+		dwarf := worker.(*dwarf.Dwarf)
+		dwarf.Needs.Update(dwarf.Characteristics)
+	}
+	/////////////////////////////////////////////////
+	// TODO
+	//
+	// Should be redesigned so that we get
+	// the highest desired need for each
+	// available dwarf, and assign a job to
+	// satisfy that need.
+	/////////////////////////////////////////////////
+	g.checkForLibraryReading()
 }
