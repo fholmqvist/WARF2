@@ -40,7 +40,7 @@ func logo() {
 		"########   WARF   ########",
 		"########          ########",
 		"##########################",
-		"by Fredrik Holmqvist"
+		"by Fredrik Holmqvist",
 	}
 	fmt.Println()
 	for _, line := range lines {
