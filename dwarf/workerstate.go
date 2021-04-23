@@ -1,4 +1,4 @@
-package jobsystem
+package dwarf
 
 // WorkerState defines the
 // potential states for

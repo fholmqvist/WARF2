@@ -1,13 +1,14 @@
-package jobsystem
+package job
 
 import (
 	"fmt"
+	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
 	m "projects/games/warf2/worldmap"
 )
 
 type LibraryRead struct {
-	worker      *Worker
+	dwarf       *dwarf.Dwarf
 	destination int
 	readingTime int
 }
@@ -21,20 +22,20 @@ func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
 }
 
 func (l *LibraryRead) PerformWork(m *m.Map) bool {
-	worker := *l.worker
-	if !item.IsChair(m.Items[worker.GetPosition()].Sprite) && worker.GetState() != WorkerMovingTowards {
+	worker := *l.dwarf
+	if !item.IsChair(m.Items[worker.GetPosition()].Sprite) && worker.GetState() != dwarf.WorkerMovingTowards {
 		dst, ok := item.FindNearestChair(m, l.destination)
 		if !ok {
 			return false
 		}
-		worker.SetState(WorkerMovingTowards)
+		worker.SetState(dwarf.WorkerMovingTowards)
 		fmt.Println("Moving!")
 		worker.MoveTo(dst, m)
 		l.SetWorker(&worker)
 		return false
 	}
 	fmt.Println("We're here!")
-	if worker.GetState() != WorkerArrived {
+	if worker.GetState() != dwarf.WorkerArrived {
 		fmt.Println("Hasn't arrived yet")
 		return false
 	}
@@ -51,12 +52,12 @@ func (l *LibraryRead) Priority() int {
 	return 0
 }
 
-func (l *LibraryRead) GetWorker() *Worker {
-	return l.worker
+func (l *LibraryRead) GetWorker() *dwarf.Dwarf {
+	return l.dwarf
 }
 
-func (l *LibraryRead) SetWorker(w *Worker) {
-	l.worker = w
+func (l *LibraryRead) SetWorker(dw *dwarf.Dwarf) {
+	l.dwarf = dw
 }
 
 func (l *LibraryRead) GetDestination() int {

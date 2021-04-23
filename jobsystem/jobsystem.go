@@ -5,6 +5,8 @@ package jobsystem
 
 import (
 	"math/rand"
+	"projects/games/warf2/dwarf"
+	"projects/games/warf2/job"
 	m "projects/games/warf2/worldmap"
 	"sort"
 	"time"
@@ -17,10 +19,10 @@ func init() {
 // JobSystem manages all ingame jobs
 // for dwarves.
 type JobSystem struct {
-	Jobs             []Job    `json:"jobs"`
-	Workers          []Worker `json:"-"`
-	AvailableWorkers []Worker `json:"-"`
-	Map              *m.Map   `json:"-"`
+	Jobs             []job.Job      `json:"jobs"`
+	Workers          []*dwarf.Dwarf `json:"-"`
+	AvailableWorkers []*dwarf.Dwarf `json:"-"`
+	Map              *m.Map         `json:"-"`
 }
 
 // Update runs every frame, handling
@@ -45,7 +47,7 @@ func (j *JobSystem) sortPriority() {
 }
 
 func (j *JobSystem) removeFinishedJobs() {
-	var jobs []Job
+	var jobs []job.Job
 	for _, job := range j.Jobs {
 		if !job.NeedsToBeRemoved(j.Map) {
 			jobs = append(jobs, job)
@@ -54,7 +56,7 @@ func (j *JobSystem) removeFinishedJobs() {
 	j.Jobs = jobs
 }
 
-func (j *JobSystem) assignWorkers(availableWorkers []Worker) {
+func (j *JobSystem) assignWorkers(availableWorkers []*dwarf.Dwarf) {
 	for _, job := range j.Jobs {
 		if !WaitingForWorker(job) {
 			continue
@@ -74,22 +76,37 @@ func (j *JobSystem) assignWorkers(availableWorkers []Worker) {
 	}
 }
 
-func (j *JobSystem) availableWorkers() []Worker {
-	var workers []Worker
-	for _, worker := range j.Workers {
-		if worker.Available() {
-			workers = append(workers, worker)
+func (j *JobSystem) availableWorkers() []*dwarf.Dwarf {
+	var dwarves []*dwarf.Dwarf
+	for _, dwarf := range j.Workers {
+		if dwarf.Available() {
+			dwarves = append(dwarves, dwarf)
 		}
 	}
-	return workers
+	return dwarves
 }
 
 func (j *JobSystem) performWork() {
-	for _, worker := range j.Workers {
-		if !worker.HasJob() {
+	for _, jb := range j.Jobs {
+		d := jb.GetWorker()
+		if d == nil {
 			continue
 		}
-		worker.PerformWork(j.Map)
+		if !d.HasJob() {
+			continue
+		}
+		if d.Idx != jb.GetDestination() {
+			if len(d.Path) == 0 {
+				d.SetToAvailable()
+			}
+			return
+		}
+		d.SetState(dwarf.WorkerArrived)
+		finished := jb.PerformWork(j.Map)
+		if !finished {
+			return
+		}
+		d.SetToAvailable()
 	}
 }
 

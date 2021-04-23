@@ -1,6 +1,8 @@
 package tests
 
 import (
+	"projects/games/warf2/dwarf"
+	"projects/games/warf2/job"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/worldmap"
 	"testing"
@@ -27,16 +29,16 @@ func TestWorkQueue(t *testing.T) {
 
 func jobSystemWithJobs() *j.JobSystem {
 	js := &j.JobSystem{
-		Jobs: []j.Job{
-			j.NewLibraryRead(10, 1),
-			j.NewLibraryRead(11, 1),
-			j.NewLibraryRead(12, 1),
-			j.NewDigging(20, 0),
-			j.NewDigging(21, 0),
-			j.NewDigging(22, 0),
+		Jobs: []job.Job{
+			job.NewLibraryRead(10, 1),
+			job.NewLibraryRead(11, 1),
+			job.NewLibraryRead(12, 1),
+			job.NewDigging(20, 0),
+			job.NewDigging(21, 0),
+			job.NewDigging(22, 0),
 		},
 		Map:     worldmap.New(),
-		Workers: []j.Worker{},
+		Workers: []*dwarf.Dwarf{},
 	}
 	js.Map.Tiles[0].Sprite = worldmap.WallSelectedSolid
 	return js

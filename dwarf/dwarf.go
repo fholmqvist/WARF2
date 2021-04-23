@@ -4,7 +4,6 @@ import (
 	"log"
 	"math/rand"
 	e "projects/games/warf2/entity"
-	"projects/games/warf2/jobsystem"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -16,8 +15,7 @@ type Dwarf struct {
 	Characteristics
 	Needs
 
-	state jobsystem.WorkerState
-	job   *jobsystem.Job
+	state WorkerState
 }
 
 func New(startingIdx int) Dwarf {
@@ -32,7 +30,7 @@ func New(startingIdx int) Dwarf {
 
 // Walk placeholder, called every frame.
 func (d *Dwarf) Walk(mp *m.Map) {
-	if len(d.path) == 0 {
+	if len(d.Path) == 0 {
 		if d.HasJob() {
 			return
 		}
@@ -56,14 +54,14 @@ func (d *Dwarf) randomWalk(mp *m.Map) {
 }
 
 func (d *Dwarf) traversePath(mp *m.Map) {
-	if len(d.path) == 0 {
+	if len(d.Path) == 0 {
 		return
 	}
 
-	next := d.path[0]
+	next := d.Path[0]
 
 	if d.Idx == next {
-		d.path = d.path[1:]
+		d.Path = d.Path[1:]
 		return
 	}
 
@@ -73,6 +71,6 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 	}
 
 	if d.Move(mp, &d.Entity, dir) {
-		d.path = d.path[1:]
+		d.Path = d.Path[1:]
 	}
 }

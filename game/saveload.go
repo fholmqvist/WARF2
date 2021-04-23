@@ -80,11 +80,11 @@ func loadGame() Game {
 
 	sg.JobSystem.Map = &sg.WorldMap
 
-	var workers []j.Worker
-	for i := range sg.Dwarves {
-		workers = append(workers, &sg.Dwarves[i])
+	var dwarves []*dwarf.Dwarf
+	for _, dwarf := range sg.Dwarves {
+		dwarves = append(dwarves, &dwarf)
 	}
-	sg.JobSystem.Workers = workers
+	sg.JobSystem.Workers = dwarves
 
 	for i := range sg.WorldMap.Tiles {
 		sg.WorldMap.Tiles[i].Map = &sg.WorldMap

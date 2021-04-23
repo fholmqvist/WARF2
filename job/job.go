@@ -1,6 +1,7 @@
-package jobsystem
+package job
 
 import (
+	"projects/games/warf2/dwarf"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -12,7 +13,7 @@ type Job interface {
 	PerformWork(*m.Map) bool
 	Priority() int
 
-	GetWorker() *Worker
-	SetWorker(*Worker)
+	GetWorker() *dwarf.Dwarf
+	SetWorker(*dwarf.Dwarf)
 	GetDestination() int
 }

@@ -9,7 +9,7 @@ import (
 
 // Walker defines functionality for walking
 type Walker struct {
-	path []int
+	Path []int
 }
 
 // Move attempts to move an entity given a direction
@@ -77,6 +77,6 @@ func (w *Walker) InitiateWalk(from, to *m.Tile) bool {
 		pathIdxs = append(pathIdxs, tile.Idx)
 	}
 
-	w.path = pathIdxs
+	w.Path = pathIdxs
 	return true
 }

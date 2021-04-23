@@ -1,6 +1,7 @@
 package jobsystem
 
 import (
+	"projects/games/warf2/job"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -24,7 +25,7 @@ func (j *JobSystem) checkForDiggingJobs() {
 				continue
 			}
 
-			diggingJob := NewDigging(destination.Idx, wall.Idx)
+			diggingJob := job.NewDigging(destination.Idx, wall.Idx)
 
 			// We have satisfied the need
 			// as a worker is on the way.
@@ -37,12 +38,12 @@ func (j *JobSystem) checkForDiggingJobs() {
 }
 
 func (j *JobSystem) diggingJobAlreadyExists(dIdx, wIdx int) bool {
-	for _, job := range j.Jobs {
-		d, ok := job.(*Digging)
+	for _, jb := range j.Jobs {
+		d, ok := jb.(*job.Digging)
 		if !ok {
 			continue
 		}
-		if d.destination == dIdx && d.wallIdx == wIdx {
+		if d.GetDestination() == dIdx && d.GetWallIdx() == wIdx {
 			return true
 		}
 	}

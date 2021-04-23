@@ -1,11 +1,12 @@
-package jobsystem
+package job
 
 import (
+	"projects/games/warf2/dwarf"
 	m "projects/games/warf2/worldmap"
 )
 
 type Digging struct {
-	worker      *Worker
+	dwarf       *dwarf.Dwarf
 	destination int
 	wallIdx     int
 }
@@ -37,14 +38,18 @@ func (d *Digging) Priority() int {
 	return 1
 }
 
-func (d *Digging) GetWorker() *Worker {
-	return d.worker
+func (d *Digging) GetWorker() *dwarf.Dwarf {
+	return d.dwarf
 }
 
-func (d *Digging) SetWorker(w *Worker) {
-	d.worker = w
+func (d *Digging) SetWorker(dw *dwarf.Dwarf) {
+	d.dwarf = dw
 }
 
 func (d *Digging) GetDestination() int {
 	return d.destination
+}
+
+func (d *Digging) GetWallIdx() int {
+	return d.wallIdx
 }

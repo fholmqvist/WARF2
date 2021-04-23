@@ -3,6 +3,7 @@ package game
 import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
+	"projects/games/warf2/job"
 	"projects/games/warf2/jobsystem"
 	"projects/games/warf2/worldmap"
 )
@@ -13,8 +14,7 @@ const (
 )
 
 func (g *Game) checkForLibraryReading() {
-	for _, worker := range g.JobSystem.AvailableWorkers {
-		dwf := worker.(*dwarf.Dwarf)
+	for _, dwf := range g.JobSystem.AvailableWorkers {
 		if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
 			continue
 		}
@@ -22,8 +22,8 @@ func (g *Game) checkForLibraryReading() {
 		if !ok {
 			continue
 		}
-		j := jobsystem.NewLibraryRead(destination, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
-		jobsystem.SetWorkerAndMove(j, worker, &g.WorldMap)
+		j := job.NewLibraryRead(destination, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
+		jobsystem.SetWorkerAndMove(j, dwf, &g.WorldMap)
 		g.JobSystem.Jobs = append(g.JobSystem.Jobs, j)
 		/////////////////////////////////////////////////
 		// TODO
