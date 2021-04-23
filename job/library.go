@@ -21,30 +21,27 @@ func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
 	return l.readingTime <= 0
 }
 
-func (l *LibraryRead) PerformWork(m *m.Map) bool {
-	worker := *l.dwarf
-	if !item.IsChair(m.Items[worker.GetPosition()].Sprite) && worker.GetState() != dwarf.WorkerMovingTowards {
+func (l *LibraryRead) PerformWork(m *m.Map) (finished bool) {
+	if !item.IsChair(m.Items[l.dwarf.GetPosition()].Sprite) && l.dwarf.GetState() != dwarf.WorkerMoving {
 		dst, ok := item.FindNearestChair(m, l.destination)
 		if !ok {
 			return false
 		}
-		worker.SetState(dwarf.WorkerMovingTowards)
-		fmt.Println("Moving!")
-		worker.MoveTo(dst, m)
-		l.SetWorker(&worker)
+		l.destination = dst
+		if l.dwarf.MoveTo(dst, m) {
+			return false
+		}
+		fmt.Println("MoveTo went wrong")
 		return false
 	}
-	fmt.Println("We're here!")
-	if worker.GetState() != dwarf.WorkerArrived {
-		fmt.Println("Hasn't arrived yet")
+	if !item.IsChair(m.Items[l.dwarf.GetPosition()].Sprite) && l.dwarf.GetState() == dwarf.WorkerMoving {
+		fmt.Println("Haven't arrived yet")
 		return false
 	}
 	if l.readingTime > 0 {
-		fmt.Println("Reading!")
 		l.readingTime--
 		return false
 	}
-	fmt.Println("Done reading!")
 	return true
 }
 

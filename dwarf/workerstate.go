@@ -9,6 +9,15 @@ type WorkerState int
 const (
 	WorkerIdle WorkerState = iota
 	WorkerHasJob
-	WorkerMovingTowards
+	WorkerMoving
 	WorkerArrived
 )
+
+func (w WorkerState) String() string {
+	return []string{
+		"WorkerIdle",
+		"WorkerHasJob",
+		"WorkerMoving",
+		"WorkerArrived",
+	}[w]
+}

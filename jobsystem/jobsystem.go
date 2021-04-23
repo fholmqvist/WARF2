@@ -4,6 +4,7 @@
 package jobsystem
 
 import (
+	"fmt"
 	"math/rand"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/job"
@@ -97,11 +98,11 @@ func (j *JobSystem) performWork() {
 		}
 		if d.Idx != jb.GetDestination() {
 			if len(d.Path) == 0 {
+				fmt.Println("No path, done.")
 				d.SetToAvailable()
 			}
 			return
 		}
-		d.SetState(dwarf.WorkerArrived)
 		finished := jb.PerformWork(j.Map)
 		if !finished {
 			return

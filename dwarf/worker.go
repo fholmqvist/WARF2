@@ -47,27 +47,9 @@ func (d *Dwarf) MoveTo(idx int, mp *m.Map) bool {
 		return false
 	}
 
-	d.state = WorkerMovingTowards
+	d.state = WorkerMoving
 	return true
 }
-
-// PerformWork checks if the character is ready,
-// and performs the given work.
-// func (d *Dwarf) PerformWork(mp *m.Map) {
-// 	jb := *d.job
-// 	if d.Idx != jb.GetDestination() {
-// 		if len(d.path) == 0 {
-// 			d.SetToAvailable()
-// 		}
-// 		return
-// 	}
-// 	d.SetState(WorkerArrived)
-// 	finished := jb.PerformWork(mp)
-// 	if !finished {
-// 		return
-// 	}
-// 	d.SetToAvailable()
-// }
 
 func (d *Dwarf) GetPosition() int {
 	return d.Idx
