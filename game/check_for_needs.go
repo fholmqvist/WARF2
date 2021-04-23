@@ -10,7 +10,7 @@ import (
 
 const (
 	TIME_FACTOR         = 20
-	LIBRARY_READ_CUTOFF = 0
+	LIBRARY_READ_CUTOFF = 80
 )
 
 func (g *Game) checkForLibraryReading() {

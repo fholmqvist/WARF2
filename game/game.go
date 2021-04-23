@@ -73,8 +73,11 @@ func NewGame(arg string) *Game {
 		game.Rooms.AddLibrary(&game.WorldMap, 7, 7)
 		game.WorldMap.FixWalls()
 		addDwarfToGame(&game)
-		d := &game.Dwarves[0]
-		d.Characteristics.DesireToRead = 50
+		addDwarfToGame(&game)
+		d1 := game.Dwarves[0]
+		d1.Characteristics.DesireToRead = 20
+		d2 := game.Dwarves[1]
+		d2.Characteristics.DesireToRead = 30
 
 	case "walls":
 		// Debugging and testing wall and floor fills.

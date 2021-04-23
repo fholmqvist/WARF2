@@ -5,6 +5,11 @@ import (
 	m "projects/games/warf2/worldmap"
 )
 
+const (
+	finished   = true
+	unfinished = false
+)
+
 // Job declares the common interface
 // for jobs, in order to be used within
 // the job system.

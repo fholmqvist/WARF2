@@ -4,7 +4,6 @@
 package jobsystem
 
 import (
-	"fmt"
 	"math/rand"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/job"
@@ -62,14 +61,17 @@ func (j *JobSystem) assignWorkers(availableWorkers []*dwarf.Dwarf) {
 		if !WaitingForWorker(job) {
 			continue
 		}
-
 		foundWorker := false
+	found:
 		for _, worker := range availableWorkers {
 			if worker.Available() {
 				foundWorker = SetWorkerAndMove(job, worker, j.Map)
+				if !foundWorker {
+					continue
+				}
+				break found
 			}
 		}
-
 		if foundWorker {
 			availableWorkers = j.availableWorkers()
 			continue
@@ -98,7 +100,6 @@ func (j *JobSystem) performWork() {
 		}
 		if d.Idx != jb.GetDestination() {
 			if len(d.Path) == 0 {
-				fmt.Println("No path, done.")
 				d.SetToAvailable()
 			}
 			return

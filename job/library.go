@@ -1,9 +1,9 @@
 package job
 
 import (
-	"fmt"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
+	"projects/games/warf2/worldmap"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -21,28 +21,24 @@ func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
 	return l.readingTime <= 0
 }
 
-func (l *LibraryRead) PerformWork(m *m.Map) (finished bool) {
-	if !item.IsChair(m.Items[l.dwarf.GetPosition()].Sprite) && l.dwarf.GetState() != dwarf.WorkerMoving {
+func (l *LibraryRead) PerformWork(m *m.Map) bool {
+	if shouldGetChair(m, l) {
 		dst, ok := item.FindNearestChair(m, l.destination)
 		if !ok {
-			return false
+			return unfinished
 		}
 		l.destination = dst
 		if l.dwarf.MoveTo(dst, m) {
-			return false
+			return unfinished
 		}
-		fmt.Println("MoveTo went wrong")
-		return false
+		return unfinished
 	}
-	if !item.IsChair(m.Items[l.dwarf.GetPosition()].Sprite) && l.dwarf.GetState() == dwarf.WorkerMoving {
-		fmt.Println("Haven't arrived yet")
-		return false
-	}
-	if l.readingTime > 0 {
+	if l.readingTime > 1 {
 		l.readingTime--
-		return false
+		return unfinished
 	}
-	return true
+	l.readingTime = 0
+	return finished
 }
 
 func (l *LibraryRead) Priority() int {
@@ -59,4 +55,9 @@ func (l *LibraryRead) SetWorker(dw *dwarf.Dwarf) {
 
 func (l *LibraryRead) GetDestination() int {
 	return l.destination
+}
+
+func shouldGetChair(m *worldmap.Map, l *LibraryRead) bool {
+	return !item.IsChair(m.Items[l.dwarf.GetPosition()].Sprite) &&
+		l.dwarf.GetState() != dwarf.WorkerMoving
 }
