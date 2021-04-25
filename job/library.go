@@ -58,6 +58,6 @@ func (l *LibraryRead) GetDestination() int {
 }
 
 func shouldGetChair(m *worldmap.Map, l *LibraryRead) bool {
-	return !item.IsChair(m.Items[l.dwarf.GetPosition()].Sprite) &&
-		l.dwarf.GetState() != dwarf.WorkerMoving
+	return !item.IsChair(m.Items[l.dwarf.Idx].Sprite) &&
+		l.dwarf.State != dwarf.WorkerMoving
 }

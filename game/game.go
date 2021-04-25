@@ -85,19 +85,19 @@ func NewGame(arg string) *Game {
 		mp := &game.WorldMap
 
 		// Room 1.
-		game.WorldMap.DrawOutline(5, 5, 10, 10, m.WallSolid)
-		game.WorldMap.Tiles[m.XYToIdx(5, 7)].Sprite = m.Ground
-		game.WorldMap.Tiles[m.XYToIdx(7, 5)].Sprite = m.Ground
+		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
+		mp.Tiles[m.XYToIdx(5, 7)].Sprite = m.Ground
+		mp.Tiles[m.XYToIdx(7, 5)].Sprite = m.Ground
 
 		// Room 2.
-		game.WorldMap.DrawOutline(12, 5, 24, 12, m.WallSolid)
-		game.WorldMap.Tiles[m.XYToIdx(23, 8)].Sprite = m.Ground
-		game.WorldMap.Tiles[m.XYToIdx(16, 11)].Sprite = m.Ground
+		mp.DrawOutline(12, 5, 24, 12, m.WallSolid)
+		mp.Tiles[m.XYToIdx(23, 8)].Sprite = m.Ground
+		mp.Tiles[m.XYToIdx(16, 11)].Sprite = m.Ground
 
 		// Room 3.
-		game.WorldMap.DrawOutline(26, 5, 38, 12, m.WallSolid)
-		game.WorldMap.DrawOutline(32, 11, 38, 18, m.WallSolid)
-		game.WorldMap.Tiles[536].Sprite = m.Ground
+		mp.DrawOutline(26, 5, 38, 12, m.WallSolid)
+		mp.DrawOutline(32, 11, 38, 18, m.WallSolid)
+		mp.Tiles[536].Sprite = m.Ground
 		for idx := 539; idx <= 542; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
@@ -109,6 +109,13 @@ func NewGame(arg string) *Game {
 			_ = mp.FloodFillRoom(27, 6, m.RandomFloorBrick)
 			mp.FixWalls()
 		}()
+
+	case "fill":
+		// Debugging and testing wall selection.
+		game = GenerateGame(0, boundariesMap())
+		mp := &game.WorldMap
+		mp.DrawSquare(1, 1, m.TilesW-1, m.TilesH-1, m.WallSolid)
+		mp.FixWalls()
 
 	case "load":
 		game = loadGame()

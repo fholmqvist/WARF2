@@ -9,28 +9,23 @@ func noneMode(mp *m.Map, currentMousePos int) {
 	clickFunctions(mp, currentMousePos,
 		func() {
 			printMousePos(currentMousePos)
-
 			// Get tile from real tiles.
 			tile, ok := mp.GetTileByIndex(currentMousePos)
 			if !ok {
 				return
 			}
-
 			firstClickedSprite = tile.Sprite
-
 			// Replace that tile with one from SelectedTiles.
 			tile, ok = mp.GetSelectionTileByIndex(currentMousePos)
 			if !ok {
 				return
 			}
-
 			// Selecting a non-wall defaults to
 			// wall in order to enable wall selection
 			// without having first clicked on a wall.
 			if !m.IsSelectedWall(firstClickedSprite) {
 				firstClickedSprite = m.WallSolid
 			}
-
 			if m.IsWallOrSelected(tile.Sprite) {
 				tile.Sprite = invertSelected(firstClickedSprite)
 			}
@@ -50,12 +45,10 @@ func mouseUpSetWalls(mp *m.Map, x, y int) {
 	if !ok {
 		return
 	}
-
 	// No change
 	if m.IsNone(selectionTile.Sprite) {
 		return
 	}
-
 	tile, ok := mp.GetTile(x, y)
 	if !ok {
 		return
@@ -69,19 +62,15 @@ func selectionWalls(mp *m.Map, x, y int) {
 	if !ok {
 		return
 	}
-
 	if !m.IsWallOrSelected(tile.Sprite) {
 		return
 	}
-
 	selectionTile, ok := mp.GetSelectionTile(x, y)
 	if !ok {
 		return
 	}
-
 	// In order to invert between (un)selected.
 	selectionTile.Sprite = tile.Sprite
-
 	setWalls(selectionTile)
 }
 
@@ -90,7 +79,6 @@ func removeOldSelectionTiles(mp *m.Map, x, y int) {
 	if !ok {
 		return
 	}
-
 	selectionTile.Sprite = m.None
 }
 
@@ -98,12 +86,10 @@ func setWalls(tile *m.Tile) {
 	if !m.IsWallOrSelected(tile.Sprite) {
 		return
 	}
-
 	if m.IsWall(firstClickedSprite) {
 		setToSelected(tile)
 		return
 	}
-
 	setToNormalInteractFalse(tile)
 }
 
@@ -114,7 +100,6 @@ func invertSelected(sprite int) int {
 		}
 		return m.WallSelectedExposed
 	}
-
 	if sprite == m.WallSelectedSolid {
 		return m.WallSolid
 	}
@@ -125,9 +110,7 @@ func setToSelected(tile *m.Tile) {
 	if m.IsSelectedWall(tile.Sprite) {
 		return
 	}
-
 	tile.NeedsInteraction = true
-
 	if tile.Sprite == m.WallSolid {
 		tile.Sprite = m.WallSelectedSolid
 		return
@@ -148,7 +131,6 @@ func setToNormalInteractFalse(tile *m.Tile) {
 	// rediscover this after hours
 	// of (unnecessary?) debugging.
 	tile.NeedsInteraction = false
-
 	if tile.Sprite == m.WallSelectedSolid {
 		tile.Sprite = m.WallSolid
 		return

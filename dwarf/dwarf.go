@@ -14,8 +14,7 @@ type Dwarf struct {
 	Walker
 	Characteristics
 	Needs
-
-	state WorkerState
+	State WorkerState
 }
 
 func New(startingIdx int) Dwarf {
