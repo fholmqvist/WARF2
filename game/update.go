@@ -13,19 +13,19 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 	g.updateDwarves()
 
-	g.JobSystem.Update()
+	g.JobService.Update()
 
 	return nil
 }
 
 func (g *Game) updateDwarves() {
-	for _, dwarf := range g.JobSystem.Workers {
+	for _, dwarf := range g.JobService.Workers {
 		dwarf.Walk(&g.WorldMap)
 	}
 	if !g.time.NewCycle() {
 		return
 	}
-	for _, dwarf := range g.JobSystem.Workers {
+	for _, dwarf := range g.JobService.Workers {
 		dwarf.Needs.Update(dwarf.Characteristics)
 	}
 	/////////////////////////////////////////////////

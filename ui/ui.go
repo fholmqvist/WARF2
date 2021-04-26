@@ -3,9 +3,8 @@
 package ui
 
 import (
-	"fmt"
 	"image/color"
-	"projects/games/warf2/entity"
+	"projects/games/warf2/dwarf"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"
@@ -26,26 +25,30 @@ type Element struct {
 }
 
 // Draw function or UI overlays
-func (ui *UI) Draw(screen *ebiten.Image, gameFont font.Face, data entity.Data) {
+func (ui *UI) Draw(screen *ebiten.Image, gameFont font.Face, dw []dwarf.Dwarf) {
 	mm := ui.MouseMode
-	x, y, xo := 20, 20, 10
 
 	if ebiten.IsKeyPressed(ebiten.KeyTab) {
-		drawBackground(screen, x, y)
-
-		// Crime
-		cs := fmt.Sprintf("Example: %d", data.Example)
-
-		text.Draw(screen, cs, gameFont, x+xo, y*2, mm.Color)
+		drawOverview(screen, gameFont, dw, mm)
 	}
 
 	text.Draw(screen, mm.Text, gameFont, mm.X, mm.Y, mm.Color)
 }
 
-func drawBackground(screen *ebiten.Image, x, y int) {
+func drawOverview(screen *ebiten.Image, gameFont font.Face, dw []dwarf.Dwarf, mm Element) {
+	x, y, xo, yo := 20, 20, 10, 20
+	drawBackground(screen, x, y, (len(dw)*y)+y+yo)
+	text.Draw(screen, "Dwarves:", gameFont, x+xo, y*2, mm.Color)
+
+	for i, d := range dw {
+		text.Draw(screen, d.Characteristics.Name, gameFont, (x*2)+xo, yo+(y*(i+2)), mm.Color)
+	}
+}
+
+func drawBackground(screen *ebiten.Image, x, y, height int) {
 	sw, _ := screen.Size()
 
-	uibg, _ := ebiten.NewImage(sw-40, 32, ebiten.FilterDefault)
+	uibg, _ := ebiten.NewImage(sw-40, height, ebiten.FilterDefault)
 	_ = uibg.Fill(color.Gray{50})
 
 	op := &ebiten.DrawImageOptions{}

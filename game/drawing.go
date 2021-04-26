@@ -10,11 +10,8 @@ import (
 // Draw loop for Game.
 func (g *Game) Draw(screen *ebiten.Image) {
 	drawMap(g, screen)
-
-	g.ui.Draw(screen, g.gameFont, g.Data)
-
 	drawWorkers(g, screen)
-
+	g.ui.Draw(screen, g.gameFont, g.Dwarves)
 	drawTPS(g, screen)
 }
 
@@ -37,7 +34,7 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 }
 
 func drawWorkers(g *Game, screen *ebiten.Image) {
-	for _, dwarf := range g.JobSystem.Workers {
+	for _, dwarf := range g.JobService.Workers {
 		DrawGraphic(dwarf.Idx, dwarf.Sprite, screen, g.dwarfTiles, 1)
 	}
 }

@@ -27,8 +27,8 @@ func TestWorkQueue(t *testing.T) {
 	}
 }
 
-func jobSystemWithJobs() *j.JobSystem {
-	js := &j.JobSystem{
+func jobSystemWithJobs() *j.JobService {
+	js := &j.JobService{
 		Jobs: []job.Job{
 			job.NewLibraryRead(10, 1),
 			job.NewLibraryRead(11, 1),

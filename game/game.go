@@ -4,13 +4,13 @@
 package game
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"time"
 
 	"projects/games/warf2/dwarf"
-	"projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	"projects/games/warf2/room"
@@ -38,14 +38,14 @@ type Game struct {
 	itemTiles  *ebiten.Image
 	gameFont   font.Face
 
-	/* ------------------------------ Public state ------------------------------ */
-
-	JobSystem j.JobSystem
-	Data      entity.Data
-
 	/* ------------------------------- Interaction ------------------------------ */
 
 	mouseSystem mouse.System
+
+	/* -------------------------------- Services -------------------------------- */
+
+	JobService   j.JobService
+	DwarfService dwarf.DwarfService
 
 	/* ------------------------------ Private state ----------------------------- */
 
@@ -72,8 +72,8 @@ func NewGame(arg string) *Game {
 		}
 		game.Rooms.AddLibrary(&game.WorldMap, 7, 7)
 		game.WorldMap.FixWalls()
-		addDwarfToGame(&game)
-		addDwarfToGame(&game)
+		addDwarfToGame(&game, "Test 1")
+		addDwarfToGame(&game, "Test 2")
 		d1 := game.Dwarves[0]
 		d1.Characteristics.DesireToRead = 20
 		d2 := game.Dwarves[1]
@@ -116,6 +116,12 @@ func NewGame(arg string) *Game {
 		mp := &game.WorldMap
 		mp.DrawSquare(1, 1, m.TilesW-1, m.TilesH-1, m.WallSolid)
 		mp.FixWalls()
+
+	case "clean":
+		fmt.Println("Cleaning names...")
+		ds := dwarf.NewService()
+		ds.CleanNames()
+		return nil
 
 	case "load":
 		game = loadGame()

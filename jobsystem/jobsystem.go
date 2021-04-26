@@ -16,9 +16,9 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-// JobSystem manages all ingame jobs
+// JobService manages all ingame jobs
 // for dwarves.
-type JobSystem struct {
+type JobService struct {
 	Jobs             []job.Job      `json:"jobs"`
 	Workers          []*dwarf.Dwarf `json:"-"`
 	AvailableWorkers []*dwarf.Dwarf `json:"-"`
@@ -27,7 +27,7 @@ type JobSystem struct {
 
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
-func (j *JobSystem) Update() {
+func (j *JobService) Update() {
 	j.sortPriority()
 	j.removeFinishedJobs()
 	j.AvailableWorkers = j.availableWorkers()
@@ -42,11 +42,11 @@ func (j *JobSystem) Update() {
 	j.performWork()
 }
 
-func (j *JobSystem) sortPriority() {
+func (j *JobService) sortPriority() {
 	sort.Sort(j)
 }
 
-func (j *JobSystem) removeFinishedJobs() {
+func (j *JobService) removeFinishedJobs() {
 	var jobs []job.Job
 	for _, job := range j.Jobs {
 		if !job.NeedsToBeRemoved(j.Map) {
@@ -56,7 +56,7 @@ func (j *JobSystem) removeFinishedJobs() {
 	j.Jobs = jobs
 }
 
-func (j *JobSystem) assignWorkers(availableWorkers []*dwarf.Dwarf) {
+func (j *JobService) assignWorkers(availableWorkers []*dwarf.Dwarf) {
 	for _, job := range j.Jobs {
 		if !WaitingForWorker(job) {
 			continue
@@ -79,7 +79,7 @@ func (j *JobSystem) assignWorkers(availableWorkers []*dwarf.Dwarf) {
 	}
 }
 
-func (j *JobSystem) availableWorkers() []*dwarf.Dwarf {
+func (j *JobService) availableWorkers() []*dwarf.Dwarf {
 	var dwarves []*dwarf.Dwarf
 	for _, dwarf := range j.Workers {
 		if dwarf.Available() {
@@ -89,7 +89,7 @@ func (j *JobSystem) availableWorkers() []*dwarf.Dwarf {
 	return dwarves
 }
 
-func (j *JobSystem) performWork() {
+func (j *JobService) performWork() {
 	for _, jb := range j.Jobs {
 		d := jb.GetWorker()
 		if d == nil {
@@ -114,11 +114,11 @@ func (j *JobSystem) performWork() {
 
 /* ----------------------------- sort.Interface ----------------------------- */
 
-func (jb *JobSystem) Len() int {
+func (jb *JobService) Len() int {
 	return len(jb.Jobs)
 }
 
-func (jb *JobSystem) Less(i, j int) bool {
+func (jb *JobService) Less(i, j int) bool {
 	fst := jb.Jobs[i].Priority()
 	snd := jb.Jobs[j].Priority()
 	// Randomize equally prioritized.
@@ -129,6 +129,6 @@ func (jb *JobSystem) Less(i, j int) bool {
 	return fst > snd
 }
 
-func (jb *JobSystem) Swap(i, j int) {
+func (jb *JobService) Swap(i, j int) {
 	jb.Jobs[i], jb.Jobs[j] = jb.Jobs[j], jb.Jobs[i]
 }

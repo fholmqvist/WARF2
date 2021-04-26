@@ -5,7 +5,7 @@ import (
 	m "projects/games/warf2/worldmap"
 )
 
-func (j *JobSystem) checkForDiggingJobs() {
+func (j *JobService) checkForDiggingJobs() {
 	for _, wall := range j.Map.Tiles {
 		if !m.IsSelectedWall(wall.Sprite) || !wall.NeedsInteraction {
 			continue
@@ -37,7 +37,7 @@ func (j *JobSystem) checkForDiggingJobs() {
 	}
 }
 
-func (j *JobSystem) diggingJobAlreadyExists(dIdx, wIdx int) bool {
+func (j *JobService) diggingJobAlreadyExists(dIdx, wIdx int) bool {
 	for _, jb := range j.Jobs {
 		d, ok := jb.(*job.Digging)
 		if !ok {

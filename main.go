@@ -16,19 +16,17 @@ func main() {
 	if len(os.Args) > 1 {
 		arg = os.Args[1]
 	}
-
 	logo()
-
 	log.SetFlags(log.Lshortfile)
-
-	g := g.NewGame(arg)
-
+	game := g.NewGame(arg)
+	if game == nil {
+		return
+	}
 	factor := 1
 	ebiten.SetWindowSize(m.ScreenWidth*factor, m.ScreenHeight*factor)
 	ebiten.SetWindowTitle("GOWARF")
 	ebiten.SetMaxTPS(m.TPS)
-
-	if err := ebiten.RunGame(g); err != nil {
+	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
 }

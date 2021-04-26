@@ -14,7 +14,7 @@ const (
 )
 
 func (g *Game) checkForLibraryReading() {
-	for _, dwf := range g.JobSystem.AvailableWorkers {
+	for _, dwf := range g.JobService.AvailableWorkers {
 		if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
 			continue
 		}
@@ -24,7 +24,7 @@ func (g *Game) checkForLibraryReading() {
 		}
 		j := job.NewLibraryRead(destination, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
 		jobsystem.SetWorkerAndMove(j, dwf, &g.WorldMap)
-		g.JobSystem.Jobs = append(g.JobSystem.Jobs, j)
+		g.JobService.Jobs = append(g.JobService.Jobs, j)
 		/////////////////////////////////////////////////
 		// TODO
 		//

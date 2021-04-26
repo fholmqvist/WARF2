@@ -4,7 +4,6 @@ import (
 	"image/color"
 	"math/rand"
 	d "projects/games/warf2/dwarf"
-	"projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	u "projects/games/warf2/ui"
@@ -13,9 +12,9 @@ import (
 
 func GenerateGame(dwarves int, worldmap *m.Map) Game {
 	game := Game{
-		WorldMap:  *worldmap,
-		JobSystem: j.JobSystem{Map: worldmap},
-		Data:      entity.Data{},
+		WorldMap:     *worldmap,
+		JobService:   j.JobService{Map: worldmap},
+		DwarfService: d.NewService(),
 
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},
@@ -28,7 +27,7 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 		},
 	}
 	for i := 0; i < dwarves; i++ {
-		addDwarfToGame(&game)
+		addDwarfToGame(&game, game.DwarfService.RandomName())
 	}
 	return game
 }
@@ -54,7 +53,7 @@ func emptyMap() *m.Map {
 	return m.New()
 }
 
-func placeNewDwarf(mp m.Map) d.Dwarf {
+func placeNewDwarf(mp m.Map, name string) d.Dwarf {
 	var availableSpots []int
 	for i := range mp.Tiles {
 		if m.IsGround(mp.Tiles[i].Sprite) {
@@ -62,11 +61,11 @@ func placeNewDwarf(mp m.Map) d.Dwarf {
 		}
 	}
 	startingPosition := availableSpots[rand.Intn(len(availableSpots))]
-	return d.New(startingPosition)
+	return d.New(startingPosition, name)
 }
 
-func addDwarfToGame(g *Game) {
-	dwarf := placeNewDwarf(g.WorldMap)
+func addDwarfToGame(g *Game, name string) {
+	dwarf := placeNewDwarf(g.WorldMap, name)
 	g.Dwarves = append(g.Dwarves, dwarf)
-	g.JobSystem.Workers = append(g.JobSystem.Workers, &dwarf)
+	g.JobService.Workers = append(g.JobService.Workers, &dwarf)
 }

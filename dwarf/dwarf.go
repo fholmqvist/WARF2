@@ -17,13 +17,13 @@ type Dwarf struct {
 	State WorkerState
 }
 
-func New(startingIdx int) Dwarf {
+func New(startingIdx int, name string) Dwarf {
 	return Dwarf{
 		Entity: e.Entity{
 			Sprite: rand.Intn(DwarfTeal),
 			Idx:    startingIdx,
 		},
-		Characteristics: GenerateCharacteristics(),
+		Characteristics: GenerateCharacteristics(name),
 	}
 }
 

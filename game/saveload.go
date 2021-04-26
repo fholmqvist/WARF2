@@ -9,7 +9,6 @@ import (
 	"log"
 	"os"
 	"projects/games/warf2/dwarf"
-	"projects/games/warf2/entity"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	u "projects/games/warf2/ui"
@@ -22,16 +21,14 @@ import (
 type SaveGame struct {
 	WorldMap  m.Map         `json:"w"`
 	Dwarves   []dwarf.Dwarf `json:"dw"`
-	JobSystem j.JobSystem   `json:"j"`
-	Data      entity.Data   `json:"da"`
+	JobSystem j.JobService  `json:"j"`
 }
 
 func (g Game) saveGame() {
 	sg := SaveGame{
 		WorldMap:  g.WorldMap,
 		Dwarves:   g.Dwarves,
-		JobSystem: g.JobSystem,
-		Data:      g.Data,
+		JobSystem: g.JobService,
 	}
 
 	sg.saveToDisk()
@@ -93,10 +90,9 @@ func loadGame() Game {
 	}
 
 	return Game{
-		WorldMap:  sg.WorldMap,
-		Dwarves:   sg.Dwarves,
-		JobSystem: sg.JobSystem,
-		Data:      sg.Data,
+		WorldMap:   sg.WorldMap,
+		Dwarves:    sg.Dwarves,
+		JobService: sg.JobSystem,
 
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},
