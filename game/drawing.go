@@ -12,7 +12,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.state {
 
 	case MainMenu:
-		switch g.ui.DrawMainMenu(screen, g.font) {
+		menuState := g.ui.DrawMainMenu(screen, g.font)
+		switch menuState {
 		case -1:
 			return
 		case 0:
@@ -21,6 +22,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			panic("help not implemented")
 		case 2:
 			panic("this is not a graceful exit, but it sorta works?")
+		default:
+			panic(fmt.Sprintf("%d is not a valid return", menuState))
 		}
 
 	case Gameplay:
