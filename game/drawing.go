@@ -9,10 +9,20 @@ import (
 
 // Draw loop for Game.
 func (g *Game) Draw(screen *ebiten.Image) {
-	drawMap(g, screen)
-	drawWorkers(g, screen)
-	g.ui.Draw(screen, g.gameFont, g.Dwarves)
-	drawTPS(g, screen)
+	switch g.state {
+
+	case MainMenu:
+		g.ui.DrawMainMenu(screen)
+
+	case Gameplay:
+		drawMap(g, screen)
+		drawWorkers(g, screen)
+		g.ui.DrawGameplay(screen, g.gameFont, g.Dwarves)
+		drawTPS(g, screen)
+
+	default:
+		panic(fmt.Sprintf("unknown gamestate: %v", g.state))
+	}
 }
 
 func drawMap(g *Game, screen *ebiten.Image) {

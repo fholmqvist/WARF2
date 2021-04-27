@@ -49,6 +49,7 @@ type Game struct {
 
 	/* ------------------------------ Private state ----------------------------- */
 
+	state GameState
 	time  Time
 	debug bool
 	ui    u.UI
@@ -57,6 +58,8 @@ type Game struct {
 // NewGame returns a pointer to an instantiated and initiated game.
 func NewGame(arg string) *Game {
 	var game Game
+
+	state := Gameplay
 
 	switch arg {
 
@@ -128,8 +131,12 @@ func NewGame(arg string) *Game {
 
 	default:
 		game = GenerateGame(4, normalMap())
+		state = MainMenu
 
 	}
+
+	game.state = state
+
 	game.SetMouseMode(mouse.Normal)
 
 	loadAssets(&game)

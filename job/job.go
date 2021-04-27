@@ -1,3 +1,6 @@
+// Package job provides the interface
+// implementations of Job to be used
+// in JobService.
 package job
 
 import (
