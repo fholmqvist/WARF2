@@ -17,9 +17,9 @@ type UI struct {
 	MouseMode Element
 }
 
-func (ui *UI) DrawMainMenu(screen *ebiten.Image) {
-	ui.MainMenu.Draw(screen)
-	ui.MainMenu.Update()
+func (ui *UI) DrawMainMenu(screen *ebiten.Image, font font.Face) int {
+	ui.MainMenu.Draw(screen, font)
+	return ui.MainMenu.Update()
 }
 
 func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []dwarf.Dwarf) {

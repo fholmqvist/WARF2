@@ -7,6 +7,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	e "github.com/hajimehoshi/ebiten"
 	i "github.com/hajimehoshi/ebiten/inpututil"
+	"golang.org/x/image/font"
 )
 
 var (
@@ -32,9 +33,9 @@ type MainMenu struct {
 	keySensitivity int
 }
 
-func (m *MainMenu) Draw(screen *ebiten.Image) {
+func (m *MainMenu) Draw(screen *ebiten.Image, font font.Face) {
 	for _, b := range buttons {
-		b.Draw(screen)
+		b.Draw(screen, font)
 	}
 }
 
@@ -50,10 +51,10 @@ func (m *MainMenu) Select() {
 	}
 }
 
-func (m *MainMenu) Update() {
+func (m *MainMenu) Update() int {
 	m.keySensitivity++
 	if m.keySensitivity < 4 {
-		return
+		return -1
 	}
 	if i.IsKeyJustPressed(e.KeyUp) || i.IsKeyJustPressed(e.KeyW) {
 		m.idx--
@@ -61,11 +62,15 @@ func (m *MainMenu) Update() {
 			m.idx = len(buttons) - 1
 		}
 		m.Select()
-		return
+		return -1
 	}
 	if i.IsKeyJustPressed(e.KeyDown) || i.IsKeyJustPressed(e.KeyS) {
 		m.idx++
 		m.Select()
-		return
+		return -1
 	}
+	if i.IsKeyJustPressed(e.KeyEnter) {
+		return m.idx
+	}
+	return -1
 }

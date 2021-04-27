@@ -12,12 +12,21 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.state {
 
 	case MainMenu:
-		g.ui.DrawMainMenu(screen)
+		switch g.ui.DrawMainMenu(screen, g.font) {
+		case -1:
+			return
+		case 0:
+			g.state = Gameplay
+		case 1:
+			panic("help not implemented")
+		case 2:
+			panic("this is not a graceful exit, but it sorta works?")
+		}
 
 	case Gameplay:
 		drawMap(g, screen)
 		drawWorkers(g, screen)
-		g.ui.DrawGameplay(screen, g.gameFont, g.Dwarves)
+		g.ui.DrawGameplay(screen, g.font, g.Dwarves)
 		drawTPS(g, screen)
 
 	default:

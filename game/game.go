@@ -36,7 +36,7 @@ type Game struct {
 	worldTiles *ebiten.Image
 	dwarfTiles *ebiten.Image
 	itemTiles  *ebiten.Image
-	gameFont   font.Face
+	font       font.Face
 
 	/* ------------------------------- Interaction ------------------------------ */
 
@@ -195,7 +195,7 @@ func setFont(g *Game) {
 		log.Fatalf("could not parse truetype: %v", err)
 	}
 
-	g.gameFont = truetype.NewFace(tt, &truetype.Options{
+	g.font = truetype.NewFace(tt, &truetype.Options{
 		Size:    8,
 		Hinting: font.HintingFull,
 	})
