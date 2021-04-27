@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"fmt"
 	"image/color"
 	w "projects/games/warf2/worldmap"
 
@@ -15,16 +14,21 @@ var (
 	height  = 80
 	xOffset = (w.ScreenWidth / 2) - width/2
 	yOffset = 100
-	buttons = []Button{
-		{Element{"Start", xOffset, yOffset, width, height, color.Gray{100}}, func() {}},
-		{Element{"Help", xOffset, yOffset * 2, width, height, color.Gray{100}}, func() {}},
-		{Element{"Quit", xOffset, yOffset * 3, width, height, color.Gray{100}}, func() {}},
+	buttons = []*Button{
+		{Element{"Start", xOffset, yOffset, width, height, color.Gray{100}}},
+		{Element{"Help", xOffset, yOffset * 2, width, height, color.Gray{100}}},
+		{Element{"Quit", xOffset, yOffset * 3, width, height, color.Gray{100}}},
 	}
 )
 
-type MainMenu struct {
-	idx int
+func init() {
+	buttons[0].Select()
+	buttons[1].Deselect()
+	buttons[2].Deselect()
+}
 
+type MainMenu struct {
+	idx            int
 	keySensitivity int
 }
 
@@ -34,23 +38,34 @@ func (m *MainMenu) Draw(screen *ebiten.Image) {
 	}
 }
 
+func (m *MainMenu) Select() {
+	m.idx %= len(buttons)
+	m.keySensitivity = 0
+	for i, b := range buttons {
+		if i == m.idx {
+			b.Select()
+			continue
+		}
+		b.Deselect()
+	}
+}
+
 func (m *MainMenu) Update() {
 	m.keySensitivity++
-	if m.keySensitivity < 8 {
+	if m.keySensitivity < 4 {
 		return
 	}
 	if i.IsKeyJustPressed(e.KeyUp) || i.IsKeyJustPressed(e.KeyW) {
 		m.idx--
-		m.idx %= len(buttons)
-		fmt.Println(m.idx)
-		m.keySensitivity = 0
+		if m.idx < 0 {
+			m.idx = len(buttons) - 1
+		}
+		m.Select()
 		return
 	}
 	if i.IsKeyJustPressed(e.KeyDown) || i.IsKeyJustPressed(e.KeyS) {
 		m.idx++
-		m.idx %= len(buttons)
-		fmt.Println(m.idx)
-		m.keySensitivity = 0
+		m.Select()
 		return
 	}
 }

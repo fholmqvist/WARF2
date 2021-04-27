@@ -22,9 +22,12 @@ func (e Element) Draw(screen *ebiten.Image) {
 
 type Button struct {
 	Element
-	f func()
 }
 
 func (b *Button) Select() {
-	b.f()
+	b.Color = color.Gray{50}
+}
+
+func (b *Button) Deselect() {
+	b.Color = color.Gray{20}
 }
