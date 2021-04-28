@@ -1,9 +1,6 @@
 package game
 
 import (
-	"fmt"
-	"projects/games/warf2/dwarf"
-
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -19,14 +16,6 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	handleKeyboard(g)
 	g.updateDwarves()
 	g.JobService.Update()
-
-	for _, d := range g.Dwarves {
-		if d.State == dwarf.WorkerIdle {
-			continue
-		}
-		fmt.Println(d)
-	}
-
 	return nil
 }
 

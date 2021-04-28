@@ -30,7 +30,7 @@ type JobService struct {
 func (j *JobService) Update() {
 	j.sortPriority()
 	j.removeFinishedJobs()
-	j.AvailableWorkers = j.availableWorkers()
+	j.updateAvailableWorkers()
 
 	/* ---------------------------------- Check --------------------------------- */
 
@@ -38,7 +38,7 @@ func (j *JobService) Update() {
 
 	/* ----------------------------- Assign and work ---------------------------- */
 
-	j.assignWorkers(j.AvailableWorkers)
+	j.assignWorkers()
 	j.performWork()
 }
 
@@ -51,55 +51,45 @@ func (j *JobService) removeFinishedJobs() {
 	for _, job := range j.Jobs {
 		if !job.NeedsToBeRemoved(j.Map) {
 			jobs = append(jobs, job)
+		} else {
+			job.Refresh()
 		}
 	}
 	j.Jobs = jobs
 }
 
-func (j *JobService) assignWorkers(availableWorkers []*dwarf.Dwarf) {
+func (j *JobService) assignWorkers() {
+	availableWorkers := j.AvailableWorkers
 	for _, job := range j.Jobs {
-		if !WaitingForWorker(job) {
+		if HasWorker(job) {
 			continue
 		}
-		foundWorker := false
-	found:
+		var foundWorker bool
+	lookingForWorker:
 		for _, worker := range availableWorkers {
-			if worker.Available() {
-				foundWorker = SetWorkerAndMove(job, worker, j.Map)
-				if !foundWorker {
-					continue
-				}
-				break found
+			if worker.HasJob() {
+				continue
 			}
+			foundWorker = SetWorkerAndMove(job, worker, j.Map)
+			if !foundWorker {
+				continue
+			}
+			break lookingForWorker
 		}
 		if foundWorker {
-			availableWorkers = j.availableWorkers()
-			continue
+			availableWorkers = j.AvailableWorkers
 		}
 	}
-	// for _, worker := range availableWorkers {
-	// 	if !worker.Available() {
-	// 		continue
-	// 	}
-	// 	for _, job := range j.Jobs {
-	// 		if HasWorker(job) {
-	// 			continue
-	// 		}
-	// 		if !SetWorkerAndMove(job, worker, j.Map) {
-	// 			job.Refresh()
-	// 		}
-	// 	}
-	// }
 }
 
-func (j *JobService) availableWorkers() []*dwarf.Dwarf {
-	var dwarves []*dwarf.Dwarf
+func (j *JobService) updateAvailableWorkers() {
+	var availableDwarves []*dwarf.Dwarf
 	for _, dwarf := range j.Workers {
 		if dwarf.Available() {
-			dwarves = append(dwarves, dwarf)
+			availableDwarves = append(availableDwarves, dwarf)
 		}
 	}
-	return dwarves
+	j.AvailableWorkers = availableDwarves
 }
 
 func (j *JobService) performWork() {

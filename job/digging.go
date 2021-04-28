@@ -21,6 +21,10 @@ func (d *Digging) NeedsToBeRemoved(mp *m.Map) bool {
 }
 
 func (d *Digging) Refresh() {
+	if d.dwarf == nil {
+		return
+	}
+	d.dwarf.SetToAvailable()
 	d.dwarf = nil
 }
 

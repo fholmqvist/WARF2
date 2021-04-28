@@ -129,9 +129,12 @@ func NewGame(arg string) *Game {
 	case "load":
 		game = loadGame()
 
-	default:
+	case "main_menu":
 		game = GenerateGame(4, normalMap())
 		state = MainMenu
+
+	default:
+		game = GenerateGame(4, normalMap())
 
 	}
 
