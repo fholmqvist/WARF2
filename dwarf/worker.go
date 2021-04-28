@@ -1,14 +1,9 @@
 package dwarf
 
 import (
+	"fmt"
 	m "projects/games/warf2/worldmap"
 )
-
-// HasJob returns whether
-// characters job is nil.
-func (d *Dwarf) HasJob() bool {
-	return d.State != WorkerIdle
-}
 
 // SetJob sets job for
 // given character.
@@ -16,9 +11,15 @@ func (d *Dwarf) SetJob() {
 	d.State = WorkerHasJob
 }
 
+// HasJob returns whether
+// characters job is nil.
+func (d *Dwarf) HasJob() bool {
+	return d.State != WorkerIdle
+}
+
 // Available checks whether worker is available.
 func (d *Dwarf) Available() bool {
-	return d.State == WorkerIdle
+	return !d.HasJob()
 }
 
 // SetToAvailable sets availability of worker.
@@ -34,19 +35,17 @@ func (d *Dwarf) MoveTo(idx int, mp *m.Map) bool {
 		d.SetToAvailable()
 		return false
 	}
-
 	to, ok := mp.GetTileByIndex(idx)
 	if !ok {
 		d.SetToAvailable()
 		return false
 	}
-
 	ok = d.InitiateWalk(from, to)
 	if !ok {
 		d.SetToAvailable()
 		return false
 	}
-
 	d.State = WorkerMoving
+	fmt.Println(d.State)
 	return true
 }

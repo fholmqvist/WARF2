@@ -77,6 +77,19 @@ func (j *JobService) assignWorkers(availableWorkers []*dwarf.Dwarf) {
 			continue
 		}
 	}
+	// for _, worker := range availableWorkers {
+	// 	if !worker.Available() {
+	// 		continue
+	// 	}
+	// 	for _, job := range j.Jobs {
+	// 		if HasWorker(job) {
+	// 			continue
+	// 		}
+	// 		if !SetWorkerAndMove(job, worker, j.Map) {
+	// 			job.Refresh()
+	// 		}
+	// 	}
+	// }
 }
 
 func (j *JobService) availableWorkers() []*dwarf.Dwarf {

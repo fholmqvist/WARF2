@@ -18,7 +18,11 @@ func NewLibraryRead(destination, readingTime int) *LibraryRead {
 }
 
 func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
-	return l.readingTime <= 0
+	return l.readingTime <= 0 || l.dwarf == nil
+}
+
+func (l *LibraryRead) Refresh() {
+	l.dwarf = nil
 }
 
 func (l *LibraryRead) PerformWork(m *m.Map) bool {
@@ -28,15 +32,15 @@ func (l *LibraryRead) PerformWork(m *m.Map) bool {
 			return unfinished
 		}
 		l.destination = dst
-		if l.dwarf.MoveTo(dst, m) {
-			return unfinished
-		}
+		l.dwarf.MoveTo(dst, m)
 		return unfinished
 	}
+	// Still reading.
 	if l.readingTime > 1 {
 		l.readingTime--
 		return unfinished
 	}
+	// Done!
 	l.readingTime = 0
 	return finished
 }

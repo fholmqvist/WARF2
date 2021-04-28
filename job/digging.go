@@ -17,7 +17,11 @@ func NewDigging(destination, wallIdx int) *Digging {
 
 // Checks if the tile of to-be-dug wall is still selected.
 func (d *Digging) NeedsToBeRemoved(mp *m.Map) bool {
-	return !m.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite)
+	return !m.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite) || d.dwarf == nil
+}
+
+func (d *Digging) Refresh() {
+	d.dwarf = nil
 }
 
 // Ran on arrival.

@@ -1,6 +1,7 @@
 package dwarf
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	e "projects/games/warf2/entity"
@@ -27,6 +28,11 @@ func New(startingIdx int, name string) Dwarf {
 	}
 }
 
+func (d Dwarf) String() string {
+	return fmt.Sprintf("Name: %v IDX: %v State: %v Path-len: %v",
+		d.Name, d.Idx, d.State, len(d.Path))
+}
+
 // Walk placeholder, called every frame.
 func (d *Dwarf) Walk(mp *m.Map) {
 	if len(d.Path) == 0 {
@@ -36,7 +42,6 @@ func (d *Dwarf) Walk(mp *m.Map) {
 		d.randomWalk(mp)
 		return
 	}
-
 	d.traversePath(mp)
 }
 
