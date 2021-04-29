@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -17,7 +18,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		case -1:
 			return
 		case 0:
-			g.state = Gameplay
+			go func() {
+				// To prevent from mouseclick
+				// carrying over to game.
+				time.Sleep(time.Millisecond * 100)
+				g.state = Gameplay
+			}()
 		case 1:
 			panic("help not implemented")
 		case 2:

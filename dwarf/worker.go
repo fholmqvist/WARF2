@@ -1,7 +1,6 @@
 package dwarf
 
 import (
-	"fmt"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -46,6 +45,5 @@ func (d *Dwarf) MoveTo(idx int, mp *m.Map) bool {
 		return false
 	}
 	d.State = WorkerMoving
-	fmt.Println(d.State)
 	return true
 }

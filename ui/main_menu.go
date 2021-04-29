@@ -6,7 +6,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten"
 	e "github.com/hajimehoshi/ebiten"
-	i "github.com/hajimehoshi/ebiten/inpututil"
+	inp "github.com/hajimehoshi/ebiten/inpututil"
 	"golang.org/x/image/font"
 )
 
@@ -52,11 +52,14 @@ func (m *MainMenu) Select() {
 }
 
 func (m *MainMenu) Update() int {
+	if v, didSelect := m.mouseAndSelect(); didSelect {
+		return v
+	}
 	m.keySensitivity++
 	if m.keySensitivity < 4 {
 		return -1
 	}
-	if i.IsKeyJustPressed(e.KeyUp) || i.IsKeyJustPressed(e.KeyW) {
+	if inp.IsKeyJustPressed(e.KeyUp) || inp.IsKeyJustPressed(e.KeyW) {
 		m.idx--
 		if m.idx < 0 {
 			m.idx = len(buttons) - 1
@@ -64,13 +67,27 @@ func (m *MainMenu) Update() int {
 		m.Select()
 		return -1
 	}
-	if i.IsKeyJustPressed(e.KeyDown) || i.IsKeyJustPressed(e.KeyS) {
+	if inp.IsKeyJustPressed(e.KeyDown) || inp.IsKeyJustPressed(e.KeyS) {
 		m.idx++
 		m.Select()
 		return -1
 	}
-	if i.IsKeyJustPressed(e.KeyEnter) {
-		return m.idx
-	}
 	return -1
+}
+
+func (m *MainMenu) mouseAndSelect() (int, bool) {
+	for i, b := range buttons {
+		x, y := ebiten.CursorPosition()
+		if b.MouseIsOver(x, y) {
+			m.idx = i
+			m.Select()
+			if inp.IsMouseButtonJustPressed(e.MouseButtonLeft) {
+				return i, true
+			}
+		}
+	}
+	if inp.IsKeyJustPressed(e.KeyEnter) {
+		return m.idx, true
+	}
+	return -1, false
 }

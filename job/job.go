@@ -19,7 +19,7 @@ const (
 type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
 	PerformWork(*m.Map) bool
-	Refresh()
+	Reset()
 	Priority() int
 
 	GetWorker() *dwarf.Dwarf

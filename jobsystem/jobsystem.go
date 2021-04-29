@@ -49,11 +49,11 @@ func (j *JobService) sortPriority() {
 func (j *JobService) removeFinishedJobs() {
 	var jobs []job.Job
 	for _, job := range j.Jobs {
-		if !job.NeedsToBeRemoved(j.Map) {
-			jobs = append(jobs, job)
-		} else {
-			job.Refresh()
+		if job.NeedsToBeRemoved(j.Map) {
+			job.Reset()
+			continue
 		}
+		jobs = append(jobs, job)
 	}
 	j.Jobs = jobs
 }

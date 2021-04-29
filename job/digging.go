@@ -20,7 +20,7 @@ func (d *Digging) NeedsToBeRemoved(mp *m.Map) bool {
 	return !m.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite) || d.dwarf == nil
 }
 
-func (d *Digging) Refresh() {
+func (d *Digging) Reset() {
 	if d.dwarf == nil {
 		return
 	}

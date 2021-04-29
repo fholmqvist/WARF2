@@ -22,6 +22,11 @@ func (e Element) Draw(screen *ebiten.Image) {
 	DrawSquare(screen, e)
 }
 
+func (e Element) MouseIsOver(x, y int) bool {
+	return (x >= e.X && x <= e.X+e.Width) &&
+		(y >= e.Y && y <= e.Y+e.Height)
+}
+
 type Button struct {
 	Element
 }
