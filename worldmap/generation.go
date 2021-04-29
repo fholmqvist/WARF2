@@ -4,15 +4,6 @@ import (
 	"math/rand"
 )
 
-var (
-	floorTiles = []int{
-		FloorBricksOne, FloorBricksTwo, FloorBricksThree,
-		FloorBricksFour, FloorBricksFive, FloorBricksSix,
-		FloorBricksSeven, FloorBricksEight, FloorBricksNine,
-		FloorBricksTen,
-	}
-)
-
 func (mp *Map) SetFloorTile(x, y int) {
 	tile, ok := mp.GetTile(x, y)
 	if !ok {
@@ -24,7 +15,7 @@ func (mp *Map) SetFloorTile(x, y int) {
 	if IsFloorBrick(tile.Sprite) {
 		return
 	}
-	tile.Sprite = RandomFloorBrick()
+	tile.Sprite = RandomWoodFloor() //RandomFloorBrick()
 }
 
 func (mp *Map) SetFloorTileIdx(idx int) {
@@ -37,7 +28,14 @@ func (mp *Map) SetFloorTiles(x1, y1, x2, y2 int) {
 }
 
 func RandomFloorBrick() int {
-	return floorTiles[rand.Intn(len(floorTiles))]
+	return rand.Intn(FloorBricksTen-FloorBricksOne+1) + FloorBricksOne
+}
+
+func RandomWoodFloor() int {
+	if rand.Intn(3) < 2 {
+		return WoodFloorOne
+	}
+	return rand.Intn(WoodFloorFour-WoodFloorOne+1) + WoodFloorOne
 }
 
 // FloodFill finds an "island"

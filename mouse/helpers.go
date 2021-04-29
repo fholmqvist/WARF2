@@ -18,7 +18,6 @@ func clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick
 		firstClick()
 		setHasClicked(currentMousePos)
 	}
-
 	if startPoint >= 0 {
 		FuncOverRange(mp, currentMousePos, startPoint, dragClick)
 	}
@@ -60,7 +59,9 @@ func TileRange(start, end int) (int, int, int, int) {
 func mousePos() int {
 	mx, my := ebiten.CursorPosition()
 	mx, my = mx/m.TileSize, my/m.TileSize
-
+	if mx >= m.TilesW {
+		return -1
+	}
 	return mx + (my * m.TilesW)
 }
 

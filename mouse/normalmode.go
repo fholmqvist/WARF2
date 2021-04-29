@@ -31,7 +31,6 @@ func noneMode(mp *m.Map, currentMousePos int) {
 			}
 		},
 		func(mp *m.Map, x int, y int) {
-			removeOldSelectionTiles(mp, x, y)
 			selectionWalls(mp, x, y)
 		})
 }
@@ -72,14 +71,6 @@ func selectionWalls(mp *m.Map, x, y int) {
 	// In order to invert between (un)selected.
 	selectionTile.Sprite = tile.Sprite
 	setWalls(selectionTile)
-}
-
-func removeOldSelectionTiles(mp *m.Map, x, y int) {
-	selectionTile, ok := mp.GetSelectionTile(x, y)
-	if !ok {
-		return
-	}
-	selectionTile.Sprite = m.None
 }
 
 func setWalls(tile *m.Tile) {

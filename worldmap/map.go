@@ -33,6 +33,10 @@ func (m *Map) Clear() {
 	m.Items = newTiles(m, None)
 }
 
+func (m *Map) ClearSelectedTiles() {
+	m.SelectedTiles = newTiles(m, None)
+}
+
 // GetTile returns a pointer to the tile
 // from the XY-indexed tile on the map,
 // and a bool to determine if the

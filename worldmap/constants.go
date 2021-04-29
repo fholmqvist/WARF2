@@ -44,4 +44,9 @@ const (
 	FloorBricksEight
 	FloorBricksNine
 	FloorBricksTen
+
+	WoodFloorOne = iota + 14
+	WoodFloorTwo
+	WoodFloorThree
+	WoodFloorFour
 )

@@ -15,7 +15,8 @@ type System struct {
 	Libraries []Library
 }
 
-func (s *System) AddLibrary(mp *m.Map, x, y int) {
+func (s *System) AddLibrary(mp *m.Map, currentMousePos int) {
+	x, y := m.IdxToXY(currentMousePos)
 	l := NewLibrary(mp, x, y)
 	if l != nil {
 		s.Libraries = append(s.Libraries, *l)

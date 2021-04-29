@@ -73,7 +73,7 @@ func NewGame(arg string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddLibrary(&game.WorldMap, 7, 7)
+		game.Rooms.AddLibrary(&game.WorldMap, m.XYToIdx(7, 7))
 		game.WorldMap.FixWalls()
 		addDwarfToGame(&game, "Test 1")
 		addDwarfToGame(&game, "Test 2")

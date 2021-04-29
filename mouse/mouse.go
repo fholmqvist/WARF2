@@ -38,11 +38,13 @@ const (
 
 // Handle all the mouse interactivity.
 func (s *System) Handle(mp *m.Map, rs *room.System) {
-	s.mouseHover(mp)
 	idx := mousePos()
 	if idx < 0 || idx > m.TilesT {
+		mp.ClearSelectedTiles()
+		unsetHasClicked()
 		return
 	}
+	s.mouseHover(mp)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		s.mouseClick(mp, idx)
 		return
@@ -80,8 +82,7 @@ func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 		removeItemMode(mp, currentMousePos)
 
 	case Library:
-		x, y := m.IdxToXY(currentMousePos)
-		s.roomSystem.AddLibrary(mp, x, y)
+		s.roomSystem.AddLibrary(mp, currentMousePos)
 
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)
@@ -102,7 +103,7 @@ func (s *System) mouseUp(mp *m.Map, rs *room.System) {
 			mp.SetFloorTile(x, y)
 		})
 	}
-	FuncOverRange(mp, startPoint, endPoint, removeOldSelectionTiles)
+	mp.ClearSelectedTiles()
 	unsetHasClicked()
 }
 

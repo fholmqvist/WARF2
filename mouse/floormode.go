@@ -10,7 +10,6 @@ func floorTileMode(mp *m.Map, currentMousePos int) {
 			mp.SetFloorTile(x, y)
 		},
 		func(mp *m.Map, x int, y int) {
-			removeOldSelectionTiles(mp, x, y)
 			floorTileSelection(mp, x, y)
 		},
 	)
