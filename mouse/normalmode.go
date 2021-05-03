@@ -6,6 +6,7 @@ import (
 )
 
 func noneMode(mp *m.Map, currentMousePos int) {
+	mp.ClearSelectedTiles()
 	clickFunctions(mp, currentMousePos,
 		func() {
 			printMousePos(currentMousePos)
@@ -101,7 +102,6 @@ func setToSelected(tile *m.Tile) {
 	if m.IsSelectedWall(tile.Sprite) {
 		return
 	}
-	tile.NeedsInteraction = true
 	if tile.Sprite == m.WallSolid {
 		tile.Sprite = m.WallSelectedSolid
 		return
@@ -113,15 +113,6 @@ func setToNormalInteractFalse(tile *m.Tile) {
 	if m.IsWall(tile.Sprite) {
 		return
 	}
-
-	// Resetting here as this state is
-	// no longer valid. With that said,
-	// this premature assumption will
-	// probably bite me in the ass
-	// sometime in the future when I
-	// rediscover this after hours
-	// of (unnecessary?) debugging.
-	tile.NeedsInteraction = false
 	if tile.Sprite == m.WallSelectedSolid {
 		tile.Sprite = m.WallSolid
 		return

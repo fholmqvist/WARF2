@@ -7,7 +7,7 @@ import (
 
 func (j *JobService) checkForDiggingJobs() {
 	for _, wall := range j.Map.Tiles {
-		if !m.IsSelectedWall(wall.Sprite) || !wall.NeedsInteraction {
+		if !m.IsSelectedWall(wall.Sprite) {
 			continue
 		}
 		hasFoundJob := false
@@ -24,7 +24,6 @@ func (j *JobService) checkForDiggingJobs() {
 			diggingJob := job.NewDigging(destination.Idx, wall.Idx)
 			// We have satisfied the need
 			// as a worker is on the way.
-			wall.NeedsInteraction = false
 			j.Jobs = append(j.Jobs, diggingJob)
 			hasFoundJob = true
 		}

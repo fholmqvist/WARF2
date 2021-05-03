@@ -139,14 +139,13 @@ func (m Map) getTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 
 // Tile data struct.
 type Tile struct {
-	Idx              int  `json:"i"`
-	X                int  `json:"x"`
-	Y                int  `json:"y"`
-	Sprite           int  `json:"s"`
-	Island           int  `json:"-"`
-	Map              *Map `json:"-"`
-	NeedsInteraction bool `json:"n"`
-	Blocked          bool `json:"b"`
+	Idx     int  `json:"i"`
+	X       int  `json:"x"`
+	Y       int  `json:"y"`
+	Sprite  int  `json:"s"`
+	Island  int  `json:"-"`
+	Map     *Map `json:"-"`
+	Blocked bool `json:"b"`
 }
 
 type Tiles []Tile
