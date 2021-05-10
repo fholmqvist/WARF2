@@ -1,5 +1,8 @@
 package rail
 
+// This currently assumes some responsibilities
+// that should perhaps be delegated to Map?
+
 import (
 	"math"
 	mp "projects/games/warf2/worldmap"
@@ -43,11 +46,6 @@ func (r *RailService) PlaceRail(idx int) {
 func (r *RailService) PlaceRailXY(x, y int) {
 	idx := mp.XYToIdx(x, y)
 	r.PlaceRail(idx)
-}
-
-func IsRail(m *mp.Map, idx int) bool {
-	return m.Rails[idx].Sprite >= Straight &&
-		m.Rails[idx].Sprite <= Cross
 }
 
 func (r *RailService) FixRails() {
