@@ -9,6 +9,7 @@ type Map struct {
 	Tiles         []Tile `json:"t"`
 	SelectedTiles []Tile `json:"s"`
 	Items         []Tile `json:"i"`
+	Rails         []Tile `json:"r"`
 }
 
 func New() *Map {
@@ -16,6 +17,7 @@ func New() *Map {
 	mp.Tiles = newTiles(mp, Ground)
 	mp.SelectedTiles = newTiles(mp, None)
 	mp.Items = newTiles(mp, None)
+	mp.Rails = newTiles(mp, None)
 	return mp
 }
 
@@ -86,6 +88,23 @@ func (m Map) GetItemTile(x, y int) (*Tile, bool) {
 	return getTileFrom(idx, m.Items)
 }
 
+// GetRailTileByIndex returns a pointer
+// to the tile from the rail layer and
+// a bool to determine if the function
+// was successful.
+func (m Map) GetRailTileByIndex(idx int) (*Tile, bool) {
+	return getTileFrom(idx, m.Rails)
+}
+
+// GetRailTile returns a pointer
+// to the tile from the rail layer and
+// a bool to determine if the function
+// was successful.
+func (m Map) GetRailTile(x, y int) (*Tile, bool) {
+	idx := XYToIdx(x, y)
+	return getTileFrom(idx, m.Rails)
+}
+
 // ResetIslands resets the islands
 // after using flood fill.
 func (m *Map) ResetIslands() {
@@ -135,66 +154,4 @@ func (m Map) getTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 		return nil, false
 	}
 	return t, true
-}
-
-// Tile data struct.
-type Tile struct {
-	Idx     int  `json:"i"`
-	X       int  `json:"x"`
-	Y       int  `json:"y"`
-	Sprite  int  `json:"s"`
-	Island  int  `json:"-"`
-	Map     *Map `json:"-"`
-	Blocked bool `json:"b"`
-}
-
-type Tiles []Tile
-
-func (t Tiles) Len() int           { return len(t) }
-func (t Tiles) Less(i, j int) bool { return t[i].Idx < t[j].Idx }
-func (t Tiles) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
-
-// CreateTile returns a new tile
-// at the given index with the given sprite.
-func CreateTile(idx, spr int, m *Map) Tile {
-	return Tile{
-		Idx:    idx,
-		X:      IdxToX(idx),
-		Y:      IdxToY(idx),
-		Sprite: spr,
-		Map:    m,
-	}
-}
-
-// TileDir contains an index
-// and the direction it is in
-// relation to the index it was
-// requested from.
-type TileDir struct {
-	Idx int
-	Dir Direction
-}
-
-// IdxToXY returns the corresponding
-// X and Y values for a given index.
-func IdxToXY(idx int) (int, int) {
-	return IdxToX(idx), IdxToY(idx)
-}
-
-// IdxToX returns the corresponding
-// X value to for given index.
-func IdxToX(idx int) int {
-	return idx % TilesW
-}
-
-// IdxToY returns the corresponding
-// Y value to for given index.
-func IdxToY(idx int) int {
-	return idx / TilesW
-}
-
-// XYToIdx returns the corresponding
-// index based on the given X and Y values.
-func XYToIdx(x, y int) int {
-	return x + y*TilesW
 }

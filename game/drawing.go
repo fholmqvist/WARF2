@@ -50,6 +50,9 @@ func drawMap(g *Game, screen *ebiten.Image) {
 	for idx, tile := range g.WorldMap.SelectedTiles {
 		DrawGraphic(idx, tile.Sprite, screen, g.worldTiles, 1)
 	}
+	for idx, tile := range g.WorldMap.Rails {
+		DrawRailGraphic(idx, tile.Sprite, screen, g.railTiles, 1, tile.Rotation)
+	}
 	for idx, tile := range g.WorldMap.Items {
 		DrawGraphic(idx, tile.Sprite, screen, g.itemTiles, 1)
 	}

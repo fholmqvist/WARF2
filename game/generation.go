@@ -6,6 +6,7 @@ import (
 	d "projects/games/warf2/dwarf"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
+	rail "projects/games/warf2/railservice"
 	u "projects/games/warf2/ui"
 	m "projects/games/warf2/worldmap"
 )
@@ -15,6 +16,7 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 		WorldMap:     *worldmap,
 		JobService:   j.JobService{Map: worldmap},
 		DwarfService: d.NewService(),
+		RailService:  rail.RailService{Map: worldmap},
 
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},

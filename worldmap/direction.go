@@ -4,6 +4,15 @@ import (
 	"fmt"
 )
 
+// TileDir contains an index
+// and the direction it is in
+// relation to the index it was
+// requested from.
+type TileDir struct {
+	Idx int
+	Dir Direction
+}
+
 // Direction type for collision checking.
 type Direction int
 
@@ -89,12 +98,20 @@ func (m *Map) OneTileUp(idx int) Tile {
 	return m.Tiles[OneTileUp(idx)]
 }
 
+func (m *Map) OneRailUp(idx int) Tile {
+	return m.Rails[OneTileUp(idx)]
+}
+
 func OneTileDown(idx int) int {
 	return idx + TilesW
 }
 
 func (m *Map) OneTileDown(idx int) Tile {
 	return m.Tiles[OneTileDown(idx)]
+}
+
+func (m *Map) OneRailDown(idx int) Tile {
+	return m.Rails[OneTileDown(idx)]
 }
 
 func OneTileLeft(idx int) int {
@@ -105,12 +122,20 @@ func (m *Map) OneTileLeft(idx int) Tile {
 	return m.Tiles[OneTileLeft(idx)]
 }
 
+func (m *Map) OneRailLeft(idx int) Tile {
+	return m.Rails[OneTileLeft(idx)]
+}
+
 func OneTileRight(idx int) int {
 	return idx + 1
 }
 
 func (m *Map) OneTileRight(idx int) Tile {
 	return m.Tiles[OneTileRight(idx)]
+}
+
+func (m *Map) OneRailRight(idx int) Tile {
+	return m.Rails[OneTileRight(idx)]
 }
 
 func OneTileUpLeft(idx int) int {
@@ -151,18 +176,14 @@ func NextIdxToDir(idx, next int) (Direction, error) {
 	if next == OneTileUp(idx) {
 		return Up, nil
 	}
-
 	if next == OneTileDown(idx) {
 		return Down, nil
 	}
-
 	if next == OneTileLeft(idx) {
 		return Left, nil
 	}
-
 	if next == OneTileRight(idx) {
 		return Right, nil
 	}
-
 	return Up, fmt.Errorf("idx and next not adjacent")
 }

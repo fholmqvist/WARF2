@@ -13,6 +13,7 @@ import (
 	"projects/games/warf2/dwarf"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
+	rail "projects/games/warf2/railservice"
 	"projects/games/warf2/room"
 	u "projects/games/warf2/ui"
 	m "projects/games/warf2/worldmap"
@@ -35,6 +36,7 @@ type Game struct {
 
 	worldTiles *ebiten.Image
 	dwarfTiles *ebiten.Image
+	railTiles  *ebiten.Image
 	itemTiles  *ebiten.Image
 	font       font.Face
 
@@ -46,6 +48,7 @@ type Game struct {
 
 	JobService   j.JobService
 	DwarfService dwarf.DwarfService
+	RailService  rail.RailService
 
 	/* ------------------------------ Private state ----------------------------- */
 
@@ -120,6 +123,16 @@ func NewGame(arg string) *Game {
 		mp.DrawSquare(1, 1, m.TilesW-1, m.TilesH-1, m.WallSolid)
 		mp.FixWalls()
 
+	case "rails":
+		game = GenerateGame(0, boundariesMap())
+		game.RailService.PlaceRailXY(8, 8)
+		game.RailService.PlaceRailXY(8, 9)
+		game.RailService.PlaceRailXY(8, 10)
+		game.RailService.PlaceRailXY(8, 11)
+		game.RailService.PlaceRailXY(9, 11)
+		game.RailService.PlaceRailXY(10, 11)
+		game.RailService.PlaceRailXY(11, 11)
+
 	case "clean":
 		fmt.Println("Cleaning names...")
 		ds := dwarf.NewService()
@@ -155,30 +168,26 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func loadAssets(g *Game) {
-	// Setting worldTiles.
 	worldTiles, _, err := ebitenutil.NewImageFromFile("art/world.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
 	}
-
 	g.worldTiles = worldTiles
-
-	// Setting dwarfTiles.
 	dwarfTiles, _, err := ebitenutil.NewImageFromFile("art/dwarf.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
 	}
-
 	g.dwarfTiles = dwarfTiles
-
-	// Setting itemTiles.
+	railTiles, _, err := ebitenutil.NewImageFromFile("art/rail.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatalf("could not open file: %v", err)
+	}
+	g.railTiles = railTiles
 	itemTiles, _, err := ebitenutil.NewImageFromFile("art/item.png", ebiten.FilterDefault)
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
 	}
-
 	g.itemTiles = itemTiles
-
 	setFont(g)
 }
 

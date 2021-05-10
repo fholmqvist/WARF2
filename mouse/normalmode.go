@@ -45,7 +45,7 @@ func mouseUpSetWalls(mp *m.Map, x, y int) {
 	if !ok {
 		return
 	}
-	// No change
+	// No change.
 	if m.IsNone(selectionTile.Sprite) {
 		return
 	}
