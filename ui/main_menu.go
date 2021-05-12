@@ -14,14 +14,15 @@ import (
 )
 
 var (
-	width   = 240
-	height  = 80
-	xOffset = (w.ScreenWidth / 2) - width/2
-	yOffset = 100
-	buttons = []*Button{
-		{Element{"Start", xOffset, yOffset, width, height, color.Gray{100}}},
-		{Element{"Help", xOffset, yOffset * 2, width, height, color.Gray{100}}},
-		{Element{"Quit", xOffset, yOffset * 3, width, height, color.Gray{100}}},
+	width       = 240
+	height      = 80
+	xOffset     = (w.ScreenWidth / 2) - width/2
+	yOffset     = 48
+	ySeparation = 100
+	buttons     = []*Button{
+		{Element{"Start", xOffset, yOffset + ySeparation, width, height, color.Gray{100}}},
+		{Element{"Help", xOffset, yOffset + ySeparation*2, width, height, color.Gray{100}}},
+		{Element{"Quit", xOffset, yOffset + ySeparation*3, width, height, color.Gray{100}}},
 	}
 )
 
@@ -48,13 +49,10 @@ func NewMainMenu() *MainMenu {
 }
 
 func (m *MainMenu) Draw(screen *ebiten.Image, font font.Face) {
-	opt := &ebiten.DrawImageOptions{}
-	opt.GeoM.Translate(float64(-m.logo.Bounds().Dx()/2), 28)
-	opt.GeoM.Translate(worldmap.ScreenWidth/2, 0)
-	_ = screen.DrawImage(m.logo, opt)
 	for _, b := range buttons {
 		b.Draw(screen, font)
 	}
+	drawLogo(m, screen)
 }
 
 func (m *MainMenu) Select() {
@@ -108,4 +106,12 @@ func (m *MainMenu) mouseAndSelect() (int, bool) {
 		return m.idx, true
 	}
 	return -1, false
+}
+
+func drawLogo(m *MainMenu, screen *ebiten.Image) {
+	opt := &ebiten.DrawImageOptions{}
+	opt.GeoM.Scale(2, 2)
+	opt.GeoM.Translate(float64(-m.logo.Bounds().Dx()), 28)
+	opt.GeoM.Translate(worldmap.ScreenWidth/2, 0)
+	_ = screen.DrawImage(m.logo, opt)
 }
