@@ -2,6 +2,10 @@ package rail
 
 // This currently assumes some responsibilities
 // that should perhaps be delegated to Map?
+//
+// Or perhaps, is this more correct, and we need
+// an ItemService as well? I think this sounds even
+// better to be honest.
 
 import (
 	"math"
