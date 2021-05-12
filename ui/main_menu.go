@@ -2,10 +2,13 @@ package ui
 
 import (
 	"image/color"
+	"log"
+	"projects/games/warf2/worldmap"
 	w "projects/games/warf2/worldmap"
 
 	"github.com/hajimehoshi/ebiten"
 	e "github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/ebitenutil"
 	inp "github.com/hajimehoshi/ebiten/inpututil"
 	"golang.org/x/image/font"
 )
@@ -31,9 +34,24 @@ func init() {
 type MainMenu struct {
 	idx            int
 	keySensitivity int
+	logo           *e.Image
+}
+
+func NewMainMenu() *MainMenu {
+	logo, _, err := ebitenutil.NewImageFromFile("art/logo.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatalf("could not open file: %v", err)
+	}
+	return &MainMenu{
+		logo: logo,
+	}
 }
 
 func (m *MainMenu) Draw(screen *ebiten.Image, font font.Face) {
+	opt := &ebiten.DrawImageOptions{}
+	opt.GeoM.Translate(float64(-m.logo.Bounds().Dx()/2), 28)
+	opt.GeoM.Translate(worldmap.ScreenWidth/2, 0)
+	_ = screen.DrawImage(m.logo, opt)
 	for _, b := range buttons {
 		b.Draw(screen, font)
 	}

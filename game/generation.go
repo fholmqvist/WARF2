@@ -7,6 +7,7 @@ import (
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
+	"projects/games/warf2/ui"
 	u "projects/games/warf2/ui"
 	m "projects/games/warf2/worldmap"
 )
@@ -26,6 +27,7 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 				Y:     m.TileSize*m.TilesH - m.TileSize,
 				Color: color.White,
 			},
+			MainMenu: ui.NewMainMenu(),
 		},
 	}
 	for i := 0; i < dwarves; i++ {

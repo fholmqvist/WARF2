@@ -60,8 +60,15 @@ type Game struct {
 
 // NewGame returns a pointer to an instantiated and initiated game.
 func NewGame(arg string) *Game {
-	var game Game
+	game := gameFromArg(arg)
+	game.SetMouseMode(mouse.Normal)
+	loadAssets(game)
+	game.saveGame()
+	return game
+}
 
+func gameFromArg(arg string) *Game {
+	var game Game
 	state := Gameplay
 
 	switch arg {
@@ -142,7 +149,7 @@ func NewGame(arg string) *Game {
 	case "load":
 		game = loadGame()
 
-	case "main_menu":
+	case "menu":
 		game = GenerateGame(4, normalMap())
 		state = MainMenu
 
@@ -150,15 +157,7 @@ func NewGame(arg string) *Game {
 		game = GenerateGame(4, normalMap())
 
 	}
-
 	game.state = state
-
-	game.SetMouseMode(mouse.Normal)
-
-	loadAssets(&game)
-
-	game.saveGame()
-
 	return &game
 }
 

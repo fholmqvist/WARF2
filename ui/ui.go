@@ -13,7 +13,7 @@ import (
 
 // UI wraps all the UI elements for Game
 type UI struct {
-	MainMenu
+	*MainMenu
 	MouseMode Element
 }
 
