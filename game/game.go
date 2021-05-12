@@ -132,13 +132,33 @@ func gameFromArg(arg string) *Game {
 
 	case "rails":
 		game = GenerateGame(0, boundariesMap())
-		game.RailService.PlaceRailXY(8, 8)
-		game.RailService.PlaceRailXY(8, 9)
-		game.RailService.PlaceRailXY(8, 10)
-		game.RailService.PlaceRailXY(8, 11)
-		game.RailService.PlaceRailXY(9, 11)
-		game.RailService.PlaceRailXY(10, 11)
-		game.RailService.PlaceRailXY(11, 11)
+
+		game.RailService.PlaceRailsXY([][2]int{
+			{8, 10},
+			{8, 11},
+			{9, 11},
+			{10, 11},
+			{11, 11},
+			{11, 12},
+			{11, 13},
+			{11, 14},
+			{10, 14},
+			{9, 14},
+			{9, 13},
+			{8, 13},
+			{7, 13},
+			{7, 14},
+			{7, 15},
+			{6, 15},
+		})
+
+		game.RailService.PlaceRailsXY([][2]int{
+			{8, 20},
+			{8, 21},
+			{7, 21},
+			{9, 21},
+			{8, 22},
+		})
 
 	case "clean":
 		fmt.Println("Cleaning names...")
