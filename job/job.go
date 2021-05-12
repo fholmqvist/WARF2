@@ -24,5 +24,5 @@ type Job interface {
 
 	GetWorker() *dwarf.Dwarf
 	SetWorker(*dwarf.Dwarf)
-	GetDestination() int
+	GetDestinations() []int
 }

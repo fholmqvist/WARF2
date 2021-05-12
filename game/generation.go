@@ -30,8 +30,10 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 			MainMenu: ui.NewMainMenu(),
 		},
 	}
-	for i := 0; i < dwarves; i++ {
-		addDwarfToGame(&game, game.DwarfService.RandomName())
+	if dwarves != 0 {
+		for i := 0; i <= dwarves; i++ {
+			addDwarfToGame(&game, game.DwarfService.RandomName())
+		}
 	}
 	return game
 }

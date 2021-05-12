@@ -24,7 +24,7 @@ type SaveGame struct {
 	JobSystem j.JobService  `json:"j"`
 }
 
-func (g Game) saveGame() {
+func (g Game) SaveGame() {
 	sg := SaveGame{
 		WorldMap:  g.WorldMap,
 		Dwarves:   g.Dwarves,

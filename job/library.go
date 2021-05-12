@@ -8,13 +8,13 @@ import (
 )
 
 type LibraryRead struct {
-	dwarf       *dwarf.Dwarf
-	destination int
-	readingTime int
+	dwarf        *dwarf.Dwarf
+	destinations []int
+	readingTime  int
 }
 
-func NewLibraryRead(destination, readingTime int) *LibraryRead {
-	return &LibraryRead{nil, destination, readingTime}
+func NewLibraryRead(destinations []int, readingTime int) *LibraryRead {
+	return &LibraryRead{nil, destinations, readingTime}
 }
 
 func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
@@ -27,11 +27,11 @@ func (l *LibraryRead) Reset() {
 
 func (l *LibraryRead) PerformWork(m *m.Map) bool {
 	if shouldGetChair(m, l) {
-		dst, ok := item.FindNearestChair(m, l.destination)
+		dst, ok := item.FindNearestChair(m, l.destinations[0])
 		if !ok {
 			return unfinished
 		}
-		l.destination = dst
+		l.destinations[0] = dst
 		l.dwarf.MoveTo(dst, m)
 		return unfinished
 	}
@@ -57,8 +57,8 @@ func (l *LibraryRead) SetWorker(dw *dwarf.Dwarf) {
 	l.dwarf = dw
 }
 
-func (l *LibraryRead) GetDestination() int {
-	return l.destination
+func (l *LibraryRead) GetDestinations() []int {
+	return l.destinations
 }
 
 func shouldGetChair(m *worldmap.Map, l *LibraryRead) bool {

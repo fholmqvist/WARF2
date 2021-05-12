@@ -6,13 +6,13 @@ import (
 )
 
 type Digging struct {
-	dwarf       *dwarf.Dwarf
-	destination int
-	wallIdx     int
+	dwarf        *dwarf.Dwarf
+	destinations []int
+	wallIdx      int
 }
 
-func NewDigging(destination, wallIdx int) *Digging {
-	return &Digging{nil, destination, wallIdx}
+func NewDigging(destinations []int, wallIdx int) *Digging {
+	return &Digging{nil, destinations, wallIdx}
 }
 
 // Checks if the tile of to-be-dug wall is still selected.
@@ -54,8 +54,8 @@ func (d *Digging) SetWorker(dw *dwarf.Dwarf) {
 	d.dwarf = dw
 }
 
-func (d *Digging) GetDestination() int {
-	return d.destination
+func (d *Digging) GetDestinations() []int {
+	return d.destinations
 }
 
 func (d *Digging) GetWallIdx() int {

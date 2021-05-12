@@ -22,7 +22,7 @@ func (g *Game) checkForLibraryReading() {
 		if !ok {
 			continue
 		}
-		j := job.NewLibraryRead(destination, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
+		j := job.NewLibraryRead([]int{destination}, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
 		jobsystem.SetWorkerAndMove(j, dwf, &g.WorldMap)
 		g.JobService.Jobs = append(g.JobService.Jobs, j)
 		/////////////////////////////////////////////////

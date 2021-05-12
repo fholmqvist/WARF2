@@ -21,9 +21,16 @@ func SetWorkerAndMove(j job.Job, w *dwarf.Dwarf, mp *m.Map) bool {
 	if HasWorker(j) {
 		return false
 	}
-	ok := w.MoveTo(j.GetDestination(), mp)
-	if !ok {
-		fmt.Println("No destination")
+	var foundDestination bool
+	for _, destination := range j.GetDestinations() {
+		ok := w.MoveTo(destination, mp)
+		if !ok {
+			continue
+		}
+		foundDestination = true
+	}
+	if !foundDestination {
+		fmt.Printf("SetWorkerAndMove(%v, %q, mp): no destination\n", j.GetDestinations(), w.Name)
 		return false
 	}
 	j.SetWorker(w)

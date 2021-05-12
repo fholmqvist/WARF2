@@ -101,7 +101,14 @@ func (j *JobService) performWork() {
 		if !d.HasJob() {
 			continue
 		}
-		if d.Idx != jb.GetDestination() {
+		var ok bool
+		for _, destination := range jb.GetDestinations() {
+			if d.Idx == destination {
+				ok = true
+				break
+			}
+		}
+		if !ok {
 			if len(d.Path) == 0 {
 				d.SetToAvailable()
 			}

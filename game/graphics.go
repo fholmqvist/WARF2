@@ -3,7 +3,6 @@ package game
 import (
 	"image"
 
-	e "projects/games/warf2/entity"
 	m "projects/games/warf2/worldmap"
 
 	"github.com/hajimehoshi/ebiten"
@@ -11,9 +10,6 @@ import (
 
 // DrawGraphic is a wrapper for drawing a tile to the screen
 func DrawGraphic(idx, sprite int, screen *ebiten.Image, tileset *ebiten.Image, alpha float64) {
-	if sprite == 0 {
-		return
-	}
 	op := newOption(idx, alpha, 0)
 	draw(idx, sprite, screen, tileset, alpha, op)
 }
@@ -24,13 +20,6 @@ func DrawRailGraphic(idx, sprite int, screen *ebiten.Image, tileset *ebiten.Imag
 	}
 	op := newOption(idx, alpha, rotation)
 	draw(idx, sprite, screen, tileset, alpha, op)
-}
-
-// DrawGraphics is a wrapper for drawing many tiles to the screen
-func DrawGraphics(entities []e.Entity, screen *ebiten.Image, tileset *ebiten.Image) {
-	for i := range entities {
-		DrawGraphic(entities[i].Idx, entities[i].Sprite, screen, tileset, 1)
-	}
 }
 
 func draw(idx, sprite int, screen *ebiten.Image, tileset *ebiten.Image, alpha float64, op *ebiten.DrawImageOptions) {

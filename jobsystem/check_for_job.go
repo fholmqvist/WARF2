@@ -10,23 +10,22 @@ func (j *JobService) checkForDiggingJobs() {
 		if !m.IsSelectedWall(wall.Sprite) {
 			continue
 		}
-		hasFoundJob := false
+		var destinations []int
 		for _, destination := range m.SurroundingTilesFour(wall.Idx) {
-			if hasFoundJob {
-				break
-			}
 			if m.IsColliding(j.Map, wall.Idx, destination.Dir) {
 				continue
 			}
 			if j.diggingJobAlreadyExists(destination.Idx, wall.Idx) {
 				continue
 			}
-			diggingJob := job.NewDigging(destination.Idx, wall.Idx)
-			// We have satisfied the need
-			// as a worker is on the way.
-			j.Jobs = append(j.Jobs, diggingJob)
-			hasFoundJob = true
+			destinations = append(destinations, destination.Idx)
+
 		}
+		// We have satisfied the need
+		// as a worker is on the way.
+		diggingJob := job.NewDigging(destinations, wall.Idx)
+
+		j.Jobs = append(j.Jobs, diggingJob)
 	}
 }
 
@@ -36,9 +35,12 @@ func (j *JobService) diggingJobAlreadyExists(dIdx, wIdx int) bool {
 		if !ok {
 			continue
 		}
-		if d.GetDestination() == dIdx && d.GetWallIdx() == wIdx {
-			return true
+		for _, destination := range d.GetDestinations() {
+			if destination == dIdx && d.GetWallIdx() == wIdx {
+				return true
+			}
 		}
+
 	}
 	return false
 }
