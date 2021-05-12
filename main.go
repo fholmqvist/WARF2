@@ -8,7 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 
 	g "projects/games/warf2/game"
-	m "projects/games/warf2/worldmap"
+	"projects/games/warf2/globals"
 )
 
 func main() {
@@ -23,9 +23,9 @@ func main() {
 		return
 	}
 	factor := 1
-	ebiten.SetWindowSize(m.ScreenWidth*factor, m.ScreenHeight*factor)
+	ebiten.SetWindowSize(globals.ScreenWidth*factor, globals.ScreenHeight*factor)
 	ebiten.SetWindowTitle("GOWARF")
-	ebiten.SetMaxTPS(m.TPS)
+	ebiten.SetMaxTPS(globals.TPS)
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}

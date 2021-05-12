@@ -1,6 +1,9 @@
 package worldmap
 
-import "fmt"
+import (
+	"fmt"
+	"projects/games/warf2/globals"
+)
 
 // NotColliding is the inverse of IsColliding below.
 func NotColliding(mp *Map, idx int, dir Direction) bool {
@@ -60,21 +63,21 @@ func IndexOutOfBounds(idx int, dir Direction) bool {
 }
 
 func outOfBounds(idx int) bool {
-	return idx <= 0 || idx >= TilesT-1
+	return idx <= 0 || idx >= globals.TilesT-1
 }
 
 func overflowUp(idx int) bool {
-	return idx < TilesW
+	return idx < globals.TilesW
 }
 
 func overflowDown(idx int) bool {
-	return idx > (TilesT - TilesW)
+	return idx > (globals.TilesT - globals.TilesW)
 }
 
 func overflowUpLeft(idx int) bool {
-	return idx < TilesW+1
+	return idx < globals.TilesW+1
 }
 
 func overflowDownRight(idx int) bool {
-	return idx > (TilesT-TilesW)-1
+	return idx > (globals.TilesT-globals.TilesW)-1
 }

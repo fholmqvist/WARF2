@@ -3,6 +3,7 @@ package game
 import (
 	"fmt"
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
 	"time"
 )
@@ -77,7 +78,7 @@ func gameFromArg(arg string) *Game {
 		// Debugging and testing wall selection.
 		game = GenerateGame(0, boundariesMap())
 		mp := &game.WorldMap
-		mp.DrawSquare(1, 1, m.TilesW-1, m.TilesH-1, m.WallSolid)
+		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
 		mp.FixWalls()
 
 	case "rails":

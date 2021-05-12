@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/globals"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	u "projects/games/warf2/ui"
@@ -98,8 +99,8 @@ func loadGame() Game {
 		mouseSystem: mouse.System{},
 		ui: u.UI{
 			MouseMode: u.Element{
-				X:     m.TileSize,
-				Y:     m.TileSize*m.TilesH - m.TileSize,
+				X:     globals.TileSize,
+				Y:     globals.TileSize*globals.TilesH - globals.TileSize,
 				Color: color.White,
 			},
 		},

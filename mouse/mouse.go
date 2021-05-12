@@ -8,6 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 
+	"projects/games/warf2/globals"
 	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 )
@@ -39,7 +40,7 @@ const (
 // Handle all the mouse interactivity.
 func (s *System) Handle(mp *m.Map, rs *room.System) {
 	idx := mousePos()
-	if idx < 0 || idx > m.TilesT {
+	if idx < 0 || idx > globals.TilesT {
 		///////////////////
 		// TODO
 		//

@@ -3,6 +3,8 @@
 // tiles and their functionality.
 package worldmap
 
+import "projects/games/warf2/globals"
+
 // Map holds all the tiles
 // for a game.
 type Map struct {
@@ -22,7 +24,7 @@ func New() *Map {
 }
 
 func newTiles(mp *Map, sprite int) []Tile {
-	t := make([]Tile, TilesW*TilesH)
+	t := make([]Tile, globals.TilesW*globals.TilesH)
 	for i := range t {
 		t[i] = CreateTile(i, sprite, mp)
 	}
@@ -44,7 +46,7 @@ func (m *Map) ClearSelectedTiles() {
 // and a bool to determine if the
 // function was successful.
 func (m Map) GetTile(x, y int) (*Tile, bool) {
-	return m.GetTileByIndex(x + y*TilesW)
+	return m.GetTileByIndex(x + y*globals.TilesW)
 }
 
 // GetSelectionTile returns a pointer to
@@ -52,7 +54,7 @@ func (m Map) GetTile(x, y int) (*Tile, bool) {
 // the selected layer on map, and a bool
 // to determine if the function was successful.
 func (m Map) GetSelectionTile(x, y int) (*Tile, bool) {
-	return m.GetSelectionTileByIndex(x + y*TilesW)
+	return m.GetSelectionTileByIndex(x + y*globals.TilesW)
 }
 
 // GetTileByIndex returns a pointer
@@ -138,7 +140,7 @@ func (m *Map) TilesForIsland(island int) []Tile {
 // }
 
 func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
-	if idx < 0 || idx >= TilesT {
+	if idx < 0 || idx >= globals.TilesT {
 		return nil, false
 	}
 	return &tiles[idx], true

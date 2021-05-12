@@ -2,6 +2,7 @@ package worldmap
 
 import (
 	"math/rand"
+	"projects/games/warf2/globals"
 )
 
 func (mp *Map) SetFloorTile(x, y int) {
@@ -54,10 +55,10 @@ func FloodFill(x, y int, m *Map, island int, predicate func(int) bool) {
 	if x > 0 {
 		FloodFill(x-1, y, m, island, predicate)
 	}
-	if y < TilesH-1 {
+	if y < globals.TilesH-1 {
 		FloodFill(x, y+1, m, island, predicate)
 	}
-	if x < TilesW-1 {
+	if x < globals.TilesW-1 {
 		FloodFill(x+1, y, m, island, predicate)
 	}
 }

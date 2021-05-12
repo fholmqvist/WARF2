@@ -4,6 +4,7 @@ import (
 	"image/color"
 	"math/rand"
 	d "projects/games/warf2/dwarf"
+	"projects/games/warf2/globals"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
@@ -23,17 +24,15 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 		mouseSystem: mouse.System{},
 		ui: u.UI{
 			MouseMode: u.Element{
-				X:     m.TileSize,
-				Y:     m.TileSize*m.TilesH - m.TileSize,
+				X:     globals.TileSize,
+				Y:     globals.TileSize*globals.TilesH - globals.TileSize,
 				Color: color.White,
 			},
 			MainMenu: ui.NewMainMenu(),
 		},
 	}
-	if dwarves != 0 {
-		for i := 0; i <= dwarves; i++ {
-			addDwarfToGame(&game, game.DwarfService.RandomName())
-		}
+	for i := 0; i < dwarves; i++ {
+		addDwarfToGame(&game, game.DwarfService.RandomName())
 	}
 	return game
 }

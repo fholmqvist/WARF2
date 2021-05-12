@@ -1,5 +1,7 @@
 package worldmap
 
+import "projects/games/warf2/globals"
+
 // Draws a horizontal line of specified
 // sprite from index, to the right,
 // for a number of n tiles.
@@ -13,7 +15,7 @@ func DrawHLineIdx(mp *Map, idx, n, spr int) {
 // sprite from index, to the right,
 // for a number of n tiles.
 func DrawVLineIdx(mp *Map, idx, n, spr int) {
-	for i := idx; i < idx+TilesW*n; i += TilesW {
+	for i := idx; i < idx+globals.TilesW*n; i += globals.TilesW {
 		mp.Tiles[i].Sprite = spr
 	}
 }
@@ -31,7 +33,7 @@ func DrawHRandomLineIdx(mp *Map, idx, n int, f func() int) {
 // sprite from index, to the right,
 // for a number of n tiles.
 func DrawVRandomLineIdx(mp *Map, idx, n int, f func() int) {
-	for i := idx; i < idx+TilesW*n; i += TilesW {
+	for i := idx; i < idx+globals.TilesW*n; i += globals.TilesW {
 		mp.Tiles[i].Sprite = f()
 	}
 }

@@ -3,8 +3,7 @@ package ui
 import (
 	"image/color"
 	"log"
-	"projects/games/warf2/worldmap"
-	w "projects/games/warf2/worldmap"
+	"projects/games/warf2/globals"
 
 	"github.com/hajimehoshi/ebiten"
 	e "github.com/hajimehoshi/ebiten"
@@ -16,7 +15,7 @@ import (
 var (
 	width       = 240
 	height      = 80
-	xOffset     = (w.ScreenWidth / 2) - width/2
+	xOffset     = (globals.ScreenWidth / 2) - width/2
 	yOffset     = 48
 	ySeparation = 100
 	buttons     = []*Button{
@@ -112,6 +111,6 @@ func drawLogo(m *MainMenu, screen *ebiten.Image) {
 	opt := &ebiten.DrawImageOptions{}
 	opt.GeoM.Scale(2, 2)
 	opt.GeoM.Translate(float64(-m.logo.Bounds().Dx()), 28)
-	opt.GeoM.Translate(worldmap.ScreenWidth/2, 0)
+	opt.GeoM.Translate(globals.ScreenWidth/2, 0)
 	_ = screen.DrawImage(m.logo, opt)
 }

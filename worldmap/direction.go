@@ -2,6 +2,7 @@ package worldmap
 
 import (
 	"fmt"
+	"projects/games/warf2/globals"
 )
 
 // TileDir contains an index
@@ -91,7 +92,7 @@ func IndexAtDirection(idx int, dir Direction) int {
 }
 
 func OneTileUp(idx int) int {
-	return idx - TilesW
+	return idx - globals.TilesW
 }
 
 func (m *Map) OneTileUp(idx int) Tile {
@@ -103,7 +104,7 @@ func (m *Map) OneRailUp(idx int) Tile {
 }
 
 func OneTileDown(idx int) int {
-	return idx + TilesW
+	return idx + globals.TilesW
 }
 
 func (m *Map) OneTileDown(idx int) Tile {

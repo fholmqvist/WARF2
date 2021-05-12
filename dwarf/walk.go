@@ -2,6 +2,7 @@ package dwarf
 
 import (
 	e "projects/games/warf2/entity"
+	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
 
 	"github.com/beefsack/go-astar"
@@ -28,7 +29,7 @@ func (w *Walker) Move(mp *m.Map, e *e.Entity, d m.Direction) bool {
 }
 
 func (w *Walker) moveUp(mp *m.Map, e *e.Entity) bool {
-	if e.Idx > m.TilesW && m.NotColliding(mp, e.Idx, m.Up) {
+	if e.Idx > globals.TilesW && m.NotColliding(mp, e.Idx, m.Up) {
 		e.Idx = m.OneTileUp(e.Idx)
 		return true
 	}
@@ -36,7 +37,7 @@ func (w *Walker) moveUp(mp *m.Map, e *e.Entity) bool {
 }
 
 func (w *Walker) moveRight(mp *m.Map, e *e.Entity) bool {
-	if e.Idx%m.TilesW-(m.TilesW-1) != 0 && m.NotColliding(mp, e.Idx, m.Right) {
+	if e.Idx%globals.TilesW-(globals.TilesW-1) != 0 && m.NotColliding(mp, e.Idx, m.Right) {
 		e.Idx = m.OneTileRight(e.Idx)
 		return true
 	}
@@ -44,7 +45,7 @@ func (w *Walker) moveRight(mp *m.Map, e *e.Entity) bool {
 }
 
 func (w *Walker) moveDown(mp *m.Map, e *e.Entity) bool {
-	if e.Idx < m.TilesT-m.TilesW && m.NotColliding(mp, e.Idx, m.Down) {
+	if e.Idx < globals.TilesT-globals.TilesW && m.NotColliding(mp, e.Idx, m.Down) {
 		e.Idx = m.OneTileDown(e.Idx)
 		return true
 	}
@@ -52,7 +53,7 @@ func (w *Walker) moveDown(mp *m.Map, e *e.Entity) bool {
 }
 
 func (w *Walker) moveLeft(mp *m.Map, e *e.Entity) bool {
-	if e.Idx%m.TilesW != 0 && m.NotColliding(mp, e.Idx, m.Left) {
+	if e.Idx%globals.TilesW != 0 && m.NotColliding(mp, e.Idx, m.Left) {
 		e.Idx = m.OneTileLeft(e.Idx)
 		return true
 	}

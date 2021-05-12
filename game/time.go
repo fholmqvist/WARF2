@@ -2,7 +2,7 @@ package game
 
 import (
 	"math/rand"
-	m "projects/games/warf2/worldmap"
+	"projects/games/warf2/globals"
 	"time"
 )
 
@@ -20,7 +20,7 @@ func (t *Time) Tick() {
 	t.Frame--
 
 	if t.Frame <= -1 {
-		t.Frame = m.CycleLength
+		t.Frame = globals.CycleLength
 	}
 }
 

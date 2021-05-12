@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/globals"
 	j "projects/games/warf2/jobsystem"
 	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
@@ -66,7 +67,7 @@ func NewGame(arg string) *Game {
 
 // Layout implementation for Ebiten interface.
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return m.ScreenWidth, m.ScreenHeight
+	return globals.ScreenWidth, globals.ScreenHeight
 }
 
 func (g *Game) LoadAssets() {

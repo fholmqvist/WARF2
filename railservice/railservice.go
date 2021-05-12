@@ -10,6 +10,7 @@ package rail
 import (
 	"fmt"
 	"math"
+	"projects/games/warf2/globals"
 	mp "projects/games/warf2/worldmap"
 )
 
@@ -30,7 +31,7 @@ func (r *RailService) PlaceRail(idx int) {
 }
 
 func (r *RailService) PlaceRails(idxs []int) {
-	min := mp.TilesT + 1
+	min := globals.TilesT + 1
 	max := -1
 	for _, idx := range idxs {
 		t, ok := r.Map.GetTileByIndex(idx)

@@ -1,6 +1,7 @@
 package mouse
 
 import (
+	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
 
 	"github.com/hajimehoshi/ebiten"
@@ -58,11 +59,11 @@ func TileRange(start, end int) (int, int, int, int) {
 
 func mousePos() int {
 	mx, my := ebiten.CursorPosition()
-	mx, my = mx/m.TileSize, my/m.TileSize
-	if mx >= m.TilesW {
+	mx, my = mx/globals.TileSize, my/globals.TileSize
+	if mx >= globals.TilesW {
 		return -1
 	}
-	return mx + (my * m.TilesW)
+	return mx + (my * globals.TilesW)
 }
 
 func setHasClicked(currentMousePos int) {
