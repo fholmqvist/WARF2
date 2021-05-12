@@ -53,7 +53,6 @@ type Game struct {
 
 	state GameState
 	time  Time
-	debug bool
 	ui    u.UI
 }
 

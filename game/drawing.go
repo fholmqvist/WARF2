@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"projects/games/warf2/globals"
+
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
 )
@@ -59,7 +61,7 @@ func drawMap(g *Game, screen *ebiten.Image) {
 }
 
 func drawTPS(g *Game, screen *ebiten.Image) {
-	if g.debug {
+	if globals.DEBUG {
 		ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f", ebiten.CurrentTPS()))
 	}
 }

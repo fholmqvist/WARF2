@@ -12,10 +12,14 @@ func gameFromArg(arg string) *Game {
 	var game Game
 	state := Gameplay
 
+	globals.DEBUG = true
+
 	switch arg {
 
 	case "library":
+		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(0, emptyMap())
 		game.WorldMap.DrawOutline(6, 5, 38, 14, m.WallSolid)
 		game.WorldMap.DrawOutline(24, 13, 38, 22, m.WallSolid)
@@ -34,7 +38,9 @@ func gameFromArg(arg string) *Game {
 		d2.Characteristics.DesireToRead = 30
 
 	case "walls":
+		///////////////////////////////////////////////////////
 		// Debugging and testing wall and floor fills.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(0, boundariesMap())
 		mp := &game.WorldMap
 
@@ -65,6 +71,9 @@ func gameFromArg(arg string) *Game {
 		}()
 
 	case "wall-debug":
+		///////////////////////////////////////////////////////
+		// Debugging pathfinding to wall digging jobs.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(0, boundariesMap())
 		mp := &game.WorldMap
 		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
@@ -75,13 +84,18 @@ func gameFromArg(arg string) *Game {
 		mp.Tiles[332].Sprite = m.WallSelectedSolid
 
 	case "fill":
+		///////////////////////////////////////////////////////
 		// Debugging and testing wall selection.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(0, boundariesMap())
 		mp := &game.WorldMap
 		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
 		mp.FixWalls()
 
 	case "rails":
+		///////////////////////////////////////////////////////
+		// Debugging rails.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(0, boundariesMap())
 
 		game.RailService.PlaceRailsXY([][2]int{
@@ -112,20 +126,34 @@ func gameFromArg(arg string) *Game {
 		})
 
 	case "clean":
+		///////////////////////////////////////////////////////
+		// Various cleaning and correcting files.
+		///////////////////////////////////////////////////////
 		fmt.Println("Cleaning names...")
 		ds := dwarf.NewService()
 		ds.CleanNames()
 		return nil
 
 	case "load":
+		///////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////
 		game = loadGame()
 
 	case "menu":
+		///////////////////////////////////////////////////////
+		// Main Menu.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(4, normalMap())
 		state = MainMenu
 
 	default:
+		///////////////////////////////////////////////////////
+		// TODO:
+		// Standard game, skipping menu.
+		// On release this should default to menu.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(4, normalMap())
+		globals.DEBUG = false
 
 	}
 	game.state = state

@@ -19,3 +19,7 @@ const (
 	TPS         = 30
 	CycleLength = TPS * 8
 )
+
+var (
+	DEBUG = false
+)
