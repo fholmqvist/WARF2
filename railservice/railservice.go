@@ -8,8 +8,6 @@ package rail
 // better to be honest.
 
 import (
-	"fmt"
-	"math"
 	"projects/games/warf2/globals"
 	mp "projects/games/warf2/worldmap"
 )
@@ -56,7 +54,6 @@ func (r *RailService) PlaceRails(idxs []int) {
 			max = idx
 		}
 	}
-	fmt.Println(min, max)
 	r.FixRails(min, max)
 }
 
@@ -71,83 +68,4 @@ func (r *RailService) PlaceRailsXY(xys [][2]int) {
 		idxs = append(idxs, mp.XYToIdx(xys[i][0], xys[i][1]))
 	}
 	r.PlaceRails(idxs)
-}
-
-const (
-	up    = 0
-	right = 1
-	down  = 2
-	left  = 3
-)
-
-func (r *RailService) FixRails(min, max int) {
-	for idx := min; idx <= max; idx++ {
-		if r.Map.Rails[idx].Sprite == 0 {
-			continue
-		}
-		rails := []mp.Tile{
-			r.Map.OneRailUp(idx),
-			r.Map.OneRailRight(idx),
-			r.Map.OneRailDown(idx),
-			r.Map.OneRailLeft(idx),
-		}
-		// CROSS
-		if IsRail(r.Map, rails[up].Idx) && IsRail(r.Map, rails[right].Idx) &&
-			IsRail(r.Map, rails[down].Idx) && IsRail(r.Map, rails[left].Idx) {
-			r.Map.Rails[idx].Sprite = Cross
-			continue
-		}
-		// HORIZONTAL
-		if IsRail(r.Map, rails[left].Idx) && IsRail(r.Map, rails[right].Idx) {
-			r.Map.Rails[idx].Rotation = math.Pi * 1.5
-			continue
-		}
-		// UP RIGHT
-		if IsRail(r.Map, rails[up].Idx) && IsRail(r.Map, rails[right].Idx) {
-			r.Map.Rails[idx].Sprite = Curve
-			continue
-		}
-		// UP LEFT
-		if IsRail(r.Map, rails[up].Idx) && IsRail(r.Map, rails[left].Idx) {
-			r.Map.Rails[idx].Sprite = Curve
-			r.Map.Rails[idx].Rotation = math.Pi * 1.5
-			continue
-		}
-		// DOWN RIGHT
-		if IsRail(r.Map, rails[down].Idx) && IsRail(r.Map, rails[right].Idx) {
-			r.Map.Rails[idx].Sprite = Curve
-			r.Map.Rails[idx].Rotation = -math.Pi * 1.5
-			continue
-		}
-		// DOWN LEFT
-		if IsRail(r.Map, rails[down].Idx) && IsRail(r.Map, rails[left].Idx) {
-			r.Map.Rails[idx].Sprite = Curve
-			r.Map.Rails[idx].Rotation = math.Pi * 3.0
-			continue
-		}
-
-		// LONE UP
-		if !IsRail(r.Map, rails[up].Idx) && IsRail(r.Map, rails[down].Idx) {
-			r.Map.Rails[idx].Sprite = Stop
-			continue
-		}
-		// LONE RIGHT
-		if !IsRail(r.Map, rails[right].Idx) && IsRail(r.Map, rails[left].Idx) {
-			r.Map.Rails[idx].Sprite = Stop
-			r.Map.Rails[idx].Rotation = -math.Pi * 1.5
-			continue
-		}
-		// LONE DOWN
-		if !IsRail(r.Map, rails[down].Idx) && IsRail(r.Map, rails[up].Idx) {
-			r.Map.Rails[idx].Sprite = Stop
-			r.Map.Rails[idx].Rotation = math.Pi * 3.0
-			continue
-		}
-		// LONE LEFT
-		if !IsRail(r.Map, rails[left].Idx) && IsRail(r.Map, rails[right].Idx) {
-			r.Map.Rails[idx].Sprite = Stop
-			r.Map.Rails[idx].Rotation = math.Pi * 1.5
-			continue
-		}
-	}
 }

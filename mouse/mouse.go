@@ -13,6 +13,13 @@ import (
 	m "projects/games/warf2/worldmap"
 )
 
+// This cluster of variables
+// help with (de)selecting walls.
+var startPoint = -1
+var endPoint = -1
+var hasClicked = false
+var firstClickedSprite = -1
+
 // System for handling
 // all functionality by mouse.
 type System struct {
