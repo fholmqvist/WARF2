@@ -41,7 +41,6 @@ func (s *System) FindNearestStorage(mp *m.Map, x, y int) (*Storage, bool) {
 		if d < closest {
 			closest = d
 			idx = i
-		} else {
 		}
 	}
 	return &s.Storages[idx], true
