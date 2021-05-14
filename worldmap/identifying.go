@@ -102,6 +102,10 @@ func IsFloorBrick(sprite int) bool {
 	return sprite >= FloorBricksOne && sprite <= FloorBricksTen
 }
 
+func IsWoodFloor(sprite int) bool {
+	return sprite >= WoodFloorOne && sprite < WoodFloorFour
+}
+
 // If we're only surrounded by two walls,
 // and those two walls are aligned,
 // we are in a door opening.

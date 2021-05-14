@@ -1,12 +1,15 @@
 package mouse
 
-import m "projects/games/warf2/worldmap"
+import (
+	"projects/games/warf2/globals"
+	m "projects/games/warf2/worldmap"
+)
 
 func floorTileMode(mp *m.Map, currentMousePos int) {
 	clickFunctions(mp, currentMousePos,
 		func() {
 			setHasClicked(currentMousePos)
-			x, y := m.IdxToXY(currentMousePos)
+			x, y := globals.IdxToXY(currentMousePos)
 			mp.SetFloorTile(x, y)
 		},
 		func(mp *m.Map, x int, y int) {

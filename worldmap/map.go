@@ -94,7 +94,7 @@ func (m Map) GetItemTileByIndex(idx int) (*Tile, bool) {
 // a bool to determine if the function
 // was successful.
 func (m Map) GetItemTile(x, y int) (*Tile, bool) {
-	idx := XYToIdx(x, y)
+	idx := globals.XYToIdx(x, y)
 	return getTileFrom(idx, m.Items)
 }
 
@@ -111,7 +111,7 @@ func (m Map) GetRailTileByIndex(idx int) (*Tile, bool) {
 // a bool to determine if the function
 // was successful.
 func (m Map) GetRailTile(x, y int) (*Tile, bool) {
-	idx := XYToIdx(x, y)
+	idx := globals.XYToIdx(x, y)
 	return getTileFrom(idx, m.Rails)
 }
 

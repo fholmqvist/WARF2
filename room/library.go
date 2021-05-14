@@ -2,6 +2,7 @@ package room
 
 import (
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/globals"
 	"projects/games/warf2/item"
 	m "projects/games/warf2/worldmap"
 	"sort"
@@ -15,8 +16,8 @@ type Library struct {
 }
 
 func NewLibrary(mp *m.Map, x, y int) *Library {
-	l := Library{}
-	tiles := mp.FloodFillRoom(x, y, m.RandomFloorBrick)
+	l := &Library{}
+	tiles := mp.FloodFillRoom(x, y, m.RandomWoodFloor)
 	if len(tiles) == 0 {
 		return nil
 	}
@@ -29,7 +30,7 @@ func NewLibrary(mp *m.Map, x, y int) *Library {
 	for _, t := range l.tiles {
 		lastShelfRow = l.placeItems(mp, t, firstRow, lastShelfRow)
 	}
-	return &l
+	return l
 }
 
 // Use library.
@@ -126,14 +127,14 @@ func (l *Library) generateFurniture(mp *m.Map, t m.Tile) {
 		}
 	}
 	for x := t.X; x < t.X+3; x++ {
-		spr := mp.Tiles[m.XYToIdx(x, t.Y)].Sprite
+		spr := mp.Tiles[globals.XYToIdx(x, t.Y)].Sprite
 		if m.IsAnyWall(spr) {
 			return
 		}
-		if !m.IsFloorBrick(spr) {
+		if !m.IsWoodFloor(spr) {
 			return
 		}
-		if m.IsDoorOpening(mp, m.OneTileDown(m.XYToIdx(x, t.Y))) {
+		if m.IsDoorOpening(mp, m.OneTileDown(globals.XYToIdx(x, t.Y))) {
 			return
 		}
 	}

@@ -42,7 +42,7 @@ func DrawVRandomLineIdx(mp *Map, idx, n int, f func() int) {
 func (m *Map) DrawSquare(x1, y1, x2, y2, sprite int) {
 	for x := x1; x < x2; x++ {
 		for y := y1; y < y2; y++ {
-			m.Tiles[XYToIdx(x, y)].Sprite = sprite
+			m.Tiles[globals.XYToIdx(x, y)].Sprite = sprite
 		}
 	}
 }
@@ -51,7 +51,7 @@ func (m *Map) DrawSquare(x1, y1, x2, y2, sprite int) {
 func (m *Map) DrawRandomSquare(x1, y1, x2, y2 int, f func() int) {
 	for x := x1; x < x2; x++ {
 		for y := y1; y < y2; y++ {
-			m.Tiles[XYToIdx(x, y)].Sprite = f()
+			m.Tiles[globals.XYToIdx(x, y)].Sprite = f()
 		}
 	}
 }
@@ -72,7 +72,7 @@ func (m *Map) DrawOutline(x1, y1, x2, y2, sprite int) {
 	for x := x1; x < x2; x++ {
 		for y := y1; y < y2; y++ {
 			if x == x1 || x == x2-1 || y == y1 || y == y2-1 {
-				m.Tiles[XYToIdx(x, y)].Sprite = sprite
+				m.Tiles[globals.XYToIdx(x, y)].Sprite = sprite
 			}
 		}
 	}

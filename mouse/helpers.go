@@ -43,8 +43,8 @@ func FuncOverRange(mp *m.Map, start, end int, f func(*m.Map, int, int)) {
 // between start and end,
 // regardless of direction.
 func TileRange(start, end int) (int, int, int, int) {
-	x1, y1 := m.IdxToXY(start)
-	x2, y2 := m.IdxToXY(end)
+	x1, y1 := globals.IdxToXY(start)
+	x2, y2 := globals.IdxToXY(end)
 
 	if x1 > x2 {
 		x1, x2 = x2, x1

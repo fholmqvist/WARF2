@@ -29,7 +29,7 @@ func gameFromArg(arg string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddLibrary(&game.WorldMap, m.XYToIdx(7, 7))
+		game.Rooms.AddLibrary(&game.WorldMap, globals.XYToIdx(7, 7))
 		game.WorldMap.FixWalls()
 		addDwarfToGame(&game, "Test 1")
 		addDwarfToGame(&game, "Test 2")
@@ -47,13 +47,13 @@ func gameFromArg(arg string) *Game {
 
 		// Room 1.
 		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
-		mp.Tiles[m.XYToIdx(5, 7)].Sprite = m.Ground
-		mp.Tiles[m.XYToIdx(7, 5)].Sprite = m.Ground
+		mp.Tiles[globals.XYToIdx(5, 7)].Sprite = m.Ground
+		mp.Tiles[globals.XYToIdx(7, 5)].Sprite = m.Ground
 
 		// Room 2.
 		mp.DrawOutline(12, 5, 24, 12, m.WallSolid)
-		mp.Tiles[m.XYToIdx(23, 8)].Sprite = m.Ground
-		mp.Tiles[m.XYToIdx(16, 11)].Sprite = m.Ground
+		mp.Tiles[globals.XYToIdx(23, 8)].Sprite = m.Ground
+		mp.Tiles[globals.XYToIdx(16, 11)].Sprite = m.Ground
 
 		// Room 3.
 		mp.DrawOutline(26, 5, 38, 12, m.WallSolid)
@@ -98,7 +98,7 @@ func gameFromArg(arg string) *Game {
 		// Debugging rails.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, boundariesMap())
-		game.RailService.Carts = append(game.RailService.Carts, rail.NewCart(m.XYToIdx(2, 2)))
+		game.RailService.Carts = append(game.RailService.Carts, rail.NewCart(globals.XYToIdx(2, 2)))
 		var halfCircle [][2]int
 		for line := 2; line < globals.TilesW-2; line++ {
 			halfCircle = append(halfCircle, [2]int{line, 2})
@@ -138,11 +138,11 @@ func gameFromArg(arg string) *Game {
 			if len(cart.Path) > 0 {
 				return
 			}
-			if cart.Idx == m.XYToIdx(2, 2) {
-				g.RailService.Carts[0].InitiateRide(mp, &mp.Rails[m.XYToIdx(43, 29)])
+			if cart.Idx == globals.XYToIdx(2, 2) {
+				g.RailService.Carts[0].InitiateRide(mp, &mp.Rails[globals.XYToIdx(43, 29)])
 			}
-			if cart.Idx == m.XYToIdx(43, 29) {
-				cart.InitiateRide(mp, &mp.Rails[m.XYToIdx(2, 2)])
+			if cart.Idx == globals.XYToIdx(43, 29) {
+				cart.InitiateRide(mp, &mp.Rails[globals.XYToIdx(2, 2)])
 			}
 		}
 		game.debugFunc = &f

@@ -42,6 +42,7 @@ const (
 	RemoveItem
 
 	Library
+	Storage
 )
 
 // Handle all the mouse interactivity.
@@ -96,6 +97,9 @@ func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 
 	case Library:
 		s.roomSystem.AddLibrary(mp, currentMousePos)
+
+	case Storage:
+		s.roomSystem.AddStorage(mp, currentMousePos)
 
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)

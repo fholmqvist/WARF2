@@ -1,5 +1,7 @@
 package worldmap
 
+import "projects/games/warf2/globals"
+
 // Tile data struct.
 type Tile struct {
 	TileType
@@ -24,8 +26,8 @@ func (t Tiles) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
 func CreateTile(idx, spr int, m *Map) Tile {
 	return Tile{
 		Idx:    idx,
-		X:      IdxToX(idx),
-		Y:      IdxToY(idx),
+		X:      globals.IdxToX(idx),
+		Y:      globals.IdxToY(idx),
 		Sprite: spr,
 		Map:    m,
 	}

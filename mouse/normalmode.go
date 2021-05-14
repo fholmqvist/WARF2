@@ -2,6 +2,7 @@ package mouse
 
 import (
 	"fmt"
+	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -121,6 +122,6 @@ func setToNormalInteractFalse(tile *m.Tile) {
 }
 
 func printMousePos(idx int) {
-	x, y := m.IdxToXY(idx)
+	x, y := globals.IdxToXY(idx)
 	fmt.Printf("IDX: %d. XY: {%d, %d}.\n", idx, x, y)
 }

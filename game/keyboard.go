@@ -38,6 +38,9 @@ func (g *Game) SetMouseMode(mode mouse.Mode) {
 	case mouse.Library:
 		state = "GOWARF - LIBRARY"
 
+	case mouse.Storage:
+		state = "GOWARF - STORAGE"
+
 	default:
 		fmt.Println("no such mouse mode:", mode)
 	}
@@ -73,5 +76,8 @@ func handleTileSettingInput(g *Game) {
 	}
 	if i.IsKeyJustPressed(e.Key7) {
 		g.SetMouseMode(mouse.Library)
+	}
+	if i.IsKeyJustPressed(e.Key8) {
+		g.SetMouseMode(mouse.Storage)
 	}
 }

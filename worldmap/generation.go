@@ -20,7 +20,7 @@ func (mp *Map) SetFloorTile(x, y int) {
 }
 
 func (mp *Map) SetFloorTileIdx(idx int) {
-	x, y := IdxToXY(idx)
+	x, y := globals.IdxToXY(idx)
 	mp.SetFloorTile(x, y)
 }
 
@@ -44,7 +44,7 @@ func RandomWoodFloor() int {
 // function and sets the tiles island
 // number to the given island number.
 func FloodFill(x, y int, m *Map, island int, predicate func(int) bool) {
-	idx := XYToIdx(x, y)
+	idx := globals.XYToIdx(x, y)
 	ok := predicate(idx)
 	if !ok {
 		return
@@ -126,7 +126,7 @@ func (m *Map) FillIslands(inverse bool) {
 		if t.Island != 0 {
 			continue
 		}
-		x, y := IdxToXY(i)
+		x, y := globals.IdxToXY(i)
 		if IsWall(t.Sprite) {
 			FloodFillWalls(x, y, m, island)
 			island++

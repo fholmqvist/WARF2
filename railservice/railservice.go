@@ -57,14 +57,14 @@ func (r *RailService) PlaceRails(idxs []int) {
 }
 
 func (r *RailService) PlaceRailXY(x, y int) {
-	idx := mp.XYToIdx(x, y)
+	idx := globals.XYToIdx(x, y)
 	r.PlaceRails([]int{idx})
 }
 
 func (r *RailService) PlaceRailsXY(xys [][2]int) {
 	var idxs []int
 	for i := range xys {
-		idxs = append(idxs, mp.XYToIdx(xys[i][0], xys[i][1]))
+		idxs = append(idxs, globals.XYToIdx(xys[i][0], xys[i][1]))
 	}
 	r.PlaceRails(idxs)
 }

@@ -2,6 +2,7 @@ package item
 
 import (
 	"math/rand"
+	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -37,7 +38,7 @@ func Place(mp *m.Map, x, y, sprite int) {
 }
 
 func PlaceRandom(mp *m.Map, x, y int, f func() int) {
-	idx := m.XYToIdx(x, y)
+	idx := globals.XYToIdx(x, y)
 	PlaceRandomIdx(mp, idx, f)
 }
 
