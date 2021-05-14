@@ -1,4 +1,4 @@
-package jobsystem
+package jobservice
 
 import (
 	"projects/games/warf2/job"

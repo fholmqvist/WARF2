@@ -19,7 +19,7 @@ func New() *Map {
 	mp.Tiles = newTiles(mp, Ground)
 	mp.SelectedTiles = newTiles(mp, None)
 	mp.Items = newTiles(mp, None)
-	mp.Rails = newTiles(mp, None)
+	mp.Rails = newRailTiles(mp, None)
 	return mp
 }
 
@@ -27,6 +27,14 @@ func newTiles(mp *Map, sprite int) []Tile {
 	t := make([]Tile, globals.TilesW*globals.TilesH)
 	for i := range t {
 		t[i] = CreateTile(i, sprite, mp)
+	}
+	return t
+}
+
+func newRailTiles(mp *Map, sprite int) []Tile {
+	t := make([]Tile, globals.TilesW*globals.TilesH)
+	for i := range t {
+		t[i] = CreateRailTile(i, mp)
 	}
 	return t
 }

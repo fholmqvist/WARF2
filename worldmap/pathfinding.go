@@ -13,25 +13,40 @@ var offsets = [][]int{
 	{-1, 0},
 }
 
-var _ astar.Pather = &Tile{}
+var (
+	_ astar.Pather = &Tile{}
+)
 
 // PathNeighbors is the implementation for
 // the interface required by go-astar for
 // determining surrounding (walkable) neighbors.
 func (t *Tile) PathNeighbors() []astar.Pather {
 	neighbors := []astar.Pather{}
-
 	for _, offset := range offsets {
 		offsetX, offsetY := offset[0], offset[1]
-		neighbor, ok := t.Map.GetTile(t.X+offsetX, t.Y+offsetY)
-
-		if !ok || !IsExposed(neighbor.Sprite) || neighbor.Blocked {
-			continue
+		var neighbor *Tile
+		switch t.TileType {
+		case NormalTile:
+			n, ok := t.Map.GetTile(t.X+offsetX, t.Y+offsetY)
+			if !ok {
+				continue
+			}
+			if !IsExposed(n.Sprite) || n.Blocked {
+				continue
+			}
+			neighbor = n
+		case RailTile:
+			n, ok := t.Map.GetRailTile(t.X+offsetX, t.Y+offsetY)
+			if !ok {
+				continue
+			}
+			if !IsRail(n.Sprite) {
+				continue
+			}
+			neighbor = n
 		}
-
 		neighbors = append(neighbors, neighbor)
 	}
-
 	return neighbors
 }
 
@@ -47,10 +62,8 @@ func (t *Tile) PathNeighborCost(to astar.Pather) float64 {
 // determining the cost of the entire path.
 func (t *Tile) PathEstimatedCost(to astar.Pather) float64 {
 	toT := to.(*Tile)
-
 	xDist := math.Abs(float64(toT.X - t.X))
 	yDist := math.Abs(float64(toT.Y - t.Y))
-
 	return xDist + yDist
 }
 

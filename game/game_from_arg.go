@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
+	rail "projects/games/warf2/railservice"
 	m "projects/games/warf2/worldmap"
 	"time"
 )
@@ -97,7 +98,15 @@ func gameFromArg(arg string) *Game {
 		// Debugging rails.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, boundariesMap())
-
+		game.RailService.Carts = append(game.RailService.Carts, rail.NewCart(m.XYToIdx(2, 2)))
+		var halfCircle [][2]int
+		for line := 2; line < globals.TilesW-2; line++ {
+			halfCircle = append(halfCircle, [2]int{line, 2})
+		}
+		for line := 2; line < globals.TilesH-2; line++ {
+			halfCircle = append(halfCircle, [2]int{globals.TilesW - 3, line})
+		}
+		game.RailService.PlaceRailsXY(halfCircle)
 		game.RailService.PlaceRailsXY([][2]int{
 			{8, 10},
 			{8, 11},
@@ -116,7 +125,6 @@ func gameFromArg(arg string) *Game {
 			{7, 15},
 			{6, 15},
 		})
-
 		game.RailService.PlaceRailsXY([][2]int{
 			{8, 20},
 			{8, 21},
@@ -124,6 +132,20 @@ func gameFromArg(arg string) *Game {
 			{9, 21},
 			{8, 22},
 		})
+		f := func(g *Game) {
+			mp := &g.WorldMap
+			cart := g.RailService.Carts[0]
+			if len(cart.Path) > 0 {
+				return
+			}
+			if cart.Idx == m.XYToIdx(2, 2) {
+				g.RailService.Carts[0].InitiateRide(mp, &mp.Rails[m.XYToIdx(43, 29)])
+			}
+			if cart.Idx == m.XYToIdx(43, 29) {
+				cart.InitiateRide(mp, &mp.Rails[m.XYToIdx(2, 2)])
+			}
+		}
+		game.debugFunc = &f
 
 	case "clean":
 		///////////////////////////////////////////////////////

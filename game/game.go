@@ -10,7 +10,7 @@ import (
 
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
-	j "projects/games/warf2/jobsystem"
+	j "projects/games/warf2/jobservice"
 	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
 	"projects/games/warf2/room"
@@ -54,6 +54,10 @@ type Game struct {
 	state GameState
 	time  Time
 	ui    u.UI
+
+	// For injecting debugging
+	// routines into the runtime.
+	debugFunc *func(*Game)
 }
 
 // NewGame returns a pointer to an instantiated and initiated game.
@@ -98,17 +102,14 @@ func setFont(g *Game) {
 	if err != nil {
 		log.Fatalf("could not open file: %v", err)
 	}
-
 	b, err := ioutil.ReadAll(f)
 	if err != nil {
 		log.Fatalf("could not read file: %v", err)
 	}
-
 	tt, err := truetype.Parse(b)
 	if err != nil {
 		log.Fatalf("could not parse truetype: %v", err)
 	}
-
 	g.font = truetype.NewFace(tt, &truetype.Options{
 		Size:    8,
 		Hinting: font.HintingFull,

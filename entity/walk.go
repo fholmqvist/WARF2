@@ -1,7 +1,6 @@
-package dwarf
+package entity
 
 import (
-	e "projects/games/warf2/entity"
 	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
 
@@ -14,7 +13,7 @@ type Walker struct {
 }
 
 // Move attempts to move an entity given a direction
-func (w *Walker) Move(mp *m.Map, e *e.Entity, d m.Direction) bool {
+func (w *Walker) Move(mp *m.Map, e *Entity, d m.Direction) bool {
 	switch d {
 	case m.Up:
 		return w.moveUp(mp, e)
@@ -28,7 +27,7 @@ func (w *Walker) Move(mp *m.Map, e *e.Entity, d m.Direction) bool {
 	return false
 }
 
-func (w *Walker) moveUp(mp *m.Map, e *e.Entity) bool {
+func (w *Walker) moveUp(mp *m.Map, e *Entity) bool {
 	if e.Idx > globals.TilesW && m.NotColliding(mp, e.Idx, m.Up) {
 		e.Idx = m.OneTileUp(e.Idx)
 		return true
@@ -36,7 +35,7 @@ func (w *Walker) moveUp(mp *m.Map, e *e.Entity) bool {
 	return false
 }
 
-func (w *Walker) moveRight(mp *m.Map, e *e.Entity) bool {
+func (w *Walker) moveRight(mp *m.Map, e *Entity) bool {
 	if e.Idx%globals.TilesW-(globals.TilesW-1) != 0 && m.NotColliding(mp, e.Idx, m.Right) {
 		e.Idx = m.OneTileRight(e.Idx)
 		return true
@@ -44,7 +43,7 @@ func (w *Walker) moveRight(mp *m.Map, e *e.Entity) bool {
 	return false
 }
 
-func (w *Walker) moveDown(mp *m.Map, e *e.Entity) bool {
+func (w *Walker) moveDown(mp *m.Map, e *Entity) bool {
 	if e.Idx < globals.TilesT-globals.TilesW && m.NotColliding(mp, e.Idx, m.Down) {
 		e.Idx = m.OneTileDown(e.Idx)
 		return true
@@ -52,7 +51,7 @@ func (w *Walker) moveDown(mp *m.Map, e *e.Entity) bool {
 	return false
 }
 
-func (w *Walker) moveLeft(mp *m.Map, e *e.Entity) bool {
+func (w *Walker) moveLeft(mp *m.Map, e *Entity) bool {
 	if e.Idx%globals.TilesW != 0 && m.NotColliding(mp, e.Idx, m.Left) {
 		e.Idx = m.OneTileLeft(e.Idx)
 		return true
@@ -71,13 +70,11 @@ func (w *Walker) InitiateWalk(from, to *m.Tile) bool {
 	if !ok {
 		return false
 	}
-
 	var pathIdxs []int
 	for _, t := range m.Reverse(path) {
 		tile := t.(*m.Tile)
 		pathIdxs = append(pathIdxs, tile.Idx)
 	}
-
 	w.Path = pathIdxs
 	return true
 }

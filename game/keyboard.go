@@ -45,7 +45,7 @@ func (g *Game) SetMouseMode(mode mouse.Mode) {
 	*mt = "GOWARF - " + state
 }
 
-func handleKeyboard(g *Game) {
+func HandleKeyboard(g *Game) {
 	handleTilesettingInput(g)
 }
 

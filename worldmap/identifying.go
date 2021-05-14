@@ -93,6 +93,11 @@ func IsWallOrSelected(sprite int) bool {
 	return IsWall(sprite) || IsSelectedWall(sprite)
 }
 
+func IsRail(sprite int) bool {
+	return sprite >= Straight &&
+		sprite <= Cross
+}
+
 func IsFloorBrick(sprite int) bool {
 	return sprite >= FloorBricksOne && sprite <= FloorBricksTen
 }

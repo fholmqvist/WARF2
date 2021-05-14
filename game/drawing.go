@@ -36,6 +36,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	case Gameplay:
 		drawMap(g, screen)
+		drawMovables(g, screen)
 		drawWorkers(g, screen)
 		g.ui.DrawGameplay(screen, g.font, g.Dwarves)
 		drawTPS(g, screen)
@@ -69,5 +70,11 @@ func drawTPS(g *Game, screen *ebiten.Image) {
 func drawWorkers(g *Game, screen *ebiten.Image) {
 	for _, dwarf := range g.JobService.Workers {
 		DrawGraphic(dwarf.Idx, dwarf.Sprite, screen, g.dwarfTiles, 1)
+	}
+}
+
+func drawMovables(g *Game, screen *ebiten.Image) {
+	for _, cart := range g.RailService.Carts {
+		DrawGraphic(cart.Idx, cart.Sprite, screen, g.railTiles, 1)
 	}
 }

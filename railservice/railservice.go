@@ -12,16 +12,15 @@ import (
 	mp "projects/games/warf2/worldmap"
 )
 
-const (
-	None = iota
-	Straight
-	Curve
-	Stop
-	Cross
-)
-
 type RailService struct {
-	Map *mp.Map
+	Carts []*Cart
+	Map   *mp.Map
+}
+
+func (r *RailService) Update(m *mp.Map) {
+	for _, cart := range r.Carts {
+		cart.traversePath(m)
+	}
 }
 
 func (r *RailService) PlaceRail(idx int) {
@@ -34,19 +33,19 @@ func (r *RailService) PlaceRails(idxs []int) {
 	for _, idx := range idxs {
 		t, ok := r.Map.GetTileByIndex(idx)
 		if !ok {
-			return
+			continue
 		}
 		if mp.Blocking(t) {
-			return
+			continue
 		}
 		rt, ok := r.Map.GetRailTileByIndex(idx)
 		if !ok {
-			return
+			continue
 		}
-		if rt.Sprite != None {
-			return
+		if rt.Sprite != mp.None {
+			continue
 		}
-		rt.Sprite = Straight
+		rt.Sprite = mp.Straight
 		if idx < min {
 			min = idx
 		}

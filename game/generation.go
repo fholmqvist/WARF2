@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	d "projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
-	j "projects/games/warf2/jobsystem"
+	j "projects/games/warf2/jobservice"
 	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
 	"projects/games/warf2/ui"

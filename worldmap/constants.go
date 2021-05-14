@@ -30,3 +30,11 @@ const (
 	WoodFloorThree
 	WoodFloorFour
 )
+
+const (
+	Straight = iota + 1
+	Curve
+	Stop
+	Cross
+	Cart
+)

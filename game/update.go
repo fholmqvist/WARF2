@@ -11,15 +11,20 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	if g.state != Gameplay {
 		return nil
 	}
+	if g.debugFunc != nil {
+		f := *g.debugFunc
+		f(g)
+	}
 	g.time.Tick()
 	g.mouseSystem.Handle(&g.WorldMap, &g.Rooms)
-	handleKeyboard(g)
-	g.updateDwarves()
+	HandleKeyboard(g)
+	g.UpdateDwarves()
 	g.JobService.Update()
+	g.RailService.Update(&g.WorldMap)
 	return nil
 }
 
-func (g *Game) updateDwarves() {
+func (g *Game) UpdateDwarves() {
 	for _, dwarf := range g.JobService.Workers {
 		dwarf.Walk(&g.WorldMap)
 	}

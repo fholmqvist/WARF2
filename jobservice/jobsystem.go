@@ -1,7 +1,7 @@
 // Package jobsystem manages
 // all the life cycles for jobs
 // given to in-game characters.
-package jobsystem
+package jobservice
 
 import (
 	"math/rand"

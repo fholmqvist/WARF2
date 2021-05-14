@@ -2,6 +2,7 @@ package worldmap
 
 // Tile data struct.
 type Tile struct {
+	TileType
 	Idx      int     `json:"i"`
 	X        int     `json:"x"`
 	Y        int     `json:"y"`
@@ -18,8 +19,8 @@ func (t Tiles) Len() int           { return len(t) }
 func (t Tiles) Less(i, j int) bool { return t[i].Idx < t[j].Idx }
 func (t Tiles) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
 
-// CreateTile returns a new tile
-// at the given index with the given sprite.
+// Returns a new tile at the
+// given index with the given sprite.
 func CreateTile(idx, spr int, m *Map) Tile {
 	return Tile{
 		Idx:    idx,
@@ -29,3 +30,17 @@ func CreateTile(idx, spr int, m *Map) Tile {
 		Map:    m,
 	}
 }
+
+// Returns a new RailTile at the given index.
+func CreateRailTile(idx int, m *Map) Tile {
+	t := CreateTile(idx, None, m)
+	t.TileType = RailTile
+	return t
+}
+
+type TileType int
+
+const (
+	NormalTile TileType = iota
+	RailTile
+)

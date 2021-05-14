@@ -4,7 +4,7 @@ import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
 	"projects/games/warf2/job"
-	"projects/games/warf2/jobsystem"
+	"projects/games/warf2/jobservice"
 	"projects/games/warf2/worldmap"
 )
 
@@ -23,7 +23,7 @@ func (g *Game) checkForLibraryReading() {
 			continue
 		}
 		j := job.NewLibraryRead([]int{destination}, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
-		jobsystem.SetWorkerAndMove(j, dwf, &g.WorldMap)
+		jobservice.SetWorkerAndMove(j, dwf, &g.WorldMap)
 		g.JobService.Jobs = append(g.JobService.Jobs, j)
 		/////////////////////////////////////////////////
 		// TODO

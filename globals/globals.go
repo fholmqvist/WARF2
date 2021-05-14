@@ -1,9 +1,6 @@
 package globals
 
-// Game constants that relate
-// to map and drawing. Not put
-// in game package to prevent
-// cyclic dependencies.
+// Game globals.
 const (
 	TileSize = 16
 	TilesetW = 16

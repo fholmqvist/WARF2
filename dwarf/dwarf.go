@@ -12,7 +12,7 @@ import (
 // for in game characters.
 type Dwarf struct {
 	e.Entity
-	Walker
+	e.Walker
 	Characteristics
 	Needs
 	State WorkerState

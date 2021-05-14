@@ -2,6 +2,7 @@ package rail
 
 import (
 	"math"
+	m "projects/games/warf2/worldmap"
 )
 
 func (r *RailService) FixRails(min, max int) {
@@ -10,64 +11,64 @@ func (r *RailService) FixRails(min, max int) {
 		if t.Sprite == 0 {
 			continue
 		}
-		up := r.Map.OneRailUp(idx).Idx
-		right := r.Map.OneRailRight(idx).Idx
-		down := r.Map.OneRailDown(idx).Idx
-		left := r.Map.OneRailLeft(idx).Idx
+		up := r.Map.OneRailUp(idx).Sprite
+		right := r.Map.OneRailRight(idx).Sprite
+		down := r.Map.OneRailDown(idx).Sprite
+		left := r.Map.OneRailLeft(idx).Sprite
 		// CROSS
-		if IsRail(r.Map, up) && IsRail(r.Map, right) &&
-			IsRail(r.Map, down) && IsRail(r.Map, left) {
-			t.Sprite = Cross
+		if m.IsRail(up) && m.IsRail(right) &&
+			m.IsRail(down) && m.IsRail(left) {
+			t.Sprite = m.Cross
 			continue
 		}
 		// HORIZONTAL
-		if IsRail(r.Map, left) && IsRail(r.Map, right) {
+		if m.IsRail(left) && m.IsRail(right) {
 			t.Rotation = math.Pi * 1.5
 			continue
 		}
 		// UP RIGHT
-		if IsRail(r.Map, up) && IsRail(r.Map, right) {
-			t.Sprite = Curve
+		if m.IsRail(up) && m.IsRail(right) {
+			t.Sprite = m.Curve
 			continue
 		}
 		// UP LEFT
-		if IsRail(r.Map, up) && IsRail(r.Map, left) {
-			t.Sprite = Curve
+		if m.IsRail(up) && m.IsRail(left) {
+			t.Sprite = m.Curve
 			t.Rotation = math.Pi * 1.5
 			continue
 		}
 		// DOWN RIGHT
-		if IsRail(r.Map, down) && IsRail(r.Map, right) {
-			t.Sprite = Curve
+		if m.IsRail(down) && m.IsRail(right) {
+			t.Sprite = m.Curve
 			t.Rotation = -math.Pi * 1.5
 			continue
 		}
 		// DOWN LEFT
-		if IsRail(r.Map, down) && IsRail(r.Map, left) {
-			t.Sprite = Curve
+		if m.IsRail(down) && m.IsRail(left) {
+			t.Sprite = m.Curve
 			t.Rotation = math.Pi * 3.0
 			continue
 		}
 		// LONE UP
-		if !IsRail(r.Map, up) && IsRail(r.Map, down) {
-			t.Sprite = Stop
+		if !m.IsRail(up) && m.IsRail(down) {
+			t.Sprite = m.Stop
 			continue
 		}
 		// LONE RIGHT
-		if !IsRail(r.Map, right) && IsRail(r.Map, left) {
-			t.Sprite = Stop
+		if !m.IsRail(right) && m.IsRail(left) {
+			t.Sprite = m.Stop
 			t.Rotation = -math.Pi * 1.5
 			continue
 		}
 		// LONE DOWN
-		if !IsRail(r.Map, down) && IsRail(r.Map, up) {
-			t.Sprite = Stop
+		if !m.IsRail(down) && m.IsRail(up) {
+			t.Sprite = m.Stop
 			t.Rotation = math.Pi * 3.0
 			continue
 		}
 		// LONE LEFT
-		if !IsRail(r.Map, left) && IsRail(r.Map, right) {
-			t.Sprite = Stop
+		if !m.IsRail(left) && m.IsRail(right) {
+			t.Sprite = m.Stop
 			t.Rotation = math.Pi * 1.5
 			continue
 		}

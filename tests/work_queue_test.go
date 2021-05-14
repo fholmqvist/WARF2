@@ -3,7 +3,7 @@ package tests
 import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/job"
-	j "projects/games/warf2/jobsystem"
+	j "projects/games/warf2/jobservice"
 	"projects/games/warf2/worldmap"
 	"testing"
 )
