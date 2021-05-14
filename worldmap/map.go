@@ -23,6 +23,23 @@ func New() *Map {
 	return mp
 }
 
+func NormalMap() *Map {
+	mp := New()
+	mp.Automata()
+	mp.FillIslands(true)
+	mp.FillIslands(false)
+	mp.CreateBoundaryWalls()
+	mp.FixWalls()
+	return mp
+}
+
+func BoundariesMap() *Map {
+	mp := New()
+	mp.CreateBoundaryWalls()
+	mp.FixWalls()
+	return mp
+}
+
 func newTiles(mp *Map, sprite int) []Tile {
 	t := make([]Tile, globals.TilesW*globals.TilesH)
 	for i := range t {

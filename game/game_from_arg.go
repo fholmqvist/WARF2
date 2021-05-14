@@ -5,6 +5,7 @@ import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
 	rail "projects/games/warf2/railservice"
+	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 	"time"
 )
@@ -38,11 +39,26 @@ func gameFromArg(arg string) *Game {
 		d2 := game.Dwarves[1]
 		d2.Characteristics.DesireToRead = 30
 
+	case "storage":
+		game = GenerateGame(0, m.BoundariesMap())
+		mp := &game.WorldMap
+		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
+		mp.DrawOutline(20, 5, 25, 10, m.WallSolid)
+		s1 := room.NewStorage(mp, 6, 6)
+		s2 := room.NewStorage(mp, 21, 6)
+		game.Rooms.Storages = append(game.Rooms.Storages, *s1)
+		game.Rooms.Storages = append(game.Rooms.Storages, *s2)
+		ns, ok := game.Rooms.FindNearestStorage(mp, 1, 1)
+		if !ok {
+			panic(ok)
+		}
+		fmt.Println(ns.Center)
+
 	case "walls":
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall and floor fills.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(0, boundariesMap())
+		game = GenerateGame(0, m.BoundariesMap())
 		mp := &game.WorldMap
 
 		// Room 1.
@@ -75,7 +91,7 @@ func gameFromArg(arg string) *Game {
 		///////////////////////////////////////////////////////
 		// Debugging pathfinding to wall digging jobs.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(0, boundariesMap())
+		game = GenerateGame(0, m.BoundariesMap())
 		mp := &game.WorldMap
 		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
 		mp.DrawOutline(10, 5, 15, 10, m.WallSolid)
@@ -88,7 +104,7 @@ func gameFromArg(arg string) *Game {
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall selection.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(0, boundariesMap())
+		game = GenerateGame(0, m.BoundariesMap())
 		mp := &game.WorldMap
 		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
 		mp.FixWalls()
@@ -97,7 +113,7 @@ func gameFromArg(arg string) *Game {
 		///////////////////////////////////////////////////////
 		// Debugging rails.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(0, boundariesMap())
+		game = GenerateGame(0, m.BoundariesMap())
 		game.RailService.Carts = append(game.RailService.Carts, rail.NewCart(globals.XYToIdx(2, 2)))
 		var halfCircle [][2]int
 		for line := 2; line < globals.TilesW-2; line++ {
@@ -166,7 +182,7 @@ func gameFromArg(arg string) *Game {
 		///////////////////////////////////////////////////////
 		// Main Menu.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(4, normalMap())
+		game = GenerateGame(4, m.NormalMap())
 		state = MainMenu
 
 	default:
@@ -175,7 +191,7 @@ func gameFromArg(arg string) *Game {
 		// Standard game, skipping menu.
 		// On release this should default to menu.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(4, normalMap())
+		game = GenerateGame(4, m.NormalMap())
 		globals.DEBUG = false
 
 	}

@@ -37,23 +37,6 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 	return game
 }
 
-func normalMap() *m.Map {
-	mp := m.New()
-	mp.Automata()
-	mp.FillIslands(true)
-	mp.FillIslands(false)
-	mp.CreateBoundaryWalls()
-	mp.FixWalls()
-	return mp
-}
-
-func boundariesMap() *m.Map {
-	mp := m.New()
-	mp.CreateBoundaryWalls()
-	mp.FixWalls()
-	return mp
-}
-
 func emptyMap() *m.Map {
 	return m.New()
 }
