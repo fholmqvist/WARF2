@@ -16,7 +16,7 @@ func (mp *Map) SetFloorTile(x, y int) {
 	if IsFloorBrick(tile.Sprite) {
 		return
 	}
-	tile.Sprite = RandomWoodFloor() //RandomFloorBrick()
+	tile.Sprite = RandomWoodFloor()
 }
 
 func (mp *Map) SetFloorTileIdx(idx int) {
@@ -26,6 +26,10 @@ func (mp *Map) SetFloorTileIdx(idx int) {
 
 func (mp *Map) SetFloorTiles(x1, y1, x2, y2 int) {
 	mp.DrawSquareMutate(x1, y1, x2, y2, mp.SetFloorTile)
+}
+
+func RandomCrumbledWall() int {
+	return rand.Intn(WallCrumbled4-WallCrumbled1+1) + WallCrumbled1
 }
 
 func RandomFloorBrick() int {

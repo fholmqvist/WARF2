@@ -35,7 +35,7 @@ func (d *Digging) PerformWork(mp *m.Map) bool {
 		// Job is, in a sense, done.
 		return finished
 	}
-	t.Sprite = m.Ground
+	t.Sprite = m.RandomCrumbledWall()
 	for _, nb := range m.SurroundingTilesFour(t.Idx) {
 		mp.FixWall(&mp.Tiles[nb.Idx])
 	}

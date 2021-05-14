@@ -1,5 +1,7 @@
 package worldmap
 
+const actualTileSize = 16
+
 // World tile sprite constant.
 const (
 	None = iota
@@ -15,8 +17,11 @@ const (
 	WallSelectedExposed
 	WallCrumbled1
 	WallCrumbled2
-
-	FloorBricks1 = iota + 8
+	WallCrumbled3
+	WallCrumbled4
+)
+const (
+	FloorBricks1 = iota + actualTileSize
 	FloorBricks2
 	FloorBricks3
 	FloorBricks4
@@ -26,13 +31,13 @@ const (
 	FloorBricks8
 	FloorBricks9
 	FloorBricks10
-
-	WoodFloor1 = iota + 14
+)
+const (
+	WoodFloor1 = iota + actualTileSize*2
 	WoodFloor2
 	WoodFloor3
 	WoodFloor4
 )
-
 const (
 	Straight = iota + 1
 	Curve
