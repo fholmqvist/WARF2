@@ -23,25 +23,29 @@ I have since switched to another linter ([golangci-lint](https://golangci-lint.r
 
 ✅ Cellular automata, flood fills, pathfinding.
 
+✅ Wall construction/destruction system.
+
 ✅ Mouse and keyboard input.
 
 ✅ Collision detection.
 
-✅ Saving/loading
-
-✅ Wall system
+✅ Saving/loading.
 
 ✅ Job/Activity system.
 
+✅ Rooms:
+* Storage.
+* Library.
+
 ## WIP
 
-🔹 Library system.
+🔹 Rail system.
 
 🔹 UI system.
 
 ## TODO
 
-❌ UI - Graphics, components, menus.
+❌ Graphics - UI, components, menus.
 
 ❌ Activities - Eating, resting, reading.
 
