@@ -33,7 +33,7 @@ func floorTileSelection(mp *m.Map, x, y int) {
 	if m.IsFloorBrick(selectionTile.Sprite) {
 		return
 	}
-	selectionTile.Sprite = m.FloorBricksOne
+	selectionTile.Sprite = m.FloorBricks1
 }
 
 func resetFloorMode(mp *m.Map, currentMousePos int) {

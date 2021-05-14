@@ -29,14 +29,14 @@ func (mp *Map) SetFloorTiles(x1, y1, x2, y2 int) {
 }
 
 func RandomFloorBrick() int {
-	return rand.Intn(FloorBricksTen-FloorBricksOne+1) + FloorBricksOne
+	return rand.Intn(FloorBricks10-FloorBricks1+1) + FloorBricks1
 }
 
 func RandomWoodFloor() int {
 	if rand.Intn(3) < 2 {
-		return WoodFloorOne
+		return WoodFloor1
 	}
-	return rand.Intn(WoodFloorFour-WoodFloorOne+1) + WoodFloorOne
+	return rand.Intn(WoodFloor4-WoodFloor1+1) + WoodFloor1
 }
 
 // FloodFill finds an "island"
