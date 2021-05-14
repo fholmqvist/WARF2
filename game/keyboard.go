@@ -46,10 +46,13 @@ func (g *Game) SetMouseMode(mode mouse.Mode) {
 }
 
 func HandleKeyboard(g *Game) {
-	handleTilesettingInput(g)
+	if i.IsKeyJustPressed(e.KeySpace) {
+		g.time.Stop()
+	}
+	handleTileSettingInput(g)
 }
 
-func handleTilesettingInput(g *Game) {
+func handleTileSettingInput(g *Game) {
 	if i.IsKeyJustPressed(e.Key1) {
 		g.SetMouseMode(mouse.Normal)
 	}

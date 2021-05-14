@@ -15,9 +15,13 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		f := *g.debugFunc
 		f(g)
 	}
-	g.time.Tick()
+	// Handle input.
 	g.mouseSystem.Handle(&g.WorldMap, &g.Rooms)
 	HandleKeyboard(g)
+	// Only run if game is not paused.
+	if !g.time.Tick() {
+		return nil
+	}
 	g.UpdateDwarves()
 	g.JobService.Update()
 	g.RailService.Update(&g.WorldMap)
