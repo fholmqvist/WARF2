@@ -1,7 +1,6 @@
 package room
 
 import (
-	"fmt"
 	"math"
 	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
@@ -37,15 +36,12 @@ func (s *System) FindNearestStorage(mp *m.Map, x, y int) (*Storage, bool) {
 	closest := math.MaxFloat64
 	idx := -1
 	for i, storage := range s.Storages {
-		fmt.Println("Current:", storage.Center)
 		bx, by := globals.IdxToXY(storage.Center)
 		d := globals.Dist(x, y, bx, by)
 		if d < closest {
 			closest = d
 			idx = i
-			fmt.Println("Was closer.")
 		} else {
-			fmt.Println("Wasn't closer.")
 		}
 	}
 	return &s.Storages[idx], true
