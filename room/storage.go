@@ -4,7 +4,6 @@ import (
 	"math"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
-	"projects/games/warf2/resource"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -12,12 +11,6 @@ type Storage struct {
 	Center       int
 	Tiles        m.Tiles
 	StorageTiles []StorageTile
-}
-
-type StorageTile struct {
-	Idx    int
-	Tpe    resource.Resource
-	Amount uint
 }
 
 func NewStorage(mp *m.Map, x, y int) *Storage {
@@ -61,16 +54,4 @@ func determineCenter(mp *m.Map, tiles m.Tiles) int {
 		center++
 	}
 	return center
-}
-
-func createStorageTiles(tt m.Tiles) []StorageTile {
-	var st []StorageTile
-	for _, t := range tt {
-		st = append(st, StorageTile{
-			Idx:    t.Idx,
-			Tpe:    resource.None,
-			Amount: 0,
-		})
-	}
-	return st
 }
