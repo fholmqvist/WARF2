@@ -194,7 +194,7 @@ func gameFromArg(arg string) *Game {
 
 	default:
 		///////////////////////////////////////////////////////
-		// TODO:
+		// TODO
 		// Standard game, skipping menu.
 		// On release this should default to menu.
 		///////////////////////////////////////////////////////

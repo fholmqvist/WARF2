@@ -50,7 +50,6 @@ func (s *System) Handle(mp *m.Map, rs *room.Service) {
 	if idx < 0 || idx > globals.TilesT {
 		///////////////////
 		// TODO
-		//
 		// Undo first tile!
 		///////////////////
 		mp.ClearSelectedTiles()
@@ -125,7 +124,6 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 
 /////////////////////////////////////////////////
 // TODO
-//
 // Overlays, placeholders, highlights...
 /////////////////////////////////////////////////
 func (s *System) mouseHover(mp *m.Map) {

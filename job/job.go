@@ -15,7 +15,7 @@ const (
 
 // Job declares the common interface
 // for jobs, in order to be used within
-// the job system.
+// the job service.
 type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
 	PerformWork(*m.Map) bool

@@ -1,4 +1,4 @@
-// Package jobsystem manages
+// Package jobservice manages
 // all the life cycles for jobs
 // given to in-game characters.
 package jobservice

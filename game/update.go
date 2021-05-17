@@ -45,7 +45,6 @@ func (g *Game) UpdateDwarves() {
 	}
 	/////////////////////////////////////////////////
 	// TODO
-	//
 	// Should be redesigned so that we get
 	// the highest desired need for each
 	// available dwarf, and assign a job to

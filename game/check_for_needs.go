@@ -27,7 +27,6 @@ func (g *Game) checkForLibraryReading() {
 		g.JobService.Jobs = append(g.JobService.Jobs, j)
 		/////////////////////////////////////////////////
 		// TODO
-		//
 		// This is not great.
 		/////////////////////////////////////////////////
 		dwf.Needs.ToRead = 0

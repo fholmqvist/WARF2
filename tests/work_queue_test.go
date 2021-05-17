@@ -9,7 +9,7 @@ import (
 )
 
 func TestWorkQueue(t *testing.T) {
-	js := jobSystemWithJobs()
+	js := jobServicemWithJobs()
 	originalOrder := []int{}
 	for _, v := range js.Jobs {
 		originalOrder = append(originalOrder, v.GetDestinations()...)
@@ -29,7 +29,7 @@ func TestWorkQueue(t *testing.T) {
 	}
 }
 
-func jobSystemWithJobs() *j.JobService {
+func jobServicemWithJobs() *j.JobService {
 	js := &j.JobService{
 		Jobs: []job.Job{
 			job.NewLibraryRead([]int{10}, 1),
