@@ -60,14 +60,14 @@ func PlaceRandomIdx(mp *m.Map, idx int, f func() int) {
 	}
 }
 
-// RandomBookshelf returns
-// the sprite for a random BookShelf.
 func RandomBookshelf() int {
 	return bookShelves[rand.Intn(len(bookShelves))]
 }
 
-// RandomFurniture returns
-// the sprite for a random Furniture.
 func RandomFurniture() int {
 	return furniture[rand.Intn(len(furniture))]
+}
+
+func RandomCrumbledWall() int {
+	return rand.Intn(WallCrumbled4-WallCrumbled1+1) + WallCrumbled1
 }

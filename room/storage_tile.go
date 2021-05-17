@@ -11,15 +11,15 @@ type StorageTile struct {
 	Amount uint
 }
 
-func (s *StorageTile) IsAvailable() bool {
+func (s *StorageTile) Available() bool {
 	if s.Amount == 0 {
 		s.Tpe = resource.None
 	}
 	return s.Tpe == resource.None && s.Amount == 0
 }
 
-func (s *StorageTile) IsEmpty() bool {
-	return !s.IsAvailable()
+func (s *StorageTile) Unavailable() bool {
+	return !s.Available()
 }
 
 func createStorageTiles(tt m.Tiles) []StorageTile {

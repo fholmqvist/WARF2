@@ -21,7 +21,7 @@ func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
 	return l.readingTime <= 0 || l.dwarf == nil
 }
 
-func (l *LibraryRead) Reset() {
+func (l *LibraryRead) Reset(*m.Map) {
 	l.dwarf = nil
 }
 

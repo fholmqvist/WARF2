@@ -3,11 +3,18 @@
 // on top of game tiles.
 package item
 
+import "projects/games/warf2/globals"
+
 // Item tile sprite constant.
 const (
 	NoItem = iota
-
-	BookShelfOne
+	WallCrumbled1
+	WallCrumbled2
+	WallCrumbled3
+	WallCrumbled4
+)
+const (
+	BookShelfOne = iota + globals.ActualTileSize
 	BookShelfTwo
 	BookShelfThree
 	BookShelfFour

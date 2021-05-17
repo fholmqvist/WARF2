@@ -23,8 +23,7 @@ var firstClickedSprite = -1
 // System for handling
 // all functionality by mouse.
 type System struct {
-	Mode       Mode
-	roomSystem room.System
+	Mode Mode
 }
 
 // Mode enum for managing mouse action state.
@@ -46,7 +45,7 @@ const (
 )
 
 // Handle all the mouse interactivity.
-func (s *System) Handle(mp *m.Map, rs *room.System) {
+func (s *System) Handle(mp *m.Map, rs *room.Service) {
 	idx := mousePos()
 	if idx < 0 || idx > globals.TilesT {
 		///////////////////
@@ -60,7 +59,7 @@ func (s *System) Handle(mp *m.Map, rs *room.System) {
 	}
 	s.mouseHover(mp)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		s.mouseClick(mp, idx)
+		s.mouseClick(mp, rs, idx)
 		return
 	}
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
@@ -74,7 +73,7 @@ func (s *System) Handle(mp *m.Map, rs *room.System) {
 	}
 }
 
-func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
+func (s *System) mouseClick(mp *m.Map, rs *room.Service, currentMousePos int) {
 	switch s.Mode {
 
 	case Normal:
@@ -96,17 +95,17 @@ func (s *System) mouseClick(mp *m.Map, currentMousePos int) {
 		removeItemMode(mp, currentMousePos)
 
 	case Library:
-		s.roomSystem.AddLibrary(mp, currentMousePos)
+		rs.AddLibrary(mp, currentMousePos)
 
 	case Storage:
-		s.roomSystem.AddStorage(mp, currentMousePos)
+		rs.AddStorage(mp, currentMousePos)
 
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)
 	}
 }
 
-func (s *System) mouseUp(mp *m.Map, rs *room.System) {
+func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 	if startPoint == -1 {
 		return
 	}

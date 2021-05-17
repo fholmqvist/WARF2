@@ -8,7 +8,7 @@ import (
 
 func TestNearestStorage(t *testing.T) {
 	mp := m.BoundariesMap()
-	system := room.System{}
+	system := room.Service{}
 	_, ok := system.FindNearestStorage(mp, 1, 1)
 	if ok {
 		t.Fatal("did not expect to be ok")

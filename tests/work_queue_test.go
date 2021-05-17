@@ -14,7 +14,7 @@ func TestWorkQueue(t *testing.T) {
 	for _, v := range js.Jobs {
 		originalOrder = append(originalOrder, v.GetDestinations()...)
 	}
-	js.Update()
+	js.Update(nil) // TODO
 	sameAsBefore := 0
 	for i, v := range js.Jobs {
 		for _, destination := range v.GetDestinations() {

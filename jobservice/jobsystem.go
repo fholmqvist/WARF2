@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/job"
+	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 	"sort"
 	"time"
@@ -27,7 +28,7 @@ type JobService struct {
 
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
-func (j *JobService) Update() {
+func (j *JobService) Update(rs *room.Service) {
 	j.sortPriority()
 	j.removeFinishedJobs()
 	j.updateAvailableWorkers()
@@ -35,6 +36,7 @@ func (j *JobService) Update() {
 	/* ---------------------------------- Check --------------------------------- */
 
 	j.checkForDiggingJobs()
+	j.checkForCarryingJobs(rs)
 
 	/* ----------------------------- Assign and work ---------------------------- */
 
@@ -50,7 +52,7 @@ func (j *JobService) removeFinishedJobs() {
 	var jobs []job.Job
 	for _, job := range j.Jobs {
 		if job.NeedsToBeRemoved(j.Map) {
-			job.Reset()
+			job.Reset(j.Map)
 			continue
 		}
 		jobs = append(jobs, job)
@@ -102,12 +104,16 @@ func (j *JobService) performWork() {
 			continue
 		}
 		var ok bool
+		// Attempt to find
+		// a valid destination.
 		for _, destination := range jb.GetDestinations() {
 			if d.Idx == destination {
 				ok = true
 				break
 			}
 		}
+		// Unable to move to
+		// destination, abort.
 		if !ok {
 			if len(d.Path) == 0 {
 				d.SetToAvailable()

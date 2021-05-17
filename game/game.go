@@ -29,7 +29,7 @@ type Game struct {
 
 	WorldMap m.Map
 	Dwarves  []dwarf.Dwarf
-	Rooms    room.System
+	Rooms    room.Service
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/hajimehoshi/ebiten"
 
@@ -12,15 +13,22 @@ import (
 )
 
 func main() {
+	logo()
+	log.SetFlags(log.Lshortfile)
 	var arg string
 	if len(os.Args) > 1 {
 		arg = os.Args[1]
 	}
-	logo()
-	log.SetFlags(log.Lshortfile)
 	game := g.NewGame(arg)
 	if game == nil {
 		return
+	}
+	if len(os.Args) > 2 {
+		i, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			log.Fatalf("speed variable: %v", err)
+		}
+		g.FramesToMove = i
 	}
 	factor := 1
 	ebiten.SetWindowSize(globals.ScreenWidth*factor, globals.ScreenHeight*factor)

@@ -1,7 +1,10 @@
 package jobservice
 
 import (
+	"projects/games/warf2/globals"
+	"projects/games/warf2/item"
 	"projects/games/warf2/job"
+	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -29,18 +32,76 @@ func (j *JobService) checkForDiggingJobs() {
 	}
 }
 
-func (j *JobService) diggingJobAlreadyExists(dIdx, wIdx int) bool {
+func (j *JobService) diggingJobAlreadyExists(dIdx, jIdx int) bool {
 	for _, jb := range j.Jobs {
 		d, ok := jb.(*job.Digging)
 		if !ok {
 			continue
 		}
 		for _, destination := range d.GetDestinations() {
-			if destination == dIdx && d.GetWallIdx() == wIdx {
+			if destination == dIdx && d.GetWallIdx() == jIdx {
 				return true
 			}
 		}
 
+	}
+	return false
+}
+
+func (j *JobService) checkForCarryingJobs(rs *room.Service) {
+	for _, it := range j.Map.Items {
+		///////////////////////////
+		// TODO
+		// Handle more than rocks.
+		///////////////////////////
+		if !item.IsCrumbledWall(it.Sprite) {
+			continue
+		}
+		if j.carryingJobAlreadyExists(it.Idx, j.Map) {
+			continue
+		}
+		x, y := globals.IdxToXY(it.Idx)
+		nearest, ok := rs.FindNearestStorage(j.Map, x, y)
+		if !ok {
+			continue
+		}
+		dst, ok := nearest.GetAvailableTile(it.Resource)
+		if !ok {
+			continue
+		}
+		if it.Idx == dst {
+			///////////////////////////
+			// TODO
+			// This shouldn't happen
+			// to begin with.
+			///////////////////////////
+			continue
+		}
+		j.Jobs = append(j.Jobs, job.NewCarrying(
+			[]int{it.Idx},
+			dst,
+			it.Sprite,
+		))
+	}
+}
+
+func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
+	for _, jb := range j.Jobs {
+		c, ok := jb.(*job.Carrying)
+		if !ok {
+			continue
+		}
+		if c.GetDestinations()[0] != idx {
+			continue
+		}
+		////////////////////////////////////
+		// TODO
+		// FloorBrick is _not_ an
+		// adequate definition of storage.
+		////////////////////////////////////
+		if m.IsFloorBrick(mp.Tiles[idx].Sprite) {
+			return true
+		}
 	}
 	return false
 }

@@ -1,18 +1,22 @@
 package worldmap
 
-import "projects/games/warf2/globals"
+import (
+	"projects/games/warf2/globals"
+	"projects/games/warf2/resource"
+)
 
 // Tile data struct.
 type Tile struct {
 	TileType
-	Idx      int     `json:"i"`
-	X        int     `json:"x"`
-	Y        int     `json:"y"`
-	Sprite   int     `json:"s"`
-	Island   int     `json:"-"`
-	Map      *Map    `json:"-"`
-	Blocked  bool    `json:"b"`
-	Rotation float64 `json:"r"`
+	Idx      int               `json:"i"`
+	X        int               `json:"x"`
+	Y        int               `json:"y"`
+	Sprite   int               `json:"s"`
+	Island   int               `json:"-"`
+	Map      *Map              `json:"-"`
+	Blocked  bool              `json:"b"`
+	Rotation float64           `json:"rt"`
+	Resource resource.Resource `json:"rs"`
 }
 
 type Tiles []Tile

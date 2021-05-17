@@ -6,14 +6,14 @@ import (
 	m "projects/games/warf2/worldmap"
 )
 
-// System for gathering data
+// Service for gathering data
 // and functionality related to rooms.
-type System struct {
+type Service struct {
 	Storages  []Storage
 	Libraries []Library
 }
 
-func (s *System) AddLibrary(mp *m.Map, currentMousePos int) {
+func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
 	x, y := globals.IdxToXY(currentMousePos)
 	l := NewLibrary(mp, x, y)
 	if l != nil {
@@ -21,7 +21,7 @@ func (s *System) AddLibrary(mp *m.Map, currentMousePos int) {
 	}
 }
 
-func (s *System) AddStorage(mp *m.Map, currentMousePos int) {
+func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
 	x, y := globals.IdxToXY(currentMousePos)
 	st := NewStorage(mp, x, y)
 	if st != nil {
@@ -29,7 +29,7 @@ func (s *System) AddStorage(mp *m.Map, currentMousePos int) {
 	}
 }
 
-func (s *System) FindNearestStorage(mp *m.Map, x, y int) (*Storage, bool) {
+func (s *Service) FindNearestStorage(mp *m.Map, x, y int) (*Storage, bool) {
 	if len(s.Storages) == 0 {
 		return nil, false
 	}

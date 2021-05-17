@@ -4,6 +4,7 @@ import (
 	"math"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
+	"projects/games/warf2/resource"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -28,6 +29,23 @@ func NewStorage(mp *m.Map, x, y int) *Storage {
 // Use storage.
 func (s *Storage) Use(dwarf *dwarf.Dwarf) {
 	// Nothing yet.
+}
+
+func (s *Storage) GetAvailableTile(r resource.Resource) (idx int, ok bool) {
+	for _, t := range s.StorageTiles {
+		if t.Unavailable() {
+			continue
+		}
+		// No amount, overwrite.
+		if t.Amount == 0 {
+			return t.Idx, true
+		}
+		// Same type, add.
+		if t.Tpe == r {
+			return t.Idx, true
+		}
+	}
+	return -1, false
 }
 
 func determineCenter(mp *m.Map, tiles m.Tiles) int {

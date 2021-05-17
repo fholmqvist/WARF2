@@ -89,7 +89,8 @@ func gameFromArg(arg string) *Game {
 
 	case "wall-debug":
 		///////////////////////////////////////////////////////
-		// Debugging pathfinding to wall digging jobs.
+		// Debugging pathfinding to wall digging
+		// and carrying jobs.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
 		mp := &game.WorldMap
@@ -98,7 +99,13 @@ func gameFromArg(arg string) *Game {
 		game.Dwarves = append(game.Dwarves, dwarf.New(328, "test"))
 		game.JobService.Workers = append(game.JobService.Workers, &game.Dwarves[0])
 		mp.Tiles[331].Sprite = m.WallSelectedSolid
-		mp.Tiles[332].Sprite = m.WallSelectedSolid
+		/////////////////////////////////////////////
+		// TODO
+		// This should imply another carrying  job,
+		// however it adds _several_.
+		/////////////////////////////////////////////
+		// mp.Tiles[332].Sprite = m.WallSelectedSolid
+		game.Rooms.AddStorage(mp, globals.XYToIdx(6, 6))
 
 	case "fill":
 		///////////////////////////////////////////////////////

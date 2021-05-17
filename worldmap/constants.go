@@ -1,6 +1,6 @@
 package worldmap
 
-const actualTileSize = 16
+import "projects/games/warf2/globals"
 
 // World tile sprite constant.
 const (
@@ -15,13 +15,9 @@ const (
 	WallExposed
 	WallSelectedSolid
 	WallSelectedExposed
-	WallCrumbled1
-	WallCrumbled2
-	WallCrumbled3
-	WallCrumbled4
 )
 const (
-	FloorBricks1 = iota + actualTileSize
+	FloorBricks1 = iota + globals.ActualTileSize
 	FloorBricks2
 	FloorBricks3
 	FloorBricks4
@@ -33,7 +29,7 @@ const (
 	FloorBricks10
 )
 const (
-	WoodFloor1 = iota + actualTileSize*2
+	WoodFloor1 = iota + globals.ActualTileSize*2
 	WoodFloor2
 	WoodFloor3
 	WoodFloor4

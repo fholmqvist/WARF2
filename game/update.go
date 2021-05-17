@@ -1,6 +1,8 @@
 package game
 
 import (
+	"projects/games/warf2/globals"
+
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -11,7 +13,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	if g.state != Gameplay {
 		return nil
 	}
-	if g.debugFunc != nil {
+	if g.debugFunc != nil && globals.DEBUG {
 		f := *g.debugFunc
 		f(g)
 	}
@@ -22,8 +24,11 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	if !g.time.Tick() {
 		return nil
 	}
+	if !g.time.TimeToMove() {
+		return nil
+	}
 	g.UpdateDwarves()
-	g.JobService.Update()
+	g.JobService.Update(&g.Rooms)
 	g.RailService.Update(&g.WorldMap)
 	return nil
 }

@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+var FramesToMove = 3
+
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
@@ -30,7 +32,7 @@ func (t *Time) Tick() bool {
 
 // Time to update all entities.
 func (t *Time) TimeToMove() bool {
-	return t.Frame%3 == 0
+	return t.Frame%FramesToMove == 0
 }
 
 // One game cycle has passed.
