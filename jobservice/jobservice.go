@@ -45,11 +45,6 @@ func (j *JobService) Update(rs *room.Service) {
 }
 
 func (j *JobService) sortPriority() {
-	//////////////////////////
-	// TODO
-	// Demonstrate that this
-	// has an effect on order.
-	//////////////////////////
 	sort.Sort(j)
 }
 

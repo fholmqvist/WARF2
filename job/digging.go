@@ -48,7 +48,7 @@ func (d *Digging) PerformWork(mp *m.Map) bool {
 }
 
 func (d *Digging) Priority() int {
-	return 1
+	return 2
 }
 
 func (d *Digging) GetWorker() *dwarf.Dwarf {
@@ -65,4 +65,8 @@ func (d *Digging) GetDestinations() []int {
 
 func (d *Digging) GetWallIdx() int {
 	return d.wallIdx
+}
+
+func (d *Digging) String() string {
+	return "Digging"
 }

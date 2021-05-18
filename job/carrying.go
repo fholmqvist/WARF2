@@ -32,10 +32,7 @@ func NewCarrying(destinations []int, r resource.Resource, storageIdx int, goalDe
 }
 
 func (c *Carrying) NeedsToBeRemoved(mp *m.Map) bool {
-	if c.path != nil && len(c.path) == 0 {
-		return true
-	}
-	return false
+	return c.path != nil && len(c.path) == 0
 }
 
 func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
@@ -73,6 +70,10 @@ func (c *Carrying) SetWorker(dw *dwarf.Dwarf) {
 
 func (c *Carrying) GetDestinations() []int {
 	return c.destinations
+}
+
+func (c *Carrying) String() string {
+	return "Carrying"
 }
 
 func setupPath(c *Carrying, mp *m.Map) bool {

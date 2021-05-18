@@ -62,6 +62,10 @@ func (l *LibraryRead) GetDestinations() []int {
 	return l.destinations
 }
 
+func (l *LibraryRead) String() string {
+	return "Library"
+}
+
 func shouldGetChair(m *worldmap.Map, l *LibraryRead) bool {
 	return !item.IsChair(m.Items[l.dwarf.Idx].Sprite) &&
 		l.dwarf.State != dwarf.WorkerMoving
