@@ -2,23 +2,29 @@ package job
 
 import (
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/resource"
+	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 )
 
 type Carrying struct {
+	resource        resource.Resource
 	dwarf           *dwarf.Dwarf
 	destinations    []int
 	goalDestination int
+	storageIdx      int
 	sprite          int
 	path            []int
 	prev            int
 }
 
-func NewCarrying(destinations []int, goalDestination, sprite int) *Carrying {
+func NewCarrying(destinations []int, r resource.Resource, storageIdx int, goalDestination, sprite int) *Carrying {
 	return &Carrying{
+		resource:        r,
 		dwarf:           nil,
 		destinations:    destinations,
 		goalDestination: goalDestination,
+		storageIdx:      storageIdx,
 		sprite:          sprite,
 		path:            nil,
 		prev:            0,
@@ -26,19 +32,18 @@ func NewCarrying(destinations []int, goalDestination, sprite int) *Carrying {
 }
 
 func (c *Carrying) NeedsToBeRemoved(mp *m.Map) bool {
-	if c.dwarf == nil && c.path != nil {
-		return true
-	}
 	if c.path != nil && len(c.path) == 0 {
 		return true
 	}
 	return false
 }
 
-func (c *Carrying) Reset(mp *m.Map) {
+func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	if c.dwarf == nil {
 		return
 	}
+	mp.Items[c.dwarf.Idx].Sprite = c.sprite
+	s.Storages[c.storageIdx].AddItem(c.resource, c.dwarf.Idx)
 	c.dwarf.SetToAvailable()
 	c.dwarf = nil
 }
@@ -50,7 +55,7 @@ func (c *Carrying) PerformWork(mp *m.Map) bool {
 	if len(c.path) == 0 {
 		return finished
 	}
-	moveDwarfAndSprite(c, mp)
+	moveDwarf(c, mp)
 	return unfinished
 }
 
@@ -74,6 +79,7 @@ func setupPath(c *Carrying, mp *m.Map) bool {
 	if c.path != nil {
 		return false
 	}
+	mp.Items[c.dwarf.Idx].Sprite = 0
 	c.prev = c.dwarf.Idx
 	c.destinations[0] = c.dwarf.Idx
 	path, ok := c.dwarf.CreatePath(
@@ -87,20 +93,11 @@ func setupPath(c *Carrying, mp *m.Map) bool {
 	return true
 }
 
-func moveDwarfAndSprite(c *Carrying, mp *m.Map) {
-	///////////////////////////////////////
-	// Remove previous item sprite.
-	// TODO
-	// This will overwrite any sprite if
-	// the tile already has one! Very dumb.
-	///////////////////////////////////////
-	mp.Items[c.prev].Sprite = 0
+func moveDwarf(c *Carrying, mp *m.Map) {
 	// Move indexes to current path index.
 	c.dwarf.Idx = c.path[0]
 	c.destinations[0] = c.path[0]
 	c.prev = c.path[0]
-	// Set current item sprite.
-	mp.Items[c.path[0]].Sprite = c.sprite
 	// Iterate path.
 	c.path = c.path[1:]
 }

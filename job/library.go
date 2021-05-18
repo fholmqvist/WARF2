@@ -3,6 +3,7 @@ package job
 import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
+	"projects/games/warf2/room"
 	"projects/games/warf2/worldmap"
 	m "projects/games/warf2/worldmap"
 )
@@ -21,7 +22,7 @@ func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
 	return l.readingTime <= 0 || l.dwarf == nil
 }
 
-func (l *LibraryRead) Reset(*m.Map) {
+func (l *LibraryRead) Finish(*m.Map, *room.Service) {
 	l.dwarf = nil
 }
 

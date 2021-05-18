@@ -3,6 +3,8 @@ package job
 import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/item"
+	"projects/games/warf2/resource"
+	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -21,7 +23,7 @@ func (d *Digging) NeedsToBeRemoved(mp *m.Map) bool {
 	return !m.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite) || d.dwarf == nil
 }
 
-func (d *Digging) Reset(*m.Map) {
+func (d *Digging) Finish(*m.Map, *room.Service) {
 	if d.dwarf == nil {
 		return
 	}
@@ -36,8 +38,9 @@ func (d *Digging) PerformWork(mp *m.Map) bool {
 		// Job is, in a sense, done.
 		return finished
 	}
-	t.Sprite = m.None
+	t.Sprite = m.Ground
 	mp.Items[t.Idx].Sprite = item.RandomCrumbledWall()
+	mp.Items[t.Idx].Resource = resource.Rock
 	for _, nb := range m.SurroundingTilesFour(t.Idx) {
 		mp.FixWall(&mp.Tiles[nb.Idx])
 	}

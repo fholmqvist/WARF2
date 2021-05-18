@@ -1,6 +1,7 @@
 package room
 
 import (
+	"fmt"
 	"projects/games/warf2/resource"
 	m "projects/games/warf2/worldmap"
 )
@@ -11,15 +12,32 @@ type StorageTile struct {
 	Amount uint
 }
 
-func (s *StorageTile) Available() bool {
+func (s *StorageTile) Available(tpe resource.Resource) bool {
+	///////////////////
+	// TODO
+	// Switch amount on
+	// resource type.
+	///////////////////
+	if tpe == s.Tpe && s.Amount <= 8 {
+		return true
+	}
 	if s.Amount == 0 {
 		s.Tpe = resource.None
 	}
 	return s.Tpe == resource.None && s.Amount == 0
 }
 
-func (s *StorageTile) Unavailable() bool {
-	return !s.Available()
+func (s *StorageTile) Unavailable(tpe resource.Resource) bool {
+	return !s.Available(tpe)
+}
+
+func (s *StorageTile) AddItem(r resource.Resource) {
+	tpe := s.Tpe
+	if tpe != r && tpe != 0 {
+		panic(fmt.Sprintf("storage: AddItem: trying to add %v to a tile with type of %v", r, tpe))
+	}
+	s.Tpe = r
+	s.Amount++
 }
 
 func createStorageTiles(tt m.Tiles) []StorageTile {

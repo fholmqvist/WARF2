@@ -30,7 +30,7 @@ type JobService struct {
 // the lifetime cycle of jobs.
 func (j *JobService) Update(rs *room.Service) {
 	j.sortPriority()
-	j.removeFinishedJobs()
+	j.removeFinishedJobs(rs)
 	j.updateAvailableWorkers()
 
 	/* ---------------------------------- Check --------------------------------- */
@@ -45,14 +45,19 @@ func (j *JobService) Update(rs *room.Service) {
 }
 
 func (j *JobService) sortPriority() {
+	//////////////////////////
+	// TODO
+	// Demonstrate that this
+	// has an effect on order.
+	//////////////////////////
 	sort.Sort(j)
 }
 
-func (j *JobService) removeFinishedJobs() {
+func (j *JobService) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
 	for _, job := range j.Jobs {
 		if job.NeedsToBeRemoved(j.Map) {
-			job.Reset(j.Map)
+			job.Finish(j.Map, rs)
 			continue
 		}
 		jobs = append(jobs, job)

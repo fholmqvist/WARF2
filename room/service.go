@@ -29,9 +29,9 @@ func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
 	}
 }
 
-func (s *Service) FindNearestStorage(mp *m.Map, x, y int) (*Storage, bool) {
+func (s *Service) FindNearestStorage(mp *m.Map, x, y int) (*Storage, int, bool) {
 	if len(s.Storages) == 0 {
-		return nil, false
+		return nil, -1, false
 	}
 	closest := math.MaxFloat64
 	idx := -1
@@ -43,5 +43,5 @@ func (s *Service) FindNearestStorage(mp *m.Map, x, y int) (*Storage, bool) {
 			idx = i
 		}
 	}
-	return &s.Storages[idx], true
+	return &s.Storages[idx], idx, true
 }

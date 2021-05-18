@@ -5,6 +5,7 @@ package job
 
 import (
 	"projects/games/warf2/dwarf"
+	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -19,7 +20,7 @@ const (
 type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
 	PerformWork(*m.Map) bool
-	Reset(*m.Map)
+	Finish(*m.Map, *room.Service)
 	Priority() int
 
 	GetWorker() *dwarf.Dwarf

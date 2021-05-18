@@ -33,19 +33,20 @@ func (s *Storage) Use(dwarf *dwarf.Dwarf) {
 
 func (s *Storage) GetAvailableTile(r resource.Resource) (idx int, ok bool) {
 	for _, t := range s.StorageTiles {
-		if t.Unavailable() {
+		if t.Unavailable(r) {
 			continue
 		}
-		// No amount, overwrite.
-		if t.Amount == 0 {
-			return t.Idx, true
-		}
-		// Same type, add.
-		if t.Tpe == r {
-			return t.Idx, true
-		}
+		return t.Idx, true
 	}
 	return -1, false
+}
+
+func (s *Storage) AddItem(r resource.Resource, idx int) {
+	tIdx, ok := s.getStorageTileIdxFromWorldIdx(idx)
+	if !ok {
+		return
+	}
+	s.StorageTiles[tIdx].AddItem(r)
 }
 
 func determineCenter(mp *m.Map, tiles m.Tiles) int {
@@ -72,4 +73,13 @@ func determineCenter(mp *m.Map, tiles m.Tiles) int {
 		center++
 	}
 	return center
+}
+
+func (s *Storage) getStorageTileIdxFromWorldIdx(idx int) (int, bool) {
+	for worldIndex, t := range s.StorageTiles {
+		if t.Idx == idx {
+			return worldIndex, true
+		}
+	}
+	return -1, false
 }

@@ -1,9 +1,11 @@
 package jobservice
 
 import (
+	"fmt"
 	"projects/games/warf2/globals"
 	"projects/games/warf2/item"
 	"projects/games/warf2/job"
+	"projects/games/warf2/resource"
 	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 )
@@ -50,6 +52,9 @@ func (j *JobService) diggingJobAlreadyExists(dIdx, jIdx int) bool {
 
 func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 	for _, it := range j.Map.Items {
+		if it.Resource == resource.None {
+			continue
+		}
 		///////////////////////////
 		// TODO
 		// Handle more than rocks.
@@ -69,12 +74,13 @@ func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 			continue
 		}
 		x, y := globals.IdxToXY(it.Idx)
-		nearest, ok := rs.FindNearestStorage(j.Map, x, y)
+		nearest, storageIdx, ok := rs.FindNearestStorage(j.Map, x, y)
 		if !ok {
 			continue
 		}
 		dst, ok := nearest.GetAvailableTile(it.Resource)
 		if !ok {
+			fmt.Println("No available tiles!")
 			continue
 		}
 		if it.Idx == dst {
@@ -83,6 +89,12 @@ func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 		}
 		j.Jobs = append(j.Jobs, job.NewCarrying(
 			[]int{it.Idx},
+			///////////////////////////
+			// TODO
+			// Handle more than rocks.
+			///////////////////////////
+			resource.Rock,
+			storageIdx,
 			dst,
 			it.Sprite,
 		))

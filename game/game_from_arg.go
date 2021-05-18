@@ -48,7 +48,7 @@ func gameFromArg(arg string) *Game {
 		s2 := room.NewStorage(mp, 21, 6)
 		game.Rooms.Storages = append(game.Rooms.Storages, *s1)
 		game.Rooms.Storages = append(game.Rooms.Storages, *s2)
-		ns, ok := game.Rooms.FindNearestStorage(mp, 1, 1)
+		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1)
 		if !ok {
 			panic(ok)
 		}
