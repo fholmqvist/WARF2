@@ -1,8 +1,7 @@
-package tests
+package mouse
 
 import (
 	"projects/games/warf2/globals"
-	"projects/games/warf2/mouse"
 	m "projects/games/warf2/worldmap"
 	"testing"
 )
@@ -28,7 +27,7 @@ func TestTileRange(t *testing.T) {
 	for _, tt := range tests {
 		copy := mp
 
-		mouse.FuncOverRange(&copy, tt.start, tt.end, func(mp *m.Map, x, y int) {
+		FuncOverRange(&copy, tt.start, tt.end, func(mp *m.Map, x, y int) {
 			idx := globals.XYToIdx(x, y)
 			mp.Tiles[idx].Sprite = -1
 		})

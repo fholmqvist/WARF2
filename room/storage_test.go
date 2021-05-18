@@ -1,22 +1,21 @@
-package tests
+package room
 
 import (
-	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
 	"testing"
 )
 
 func TestNearestStorage(t *testing.T) {
 	mp := m.BoundariesMap()
-	service := room.Service{}
+	service := Service{}
 	_, _, ok := service.FindNearestStorage(mp, 1, 1)
 	if ok {
 		t.Fatal("did not expect to be ok")
 	}
 	mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
 	mp.DrawOutline(20, 5, 25, 10, m.WallSolid)
-	s1 := room.NewStorage(mp, 6, 6)
-	s2 := room.NewStorage(mp, 21, 6)
+	s1 := NewStorage(mp, 6, 6)
+	s2 := NewStorage(mp, 21, 6)
 	service.Storages = append(service.Storages, *s1)
 	service.Storages = append(service.Storages, *s2)
 	ns, _, ok := service.FindNearestStorage(mp, 1, 1)

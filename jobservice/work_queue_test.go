@@ -1,9 +1,8 @@
-package tests
+package jobservice
 
 import (
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/job"
-	j "projects/games/warf2/jobservice"
 	"projects/games/warf2/worldmap"
 	"testing"
 )
@@ -29,8 +28,8 @@ func TestWorkQueue(t *testing.T) {
 	}
 }
 
-func jobServicemWithJobs() *j.JobService {
-	js := &j.JobService{
+func jobServicemWithJobs() *JobService {
+	js := &JobService{
 		Jobs: []job.Job{
 			job.NewLibraryRead([]int{10}, 1),
 			job.NewLibraryRead([]int{11}, 1),
