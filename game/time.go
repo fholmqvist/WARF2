@@ -6,15 +6,22 @@ import (
 	"time"
 )
 
-var FramesToMove = 3
+const (
+	NORMAL = 2
+	FAST   = 1
+	SUPER  = 0
+)
+
+var FramesToMove = NORMAL
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
 type Time struct {
-	Frame int
-	stop  bool
+	Frame        int
+	stop         bool
+	framesToMove int
 }
 
 // Decriments until one cycle
@@ -27,12 +34,16 @@ func (t *Time) Tick() bool {
 	if t.Frame <= -1 {
 		t.Frame = globals.CycleLength
 	}
+	t.framesToMove--
+	if t.framesToMove <= -1 {
+		t.framesToMove = FramesToMove
+	}
 	return true
 }
 
 // Time to update all entities.
 func (t *Time) TimeToMove() bool {
-	return t.Frame%FramesToMove == 0
+	return t.framesToMove == 0
 }
 
 // One game cycle has passed.

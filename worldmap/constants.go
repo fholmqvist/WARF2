@@ -17,7 +17,7 @@ const (
 	WallSelectedExposed
 )
 const (
-	FloorBricks1 = iota + globals.ActualTileSize
+	FloorBricks1 = iota + globals.TilesetW
 	FloorBricks2
 	FloorBricks3
 	FloorBricks4
@@ -29,7 +29,7 @@ const (
 	FloorBricks10
 )
 const (
-	WoodFloor1 = iota + globals.ActualTileSize*2
+	WoodFloor1 = iota + globals.TilesetW*2
 	WoodFloor2
 	WoodFloor3
 	WoodFloor4

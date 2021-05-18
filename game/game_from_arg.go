@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
+	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
 	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
@@ -198,5 +199,6 @@ func gameFromArg(arg string) *Game {
 
 	}
 	game.state = state
+	game.SetMouseMode(mouse.Normal)
 	return &game
 }

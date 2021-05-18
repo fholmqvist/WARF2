@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
+	"strings"
 
 	"github.com/hajimehoshi/ebiten"
 
@@ -12,31 +12,39 @@ import (
 	"projects/games/warf2/globals"
 )
 
+var zoom = 1
+
 func main() {
 	logo()
 	log.SetFlags(log.Lshortfile)
-	var arg string
-	if len(os.Args) > 1 {
-		arg = os.Args[1]
-	}
+	arg := handleArgs()
 	game := g.NewGame(arg)
-	if game == nil {
-		return
-	}
-	if len(os.Args) > 2 {
-		i, err := strconv.Atoi(os.Args[2])
-		if err != nil {
-			log.Fatalf("speed variable: %v", err)
-		}
-		g.FramesToMove = i
-	}
-	factor := 1
-	ebiten.SetWindowSize(globals.ScreenWidth*factor, globals.ScreenHeight*factor)
+	ebiten.SetWindowSize(globals.ScreenWidth*zoom, globals.ScreenHeight*zoom)
 	ebiten.SetWindowTitle("GOWARF")
 	ebiten.SetMaxTPS(globals.TPS)
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func handleArgs() string {
+	var arg string
+	if len(os.Args) > 1 {
+		arg = os.Args[1]
+	}
+	if len(os.Args) > 2 {
+		var speed int
+		switch strings.ToLower(os.Args[2]) {
+		case "normal":
+			speed = g.NORMAL
+		case "fast":
+			speed = g.FAST
+		case "super":
+			speed = g.SUPER
+		}
+		g.FramesToMove = speed
+	}
+	return arg
 }
 
 func logo() {

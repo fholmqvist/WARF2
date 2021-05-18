@@ -15,8 +15,6 @@ const (
 
 	TPS         = 30
 	CycleLength = TPS * 8
-
-	ActualTileSize = 16
 )
 
 var (

@@ -14,7 +14,7 @@ const (
 	WallCrumbled4
 )
 const (
-	BookShelfOne = iota + globals.ActualTileSize
+	BookShelfOne = iota + globals.TilesetW
 	BookShelfTwo
 	BookShelfThree
 	BookShelfFour

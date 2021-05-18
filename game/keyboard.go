@@ -18,28 +18,28 @@ func (g *Game) SetMouseMode(mode mouse.Mode) {
 	switch mode {
 
 	case mouse.Normal:
-		state = "GOWARF - WALL MODE"
+		state = "WALL MODE"
 
 	case mouse.FloorTiles:
-		state = "GOWARF - FLOORTILE MODE"
+		state = "FLOORTILE MODE"
 
 	case mouse.ResetFloor:
-		state = "GOWARF - RESET FLOORTILE MODE"
+		state = "RESET FLOORTILE MODE"
 
 	case mouse.PlaceItem:
-		state = "GOWARF - PLACE ITEM MODE"
+		state = "PLACE ITEM MODE"
 
 	case mouse.PlaceFurniture:
-		state = "GOWARF - PLACE FURNITURE MODE"
+		state = "PLACE FURNITURE MODE"
 
 	case mouse.RemoveItem:
-		state = "GOWARF - REMOVE ITEM MODE"
+		state = "REMOVE ITEM MODE"
 
 	case mouse.Library:
-		state = "GOWARF - LIBRARY"
+		state = "LIBRARY"
 
 	case mouse.Storage:
-		state = "GOWARF - STORAGE"
+		state = "STORAGE"
 
 	default:
 		fmt.Println("no such mouse mode:", mode)
