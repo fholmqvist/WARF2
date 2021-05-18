@@ -66,15 +66,23 @@ func (w *Walker) moveLeft(mp *m.Map, e *Entity) bool {
 // Return value determins whether
 // path was found.
 func (w *Walker) InitiateWalk(from, to *m.Tile) bool {
-	path, _, ok := astar.Path(from, to)
+	path, ok := w.CreatePath(from, to)
 	if !ok {
 		return false
+	}
+	w.Path = path
+	return true
+}
+
+func (w *Walker) CreatePath(from, to *m.Tile) ([]int, bool) {
+	path, _, ok := astar.Path(from, to)
+	if !ok {
+		return nil, false
 	}
 	var pathIdxs []int
 	for _, t := range m.Reverse(path) {
 		tile := t.(*m.Tile)
 		pathIdxs = append(pathIdxs, tile.Idx)
 	}
-	w.Path = pathIdxs
-	return true
+	return pathIdxs, true
 }

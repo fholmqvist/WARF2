@@ -103,18 +103,14 @@ func (j *JobService) performWork() {
 		if !d.HasJob() {
 			continue
 		}
-		var ok bool
-		// Attempt to find
-		// a valid destination.
+		var hasArrived bool
 		for _, destination := range jb.GetDestinations() {
 			if d.Idx == destination {
-				ok = true
+				hasArrived = true
 				break
 			}
 		}
-		// Unable to move to
-		// destination, abort.
-		if !ok {
+		if !hasArrived {
 			if len(d.Path) == 0 {
 				d.SetToAvailable()
 			}

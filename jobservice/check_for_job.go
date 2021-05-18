@@ -57,6 +57,14 @@ func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 		if !item.IsCrumbledWall(it.Sprite) {
 			continue
 		}
+		////////////////////////////////////
+		// TODO
+		// FloorBrick is _not_ an
+		// adequate definition of storage.
+		////////////////////////////////////
+		if m.IsFloorBrick(j.Map.Tiles[it.Idx].Sprite) {
+			continue
+		}
 		if j.carryingJobAlreadyExists(it.Idx, j.Map) {
 			continue
 		}
@@ -70,12 +78,8 @@ func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 			continue
 		}
 		if it.Idx == dst {
-			///////////////////////////
-			// TODO
-			// This shouldn't happen
-			// to begin with.
-			///////////////////////////
-			continue
+			// This shouldn't happen.
+			panic("job_service: check_for_job: it.Idx == dst")
 		}
 		j.Jobs = append(j.Jobs, job.NewCarrying(
 			[]int{it.Idx},
@@ -101,6 +105,15 @@ func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 		////////////////////////////////////
 		if m.IsFloorBrick(mp.Tiles[idx].Sprite) {
 			return true
+		}
+		for _, jb2 := range j.Jobs {
+			c2, ok := jb2.(*job.Carrying)
+			if !ok {
+				continue
+			}
+			if c.GetDestinations()[0] == c2.GetDestinations()[0] {
+				return true
+			}
 		}
 	}
 	return false

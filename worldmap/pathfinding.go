@@ -1,7 +1,7 @@
 package worldmap
 
 import (
-	"math"
+	"projects/games/warf2/globals"
 
 	"github.com/beefsack/go-astar"
 )
@@ -62,9 +62,7 @@ func (t *Tile) PathNeighborCost(to astar.Pather) float64 {
 // determining the cost of the entire path.
 func (t *Tile) PathEstimatedCost(to astar.Pather) float64 {
 	toT := to.(*Tile)
-	xDist := math.Abs(float64(toT.X - t.X))
-	yDist := math.Abs(float64(toT.Y - t.Y))
-	return xDist + yDist
+	return globals.Dist(t.X, t.Y, toT.X, toT.Y)
 }
 
 // Reverse an astar path
