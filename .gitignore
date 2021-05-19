@@ -1,1 +1,11 @@
-/saves/testing.json
+.vscode/
+saves/testing.json
+
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+.test
+.out
