@@ -1,9 +1,7 @@
 package jobservice
 
 import (
-	"fmt"
 	"projects/games/warf2/dwarf"
-	"projects/games/warf2/globals"
 	"projects/games/warf2/job"
 	m "projects/games/warf2/worldmap"
 )
@@ -31,9 +29,6 @@ func SetWorkerAndMove(j job.Job, w *dwarf.Dwarf, mp *m.Map) bool {
 		foundDestination = true
 	}
 	if !foundDestination {
-		if globals.DEBUG {
-			fmt.Printf("SetWorkerAndMove(%v, %q, mp): no destination\n", j.GetDestinations(), w.Name)
-		}
 		return false
 	}
 	j.SetWorker(w)

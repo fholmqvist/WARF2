@@ -41,12 +41,33 @@ func (s *Storage) GetAvailableTile(r resource.Resource) (idx int, ok bool) {
 	return -1, false
 }
 
-func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) {
+func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) (int, bool) {
 	tIdx, ok := s.getStorageTileIdxFromWorldIdx(idx)
 	if !ok {
-		return
+		return -1, false
 	}
-	s.StorageTiles[tIdx].Add(r, amount)
+	t := s.StorageTiles[tIdx]
+	if t.Remaining() > 0 {
+		s.StorageTiles[tIdx].Add(r, amount)
+		return t.Idx, true
+	}
+	/////////////////////////////
+	// TODO
+	// This just picks a random
+	// available storetile and
+	// drops it there.
+	// Perhaps it would be cooler
+	// if the dwarf moves to the
+	// new destination.
+	/////////////////////////////
+	for _, st := range s.StorageTiles {
+		if st.Unavailable(r) {
+			continue
+		}
+		st.Add(r, amount)
+		return st.Idx, true
+	}
+	return -1, false
 }
 
 func determineCenter(mp *m.Map, tiles m.Tiles) int {

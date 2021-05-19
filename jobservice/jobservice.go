@@ -114,11 +114,11 @@ func (j *JobService) performWork() {
 			if len(d.Path) == 0 {
 				d.SetToAvailable()
 			}
-			return
+			continue
 		}
 		finished := jb.PerformWork(j.Map)
 		if !finished {
-			return
+			continue
 		}
 		d.SetToAvailable()
 	}

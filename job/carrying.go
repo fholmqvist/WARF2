@@ -1,6 +1,7 @@
 package job
 
 import (
+	"fmt"
 	"projects/games/warf2/dwarf"
 	"projects/games/warf2/resource"
 	"projects/games/warf2/room"
@@ -39,10 +40,15 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	if c.dwarf == nil {
 		return
 	}
-	mp.Items[c.dwarf.Idx].Sprite = c.sprite
-	s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
+	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
 	c.dwarf.SetToAvailable()
 	c.dwarf = nil
+	if !ok {
+		fmt.Println("Carrying: Finish: Couldn't find storage tile.",
+			"Ignoring item (forever lost!).")
+		return
+	}
+	mp.Items[dropIdx].Sprite = c.sprite
 }
 
 func (c *Carrying) PerformWork(mp *m.Map) bool {
@@ -81,6 +87,7 @@ func setupPath(c *Carrying, mp *m.Map) bool {
 		return false
 	}
 	mp.Items[c.dwarf.Idx].Sprite = 0
+	mp.Items[c.dwarf.Idx].Resource = 0
 	c.prev = c.dwarf.Idx
 	c.destinations[0] = c.dwarf.Idx
 	path, ok := c.dwarf.CreatePath(

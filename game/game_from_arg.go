@@ -95,12 +95,14 @@ func gameFromArg(arg string) *Game {
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
 		mp := &game.WorldMap
-		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
-		mp.DrawOutline(10, 5, 15, 10, m.WallSolid)
-		game.Dwarves = append(game.Dwarves, dwarf.New(328, "test"))
-		game.JobService.Workers = append(game.JobService.Workers, &game.Dwarves[0])
-		mp.Tiles[331].Sprite = m.WallSelectedSolid
-		mp.Tiles[332].Sprite = m.WallSelectedSolid
+		mp.DrawOutline(4, 4, 16, 11, m.WallSelectedSolid)
+		mp.DrawOutline(5, 5, 10, 10, m.WallSelectedSolid)
+		mp.DrawOutline(10, 5, 15, 10, m.WallSelectedSolid)
+		for i := 0; i < 2; i++ {
+			d := dwarf.New(282+i, fmt.Sprintf("test%v", i+1))
+			game.Dwarves = append(game.Dwarves, d)
+			game.JobService.Workers = append(game.JobService.Workers, &game.Dwarves[i])
+		}
 		game.Rooms.AddStorage(mp, globals.XYToIdx(6, 6))
 
 	case "fill":
