@@ -41,12 +41,12 @@ func (s *Storage) GetAvailableTile(r resource.Resource) (idx int, ok bool) {
 	return -1, false
 }
 
-func (s *Storage) AddItem(r resource.Resource, idx int) {
+func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) {
 	tIdx, ok := s.getStorageTileIdxFromWorldIdx(idx)
 	if !ok {
 		return
 	}
-	s.StorageTiles[tIdx].AddItem(r)
+	s.StorageTiles[tIdx].Add(r, amount)
 }
 
 func determineCenter(mp *m.Map, tiles m.Tiles) int {

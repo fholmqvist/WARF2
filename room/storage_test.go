@@ -1,6 +1,7 @@
 package room
 
 import (
+	"projects/games/warf2/resource"
 	m "projects/games/warf2/worldmap"
 	"testing"
 )
@@ -24,5 +25,37 @@ func TestNearestStorage(t *testing.T) {
 	}
 	if ns.Center != s1.Center {
 		t.Fatalf("\nexpected ns to be s1\nns: %v\ns1: %v\ns2: %v", ns.Center, s1.Center, s2.Center)
+	}
+}
+
+func TestStorageTileAdd(t *testing.T) {
+	st := StorageTile{
+		Idx:    0,
+		Tpe:    resource.Rock,
+		Amount: 0,
+	}
+	r := st.Add(resource.Rock, 5)
+	if st.Amount != 5 || r != 0 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 5, 0, st.Amount, r)
+	}
+	r = st.Add(resource.Rock, 5)
+	if st.Amount != 8 || r != 2 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 8, 2, st.Amount, r)
+	}
+}
+
+func TestStorageTileTake(t *testing.T) {
+	st := StorageTile{
+		Idx:    0,
+		Tpe:    resource.Rock,
+		Amount: 10,
+	}
+	r := st.Take(5)
+	if st.Amount != 5 || r != 5 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 5, 5, st.Amount, r)
+	}
+	r = st.Take(10)
+	if st.Amount != 0 || r != 5 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 0, 5, st.Amount, r)
 	}
 }

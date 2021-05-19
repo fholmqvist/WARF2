@@ -40,7 +40,7 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 		return
 	}
 	mp.Items[c.dwarf.Idx].Sprite = c.sprite
-	s.Storages[c.storageIdx].AddItem(c.resource, c.dwarf.Idx)
+	s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
 	c.dwarf.SetToAvailable()
 	c.dwarf = nil
 }
