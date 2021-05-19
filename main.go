@@ -32,6 +32,7 @@ func handleArgs() string {
 	if len(os.Args) > 1 {
 		arg = os.Args[1]
 	}
+	g.FramesToMove = g.SUPER
 	if len(os.Args) > 2 {
 		var speed int
 		switch strings.ToLower(os.Args[2]) {

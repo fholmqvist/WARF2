@@ -20,7 +20,7 @@ func (s *StorageTile) Available(tpe resource.Resource) bool {
 	// Switch amount on
 	// resource type.
 	///////////////////
-	if tpe == s.Tpe && s.Amount <= MAX_STORAGE {
+	if tpe == s.Tpe && s.Amount < MAX_STORAGE {
 		return true
 	}
 	if s.Amount == 0 {
@@ -60,6 +60,10 @@ func (s *StorageTile) Take(desiredAmount uint) uint {
 	}
 	s.Amount -= desiredAmount
 	return returnAmount - desiredAmount
+}
+
+func (s *StorageTile) Remaining() uint {
+	return MAX_STORAGE - s.Amount
 }
 
 func createStorageTiles(tt m.Tiles) []StorageTile {
