@@ -1,10 +1,8 @@
 package game
 
 import (
-	"image/color"
 	"math/rand"
 	d "projects/games/warf2/dwarf"
-	"projects/games/warf2/globals"
 	j "projects/games/warf2/jobservice"
 	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
@@ -23,12 +21,8 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},
 		ui: u.UI{
-			MouseMode: u.Element{
-				X:     globals.TileSize,
-				Y:     globals.TileSize*globals.TilesH - globals.TileSize,
-				Color: color.White,
-			},
-			MainMenu: ui.NewMainMenu(),
+			MouseMode: u.NewMouseOverlay(),
+			MainMenu:  ui.NewMainMenu(),
 		},
 	}
 	for i := 0; i < dwarves; i++ {

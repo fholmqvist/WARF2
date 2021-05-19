@@ -6,10 +6,10 @@ const (
 	TilesetW = 16
 
 	ScreenWidth  = (36 + 10) * TileSize
-	ScreenHeight = (24 + 8) * TileSize
+	ScreenHeight = (24 + 10) * TileSize
 
 	TilesW      = ScreenWidth / TileSize
-	TilesH      = ScreenHeight / TileSize
+	TilesH      = (ScreenHeight / TileSize) - 2
 	TilesT      = TilesW * TilesH
 	TilesBottom = TilesT - TilesW
 

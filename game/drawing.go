@@ -38,12 +38,23 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		drawMap(g, screen)
 		drawMovables(g, screen)
 		drawWorkers(g, screen)
-		g.ui.DrawGameplay(screen, g.font, g.Dwarves)
+		g.ui.DrawGameplay(screen, g.font, g.Dwarves, g.uiTiles)
 		drawTPS(g, screen)
 
 	default:
 		panic(fmt.Sprintf("unknown gamestate: %v", g.state))
 	}
+}
+
+func DrawGraphic(idx, sprite int, screen *ebiten.Image, tileset *ebiten.Image, alpha float64) {
+	globals.DrawTile(sprite, screen, tileset, alpha, globals.DrawOptions(idx, alpha, 0))
+}
+
+func DrawRailGraphic(idx, sprite int, screen *ebiten.Image, tileset *ebiten.Image, alpha, rotation float64) {
+	if sprite == 0 {
+		return
+	}
+	globals.DrawTile(sprite, screen, tileset, alpha, globals.DrawOptions(idx, alpha, rotation))
 }
 
 func drawMap(g *Game, screen *ebiten.Image) {

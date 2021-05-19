@@ -37,6 +37,7 @@ type Game struct {
 	dwarfTiles *ebiten.Image
 	railTiles  *ebiten.Image
 	itemTiles  *ebiten.Image
+	uiTiles    *ebiten.Image
 	font       font.Face
 
 	/* ------------------------------- Interaction ------------------------------ */
@@ -94,6 +95,11 @@ func (g *Game) LoadAssets() {
 		log.Fatalf("could not open file: %v", err)
 	}
 	g.itemTiles = itemTiles
+	uiTiles, _, err := ebitenutil.NewImageFromFile("art/ui.png", ebiten.FilterDefault)
+	if err != nil {
+		log.Fatalf("could not open file: %v", err)
+	}
+	g.uiTiles = uiTiles
 	setFont(g)
 }
 
