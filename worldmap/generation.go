@@ -68,11 +68,9 @@ func FloodFillWalls(x, y int, m *Map, island int) {
 		if !IsAnyWall(m.Tiles[idx].Sprite) {
 			return false
 		}
-
 		if m.Tiles[idx].Island == island {
 			return false
 		}
-
 		m.Tiles[idx].Island = island
 		return true
 	})
@@ -101,15 +99,12 @@ func (mp *Map) FloodFillRoom(x, y int, f func() int) Tiles {
 		if !IsGround(mp.Tiles[idx].Sprite) {
 			return false
 		}
-
 		if mp.Tiles[idx].Island == island {
 			return false
 		}
-
 		if IsDoorOpening(mp, idx) {
 			return false
 		}
-
 		mp.Tiles[idx].Sprite = f()
 		mp.Tiles[idx].Island = island
 		tiles = append(tiles, mp.Tiles[idx])
@@ -168,7 +163,6 @@ func (m *Map) Automata() {
 			if IndexOutOfBounds(st.Idx, st.Dir) {
 				continue
 			}
-
 			if IsAnyWall(m.Tiles[st.Idx].Sprite) {
 				neighbors++
 			}

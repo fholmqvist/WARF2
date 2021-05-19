@@ -33,15 +33,10 @@ type Mode int
 const (
 	Normal Mode = iota
 
-	FloorTiles
-	ResetFloor
-
-	PlaceItem
-	PlaceFurniture
-	RemoveItem
-
 	Library
 	Storage
+
+	Delete
 )
 
 // Handle all the mouse interactivity.
@@ -69,31 +64,25 @@ func (s *System) Handle(mp *m.Map, rs *room.Service) {
 }
 
 func (s *System) mouseClick(mp *m.Map, rs *room.Service, currentMousePos int) {
+	/////////////////////////////////
+	// TODO
+	// Setting and deleting rooms
+	// removes items that are already
+	// there.
+	/////////////////////////////////
 	switch s.Mode {
 
 	case Normal:
 		noneMode(mp, currentMousePos)
-
-	case FloorTiles:
-		floorTileMode(mp, currentMousePos)
-
-	case ResetFloor:
-		resetFloorMode(mp, currentMousePos)
-
-	case PlaceItem:
-		placeItemMode(mp, currentMousePos)
-
-	case PlaceFurniture:
-		placeFurnitureMode(mp, currentMousePos)
-
-	case RemoveItem:
-		removeItemMode(mp, currentMousePos)
 
 	case Library:
 		rs.AddLibrary(mp, currentMousePos)
 
 	case Storage:
 		rs.AddStorage(mp, currentMousePos)
+
+	case Delete:
+		setHasClicked(currentMousePos)
 
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)
@@ -109,10 +98,9 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 	case Normal:
 		FuncOverRange(mp, startPoint, endPoint, mouseUpSetWalls)
 
-	case FloorTiles:
-		FuncOverRange(mp, startPoint, endPoint, func(mp *m.Map, x int, y int) {
-			mp.SetFloorTile(x, y)
-		})
+	case Delete:
+		rs.DeleteRoomAtMousePos(mp, startPoint)
+		unsetHasClicked()
 	}
 	mp.ClearSelectedTiles()
 	unsetHasClicked()

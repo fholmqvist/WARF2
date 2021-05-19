@@ -44,6 +44,10 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	c.dwarf.SetToAvailable()
 	c.dwarf = nil
 	if !ok {
+		///////////////////////
+		// TODO
+		// Obviously not great.
+		///////////////////////
 		fmt.Println("Carrying: Finish: Couldn't find storage tile.",
 			"Ignoring item (forever lost!).")
 		return
