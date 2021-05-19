@@ -21,7 +21,7 @@ func NewStorage(mp *m.Map, x, y int) *Storage {
 		return nil
 	}
 	s.Tiles = tiles
-	s.StorageTiles = createStorageTiles(tiles)
+	s.StorageTiles = createStorageTiles(tiles, mp.Items)
 	s.Center = determineCenter(mp, tiles)
 	return s
 }

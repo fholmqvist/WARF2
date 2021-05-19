@@ -1,7 +1,6 @@
 package jobservice
 
 import (
-	"fmt"
 	"projects/games/warf2/globals"
 	"projects/games/warf2/item"
 	"projects/games/warf2/job"
@@ -80,11 +79,12 @@ func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 		}
 		dst, ok := nearest.GetAvailableTile(it.Resource)
 		if !ok {
-			fmt.Println("No available tiles!")
 			continue
 		}
 		if it.Idx == dst {
-			// This shouldn't happen.
+			// If the item is to be carried
+			// to its own position, something
+			// has gone terribly wrong.
 			panic("job_service: check_for_job: it.Idx == dst")
 		}
 		j.Jobs = append(j.Jobs, job.NewCarrying(

@@ -66,21 +66,17 @@ func (s *StorageTile) Remaining() uint {
 	return MAX_STORAGE - s.Amount
 }
 
-func createStorageTiles(tt m.Tiles) []StorageTile {
+func createStorageTiles(tt m.Tiles, itt m.Tiles) []StorageTile {
 	var st []StorageTile
-	////////////////////////////////////
-	// TODO
-	// Use worldmap to determine if
-	// we might be building on a tile
-	// that already contains resources.
-	// If so, that storage tile should
-	// reflect that.
-	////////////////////////////////////
 	for _, t := range tt {
+		var amount uint
+		if itt[t.Idx].Resource != resource.None {
+			amount++
+		}
 		st = append(st, StorageTile{
 			Idx:    t.Idx,
-			Tpe:    resource.None,
-			Amount: 0,
+			Tpe:    itt[t.Idx].Resource,
+			Amount: amount,
 		})
 	}
 	return st

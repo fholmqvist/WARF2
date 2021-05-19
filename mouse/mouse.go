@@ -48,10 +48,6 @@ const (
 func (s *System) Handle(mp *m.Map, rs *room.Service) {
 	idx := mousePos()
 	if idx < 0 || idx > globals.TilesT {
-		///////////////////
-		// TODO
-		// Undo first tile!
-		///////////////////
 		mp.ClearSelectedTiles()
 		unsetHasClicked()
 		return
