@@ -14,7 +14,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 		}
 	}
 	for i, st := range s.Storages {
-		for _, t := range st.Tiles {
+		for _, t := range st.StorageTiles {
 			if t.Idx == currentMousePos {
 				s.DeleteStorage(mp, i)
 				return
@@ -34,7 +34,7 @@ func (s *Service) DeleteLibrary(mp *m.Map, idx int) {
 
 func (s *Service) DeleteStorage(mp *m.Map, idx int) {
 	st := s.Storages[idx]
-	for _, t := range st.Tiles {
+	for _, t := range st.StorageTiles {
 		mp.Tiles[t.Idx].Sprite = m.Ground
 		mp.Items[t.Idx].Sprite = 0
 	}

@@ -10,7 +10,6 @@ import (
 
 type Storage struct {
 	Center       int
-	Tiles        m.Tiles
 	StorageTiles []StorageTile
 }
 
@@ -20,7 +19,6 @@ func NewStorage(mp *m.Map, x, y int) *Storage {
 	if len(tiles) == 0 {
 		return nil
 	}
-	s.Tiles = tiles
 	s.StorageTiles = createStorageTiles(tiles, mp.Items)
 	s.Center = determineCenter(mp, tiles)
 	return s
