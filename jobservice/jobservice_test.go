@@ -19,7 +19,7 @@ func TestWorkQueue(t *testing.T) {
 			job.NewCarrying([]int{31}, resource.Rock, 0, 0, 0),
 			job.NewCarrying([]int{32}, resource.Rock, 0, 0, 0)},
 	}
-	js.sortPriority()
+	js.sortJobPriorities()
 	order := []string{
 		"Digging",
 		"Digging",

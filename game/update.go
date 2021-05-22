@@ -50,5 +50,5 @@ func (g *Game) UpdateDwarves() {
 	// available dwarf, and assign a job to
 	// satisfy that need.
 	/////////////////////////////////////////////////
-	g.checkForLibraryReading()
+	g.checkForReading()
 }
