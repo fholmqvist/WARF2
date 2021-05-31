@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"math/rand"
 	d "projects/games/warf2/dwarf"
 	j "projects/games/warf2/jobservice"
@@ -35,19 +36,27 @@ func emptyMap() *m.Map {
 	return m.New()
 }
 
-func placeNewDwarf(mp m.Map, name string) d.Dwarf {
+func placeNewDwarf(mp m.Map, name string) (*d.Dwarf, bool) {
 	var availableSpots []int
 	for i := range mp.Tiles {
 		if m.IsGround(mp.Tiles[i].Sprite) {
 			availableSpots = append(availableSpots, mp.Tiles[i].Idx)
 		}
 	}
+	if len(availableSpots) == 0 {
+		fmt.Println("generation.go:placeNewDwarf: no available spaces")
+		return nil, false
+	}
 	startingPosition := availableSpots[rand.Intn(len(availableSpots))]
-	return d.New(startingPosition, name)
+	return d.New(startingPosition, name), true
 }
 
 func addDwarfToGame(g *Game, name string) {
-	dwarf := placeNewDwarf(g.WorldMap, name)
-	g.Dwarves = append(g.Dwarves, dwarf)
-	g.JobService.Workers = append(g.JobService.Workers, &dwarf)
+	dwarf, ok := placeNewDwarf(g.WorldMap, name)
+	if !ok {
+		fmt.Println("generation.go:addDwarfToGame: dwarf was nil")
+		return
+	}
+	g.Dwarves = append(g.Dwarves, *dwarf)
+	g.JobService.Workers = append(g.JobService.Workers, dwarf)
 }

@@ -58,11 +58,19 @@ func (m *Map) DrawRandomSquare(x1, y1, x2, y2 int, f func() int) {
 
 // Draws a square with function that
 // mutates underlying WorldMap.
-// What could possibly go wrong.
-func (m *Map) DrawSquareMutate(x1, y1, x2, y2 int, f func(int, int)) {
+func (m *Map) DrawSquareFunction(x1, y1, x2, y2 int, f func(int, int)) {
 	for x := x1; x < x2; x++ {
 		for y := y1; y < y2; y++ {
 			f(x, y)
+		}
+	}
+}
+
+// Draws a square of specified sprite.
+func (m *Map) DrawSquareSprite(x1, y1, x2, y2, sprite int) {
+	for x := x1; x < x2; x++ {
+		for y := y1; y < y2; y++ {
+			m.Tiles[globals.XYToIdx(x, y)].Sprite = sprite
 		}
 	}
 }

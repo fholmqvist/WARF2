@@ -25,7 +25,7 @@ func (mp *Map) SetFloorTileIdx(idx int) {
 }
 
 func (mp *Map) SetFloorTiles(x1, y1, x2, y2 int) {
-	mp.DrawSquareMutate(x1, y1, x2, y2, mp.SetFloorTile)
+	mp.DrawSquareFunction(x1, y1, x2, y2, mp.SetFloorTile)
 }
 
 func RandomFloorBrick() int {

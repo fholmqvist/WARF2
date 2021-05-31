@@ -3,7 +3,9 @@
 // tiles and their functionality.
 package worldmap
 
-import "projects/games/warf2/globals"
+import (
+	"projects/games/warf2/globals"
+)
 
 // Map holds all the tiles
 // for a game.
@@ -36,6 +38,19 @@ func NormalMap() *Map {
 func BoundariesMap() *Map {
 	mp := New()
 	mp.CreateBoundaryWalls()
+	mp.FixWalls()
+	return mp
+}
+
+func FilledMap() *Map {
+	mp := New()
+	mp.CreateBoundaryWalls()
+	for _, t := range mp.Tiles {
+		if IsAnyWall(t.Sprite) {
+			continue
+		}
+		mp.Tiles[t.Idx].Sprite = WallSolid
+	}
 	mp.FixWalls()
 	return mp
 }

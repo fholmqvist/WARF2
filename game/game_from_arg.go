@@ -100,10 +100,26 @@ func gameFromArg(arg string) *Game {
 		mp.DrawOutline(10, 5, 15, 10, m.WallSelectedSolid)
 		for i := 0; i < 2; i++ {
 			d := dwarf.New(282+i, fmt.Sprintf("test%v", i+1))
-			game.Dwarves = append(game.Dwarves, d)
+			game.Dwarves = append(game.Dwarves, *d)
 			game.JobService.Workers = append(game.JobService.Workers, &game.Dwarves[i])
 		}
 		game.Rooms.AddStorage(mp, globals.XYToIdx(6, 6))
+
+	case "wall-stress":
+		///////////////////////////////////////////////////////
+		// Stress test for digging jobs.
+		///////////////////////////////////////////////////////
+		mp := m.FilledMap()
+		for offset := 2; offset < globals.TilesW-2; offset += 4 {
+			mp.DrawSquareSprite(offset, 2, offset+2, globals.TilesH-4, m.WallSelectedExposed)
+		}
+		for offset := 2; offset < globals.TilesH-2; offset += 4 {
+			mp.DrawSquareSprite(2, offset, globals.TilesW-4, offset+2, m.WallSelectedExposed)
+		}
+		mp.DrawSquareSprite(42, 26, 44, 28, m.Ground)
+		mp.DrawSquareSprite(2, 2, 4, 4, m.Ground)
+		mp.FixWalls()
+		game = GenerateGame(128, mp)
 
 	case "fill":
 		///////////////////////////////////////////////////////
