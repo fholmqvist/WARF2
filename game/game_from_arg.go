@@ -190,13 +190,12 @@ func gameFromArg(arg string) *Game {
 		game = GenerateGame(4, m.NormalMap())
 		state = MainMenu
 
-	default:
-		///////////////////////////////////////////////////////
-		// TODO
-		// Standard game, skipping menu.
-		// On release this should default to menu.
-		///////////////////////////////////////////////////////
+	case "game":
 		game = GenerateGame(4, m.NormalMap())
+
+	default:
+		game = GenerateGame(4, m.NormalMap())
+		state = MainMenu
 		globals.DEBUG = false
 
 	}
