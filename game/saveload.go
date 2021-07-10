@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
 	j "projects/games/warf2/jobservice"
 	"projects/games/warf2/mouse"
@@ -20,18 +19,15 @@ import (
 // struct of game that is safe for
 // marshaling to JSON.
 type SaveGame struct {
-	WorldMap   m.Map         `json:"w"`
-	Dwarves    []dwarf.Dwarf `json:"dw"`
-	JobService j.JobService  `json:"j"`
+	WorldMap   m.Map        `json:"w"`
+	JobService j.JobService `json:"j"`
 }
 
 func (g Game) SaveGame() {
 	sg := SaveGame{
 		WorldMap:   g.WorldMap,
-		Dwarves:    g.Dwarves,
 		JobService: g.JobService,
 	}
-
 	sg.saveToDisk()
 }
 
@@ -69,30 +65,19 @@ func loadGame() Game {
 	if err != nil {
 		log.Fatal("Unable to load file:", filename, err)
 	}
-
 	sg := SaveGame{}
 	err = json.Unmarshal(file, &sg)
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	sg.JobService.Map = &sg.WorldMap
-
-	var dwarves []*dwarf.Dwarf
-	for _, dwarf := range sg.Dwarves {
-		dwarves = append(dwarves, &dwarf)
-	}
-	sg.JobService.Workers = dwarves
-
 	for i := range sg.WorldMap.Tiles {
 		sg.WorldMap.Tiles[i].Map = &sg.WorldMap
 		sg.WorldMap.SelectedTiles[i].Map = &sg.WorldMap
 		sg.WorldMap.Items[i].Map = &sg.WorldMap
 	}
-
 	return Game{
 		WorldMap:   sg.WorldMap,
-		Dwarves:    sg.Dwarves,
 		JobService: sg.JobService,
 
 		time:        Time{Frame: 1},

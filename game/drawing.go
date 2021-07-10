@@ -38,7 +38,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		drawMap(g, screen)
 		drawMovables(g, screen)
 		drawWorkers(g, screen)
-		g.ui.DrawGameplay(screen, g.font, g.Dwarves, g.uiTiles)
+		g.ui.DrawGameplay(screen, g.font, g.JobService.Workers, g.uiTiles)
 		drawTPS(g, screen)
 
 	default:

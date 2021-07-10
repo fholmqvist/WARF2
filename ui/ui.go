@@ -31,7 +31,7 @@ func (ui *UI) DrawMainMenu(screen *ebiten.Image, font font.Face) int {
 	return ui.MainMenu.Update()
 }
 
-func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []dwarf.Dwarf, uiTiles *ebiten.Image) {
+func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []*dwarf.Dwarf, uiTiles *ebiten.Image) {
 	mm := ui.MouseMode
 	if ebiten.IsKeyPressed(ebiten.KeyTab) {
 		drawOverview(screen, gameFont, dw, mm)
@@ -58,7 +58,7 @@ func drawBottomBar(screen *ebiten.Image, gameFont font.Face, uiTiles *ebiten.Ima
 	draw(BottomRight, gl.TilesT+(gl.TilesW*2)-1)
 }
 
-func drawOverview(screen *ebiten.Image, gameFont font.Face, dw []dwarf.Dwarf, mm Element) {
+func drawOverview(screen *ebiten.Image, gameFont font.Face, dw []*dwarf.Dwarf, mm Element) {
 	x, y, xo, yo := 20, 20, 10, 20
 	drawBackground(screen, x, y, (len(dw)*y)+y+yo)
 	text.Draw(screen, "Dwarves:", gameFont, x+xo, y*2, mm.Color)

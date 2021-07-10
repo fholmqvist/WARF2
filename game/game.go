@@ -28,7 +28,6 @@ type Game struct {
 	/* ----------------------------- In-game objects ---------------------------- */
 
 	WorldMap m.Map
-	Dwarves  []dwarf.Dwarf
 	Rooms    room.Service
 
 	/* ------------------------------ Loaded assets ----------------------------- */

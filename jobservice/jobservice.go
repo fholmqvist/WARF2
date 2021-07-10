@@ -21,7 +21,7 @@ func init() {
 // ingame jobs for dwarves.
 type JobService struct {
 	Jobs             []job.Job      `json:"jobs"`
-	Workers          []*dwarf.Dwarf `json:"-"`
+	Workers          []*dwarf.Dwarf `json:"workers"`
 	AvailableWorkers []*dwarf.Dwarf `json:"-"`
 	Map              *m.Map         `json:"-"`
 }

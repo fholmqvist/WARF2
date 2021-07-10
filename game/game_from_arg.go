@@ -35,9 +35,9 @@ func gameFromArg(arg string) *Game {
 		game.WorldMap.FixWalls()
 		addDwarfToGame(&game, "Test 1")
 		addDwarfToGame(&game, "Test 2")
-		d1 := game.Dwarves[0]
+		d1 := game.JobService.Workers[0]
 		d1.Characteristics.DesireToRead = 20
-		d2 := game.Dwarves[1]
+		d2 := game.JobService.Workers[1]
 		d2.Characteristics.DesireToRead = 30
 
 	case "storage":
@@ -100,8 +100,7 @@ func gameFromArg(arg string) *Game {
 		mp.DrawOutline(10, 5, 15, 10, m.WallSelectedSolid)
 		for i := 0; i < 2; i++ {
 			d := dwarf.New(282+i, fmt.Sprintf("test%v", i+1))
-			game.Dwarves = append(game.Dwarves, *d)
-			game.JobService.Workers = append(game.JobService.Workers, &game.Dwarves[i])
+			game.JobService.Workers = append(game.JobService.Workers, d)
 		}
 		game.Rooms.AddStorage(mp, globals.XYToIdx(6, 6))
 

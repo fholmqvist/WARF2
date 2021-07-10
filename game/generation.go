@@ -57,6 +57,5 @@ func addDwarfToGame(g *Game, name string) {
 		fmt.Println("generation.go:addDwarfToGame: dwarf was nil")
 		return
 	}
-	g.Dwarves = append(g.Dwarves, *dwarf)
 	g.JobService.Workers = append(g.JobService.Workers, dwarf)
 }
