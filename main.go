@@ -15,10 +15,17 @@ import (
 var zoom = 1
 
 func main() {
-	logo()
 	log.SetFlags(log.Lshortfile)
-	arg := handleArgs()
-	game := g.NewGame(arg)
+	args := handleArgs()
+	printLogo(args)
+	var game *g.Game
+	if len(args) > 0 {
+		game = g.NewGame(args[0])
+
+	} else {
+		noArgumentProvided := ""
+		game = g.NewGame(noArgumentProvided)
+	}
 	ebiten.SetWindowSize(globals.ScreenWidth*zoom, globals.ScreenHeight*zoom)
 	ebiten.SetWindowTitle("GOWARF")
 	ebiten.SetMaxTPS(globals.TPS)
@@ -27,11 +34,7 @@ func main() {
 	}
 }
 
-func handleArgs() string {
-	var arg string
-	if len(os.Args) > 1 {
-		arg = os.Args[1]
-	}
+func handleArgs() []string {
 	g.FramesToMove = g.SUPER
 	if len(os.Args) > 2 {
 		var speed int
@@ -45,10 +48,10 @@ func handleArgs() string {
 		}
 		g.FramesToMove = speed
 	}
-	return arg
+	return os.Args[1:]
 }
 
-func logo() {
+func printLogo(args []string) {
 	lines := []string{
 		"##########################",
 		"########          ########",
@@ -56,10 +59,13 @@ func logo() {
 		"########          ########",
 		"##########################",
 		"by Fredrik Holmqvist",
+		"",
+	}
+	if len(args) > 0 {
+		lines = append(lines, fmt.Sprintf("Running with args: %v.", args))
 	}
 	fmt.Println()
 	for _, line := range lines {
 		fmt.Println(line)
 	}
-	fmt.Println()
 }
