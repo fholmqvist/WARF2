@@ -28,27 +28,7 @@ func (l *LibraryRead) Finish(*m.Map, *room.Service) {
 
 func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf) bool {
 	if shouldGetChair(m, l) {
-		dsts, ok := item.FindNearestChairs(m, l.destinations[0])
-		if !ok {
-			return unfinished
-		}
-		target := -1
-	outer:
-		for _, dst := range dsts {
-			for _, dwarf := range dwarves {
-				if dwarf.Idx == dst {
-					continue outer
-				}
-			}
-			target = dst
-			break outer
-		}
-		if target == -1 {
-			return unfinished
-		}
-		l.destinations[0] = target
-		l.dwarf.MoveTo(target, m)
-		return unfinished
+		return getChair(m, l, dwarves)
 	}
 	// Still reading.
 	if l.readingTime > 1 {
@@ -83,4 +63,29 @@ func (l *LibraryRead) String() string {
 func shouldGetChair(m *worldmap.Map, l *LibraryRead) bool {
 	return !item.IsChair(m.Items[l.dwarf.Idx].Sprite) &&
 		l.dwarf.State != dwarf.WorkerMoving
+}
+
+func getChair(m *worldmap.Map, l *LibraryRead, dwarves []*dwarf.Dwarf) bool {
+	dsts, ok := item.FindNearestChairs(m, l.destinations[0])
+	if !ok {
+		return unfinished
+	}
+	// Don't sit in occupied chair.
+	target := -1
+	for _, dst := range dsts {
+		for _, dwarf := range dwarves {
+			if dwarf.Idx == dst {
+				continue
+			}
+		}
+		target = dst
+		break
+	}
+	// No available chairs.
+	if target == -1 {
+		return unfinished
+	}
+	l.destinations[0] = target
+	l.dwarf.MoveTo(target, m)
+	return unfinished
 }
