@@ -55,7 +55,7 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	mp.Items[dropIdx].Sprite = c.sprite
 }
 
-func (c *Carrying) PerformWork(mp *m.Map) bool {
+func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
 	if setupPath(c, mp) {
 		return unfinished
 	}

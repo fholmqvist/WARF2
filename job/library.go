@@ -26,14 +26,28 @@ func (l *LibraryRead) Finish(*m.Map, *room.Service) {
 	l.dwarf = nil
 }
 
-func (l *LibraryRead) PerformWork(m *m.Map) bool {
+func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf) bool {
 	if shouldGetChair(m, l) {
-		dst, ok := item.FindNearestChair(m, l.destinations[0])
+		dsts, ok := item.FindNearestChairs(m, l.destinations[0])
 		if !ok {
 			return unfinished
 		}
-		l.destinations[0] = dst
-		l.dwarf.MoveTo(dst, m)
+		target := -1
+	outer:
+		for _, dst := range dsts {
+			for _, dwarf := range dwarves {
+				if dwarf.Idx == dst {
+					continue outer
+				}
+			}
+			target = dst
+			break outer
+		}
+		if target == -1 {
+			return unfinished
+		}
+		l.destinations[0] = target
+		l.dwarf.MoveTo(target, m)
 		return unfinished
 	}
 	// Still reading.

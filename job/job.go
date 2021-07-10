@@ -19,7 +19,7 @@ const (
 // the job service.
 type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
-	PerformWork(*m.Map) bool
+	PerformWork(*m.Map, []*dwarf.Dwarf) bool
 	Finish(*m.Map, *room.Service)
 	Priority() int
 

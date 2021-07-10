@@ -114,7 +114,13 @@ func (j *JobService) performWork() {
 			}
 			continue
 		}
-		finished := jb.PerformWork(j.Map)
+		finished := false
+		switch jb.(type) {
+		case *job.LibraryRead:
+			finished = jb.PerformWork(j.Map, j.Workers)
+		default:
+			finished = jb.PerformWork(j.Map, nil)
+		}
 		if !finished {
 			continue
 		}
