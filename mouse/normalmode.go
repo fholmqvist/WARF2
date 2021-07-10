@@ -2,15 +2,17 @@ package mouse
 
 import (
 	"fmt"
+	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
 	m "projects/games/warf2/worldmap"
 )
 
-func noneMode(mp *m.Map, currentMousePos int) {
+func noneMode(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
 	mp.ClearSelectedTiles()
 	clickFunctions(mp, currentMousePos,
 		func() {
 			printMousePos(currentMousePos)
+			printDwarf(dwarves, currentMousePos)
 			// Get tile from real tiles.
 			tile, ok := mp.GetTileByIndex(currentMousePos)
 			if !ok {
@@ -124,4 +126,14 @@ func setToNormalInteractFalse(tile *m.Tile) {
 func printMousePos(idx int) {
 	x, y := globals.IdxToXY(idx)
 	fmt.Printf("IDX: %d. XY: {%d, %d}.\n", idx, x, y)
+}
+
+func printDwarf(dwarves *[]*dwarf.Dwarf, currentMousePos int) {
+	for _, dwarf := range *dwarves {
+		if dwarf.Idx != currentMousePos {
+			continue
+		}
+		fmt.Printf("DWARF: %v. STATE: %v.\n", dwarf.Name, dwarf.State)
+		return
+	}
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
 
+	"projects/games/warf2/dwarf"
 	"projects/games/warf2/globals"
 	"projects/games/warf2/room"
 	m "projects/games/warf2/worldmap"
@@ -40,7 +41,7 @@ const (
 )
 
 // Handle all the mouse interactivity.
-func (s *System) Handle(mp *m.Map, rs *room.Service) {
+func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) {
 	idx := mousePos()
 	if idx < 0 || idx > globals.TilesT {
 		mp.ClearSelectedTiles()
@@ -49,7 +50,7 @@ func (s *System) Handle(mp *m.Map, rs *room.Service) {
 	}
 	s.mouseHover(mp)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		s.mouseClick(mp, rs, idx)
+		s.mouseClick(mp, rs, dwarves, idx)
 		return
 	}
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
@@ -63,7 +64,7 @@ func (s *System) Handle(mp *m.Map, rs *room.Service) {
 	}
 }
 
-func (s *System) mouseClick(mp *m.Map, rs *room.Service, currentMousePos int) {
+func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
 	/////////////////////////////////
 	// TODO
 	// Setting and deleting rooms
@@ -73,7 +74,7 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, currentMousePos int) {
 	switch s.Mode {
 
 	case Normal:
-		noneMode(mp, currentMousePos)
+		noneMode(mp, dwarves, currentMousePos)
 
 	case Library:
 		rs.AddLibrary(mp, currentMousePos)
