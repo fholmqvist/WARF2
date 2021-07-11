@@ -66,7 +66,7 @@ func (m *MainMenu) Select() {
 	}
 }
 
-func (m *MainMenu) Update() int {
+func (m *MainMenu) UpdateMainMenu() int {
 	if v, didSelect := m.mouseAndSelect(); didSelect {
 		return v
 	}

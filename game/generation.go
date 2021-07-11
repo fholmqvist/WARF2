@@ -8,7 +8,6 @@ import (
 	"projects/games/warf2/mouse"
 	rail "projects/games/warf2/railservice"
 	"projects/games/warf2/ui"
-	u "projects/games/warf2/ui"
 	m "projects/games/warf2/worldmap"
 )
 
@@ -21,9 +20,10 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},
-		ui: u.UI{
-			MouseMode: u.NewMouseOverlay(),
+		ui: ui.UI{
+			MouseMode: ui.NewMouseOverlay(),
 			MainMenu:  ui.NewMainMenu(),
+			BuildMenu: ui.NewDropdown("Build", 34, 32, 11),
 		},
 	}
 	for i := 0; i < dwarves; i++ {

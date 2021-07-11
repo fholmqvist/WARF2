@@ -2,7 +2,6 @@ package game
 
 import (
 	"fmt"
-	"time"
 
 	"projects/games/warf2/globals"
 
@@ -15,24 +14,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.state {
 
 	case MainMenu:
-		menuState := g.ui.DrawMainMenu(screen, g.font)
-		switch menuState {
-		case -1:
-			return
-		case 0:
-			go func() {
-				// To prevent from mouseclick
-				// carrying over to game.
-				time.Sleep(time.Millisecond * 100)
-				g.state = Gameplay
-			}()
-		case 1:
-			panic("help not implemented")
-		case 2:
-			panic("this is not a graceful exit, but it sorta works?")
-		default:
-			panic(fmt.Sprintf("%d is not a valid return", menuState))
-		}
+		g.ui.MainMenu.Draw(screen, g.font)
 
 	case Gameplay:
 		drawMap(g, screen)

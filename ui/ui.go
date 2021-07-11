@@ -16,6 +16,7 @@ import (
 type UI struct {
 	*MainMenu
 	MouseMode Element
+	BuildMenu Dropdown
 }
 
 func NewMouseOverlay() Element {
@@ -26,36 +27,21 @@ func NewMouseOverlay() Element {
 	}
 }
 
-func (ui *UI) DrawMainMenu(screen *ebiten.Image, font font.Face) int {
-	ui.MainMenu.Draw(screen, font)
-	return ui.MainMenu.Update()
-}
-
 func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []*dwarf.Dwarf, uiTiles *ebiten.Image) {
-	mm := ui.MouseMode
 	if ebiten.IsKeyPressed(ebiten.KeyTab) {
-		drawOverview(screen, gameFont, dw, mm)
+		drawOverview(screen, gameFont, dw, ui.MouseMode)
 	}
-	drawBottomBar(screen, gameFont, uiTiles)
-	text.Draw(screen, mm.Text, gameFont, mm.X, mm.Y, mm.Color)
+	drawMouseMode(screen, uiTiles, gameFont, ui.MouseMode)
+	ui.BuildMenu.Draw(screen, uiTiles, gameFont)
 }
 
-func drawBottomBar(screen *ebiten.Image, gameFont font.Face, uiTiles *ebiten.Image) {
-	// Wrapper to reduce noice.
-	draw := func(sprite, idx int) {
-		gl.DrawTile(sprite, screen, uiTiles, 1, gl.DrawOptions(idx, 1, 0))
-	}
-	// Left.
-	draw(TopLeft, gl.TilesT)
-	draw(BottomLeft, gl.TilesT+gl.TilesW)
-	// Middle.
-	for i := 1; i < gl.TilesW-1; i++ {
-		draw(Top, gl.TilesT+i)
-		draw(Bottom, gl.TilesT+gl.TilesW+i)
-	}
-	// Right.
-	draw(TopRight, gl.TilesT+gl.TilesW-1)
-	draw(BottomRight, gl.TilesT+(gl.TilesW*2)-1)
+func drawMouseMode(screen *ebiten.Image, uiTiles *ebiten.Image, gameFont font.Face, mouseMode Element) {
+	drawTiledButton(
+		screen, gameFont, uiTiles,
+		gl.TilesT, gl.TilesT+gl.TilesW,
+		gl.TilesT+gl.TilesW-1-12, gl.TilesT+(gl.TilesW*2)-1-12,
+	)
+	text.Draw(screen, mouseMode.Text, gameFont, mouseMode.X, mouseMode.Y, mouseMode.Color)
 }
 
 func drawOverview(screen *ebiten.Image, gameFont font.Face, dw []*dwarf.Dwarf, mm Element) {
@@ -78,4 +64,22 @@ func drawBackground(screen *ebiten.Image, x, y, height int) {
 		color.Gray{50},
 	}
 	DrawSquare(screen, e)
+}
+
+func drawTiledButton(screen *ebiten.Image, gameFont font.Face, uiTiles *ebiten.Image, tl, bl, tr, br int) {
+	// Wrapper to reduce noice.
+	draw := func(sprite, idx int) {
+		gl.DrawTile(sprite, screen, uiTiles, 1, gl.DrawOptions(idx, 1, 0))
+	}
+	// Left.
+	draw(TopLeft, tl)
+	draw(BottomLeft, bl)
+	// Middle.
+	for i := 1; i < tr-tl; i++ {
+		draw(Top, tl+i)
+		draw(Bottom, tl+gl.TilesW+i)
+	}
+	// Right.
+	draw(TopRight, tr)
+	draw(BottomRight, br)
 }
