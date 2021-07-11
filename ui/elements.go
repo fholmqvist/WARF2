@@ -62,7 +62,7 @@ func (b ButtonTiled) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font
 	)
 	x := (b.X * gl.TileSize) + (b.Width*gl.TileSize)/2 - len(b.Text)*3
 	y := (b.Y * gl.TileSize) + (b.Y / 2) + 4
-	text.Draw(screen, b.Text, font, x, y, color.White)
+	text.Draw(screen, b.Text, font, x, y, textColor)
 }
 
 type Dropdown struct {
@@ -74,7 +74,7 @@ type Dropdown struct {
 func NewDropdown(text string, x, y, width int, buttons []ButtonTiled) Dropdown {
 	return Dropdown{
 		Main: ButtonTiled{
-			Element{text, x, y, width, 1, color.White},
+			Element{text, x, y, width, 1, textColor},
 		},
 		Buttons: buttons,
 	}
