@@ -44,7 +44,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		g.mouseSystem.Handle(&g.WorldMap, &g.Rooms, &g.JobService.Workers)
 		HandleKeyboard(g)
 		// UI.
-		g.ui.UpdateMainMenu()
+		g.ui.UpdateGameplayMenu()
 		// Only run if game is not paused.
 		if !g.time.Tick() {
 			return nil

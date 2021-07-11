@@ -57,7 +57,7 @@ func TileRange(start, end int) (int, int, int, int) {
 	return x1, y1, x2, y2
 }
 
-func mousePos() int {
+func MouseIdx() int {
 	mx, my := ebiten.CursorPosition()
 	mx, my = mx/globals.TileSize, my/globals.TileSize
 	if mx >= globals.TilesW {

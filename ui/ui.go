@@ -6,11 +6,14 @@ import (
 	"image/color"
 	"projects/games/warf2/dwarf"
 	gl "projects/games/warf2/globals"
+	"projects/games/warf2/mouse"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"
 	"golang.org/x/image/font"
 )
+
+var textColor = color.White
 
 // UI wraps all the UI elements for Game
 type UI struct {
@@ -19,11 +22,24 @@ type UI struct {
 	BuildMenu Dropdown
 }
 
+func GenerateUI() UI {
+	buildMenuButtons := []ButtonTiled{
+		{Element: Element{Text: "Wall", X: 34, Y: 32 - 2, Width: 11, Height: 1, Color: textColor}},
+		{Element: Element{Text: "Storage", X: 34, Y: 32 - 4, Width: 11, Height: 1, Color: textColor}},
+		{Element: Element{Text: "Library", X: 34, Y: 32 - 6, Width: 11, Height: 1, Color: textColor}},
+	}
+	return UI{
+		MouseMode: NewMouseOverlay(),
+		MainMenu:  NewMainMenu(),
+		BuildMenu: NewDropdown("Build", 34, 32, 11, buildMenuButtons),
+	}
+}
+
 func NewMouseOverlay() Element {
 	return Element{
 		X:     gl.TileSize,
 		Y:     (gl.TileSize * gl.TilesH) + gl.TileSize + 4,
-		Color: color.White,
+		Color: textColor,
 	}
 }
 
@@ -33,6 +49,12 @@ func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []*dwarf
 	}
 	drawMouseMode(screen, uiTiles, gameFont, ui.MouseMode)
 	ui.BuildMenu.Draw(screen, uiTiles, gameFont)
+}
+
+func (ui *UI) UpdateGameplayMenu() {
+	mousePos := mouse.MouseIdx()
+	x, y := gl.IdxToXY(mousePos)
+	ui.BuildMenu.Hover(x, y)
 }
 
 func drawMouseMode(screen *ebiten.Image, uiTiles *ebiten.Image, gameFont font.Face, mouseMode Element) {

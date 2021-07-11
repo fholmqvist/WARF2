@@ -20,11 +20,7 @@ func GenerateGame(dwarves int, worldmap *m.Map) Game {
 
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},
-		ui: ui.UI{
-			MouseMode: ui.NewMouseOverlay(),
-			MainMenu:  ui.NewMainMenu(),
-			BuildMenu: ui.NewDropdown("Build", 34, 32, 11),
-		},
+		ui:          ui.GenerateUI(),
 	}
 	for i := 0; i < dwarves; i++ {
 		addDwarfToGame(&game, game.DwarfService.RandomName())

@@ -42,7 +42,7 @@ const (
 
 // Handle all the mouse interactivity.
 func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) {
-	idx := mousePos()
+	idx := MouseIdx()
 	if idx < 0 || idx > globals.TilesT {
 		mp.ClearSelectedTiles()
 		unsetHasClicked()

@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"fmt"
 	"image/color"
 	gl "projects/games/warf2/globals"
 
@@ -67,24 +66,46 @@ func (b ButtonTiled) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font
 }
 
 type Dropdown struct {
-	ButtonTiled
+	Main     ButtonTiled
+	Buttons  []ButtonTiled
+	hovering bool
 }
 
-func NewDropdown(text string, x, y, width int) Dropdown {
+func NewDropdown(text string, x, y, width int, buttons []ButtonTiled) Dropdown {
 	return Dropdown{
-		ButtonTiled{
-			Element{text, x, y, width, 0, color.White},
+		Main: ButtonTiled{
+			Element{text, x, y, width, 1, color.White},
 		},
+		Buttons: buttons,
 	}
 }
 
 func (d Dropdown) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face) {
-	d.ButtonTiled.Draw(screen, uiTiles, font)
-}
-
-func (d Dropdown) Hover(x, y int) {
-	if !d.MouseIsOver(x, y) {
+	d.Main.Draw(screen, uiTiles, font)
+	if !d.hovering {
 		return
 	}
-	fmt.Println("Hover!")
+	for _, button := range d.Buttons {
+		button.Draw(screen, uiTiles, font)
+	}
+}
+
+func (d *Dropdown) Hover(x, y int) {
+	if d.IsNavigatingMenu(x, y) {
+		return
+	}
+	if !d.Main.MouseIsOver(x, y) {
+		d.hovering = false
+		return
+	}
+	d.hovering = true
+}
+
+func (d Dropdown) IsNavigatingMenu(x, y int) bool {
+	for _, button := range d.Buttons {
+		if button.MouseIsOver(x, y) && d.hovering {
+			return true
+		}
+	}
+	return false
 }
