@@ -55,7 +55,7 @@ func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []*dwarf
 func (ui *UI) UpdateGameplayMenu() {
 	mousePos := mouse.MouseIdx()
 	x, y := gl.IdxToXY(mousePos)
-	ui.BuildMenu.Hover(x, y)
+	ui.BuildMenu.Update(x, y)
 }
 
 func drawMouseMode(screen *ebiten.Image, uiTiles *ebiten.Image, gameFont font.Face, mouseMode Element) {
@@ -63,6 +63,7 @@ func drawMouseMode(screen *ebiten.Image, uiTiles *ebiten.Image, gameFont font.Fa
 		screen, gameFont, uiTiles,
 		gl.TilesT, gl.TilesT+gl.TilesW,
 		gl.TilesT+gl.TilesW-1-12, gl.TilesT+(gl.TilesW*2)-1-12,
+		false, // Unselectable
 	)
 	text.Draw(screen, mouseMode.Text, gameFont, mouseMode.X, mouseMode.Y, mouseMode.Color)
 }
@@ -89,20 +90,36 @@ func drawBackground(screen *ebiten.Image, x, y, height int) {
 	DrawSquare(screen, e)
 }
 
-func drawTiledButton(screen *ebiten.Image, gameFont font.Face, uiTiles *ebiten.Image, tl, bl, tr, br int) {
+func drawTiledButton(screen *ebiten.Image, gameFont font.Face, uiTiles *ebiten.Image, tl, bl, tr, br int, highlighted bool) {
 	// Wrapper to reduce noice.
 	draw := func(sprite, idx int) {
 		gl.DrawTile(sprite, screen, uiTiles, 1, gl.DrawOptions(idx, 1, 0))
 	}
+	var (
+		tlc = TopLeft
+		blc = BottomLeft
+		tc  = Top
+		bc  = Bottom
+		trc = TopRight
+		brc = BottomRight
+	)
+	if highlighted {
+		tlc = Highlighted_TopLeft
+		blc = Highlighted_BottomLeft
+		tc = Highlighted_Top
+		bc = Highlighted_Bottom
+		trc = Highlighted_TopRight
+		brc = Highlighted_BottomRight
+	}
 	// Left.
-	draw(TopLeft, tl)
-	draw(BottomLeft, bl)
+	draw(tlc, tl)
+	draw(blc, bl)
 	// Middle.
 	for i := 1; i < tr-tl; i++ {
-		draw(Top, tl+i)
-		draw(Bottom, tl+gl.TilesW+i)
+		draw(tc, tl+i)
+		draw(bc, tl+gl.TilesW+i)
 	}
 	// Right.
-	draw(TopRight, tr)
-	draw(BottomRight, br)
+	draw(trc, tr)
+	draw(brc, br)
 }
