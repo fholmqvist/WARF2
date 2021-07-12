@@ -27,8 +27,8 @@ import (
 type Game struct {
 	/* ----------------------------- In-game objects ---------------------------- */
 
-	WorldMap m.Map
-	Rooms    room.Service
+	WorldMap *m.Map
+	Rooms    *room.Service
 
 	/* ------------------------------ Loaded assets ----------------------------- */
 
@@ -41,13 +41,13 @@ type Game struct {
 
 	/* ------------------------------- Interaction ------------------------------ */
 
-	mouseSystem mouse.System
+	mouseSystem *mouse.System
 
 	/* -------------------------------- Services -------------------------------- */
 
-	JobService   j.JobService
-	DwarfService dwarf.DwarfService
-	RailService  rail.RailService
+	JobService   *j.JobService
+	DwarfService *dwarf.DwarfService
+	RailService  *rail.RailService
 
 	/* ------------------------------ Private state ----------------------------- */
 

@@ -16,8 +16,8 @@ type DwarfService struct {
 	Names []string
 }
 
-func NewService() DwarfService {
-	return DwarfService{Names: loadNames()}
+func NewService() *DwarfService {
+	return &DwarfService{Names: loadNames()}
 }
 
 func (d *DwarfService) RandomName() string {

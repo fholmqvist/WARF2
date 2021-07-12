@@ -8,19 +8,21 @@ import (
 	j "github.com/Holmqvist1990/WARF2/jobservice"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	rail "github.com/Holmqvist1990/WARF2/railservice"
+	"github.com/Holmqvist1990/WARF2/room"
 	"github.com/Holmqvist1990/WARF2/ui"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func GenerateGame(dwarves int, worldmap *m.Map) Game {
 	game := Game{
-		WorldMap:     *worldmap,
-		JobService:   j.JobService{Map: worldmap},
+		WorldMap:     worldmap,
+		Rooms:        &room.Service{},
+		JobService:   &j.JobService{Map: worldmap},
 		DwarfService: d.NewService(),
-		RailService:  rail.RailService{Map: worldmap},
+		RailService:  &rail.RailService{Map: worldmap},
 
 		time:        Time{Frame: 1},
-		mouseSystem: mouse.System{},
+		mouseSystem: &mouse.System{},
 		ui:          ui.GenerateUI(),
 	}
 	for i := 0; i < dwarves; i++ {
@@ -33,7 +35,7 @@ func emptyMap() *m.Map {
 	return m.New()
 }
 
-func placeNewDwarf(mp m.Map, name string) (*d.Dwarf, bool) {
+func placeNewDwarf(mp *m.Map, name string) (*d.Dwarf, bool) {
 	var availableSpots []int
 	for i := range mp.Tiles {
 		if m.IsGround(mp.Tiles[i].Sprite) {

@@ -62,19 +62,15 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 	if len(d.Path) == 0 {
 		return
 	}
-
 	next := d.Path[0]
-
 	if d.Idx == next {
 		d.Path = d.Path[1:]
 		return
 	}
-
 	dir, err := m.NextIdxToDir(d.Idx, next)
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	if d.Move(mp, &d.Entity, dir) {
 		d.Path = d.Path[1:]
 	}

@@ -24,8 +24,8 @@ type SaveGame struct {
 
 func (g Game) SaveGame() {
 	sg := SaveGame{
-		WorldMap:   g.WorldMap,
-		JobService: g.JobService,
+		WorldMap:   *g.WorldMap,
+		JobService: *g.JobService,
 	}
 	sg.saveToDisk()
 }
@@ -76,11 +76,11 @@ func loadGame() Game {
 		sg.WorldMap.Items[i].Map = &sg.WorldMap
 	}
 	return Game{
-		WorldMap:   sg.WorldMap,
-		JobService: sg.JobService,
+		WorldMap:   &sg.WorldMap,
+		JobService: &sg.JobService,
 
 		time:        Time{Frame: 1},
-		mouseSystem: mouse.System{},
+		mouseSystem: &mouse.System{},
 		ui:          u.GenerateUI(),
 	}
 }

@@ -32,7 +32,7 @@ func gameFromArg(arg string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddLibrary(&game.WorldMap, globals.XYToIdx(7, 7))
+		game.Rooms.AddLibrary(game.WorldMap, globals.XYToIdx(7, 7))
 		game.WorldMap.FixWalls()
 		addDwarfToGame(&game, "Test 1")
 		addDwarfToGame(&game, "Test 2")
@@ -43,7 +43,7 @@ func gameFromArg(arg string) *Game {
 
 	case "storage":
 		game = GenerateGame(0, m.BoundariesMap())
-		mp := &game.WorldMap
+		mp := game.WorldMap
 		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
 		mp.DrawOutline(20, 5, 25, 10, m.WallSolid)
 		s1 := room.NewStorage(mp, 6, 6)
@@ -61,7 +61,7 @@ func gameFromArg(arg string) *Game {
 		// Debugging and testing wall and floor fills.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
-		mp := &game.WorldMap
+		mp := game.WorldMap
 
 		// Room 1.
 		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
@@ -95,7 +95,7 @@ func gameFromArg(arg string) *Game {
 		// and carrying jobs.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
-		mp := &game.WorldMap
+		mp := game.WorldMap
 		mp.DrawOutline(4, 4, 16, 11, m.WallSelectedSolid)
 		mp.DrawOutline(5, 5, 10, 10, m.WallSelectedSolid)
 		mp.DrawOutline(10, 5, 15, 10, m.WallSelectedSolid)
@@ -126,7 +126,7 @@ func gameFromArg(arg string) *Game {
 		// Debugging and testing wall selection.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
-		mp := &game.WorldMap
+		mp := game.WorldMap
 		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
 		mp.FixWalls()
 
@@ -170,7 +170,7 @@ func gameFromArg(arg string) *Game {
 			{8, 22},
 		})
 		f := func(g *Game) {
-			mp := &g.WorldMap
+			mp := g.WorldMap
 			cart := g.RailService.Carts[0]
 			if len(cart.Path) > 0 {
 				return

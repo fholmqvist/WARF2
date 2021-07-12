@@ -17,9 +17,10 @@ type Service struct {
 func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
 	x, y := globals.IdxToXY(currentMousePos)
 	l := NewLibrary(mp, x, y)
-	if l != nil {
-		s.Libraries = append(s.Libraries, *l)
+	if l == nil {
+		return
 	}
+	s.Libraries = append(s.Libraries, *l)
 }
 
 func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {

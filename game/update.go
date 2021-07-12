@@ -33,15 +33,15 @@ func (g *Game) Update(screen *ebiten.Image) error {
 			return nil
 		}
 		g.UpdateDwarves()
-		g.JobService.Update(&g.Rooms, &g.WorldMap)
-		g.RailService.Update(&g.WorldMap)
+		g.JobService.Update(g.Rooms, g.WorldMap)
+		g.RailService.Update(g.WorldMap)
 	}
 	return nil
 }
 
 func (g *Game) UpdateDwarves() {
 	for _, dwarf := range g.JobService.Workers {
-		dwarf.Walk(&g.WorldMap)
+		dwarf.Walk(g.WorldMap)
 	}
 	if !g.time.NewCycle() {
 		return
@@ -56,7 +56,7 @@ func (g *Game) handleInput() {
 		g.SetMouseMode(mode)
 		return
 	}
-	g.mouseSystem.Handle(&g.WorldMap, &g.Rooms, &g.JobService.Workers)
+	g.mouseSystem.Handle(g.WorldMap, g.Rooms, &g.JobService.Workers)
 	HandleKeyboard(g)
 }
 
