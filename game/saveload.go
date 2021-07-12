@@ -3,13 +3,11 @@ package game
 import (
 	"encoding/json"
 	"fmt"
-	"image/color"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 
-	"github.com/Holmqvist1990/WARF2/globals"
 	j "github.com/Holmqvist1990/WARF2/jobservice"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	u "github.com/Holmqvist1990/WARF2/ui"
@@ -83,12 +81,6 @@ func loadGame() Game {
 
 		time:        Time{Frame: 1},
 		mouseSystem: mouse.System{},
-		ui: u.UI{
-			MouseMode: u.Element{
-				X:     globals.TileSize,
-				Y:     globals.TileSize*globals.TilesH - globals.TileSize,
-				Color: color.White,
-			},
-		},
+		ui:          u.GenerateUI(),
 	}
 }
