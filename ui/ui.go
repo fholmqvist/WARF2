@@ -53,10 +53,14 @@ func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []*dwarf
 	ui.BuildMenu.Draw(screen, uiTiles, gameFont)
 }
 
-func (ui *UI) UpdateGameplayMenu() {
+func (ui *UI) UpdateGameplayMenus() (mouse.Mode, bool) {
 	mousePos := mouse.MouseIdx()
 	x, y := gl.IdxToXY(mousePos)
-	ui.BuildMenu.Update(x, y)
+	mode, clicked := ui.BuildMenu.Update(x, y)
+	if !clicked {
+		return 0, false
+	}
+	return mode, true
 }
 
 func drawMouseMode(screen *ebiten.Image, uiTiles *ebiten.Image, gameFont font.Face, mouseMode Element) {

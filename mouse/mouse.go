@@ -40,6 +40,12 @@ const (
 	Delete
 )
 
+var ModeFromString = map[string]Mode{"Wall": Normal, "Library": Library, "Storage": Storage, "Delete": Delete}
+
+func (m Mode) String() string {
+	return []string{"Wall", "Library", "Storage", "Delete"}[m]
+}
+
 // Handle all the mouse interactivity.
 func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) {
 	idx := MouseIdx()

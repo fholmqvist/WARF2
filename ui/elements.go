@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	gl "github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/mouse"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"
@@ -93,26 +94,16 @@ func (d Dropdown) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Fa
 	}
 }
 
-func (d *Dropdown) Update(x, y int) {
-	d.hover(x, y)
-}
-
-func (d *Dropdown) hover(x, y int) {
+func (d *Dropdown) Update(x, y int) (mode mouse.Mode, clicked bool) {
 	if d.isNavigatingMenu(x, y) {
-		for idx, b := range d.Buttons {
-			if b.MouseIsOver(x, y) {
-				d.Buttons[idx].hovering = true
-			} else {
-				d.Buttons[idx].hovering = false
-			}
-		}
-		return
+		return d.handleMenuNavigation(x, y)
 	}
 	if !d.Main.MouseIsOver(x, y) {
 		d.Main.hovering = false
 		return
 	}
 	d.Main.hovering = true
+	return
 }
 
 func (d Dropdown) isNavigatingMenu(x, y int) bool {
@@ -125,4 +116,18 @@ func (d Dropdown) isNavigatingMenu(x, y int) bool {
 		}
 	}
 	return false
+}
+
+func (d *Dropdown) handleMenuNavigation(x, y int) (mode mouse.Mode, clicked bool) {
+	for idx, b := range d.Buttons {
+		if !b.MouseIsOver(x, y) {
+			d.Buttons[idx].hovering = false
+			continue
+		}
+		d.Buttons[idx].hovering = true
+		if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+			return mouse.ModeFromString[b.Text], true
+		}
+	}
+	return
 }
