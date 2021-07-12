@@ -57,6 +57,11 @@ type Game struct {
 
 	// For injecting debugging
 	// routines into the runtime.
+	//
+	// This function can access
+	// anything the game can, so
+	// it should be able to modify
+	// any functionality that way.
 	debugFunc *func(*Game)
 }
 
