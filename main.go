@@ -8,8 +8,8 @@ import (
 
 	"github.com/hajimehoshi/ebiten"
 
-	g "projects/games/warf2/game"
-	"projects/games/warf2/globals"
+	g "github.com/Holmqvist1990/WARF2/game"
+	"github.com/Holmqvist1990/WARF2/globals"
 )
 
 var zoom = 1

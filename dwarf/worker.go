@@ -1,7 +1,7 @@
 package dwarf
 
 import (
-	m "projects/games/warf2/worldmap"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 // SetJob sets job for

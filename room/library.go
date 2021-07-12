@@ -1,11 +1,12 @@
 package room
 
 import (
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/globals"
-	"projects/games/warf2/item"
-	m "projects/games/warf2/worldmap"
 	"sort"
+
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/item"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 // Library room relaxes

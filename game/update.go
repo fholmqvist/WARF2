@@ -2,8 +2,9 @@ package game
 
 import (
 	"fmt"
-	"projects/games/warf2/globals"
 	"time"
+
+	"github.com/Holmqvist1990/WARF2/globals"
 
 	"github.com/hajimehoshi/ebiten"
 )

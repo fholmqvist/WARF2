@@ -1,11 +1,11 @@
 package game
 
 import (
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/item"
-	"projects/games/warf2/job"
-	"projects/games/warf2/jobservice"
-	"projects/games/warf2/worldmap"
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/item"
+	"github.com/Holmqvist1990/WARF2/job"
+	"github.com/Holmqvist1990/WARF2/jobservice"
+	"github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 const (

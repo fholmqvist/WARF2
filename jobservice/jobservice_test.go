@@ -1,9 +1,10 @@
 package jobservice
 
 import (
-	"projects/games/warf2/job"
-	"projects/games/warf2/resource"
 	"testing"
+
+	"github.com/Holmqvist1990/WARF2/job"
+	"github.com/Holmqvist1990/WARF2/resource"
 )
 
 func TestWorkQueue(t *testing.T) {

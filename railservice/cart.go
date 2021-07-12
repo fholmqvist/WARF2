@@ -2,8 +2,9 @@ package rail
 
 import (
 	"log"
-	e "projects/games/warf2/entity"
-	m "projects/games/warf2/worldmap"
+
+	e "github.com/Holmqvist1990/WARF2/entity"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 
 	"github.com/beefsack/go-astar"
 )

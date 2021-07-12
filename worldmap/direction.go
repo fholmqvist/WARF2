@@ -2,7 +2,8 @@ package worldmap
 
 import (
 	"fmt"
-	"projects/games/warf2/globals"
+
+	"github.com/Holmqvist1990/WARF2/globals"
 )
 
 // TileDir contains an index

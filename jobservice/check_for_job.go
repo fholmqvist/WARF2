@@ -1,12 +1,12 @@
 package jobservice
 
 import (
-	"projects/games/warf2/globals"
-	"projects/games/warf2/item"
-	"projects/games/warf2/job"
-	"projects/games/warf2/resource"
-	"projects/games/warf2/room"
-	m "projects/games/warf2/worldmap"
+	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/item"
+	"github.com/Holmqvist1990/WARF2/job"
+	"github.com/Holmqvist1990/WARF2/resource"
+	"github.com/Holmqvist1990/WARF2/room"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func (j *JobService) checkForDiggingJobs() {

@@ -1,8 +1,8 @@
 package worldmap
 
 import (
-	"projects/games/warf2/globals"
-	"projects/games/warf2/resource"
+	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/resource"
 )
 
 // Tile data struct.

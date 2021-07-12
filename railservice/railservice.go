@@ -8,8 +8,8 @@ package rail
 // better to be honest.
 
 import (
-	"projects/games/warf2/globals"
-	mp "projects/games/warf2/worldmap"
+	"github.com/Holmqvist1990/WARF2/globals"
+	mp "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 type RailService struct {

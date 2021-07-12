@@ -2,8 +2,9 @@ package item
 
 import (
 	"math/rand"
-	"projects/games/warf2/globals"
-	m "projects/games/warf2/worldmap"
+
+	"github.com/Holmqvist1990/WARF2/globals"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 var (

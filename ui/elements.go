@@ -2,7 +2,8 @@ package ui
 
 import (
 	"image/color"
-	gl "projects/games/warf2/globals"
+
+	gl "github.com/Holmqvist1990/WARF2/globals"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"

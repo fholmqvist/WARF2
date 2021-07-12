@@ -2,8 +2,9 @@ package room
 
 import (
 	"fmt"
-	"projects/games/warf2/resource"
-	m "projects/games/warf2/worldmap"
+
+	"github.com/Holmqvist1990/WARF2/resource"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 const MAX_STORAGE = 8

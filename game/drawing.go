@@ -3,7 +3,7 @@ package game
 import (
 	"fmt"
 
-	"projects/games/warf2/globals"
+	"github.com/Holmqvist1990/WARF2/globals"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"

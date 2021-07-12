@@ -1,9 +1,9 @@
 package jobservice
 
 import (
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/job"
-	m "projects/games/warf2/worldmap"
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/job"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func HasWorker(j job.Job) bool {

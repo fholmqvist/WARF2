@@ -3,7 +3,7 @@
 // on top of game tiles.
 package item
 
-import "projects/games/warf2/globals"
+import "github.com/Holmqvist1990/WARF2/globals"
 
 // Item tile sprite constant.
 const (

@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
-	e "projects/games/warf2/entity"
-	m "projects/games/warf2/worldmap"
+
+	e "github.com/Holmqvist1990/WARF2/entity"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 // Dwarf is the foundational struct

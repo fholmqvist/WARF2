@@ -5,12 +5,13 @@ package jobservice
 
 import (
 	"math/rand"
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/job"
-	"projects/games/warf2/room"
-	m "projects/games/warf2/worldmap"
 	"sort"
 	"time"
+
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/job"
+	"github.com/Holmqvist1990/WARF2/room"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func init() {

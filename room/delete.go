@@ -1,7 +1,7 @@
 package room
 
 import (
-	m "projects/games/warf2/worldmap"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {

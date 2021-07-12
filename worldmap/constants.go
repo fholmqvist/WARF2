@@ -1,6 +1,6 @@
 package worldmap
 
-import "projects/games/warf2/globals"
+import "github.com/Holmqvist1990/WARF2/globals"
 
 // World tile sprite constant.
 const (

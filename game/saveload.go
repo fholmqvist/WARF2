@@ -8,11 +8,12 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"projects/games/warf2/globals"
-	j "projects/games/warf2/jobservice"
-	"projects/games/warf2/mouse"
-	u "projects/games/warf2/ui"
-	m "projects/games/warf2/worldmap"
+
+	"github.com/Holmqvist1990/WARF2/globals"
+	j "github.com/Holmqvist1990/WARF2/jobservice"
+	"github.com/Holmqvist1990/WARF2/mouse"
+	u "github.com/Holmqvist1990/WARF2/ui"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 // SaveGame defines the equivalent

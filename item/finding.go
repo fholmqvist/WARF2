@@ -2,9 +2,10 @@ package item
 
 import (
 	"math"
-	"projects/games/warf2/globals"
-	"projects/games/warf2/worldmap"
 	"sort"
+
+	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func FindNearest(m *worldmap.Map, idx int, f func(int) bool) (int, bool) {

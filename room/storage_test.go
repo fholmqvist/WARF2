@@ -1,9 +1,10 @@
 package room
 
 import (
-	"projects/games/warf2/resource"
-	m "projects/games/warf2/worldmap"
 	"testing"
+
+	"github.com/Holmqvist1990/WARF2/resource"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func TestNearestStorage(t *testing.T) {

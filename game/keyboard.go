@@ -2,7 +2,8 @@ package game
 
 import (
 	"fmt"
-	"projects/games/warf2/mouse"
+
+	"github.com/Holmqvist1990/WARF2/mouse"
 
 	e "github.com/hajimehoshi/ebiten"
 	i "github.com/hajimehoshi/ebiten/inpututil"

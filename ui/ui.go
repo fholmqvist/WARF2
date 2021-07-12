@@ -4,9 +4,10 @@ package ui
 
 import (
 	"image/color"
-	"projects/games/warf2/dwarf"
-	gl "projects/games/warf2/globals"
-	"projects/games/warf2/mouse"
+
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	gl "github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/mouse"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"

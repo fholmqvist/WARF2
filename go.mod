@@ -1,4 +1,4 @@
-module projects/games/warf2
+module github.com/Holmqvist1990/WARF2
 
 go 1.16
 

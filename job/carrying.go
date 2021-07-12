@@ -2,10 +2,11 @@ package job
 
 import (
 	"fmt"
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/resource"
-	"projects/games/warf2/room"
-	m "projects/games/warf2/worldmap"
+
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/resource"
+	"github.com/Holmqvist1990/WARF2/room"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 type Carrying struct {

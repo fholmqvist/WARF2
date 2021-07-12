@@ -2,9 +2,10 @@ package mouse
 
 import (
 	"fmt"
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/globals"
-	m "projects/games/warf2/worldmap"
+
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/globals"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func noneMode(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) {

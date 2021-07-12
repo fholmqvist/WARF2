@@ -2,7 +2,8 @@ package rail
 
 import (
 	"math"
-	m "projects/games/warf2/worldmap"
+
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func (r *RailService) FixRails(min, max int) {

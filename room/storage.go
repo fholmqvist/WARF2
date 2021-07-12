@@ -2,10 +2,11 @@ package room
 
 import (
 	"math"
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/globals"
-	"projects/games/warf2/resource"
-	m "projects/games/warf2/worldmap"
+
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/resource"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 type Storage struct {

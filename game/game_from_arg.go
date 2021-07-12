@@ -2,13 +2,14 @@ package game
 
 import (
 	"fmt"
-	"projects/games/warf2/dwarf"
-	"projects/games/warf2/globals"
-	"projects/games/warf2/mouse"
-	rail "projects/games/warf2/railservice"
-	"projects/games/warf2/room"
-	m "projects/games/warf2/worldmap"
 	"time"
+
+	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/mouse"
+	rail "github.com/Holmqvist1990/WARF2/railservice"
+	"github.com/Holmqvist1990/WARF2/room"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func gameFromArg(arg string) *Game {

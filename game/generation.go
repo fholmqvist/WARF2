@@ -3,12 +3,13 @@ package game
 import (
 	"fmt"
 	"math/rand"
-	d "projects/games/warf2/dwarf"
-	j "projects/games/warf2/jobservice"
-	"projects/games/warf2/mouse"
-	rail "projects/games/warf2/railservice"
-	"projects/games/warf2/ui"
-	m "projects/games/warf2/worldmap"
+
+	d "github.com/Holmqvist1990/WARF2/dwarf"
+	j "github.com/Holmqvist1990/WARF2/jobservice"
+	"github.com/Holmqvist1990/WARF2/mouse"
+	rail "github.com/Holmqvist1990/WARF2/railservice"
+	"github.com/Holmqvist1990/WARF2/ui"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func GenerateGame(dwarves int, worldmap *m.Map) Game {
