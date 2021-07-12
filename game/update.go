@@ -13,24 +13,7 @@ import (
 func (g *Game) Update(screen *ebiten.Image) error {
 	switch g.state {
 	case MainMenu:
-		menuState := g.ui.UpdateMainMenu()
-		switch menuState {
-		case -1:
-			return nil
-		case 0:
-			go func() {
-				// To prevent from mouseclick
-				// carrying over to game.
-				time.Sleep(time.Millisecond * 100)
-				g.state = Gameplay
-			}()
-		case 1:
-			panic("help not implemented")
-		case 2:
-			panic("this is not a graceful exit, but it sorta works?")
-		default:
-			panic(fmt.Sprintf("%d is not a valid return", menuState))
-		}
+		g.updateMainMenu()
 	case Gameplay:
 		// Only update state if
 		// player is actively playing.
@@ -50,7 +33,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 			return nil
 		}
 		g.UpdateDwarves()
-		g.JobService.Update(&g.Rooms)
+		g.JobService.Update(&g.Rooms, &g.WorldMap)
 		g.RailService.Update(&g.WorldMap)
 	}
 	return nil
@@ -66,14 +49,6 @@ func (g *Game) UpdateDwarves() {
 	for _, dwarf := range g.JobService.Workers {
 		dwarf.Needs.Update(dwarf.Characteristics)
 	}
-	/////////////////////////////////////////////////
-	// TODO
-	// Should be redesigned so that we get
-	// the highest desired need for each
-	// available dwarf, and assign a job to
-	// satisfy that need.
-	/////////////////////////////////////////////////
-	g.checkForReading()
 }
 
 func (g *Game) handleInput() {
@@ -83,4 +58,25 @@ func (g *Game) handleInput() {
 	}
 	g.mouseSystem.Handle(&g.WorldMap, &g.Rooms, &g.JobService.Workers)
 	HandleKeyboard(g)
+}
+
+func (g *Game) updateMainMenu() {
+	menuState := g.ui.UpdateMainMenu()
+	switch menuState {
+	case -1:
+		return
+	case 0:
+		go func() {
+			// To prevent from mouseclick
+			// carrying over to game.
+			time.Sleep(time.Millisecond * 100)
+			g.state = Gameplay
+		}()
+	case 1:
+		panic("help not implemented")
+	case 2:
+		panic("this is not a graceful exit, but it sorta works?")
+	default:
+		panic(fmt.Sprintf("%d is not a valid return", menuState))
+	}
 }

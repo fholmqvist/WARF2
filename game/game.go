@@ -79,31 +79,28 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func (g *Game) LoadAssets() {
-	worldTiles, _, err := ebitenutil.NewImageFromFile("art/world.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatalf("could not open file: %v", err)
+	var (
+		tilesets = []*ebiten.Image{}
+		paths    = []string{
+			"art/world.png",
+			"art/dwarf.png",
+			"art/rail.png",
+			"art/item.png",
+			"art/ui.png",
+		}
+	)
+	for _, path := range paths {
+		tiles, _, err := ebitenutil.NewImageFromFile(path, ebiten.FilterDefault)
+		if err != nil {
+			log.Fatalf("could not open file: %v", err)
+		}
+		tilesets = append(tilesets, tiles)
 	}
-	g.worldTiles = worldTiles
-	dwarfTiles, _, err := ebitenutil.NewImageFromFile("art/dwarf.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatalf("could not open file: %v", err)
-	}
-	g.dwarfTiles = dwarfTiles
-	railTiles, _, err := ebitenutil.NewImageFromFile("art/rail.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatalf("could not open file: %v", err)
-	}
-	g.railTiles = railTiles
-	itemTiles, _, err := ebitenutil.NewImageFromFile("art/item.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatalf("could not open file: %v", err)
-	}
-	g.itemTiles = itemTiles
-	uiTiles, _, err := ebitenutil.NewImageFromFile("art/ui.png", ebiten.FilterDefault)
-	if err != nil {
-		log.Fatalf("could not open file: %v", err)
-	}
-	g.uiTiles = uiTiles
+	g.worldTiles = tilesets[0]
+	g.dwarfTiles = tilesets[1]
+	g.railTiles = tilesets[2]
+	g.itemTiles = tilesets[3]
+	g.uiTiles = tilesets[4]
 	setFont(g)
 }
 
