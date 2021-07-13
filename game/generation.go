@@ -14,6 +14,12 @@ import (
 )
 
 func GenerateGame(dwarves int, worldmap *m.Map) Game {
+	////////////////////////////////
+	// TODO
+	// Replace all inlined
+	// allocations to function
+	// calls, not only in this file.
+	////////////////////////////////
 	game := Game{
 		WorldMap:     worldmap,
 		Rooms:        &room.Service{},

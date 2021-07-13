@@ -1,5 +1,5 @@
 #!/bin/bash
-message="You need to actually run maintenance in order to have it run."
+message="Running without args."
 git add --all
 git commit -m "$message"
 git push

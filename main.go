@@ -23,7 +23,7 @@ func main() {
 		game = g.NewGame(args)
 
 	} else {
-		game = g.NewGame([]string{})
+		game = g.NewGame([]string{""})
 	}
 	ebiten.SetWindowSize(globals.ScreenWidth*zoom, globals.ScreenHeight*zoom)
 	ebiten.SetWindowTitle("GOWARF")
