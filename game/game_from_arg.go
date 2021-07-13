@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
@@ -184,14 +185,17 @@ func gameFromArg(arg string) *Game {
 		}
 		game.debugFunc = &f
 
-	case "clean":
+	case "maintain":
 		///////////////////////////////////////////////////////
-		// Various cleaning and correcting files.
+		// Runs procedures that clean and maintain
+		// generated files.
 		///////////////////////////////////////////////////////
 		fmt.Println("Cleaning names...")
 		ds := dwarf.NewService()
 		ds.CleanNames()
-		return nil
+		fmt.Println("Generating Todo file...")
+		globals.GenerateTodos()
+		os.Exit(3)
 
 	case "load":
 		///////////////////////////////////////////////////////

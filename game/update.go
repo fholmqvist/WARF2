@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/Holmqvist1990/WARF2/globals"
@@ -75,7 +76,7 @@ func (g *Game) updateMainMenu() {
 	case 1:
 		panic("help not implemented")
 	case 2:
-		panic("this is not a graceful exit, but it sorta works?")
+		os.Exit(3)
 	default:
 		panic(fmt.Sprintf("%d is not a valid return", menuState))
 	}

@@ -1,0 +1,39 @@
+job\carrying.go:48:
+	Obviously not great.
+
+jobservice\check_for_job.go:57:
+	Handle more than rocks.
+
+jobservice\check_for_job.go:64:
+	FloorBrick is _not_ an
+	adequate definition of storage.
+
+jobservice\check_for_job.go:92:
+	Handle more than rocks.
+
+jobservice\check_for_job.go:113:
+	FloorBrick is _not_ an
+	adequate definition of storage.
+
+mouse\mouse.go:74:
+	Setting and deleting rooms
+	removes items that are already
+	there.
+
+mouse\mouse.go:116:
+	Overlays, placeholders, highlights...
+
+room\storage.go:53:
+	This just picks a random
+	available storetile and
+	drops it there.
+	Perhaps it would be cooler
+	if the dwarf moves to the
+	new destination.
+
+room\storage_tile.go:19:
+	Switch amount on
+	resource type.
+
+ui\elements.go:51:
+	Height does nothing.

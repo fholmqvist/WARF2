@@ -42,8 +42,6 @@ Built with [Golang](https://golang.org/) and the [Ebiten](https://ebiten.org/) f
 
 ❌ Etc.
 
-
-
 ## What's with all the comments?
 
 The linter I used when first writing this was _very adament_ in enforcing a specific style

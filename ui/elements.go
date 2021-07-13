@@ -11,7 +11,7 @@ import (
 	"golang.org/x/image/font"
 )
 
-// Element wraps data for UI elements
+// Element wraps data for UI elements.
 type Element struct {
 	Text   string
 	X      int
