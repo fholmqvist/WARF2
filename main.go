@@ -20,11 +20,10 @@ func main() {
 	printLogo(args)
 	var game *g.Game
 	if len(args) > 0 {
-		game = g.NewGame(args[0])
+		game = g.NewGame(args)
 
 	} else {
-		noArgumentProvided := ""
-		game = g.NewGame(noArgumentProvided)
+		game = g.NewGame([]string{})
 	}
 	ebiten.SetWindowSize(globals.ScreenWidth*zoom, globals.ScreenHeight*zoom)
 	ebiten.SetWindowTitle("GOWARF")

@@ -2,7 +2,10 @@ package game
 
 import (
 	"fmt"
+	"io/fs"
 	"os"
+	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
@@ -13,13 +16,13 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-func gameFromArg(arg string) *Game {
+func gameFromArg(args []string) *Game {
 	var game Game
 	state := Gameplay
 
 	globals.DEBUG = true
 
-	switch arg {
+	switch args[0] {
 
 	case "library":
 		///////////////////////////////////////////////////////
@@ -190,11 +193,30 @@ func gameFromArg(arg string) *Game {
 		// Runs procedures that clean and maintain
 		// generated files.
 		///////////////////////////////////////////////////////
-		fmt.Println("Cleaning names...")
-		ds := dwarf.NewService()
-		ds.CleanNames()
-		fmt.Println("Generating Todo file...")
-		globals.GenerateTodos()
+		maintenance()
+		os.Exit(3)
+
+	case "git":
+		///////////////////////////////////////////////////////
+		// Runs maintenance.
+		// Adds changes to GIT with message.
+		///////////////////////////////////////////////////////
+
+		fmt.Println("Adding to GIT with comment:", args[1:])
+		file := "./push_to_git.sh"
+		f, _ := os.ReadFile(file)
+		lines := strings.Split(string(f), "\n")
+		lines[1] = "message=\"" + args[1]
+		for _, arg := range args[2:] {
+			lines[1] += " " + arg
+		}
+		lines[1] += "\""
+		os.WriteFile(file, []byte(strings.Join(lines, "\n")), fs.FileMode(os.O_TRUNC))
+		out, err := exec.Command("C:/Program Files/Git/usr/bin/sh.exe", file).Output()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(out, err)
 		os.Exit(3)
 
 	case "load":
@@ -222,4 +244,12 @@ func gameFromArg(arg string) *Game {
 	game.state = state
 	game.SetMouseMode(mouse.Normal)
 	return &game
+}
+
+func maintenance() {
+	fmt.Println("Cleaning names...")
+	ds := dwarf.NewService()
+	ds.CleanNames()
+	fmt.Println("Generating Todo file...")
+	globals.GenerateTodos()
 }
