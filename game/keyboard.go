@@ -1,8 +1,6 @@
 package game
 
 import (
-	"fmt"
-
 	"github.com/Holmqvist1990/WARF2/mouse"
 
 	e "github.com/hajimehoshi/ebiten"
@@ -13,28 +11,8 @@ import (
 // and updates the equivalent UI text(s).
 func (g *Game) SetMouseMode(mode mouse.Mode) {
 	g.mouseSystem.Mode = mode
-	mt := &g.ui.MouseMode.Text
-	state := ""
-
-	switch mode {
-
-	case mouse.Normal:
-		state = "WALL MODE"
-
-	case mouse.Storage:
-		state = "STORAGE"
-
-	case mouse.Library:
-		state = "LIBRARY"
-
-	case mouse.Delete:
-		state = "DELETE"
-
-	default:
-		fmt.Println("no such mouse mode:", mode)
-	}
-
-	*mt = "GOWARF - " + state
+	state := mode.String()
+	g.ui.MouseMode.Text = "GOWARF - " + state
 }
 
 func HandleKeyboard(g *Game) {

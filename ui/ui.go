@@ -25,10 +25,10 @@ type UI struct {
 
 func GenerateUI() UI {
 	buildMenuButtons := []ButtonTiled{
-		{Element: Element{Text: "Delete", X: 34, Y: 32 - 2, Width: 11, Height: 1, Color: textColor}},
-		{Element: Element{Text: "Library", X: 34, Y: 32 - 4, Width: 11, Height: 1, Color: textColor}},
-		{Element: Element{Text: "Storage", X: 34, Y: 32 - 6, Width: 11, Height: 1, Color: textColor}},
-		{Element: Element{Text: "Wall", X: 34, Y: 32 - 8, Width: 11, Height: 1, Color: textColor}},
+		{Element: Element{Text: mouse.Delete.String(), X: 34, Y: 32 - 2, Width: 11, Height: 1, Color: textColor}},
+		{Element: Element{Text: mouse.Library.String(), X: 34, Y: 32 - 4, Width: 11, Height: 1, Color: textColor}},
+		{Element: Element{Text: mouse.Storage.String(), X: 34, Y: 32 - 6, Width: 11, Height: 1, Color: textColor}},
+		{Element: Element{Text: mouse.Normal.String(), X: 34, Y: 32 - 8, Width: 11, Height: 1, Color: textColor}},
 	}
 	return UI{
 		MouseMode: NewMouseOverlay(),
