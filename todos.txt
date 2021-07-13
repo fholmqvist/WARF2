@@ -15,12 +15,20 @@ jobservice\check_for_job.go:113:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-mouse\mouse.go:55:
-	Setting and deleting rooms
-	removes items that are already
-	there.
+mouse\mouse.go:5:
+	Perhaps this entire system
+	should be baked into UI?
+	There are cross concerns here
+	where the UI now has mouse-over
+	and click functionality of its own,
+	splitting and duplicating efforts.
 
-mouse\mouse.go:97:
+mouse\mouse.go:65:
+	Setting and deleting rooms
+	removes items that are
+	already there.
+
+mouse\mouse.go:107:
 	Overlays, placeholders, highlights...
 
 room\storage.go:53:
@@ -37,3 +45,9 @@ room\storage_tile.go:19:
 
 ui\elements.go:51:
 	Height does nothing.
+
+worldmap\generation.go:97:
+	New feature:
+	Filling a room of the same type
+	should merge the two rooms,
+	extending the first.

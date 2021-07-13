@@ -16,7 +16,7 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-func gameFromArg(args []string) *Game {
+func initWithArgs(args []string) *Game {
 	var game Game
 	state := Gameplay
 	globals.DEBUG = true
@@ -193,6 +193,7 @@ func gameFromArg(args []string) *Game {
 		// Runs maintenance.
 		// Adds changes to GIT with message.
 		///////////////////////////////////////////////////////
+		maintenance()
 		fmt.Println("Adding to GIT with comment:", args[1:])
 		file := "./push_to_git.sh"
 		f, _ := os.ReadFile(file)

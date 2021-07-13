@@ -67,7 +67,7 @@ type Game struct {
 
 // NewGame returns a pointer to an instantiated and initiated game.
 func NewGame(args []string) *Game {
-	game := gameFromArg(args)
+	game := initWithArgs(args)
 	game.LoadAssets()
 	game.SaveGame()
 	return game
