@@ -212,11 +212,11 @@ func gameFromArg(args []string) *Game {
 		}
 		lines[1] += "\""
 		os.WriteFile(file, []byte(strings.Join(lines, "\n")), fs.FileMode(os.O_TRUNC))
-		out, err := exec.Command("C:/Program Files/Git/usr/bin/sh.exe", file).Output()
+		_, err := exec.Command("C:/Program Files/Git/usr/bin/sh.exe", file).Output()
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(out, err)
+		fmt.Println("Successfully added to GIT.")
 		os.Exit(3)
 
 	case "load":

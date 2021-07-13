@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Running the game with args [git message...] runs generators and pushes changes to Git with [message]."
+message="GIT cmd cleanup."
 git add --all
 git commit -m "$message"
 git push
