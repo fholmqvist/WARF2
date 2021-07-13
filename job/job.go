@@ -22,7 +22,6 @@ type Job interface {
 	PerformWork(*m.Map, []*dwarf.Dwarf) bool
 	Finish(*m.Map, *room.Service)
 	Priority() int
-
 	GetWorker() *dwarf.Dwarf
 	SetWorker(*dwarf.Dwarf)
 	GetDestinations() []int

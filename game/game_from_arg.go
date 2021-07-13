@@ -19,11 +19,8 @@ import (
 func gameFromArg(args []string) *Game {
 	var game Game
 	state := Gameplay
-
 	globals.DEBUG = true
-
 	switch args[0] {
-
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.
@@ -44,7 +41,6 @@ func gameFromArg(args []string) *Game {
 		d1.Characteristics.DesireToRead = 20
 		d2 := game.JobService.Workers[1]
 		d2.Characteristics.DesireToRead = 30
-
 	case "storage":
 		game = GenerateGame(0, m.BoundariesMap())
 		mp := game.WorldMap
@@ -59,32 +55,33 @@ func gameFromArg(args []string) *Game {
 			panic(ok)
 		}
 		fmt.Println(ns.Center)
-
 	case "walls":
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall and floor fills.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
 		mp := game.WorldMap
-
-		// Room 1.
-		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
-		mp.Tiles[globals.XYToIdx(5, 7)].Sprite = m.Ground
-		mp.Tiles[globals.XYToIdx(7, 5)].Sprite = m.Ground
-
-		// Room 2.
-		mp.DrawOutline(12, 5, 24, 12, m.WallSolid)
-		mp.Tiles[globals.XYToIdx(23, 8)].Sprite = m.Ground
-		mp.Tiles[globals.XYToIdx(16, 11)].Sprite = m.Ground
-
-		// Room 3.
-		mp.DrawOutline(26, 5, 38, 12, m.WallSolid)
-		mp.DrawOutline(32, 11, 38, 18, m.WallSolid)
-		mp.Tiles[536].Sprite = m.Ground
+		{
+			// Room 1.
+			mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
+			mp.Tiles[globals.XYToIdx(5, 7)].Sprite = m.Ground
+			mp.Tiles[globals.XYToIdx(7, 5)].Sprite = m.Ground
+		}
+		{
+			// Room 2.
+			mp.DrawOutline(12, 5, 24, 12, m.WallSolid)
+			mp.Tiles[globals.XYToIdx(23, 8)].Sprite = m.Ground
+			mp.Tiles[globals.XYToIdx(16, 11)].Sprite = m.Ground
+		}
+		{
+			// Room 3.
+			mp.DrawOutline(26, 5, 38, 12, m.WallSolid)
+			mp.DrawOutline(32, 11, 38, 18, m.WallSolid)
+			mp.Tiles[536].Sprite = m.Ground
+		}
 		for idx := 539; idx <= 542; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-
 		go func() {
 			time.Sleep(time.Millisecond * 500)
 			_ = mp.FloodFillRoom(6, 6, m.RandomFloorBrick)
@@ -92,7 +89,6 @@ func gameFromArg(args []string) *Game {
 			_ = mp.FloodFillRoom(27, 6, m.RandomFloorBrick)
 			mp.FixWalls()
 		}()
-
 	case "wall-debug":
 		///////////////////////////////////////////////////////
 		// Debugging pathfinding to wall digging
@@ -108,7 +104,6 @@ func gameFromArg(args []string) *Game {
 			game.JobService.Workers = append(game.JobService.Workers, d)
 		}
 		game.Rooms.AddStorage(mp, globals.XYToIdx(6, 6))
-
 	case "wall-stress":
 		///////////////////////////////////////////////////////
 		// Stress test for digging jobs.
@@ -124,7 +119,6 @@ func gameFromArg(args []string) *Game {
 		mp.DrawSquareSprite(2, 2, 4, 4, m.Ground)
 		mp.FixWalls()
 		game = GenerateGame(128, mp)
-
 	case "fill":
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall selection.
@@ -133,7 +127,6 @@ func gameFromArg(args []string) *Game {
 		mp := game.WorldMap
 		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
 		mp.FixWalls()
-
 	case "rails":
 		///////////////////////////////////////////////////////
 		// Debugging rails.
@@ -187,7 +180,6 @@ func gameFromArg(args []string) *Game {
 			}
 		}
 		game.debugFunc = &f
-
 	case "maintain":
 		///////////////////////////////////////////////////////
 		// Runs procedures that clean and maintain
@@ -201,7 +193,6 @@ func gameFromArg(args []string) *Game {
 		// Runs maintenance.
 		// Adds changes to GIT with message.
 		///////////////////////////////////////////////////////
-
 		fmt.Println("Adding to GIT with comment:", args[1:])
 		file := "./push_to_git.sh"
 		f, _ := os.ReadFile(file)
@@ -218,23 +209,19 @@ func gameFromArg(args []string) *Game {
 		}
 		fmt.Println("Successfully added to GIT.")
 		os.Exit(3)
-
 	case "load":
 		///////////////////////////////////////////////////////
 		// Load saved game.
 		///////////////////////////////////////////////////////
 		game = loadGame()
-
 	case "menu":
 		///////////////////////////////////////////////////////
 		// Main Menu.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(4, m.NormalMap())
 		state = MainMenu
-
 	case "game":
 		game = GenerateGame(4, m.NormalMap())
-
 	default:
 		game = GenerateGame(4, m.NormalMap())
 		state = MainMenu

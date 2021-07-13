@@ -76,9 +76,8 @@ func loadGame() Game {
 		sg.WorldMap.Items[i].Map = &sg.WorldMap
 	}
 	return Game{
-		WorldMap:   &sg.WorldMap,
-		JobService: &sg.JobService,
-
+		WorldMap:    &sg.WorldMap,
+		JobService:  &sg.JobService,
 		time:        Time{Frame: 1},
 		mouseSystem: &mouse.System{},
 		ui:          u.GenerateUI(),

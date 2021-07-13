@@ -102,12 +102,12 @@ func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 }
 
 func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
-	for _, jb := range j.Jobs {
-		c, ok := jb.(*job.Carrying)
+	for _, jb1 := range j.Jobs {
+		c1, ok := jb1.(*job.Carrying)
 		if !ok {
 			continue
 		}
-		if c.GetDestinations()[0] != idx {
+		if c1.GetDestinations()[0] != idx {
 			continue
 		}
 		////////////////////////////////////
@@ -123,7 +123,7 @@ func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 			if !ok {
 				continue
 			}
-			if c.GetDestinations()[0] == c2.GetDestinations()[0] {
+			if c1.GetDestinations()[0] == c2.GetDestinations()[0] {
 				return true
 			}
 		}

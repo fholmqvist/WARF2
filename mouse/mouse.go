@@ -2,6 +2,16 @@
 // mouse-oriented interactions.
 package mouse
 
+///////////////////////////////////////
+// TODO
+// Perhaps this entire system
+// should be baked into UI?
+// There are cross concerns here
+// where the UI now has mouse-over
+// and click functionality of its own,
+// splitting and duplicating efforts.
+///////////////////////////////////////
+
 import (
 	"fmt"
 
@@ -55,8 +65,8 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	/////////////////////////////////
 	// TODO
 	// Setting and deleting rooms
-	// removes items that are already
-	// there.
+	// removes items that are
+	// already there.
 	/////////////////////////////////
 	switch s.Mode {
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-message="GIT cmd cleanup."
+message="More todos, cleanup, formatting, refactors."
 git add --all
 git commit -m "$message"
 git push
