@@ -33,7 +33,7 @@ mouse\mouse.go:65:
 	removes items that are
 	already there.
 
-mouse\mouse.go:107:
+mouse\mouse.go:110:
 	Overlays, placeholders, highlights...
 
 room\storage.go:53:
@@ -51,7 +51,7 @@ room\storage_tile.go:19:
 ui\elements.go:51:
 	Height does nothing.
 
-worldmap\generation.go:97:
+worldmap\generation.go:74:
 	New feature:
 	Filling a room of the same type
 	should merge the two rooms,

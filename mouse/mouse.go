@@ -73,11 +73,14 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	case Normal:
 		noneMode(mp, dwarves, currentMousePos)
 
-	case Library:
-		rs.AddLibrary(mp, currentMousePos)
-
 	case Storage:
 		rs.AddStorage(mp, currentMousePos)
+
+	case Farm:
+		rs.AddFarm(mp, currentMousePos)
+
+	case Library:
+		rs.AddLibrary(mp, currentMousePos)
 
 	case Delete:
 		setHasClicked(currentMousePos)

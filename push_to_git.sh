@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Running without args."
+message="Farms WIP."
 git add --all
 git commit -m "$message"
 git push

@@ -6,29 +6,6 @@ import (
 	"github.com/Holmqvist1990/WARF2/globals"
 )
 
-func (mp *Map) SetFloorTile(x, y int) {
-	tile, ok := mp.GetTile(x, y)
-	if !ok {
-		return
-	}
-	if IsAnyWall(tile.Sprite) {
-		return
-	}
-	if IsFloorBrick(tile.Sprite) {
-		return
-	}
-	tile.Sprite = RandomWoodFloor()
-}
-
-func (mp *Map) SetFloorTileIdx(idx int) {
-	x, y := globals.IdxToXY(idx)
-	mp.SetFloorTile(x, y)
-}
-
-func (mp *Map) SetFloorTiles(x1, y1, x2, y2 int) {
-	mp.DrawSquareFunction(x1, y1, x2, y2, mp.SetFloorTile)
-}
-
 func RandomFloorBrick() int {
 	return rand.Intn(FloorBricks10-FloorBricks1+1) + FloorBricks1
 }

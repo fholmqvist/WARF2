@@ -6,15 +6,26 @@ type Mode int
 // Mode enum.
 const (
 	Normal Mode = iota
-
-	Library
 	Storage
-
+	Farm
+	Library
 	Delete
 )
 
-var ModeFromString = map[string]Mode{"Normal": Normal, "Library": Library, "Storage": Storage, "Delete": Delete}
+var ModeFromString = map[string]Mode{
+	"Normal":  Normal,
+	"Storage": Storage,
+	"Farm":    Farm,
+	"Library": Library,
+	"Delete":  Delete,
+}
 
 func (m Mode) String() string {
-	return []string{"Normal", "Library", "Storage", "Delete"}[m]
+	return []string{
+		"Normal",
+		"Storage",
+		"Farm",
+		"Library",
+		"Delete",
+	}[m]
 }

@@ -11,6 +11,7 @@ import (
 // and functionality related to rooms.
 type Service struct {
 	Storages  []Storage
+	Farms     []Farm
 	Libraries []Library
 }
 
@@ -23,12 +24,22 @@ func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
 	s.Libraries = append(s.Libraries, *l)
 }
 
+func (s *Service) AddFarm(mp *m.Map, currentMousePos int) {
+	x, y := globals.IdxToXY(currentMousePos)
+	f := NewFarm(mp, x, y)
+	if f == nil {
+		return
+	}
+	s.Farms = append(s.Farms, *f)
+}
+
 func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
 	x, y := globals.IdxToXY(currentMousePos)
 	st := NewStorage(mp, x, y)
-	if st != nil {
-		s.Storages = append(s.Storages, *st)
+	if st == nil {
+		return
 	}
+	s.Storages = append(s.Storages, *st)
 }
 
 func (s *Service) FindNearestStorage(mp *m.Map, x, y int) (*Storage, int, bool) {

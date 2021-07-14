@@ -21,40 +21,13 @@ func initWithArgs(args []string) *Game {
 	state := Gameplay
 	globals.DEBUG = true
 	switch args[0] {
-	case "library":
+	case "fill":
 		///////////////////////////////////////////////////////
-		// Debugging and testing library generation.
+		// Debugging and testing wall selection.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(0, emptyMap())
-		game.WorldMap.DrawOutline(6, 5, 38, 14, m.WallSolid)
-		game.WorldMap.DrawOutline(24, 13, 38, 22, m.WallSolid)
-		game.WorldMap.Tiles[252].Sprite = m.Ground
-		game.WorldMap.Tiles[620].Sprite = m.Ground
-		for idx := 623; idx <= 634; idx++ {
-			game.WorldMap.Tiles[idx].Sprite = m.Ground
-		}
-		game.Rooms.AddLibrary(game.WorldMap, globals.XYToIdx(7, 7))
-		game.WorldMap.FixWalls()
-		addDwarfToGame(&game, "Test 1")
-		addDwarfToGame(&game, "Test 2")
-		d1 := game.JobService.Workers[0]
-		d1.Characteristics.DesireToRead = 20
-		d2 := game.JobService.Workers[1]
-		d2.Characteristics.DesireToRead = 30
-	case "storage":
 		game = GenerateGame(0, m.BoundariesMap())
 		mp := game.WorldMap
-		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
-		mp.DrawOutline(20, 5, 25, 10, m.WallSolid)
-		s1 := room.NewStorage(mp, 6, 6)
-		s2 := room.NewStorage(mp, 21, 6)
-		game.Rooms.Storages = append(game.Rooms.Storages, *s1)
-		game.Rooms.Storages = append(game.Rooms.Storages, *s2)
-		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1)
-		if !ok {
-			panic(ok)
-		}
-		fmt.Println(ns.Center)
+		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
 	case "walls":
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall and floor fills.
@@ -87,7 +60,6 @@ func initWithArgs(args []string) *Game {
 			_ = mp.FloodFillRoom(6, 6, m.RandomFloorBrick)
 			_ = mp.FloodFillRoom(13, 6, m.RandomFloorBrick)
 			_ = mp.FloodFillRoom(27, 6, m.RandomFloorBrick)
-			mp.FixWalls()
 		}()
 	case "wall-debug":
 		///////////////////////////////////////////////////////
@@ -117,16 +89,51 @@ func initWithArgs(args []string) *Game {
 		}
 		mp.DrawSquareSprite(42, 26, 44, 28, m.Ground)
 		mp.DrawSquareSprite(2, 2, 4, 4, m.Ground)
-		mp.FixWalls()
 		game = GenerateGame(128, mp)
-	case "fill":
-		///////////////////////////////////////////////////////
-		// Debugging and testing wall selection.
-		///////////////////////////////////////////////////////
+	case "storage":
 		game = GenerateGame(0, m.BoundariesMap())
 		mp := game.WorldMap
-		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
-		mp.FixWalls()
+		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
+		mp.DrawOutline(20, 5, 25, 10, m.WallSolid)
+		s1 := room.NewStorage(mp, 6, 6)
+		s2 := room.NewStorage(mp, 21, 6)
+		game.Rooms.Storages = append(game.Rooms.Storages, *s1)
+		game.Rooms.Storages = append(game.Rooms.Storages, *s2)
+		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1)
+		if !ok {
+			panic(ok)
+		}
+		fmt.Println(ns.Center)
+	case "farm":
+		game = GenerateGame(0, m.BoundariesMap())
+		mp := game.WorldMap
+		mp.DrawOutline(6, 5, 38, 14, m.WallSolid)
+		mp.DrawOutline(24, 13, 38, 22, m.WallSolid)
+		mp.Tiles[620].Sprite = m.Ground
+		for idx := 623; idx <= 634; idx++ {
+			game.WorldMap.Tiles[idx].Sprite = m.Ground
+		}
+		f := room.NewFarm(mp, 7, 7)
+		game.Rooms.Farms = append(game.Rooms.Farms, *f)
+	case "library":
+		///////////////////////////////////////////////////////
+		// Debugging and testing library generation.
+		///////////////////////////////////////////////////////
+		game = GenerateGame(0, emptyMap())
+		game.WorldMap.DrawOutline(6, 5, 38, 14, m.WallSolid)
+		game.WorldMap.DrawOutline(24, 13, 38, 22, m.WallSolid)
+		game.WorldMap.Tiles[252].Sprite = m.Ground
+		game.WorldMap.Tiles[620].Sprite = m.Ground
+		for idx := 623; idx <= 634; idx++ {
+			game.WorldMap.Tiles[idx].Sprite = m.Ground
+		}
+		game.Rooms.AddLibrary(game.WorldMap, globals.XYToIdx(7, 7))
+		addDwarfToGame(&game, "Test 1")
+		addDwarfToGame(&game, "Test 2")
+		d1 := game.JobService.Workers[0]
+		d1.Characteristics.DesireToRead = 20
+		d2 := game.JobService.Workers[1]
+		d2.Characteristics.DesireToRead = 30
 	case "rails":
 		///////////////////////////////////////////////////////
 		// Debugging rails.
@@ -231,6 +238,7 @@ func initWithArgs(args []string) *Game {
 	}
 	game.state = state
 	game.SetMouseMode(mouse.Normal)
+	game.WorldMap.FixWalls()
 	return &game
 }
 

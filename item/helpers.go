@@ -29,3 +29,11 @@ func IsLibraryItem(sprite int) bool {
 func IsCrumbledWall(sprite int) bool {
 	return sprite >= WallCrumbled1 && sprite <= WallCrumbled4
 }
+
+func IsFarmSingle(sprite int) bool {
+	return sprite == FarmSingleEmpty
+}
+
+func IsFarmRight(sprite int) bool {
+	return sprite == FarmRightEmpty
+}

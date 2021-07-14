@@ -29,3 +29,24 @@ const (
 	Table
 	ChairRight
 )
+const (
+	FarmSingleEmpty = iota + globals.TilesetW*2
+	FarmLeftEmpty
+	FarmMiddleEmpty
+	FarmRightEmpty
+
+	FarmSingleWheat1
+	FarmLeftWheat1
+	FarmMiddleWheat1
+	FarmRightWheat1
+
+	FarmSingleWheat2
+	FarmLeftWheat2
+	FarmMiddleWheat2
+	FarmRightWheat2
+
+	FarmSingleWheat3
+	FarmLeftWheat3
+	FarmMiddleWheat3
+	FarmRightWheat3
+)
