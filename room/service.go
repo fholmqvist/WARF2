@@ -15,6 +15,12 @@ type Service struct {
 	Libraries []Library
 }
 
+func (s *Service) Update(mp *m.Map) {
+	for _, f := range s.Farms {
+		f.Update(mp)
+	}
+}
+
 func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
 	x, y := globals.IdxToXY(currentMousePos)
 	l := NewLibrary(mp, x, y)

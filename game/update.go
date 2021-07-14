@@ -36,6 +36,10 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		g.UpdateDwarves()
 		g.JobService.Update(g.Rooms, g.WorldMap)
 		g.RailService.Update(g.WorldMap)
+		if !g.time.QuarterCycle() {
+			return nil
+		}
+		g.Rooms.Update(g.WorldMap)
 	}
 	return nil
 }

@@ -69,7 +69,7 @@ func (l *Library) placeItems(mp *m.Map, t m.Tile, firstRow int, lastShelfRow int
 }
 
 func (l *Library) generateBookshelves(mp *m.Map, t m.Tile) {
-	earlyExists := []bool{
+	skips := []bool{
 		m.IsDoorOpening(mp, m.OneTileUp(t.Idx)),
 		m.IsDoorOpening(mp, m.OneTileDown(t.Idx)),
 		m.IsDoorOpening(mp, m.OneTileLeft(t.Idx)),
@@ -78,8 +78,8 @@ func (l *Library) generateBookshelves(mp *m.Map, t m.Tile) {
 		m.IsAnyWall(mp.OneTileDownLeft(t.Idx).Sprite),
 		m.IsAnyWall(mp.OneTileDownRight(t.Idx).Sprite),
 	}
-	for _, ee := range earlyExists {
-		if ee {
+	for _, skip := range skips {
+		if skip {
 			return
 		}
 	}

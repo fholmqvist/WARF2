@@ -52,6 +52,17 @@ func (t *Time) NewCycle() bool {
 	return t.Frame == 0
 }
 
+// Half a game cycle has passed.
+func (t *Time) HalfCycle() bool {
+	return t.NewCycle() || t.Frame == globals.CycleLength/2
+}
+
+// A quarter of a game cycle has passed.
+func (t *Time) QuarterCycle() bool {
+	return t.NewCycle() || t.Frame == globals.CycleLength/4 ||
+		t.Frame == globals.CycleLength/4*2 || t.Frame == globals.CycleLength/4*3
+}
+
 // Stops time from incrementing.
 func (t *Time) Stop() {
 	t.stop = !t.stop
