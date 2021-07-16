@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Farms grow."
+message="Green farms."
 git add --all
 git commit -m "$message"
 git push
