@@ -7,12 +7,13 @@ import (
 )
 
 type Farming struct {
+	FarmID       string
 	dwarf        *dwarf.Dwarf
 	destinations []int
 }
 
-func NewFarming(destinations []int) *Farming {
-	return &Farming{nil, destinations}
+func NewFarming(farmID string, destinations []int) *Farming {
+	return &Farming{farmID, nil, destinations}
 }
 
 func (d *Farming) NeedsToBeRemoved(mp *m.Map) bool {

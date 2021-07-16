@@ -37,6 +37,7 @@ func (j *JobService) Update(rs *room.Service, mp *m.Map) {
 	/* ---------------------------------- Check --------------------------------- */
 	j.checkForDiggingJobs()
 	j.checkForCarryingJobs(rs)
+	j.checkForFarmingJobs(rs)
 	j.checkForReading(mp)
 
 	/* ----------------------------- Assign and work ---------------------------- */

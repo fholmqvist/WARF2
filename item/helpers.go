@@ -30,6 +30,36 @@ func IsCrumbledWall(sprite int) bool {
 	return sprite >= WallCrumbled1 && sprite <= WallCrumbled4
 }
 
+func IsFarm(sprite int) bool {
+	for _, tile := range []int{
+		FarmLeftEmpty,
+		FarmMiddleEmpty,
+		FarmRightEmpty,
+		FarmSingleEmpty,
+		FarmLeftWheat1,
+		FarmMiddleWheat1,
+		FarmRightWheat1,
+		FarmSingleWheat1,
+		FarmLeftWheat2,
+		FarmMiddleWheat2,
+		FarmRightWheat2,
+		FarmSingleWheat2,
+		FarmLeftWheat3,
+		FarmMiddleWheat3,
+		FarmRightWheat3,
+		FarmSingleWheat3,
+		FarmLeftWheat4,
+		FarmMiddleWheat4,
+		FarmRightWheat4,
+		FarmSingleWheat4,
+	} {
+		if sprite == tile {
+			return true
+		}
+	}
+	return false
+}
+
 func IsFarmSingle(sprite int) bool {
 	return sprite == FarmSingleEmpty
 }

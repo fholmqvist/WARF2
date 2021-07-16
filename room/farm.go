@@ -8,6 +8,7 @@ import (
 )
 
 type Farm struct {
+	ID    string
 	tiles m.Tiles
 }
 
@@ -22,6 +23,7 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 	for _, t := range f.tiles {
 		f.placeFarm(mp, t)
 	}
+	f.ID = tiles.String()
 	return f
 }
 
@@ -72,7 +74,15 @@ func (f *Farm) Update(mp *m.Map) {
 }
 
 func (f *Farm) ShouldHarvest() (m.Tiles, bool) {
-	if !item.IsFarmHarvestable(f.tiles[0].Idx) {
+	farmTile := m.Tile{}
+	for _, tile := range f.tiles {
+		if !item.IsFarm(tile.Sprite) {
+			continue
+		}
+		farmTile = tile
+		break
+	}
+	if !item.IsFarmHarvestable(farmTile.Sprite) {
 		return nil, false
 	}
 	return f.tiles, true

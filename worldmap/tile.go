@@ -1,6 +1,8 @@
 package worldmap
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/resource"
 )
@@ -31,6 +33,14 @@ func (t Tiles) ToIdxs() []int {
 		idxs[i] = tile.Idx
 	}
 	return idxs
+}
+
+func (t Tiles) String() string {
+	s := ""
+	for _, tile := range t {
+		s += fmt.Sprint(tile.Idx)
+	}
+	return s
 }
 
 // Returns a new tile at the
