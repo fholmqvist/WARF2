@@ -25,6 +25,14 @@ func (t Tiles) Len() int           { return len(t) }
 func (t Tiles) Less(i, j int) bool { return t[i].Idx < t[j].Idx }
 func (t Tiles) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
 
+func (t Tiles) ToIdxs() []int {
+	idxs := make([]int, len(t))
+	for i, tile := range t {
+		idxs[i] = tile.Idx
+	}
+	return idxs
+}
+
 // Returns a new tile at the
 // given index with the given sprite.
 func CreateTile(idx, spr int, m *Map) Tile {

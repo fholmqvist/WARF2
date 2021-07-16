@@ -54,4 +54,6 @@ const (
 	FarmLeftWheat4
 	FarmMiddleWheat4
 	FarmRightWheat4
+
+	Wheat
 )

@@ -71,6 +71,13 @@ func (f *Farm) Update(mp *m.Map) {
 	}
 }
 
+func (f *Farm) ShouldHarvest() (m.Tiles, bool) {
+	if !item.IsFarmHarvestable(f.tiles[0].Idx) {
+		return nil, false
+	}
+	return f.tiles, true
+}
+
 func (f *Farm) placeFarm(mp *m.Map, t m.Tile) {
 	skips := []bool{
 		m.IsAnyWall(mp.OneTileLeft(t.Idx).Sprite),

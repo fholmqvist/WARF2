@@ -21,7 +21,7 @@ type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
 	PerformWork(*m.Map, []*dwarf.Dwarf) bool
 	Finish(*m.Map, *room.Service)
-	Priority() int
+	Priority() int // Ascending importance.
 	GetWorker() *dwarf.Dwarf
 	SetWorker(*dwarf.Dwarf)
 	GetDestinations() []int

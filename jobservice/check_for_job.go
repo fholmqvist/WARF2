@@ -130,3 +130,13 @@ func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 	}
 	return false
 }
+
+func (j *JobService) checkForFarmingJobs(rs *room.Service) {
+	for _, farm := range rs.Farms {
+		tiles, should := farm.ShouldHarvest()
+		if !should {
+			continue
+		}
+		j.Jobs = append(j.Jobs, job.NewFarming(tiles.ToIdxs()))
+	}
+}

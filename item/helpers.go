@@ -37,3 +37,12 @@ func IsFarmSingle(sprite int) bool {
 func IsFarmRight(sprite int) bool {
 	return sprite == FarmRightEmpty
 }
+
+func IsFarmHarvestable(sprite int) bool {
+	for _, tile := range []int{FarmLeftWheat4, FarmMiddleWheat4, FarmRightWheat4, FarmSingleWheat4} {
+		if sprite == tile {
+			return true
+		}
+	}
+	return false
+}
