@@ -6,6 +6,9 @@ game\generation.go:17:
 job\carrying.go:48:
 	Obviously not great.
 
+job\farming.go:46:
+	Teleport!
+
 jobservice\check_for_job.go:55:
 	Handle more than rocks.
 

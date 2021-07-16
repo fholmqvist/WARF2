@@ -1,9 +1,8 @@
 package job
 
 import (
-	"fmt"
-
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -32,14 +31,31 @@ func (d *Farming) Finish(*m.Map, *room.Service) {
 
 // Ran on arrival.
 func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
+	if len(f.destinations) == 0 {
+		return true
+	}
 	if f.dwarf == nil {
 		return false
 	}
-	if f.dwarf.Idx != f.destinations[0] {
+	lastIdx := f.destinations[len(f.destinations)-1]
+	if f.dwarf.Idx != lastIdx {
 		return false
 	}
-	fmt.Println("WORKING")
-	return true
+	mp.Items[lastIdx].Sprite = item.Wheat
+	f.destinations = f.destinations[:len(f.destinations)-1]
+	////////////
+	// TODO
+	// Teleport!
+	////////////
+	if len(f.destinations) == 0 {
+		return true
+	}
+	if len(f.destinations) == 1 {
+		f.dwarf.Idx = f.destinations[0]
+	} else {
+		f.dwarf.Idx = f.destinations[len(f.destinations)-1]
+	}
+	return false
 }
 
 func (f *Farming) Priority() int {
