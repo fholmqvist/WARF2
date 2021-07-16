@@ -21,14 +21,13 @@ func init() {
 
 type Time struct {
 	Frame        int
-	stop         bool
 	framesToMove int
 }
 
 // Decriments until one cycle
 // has been consumed, then resets.
 func (t *Time) Tick() bool {
-	if t.stop {
+	if globals.PAUSE_GAME {
 		return false
 	}
 	t.Frame--
@@ -61,9 +60,4 @@ func (t *Time) HalfCycle() bool {
 func (t *Time) QuarterCycle() bool {
 	return t.NewCycle() || t.Frame == globals.CycleLength/4 ||
 		t.Frame == globals.CycleLength/4*2 || t.Frame == globals.CycleLength/4*3
-}
-
-// Stops time from incrementing.
-func (t *Time) Stop() {
-	t.stop = !t.stop
 }

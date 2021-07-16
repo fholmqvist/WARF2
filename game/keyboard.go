@@ -1,6 +1,7 @@
 package game
 
 import (
+	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/mouse"
 
 	e "github.com/hajimehoshi/ebiten"
@@ -17,7 +18,7 @@ func (g *Game) SetMouseMode(mode mouse.Mode) {
 
 func HandleKeyboard(g *Game) {
 	if i.IsKeyJustPressed(e.KeySpace) {
-		g.time.Stop()
+		globals.PAUSE_GAME = true
 	}
 	handleTileSettingInput(g)
 }

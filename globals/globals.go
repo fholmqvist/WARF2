@@ -18,5 +18,6 @@ const (
 )
 
 var (
-	DEBUG = false
+	DEBUG      = false
+	PAUSE_GAME = false
 )

@@ -63,7 +63,7 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
 	if len(c.path) == 0 {
 		return finished
 	}
-	moveDwarf(c, mp)
+	moveAlongPath(c, mp)
 	return unfinished
 }
 
@@ -106,7 +106,7 @@ func setupPath(c *Carrying, mp *m.Map) bool {
 	return true
 }
 
-func moveDwarf(c *Carrying, mp *m.Map) {
+func moveAlongPath(c *Carrying, mp *m.Map) {
 	// Move indexes to current path index.
 	c.dwarf.Idx = c.path[0]
 	c.destinations[0] = c.path[0]

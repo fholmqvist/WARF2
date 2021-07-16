@@ -7,10 +7,8 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-var farmID = 0
-
 type Farm struct {
-	ID       int
+	ID       int     // First tile.
 	tileIdxs []int   // To be indexed against Worldmap.
 	farmTile *m.Tile // Knows when farm has reached maturity.
 }
@@ -22,6 +20,7 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 		return nil
 	}
 	sort.Sort(tiles)
+	f.ID = tiles[0].Idx
 	f.tileIdxs = tiles.ToIdxs()
 	for _, t := range tiles {
 		f.placeFarm(mp, t)
@@ -33,8 +32,6 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 		}
 		f.farmTile = &mp.Items[t.Idx]
 	}
-	f.ID = farmID
-	farmID++
 	return f
 }
 

@@ -105,7 +105,7 @@ func initWithArgs(args []string) *Game {
 		}
 		fmt.Println(ns.Center)
 	case "farm":
-		game = GenerateGame(0, m.BoundariesMap())
+		game = GenerateGame(2, m.BoundariesMap())
 		mp := game.WorldMap
 		mp.DrawOutline(6, 5, 38, 14, m.WallSolid)
 		mp.DrawOutline(24, 13, 38, 22, m.WallSolid)

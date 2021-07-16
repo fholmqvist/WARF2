@@ -2,10 +2,10 @@ package dwarf
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 
 	e "github.com/Holmqvist1990/WARF2/entity"
+	"github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -51,9 +51,9 @@ func (d *Dwarf) randomWalk(mp *m.Map) {
 	if rand.Intn(100) > 90 {
 		dir, err := m.GetDirection(rand.Intn(4))
 		if err != nil {
-			log.Fatal(err)
+			globals.PAUSE_GAME = true
+			fmt.Println(err)
 		}
-
 		d.Move(mp, &d.Entity, dir)
 	}
 }
@@ -69,7 +69,8 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 	}
 	dir, err := m.NextIdxToDir(d.Idx, next)
 	if err != nil {
-		log.Fatal(err)
+		globals.PAUSE_GAME = true
+		fmt.Println(err)
 	}
 	if d.Move(mp, &d.Entity, dir) {
 		d.Path = d.Path[1:]

@@ -6,9 +6,6 @@ game\generation.go:17:
 job\carrying.go:48:
 	Obviously not great.
 
-job\farming.go:46:
-	Teleport!
-
 jobservice\check_for_job.go:55:
 	Handle more than rocks.
 
@@ -22,6 +19,11 @@ jobservice\check_for_job.go:90:
 jobservice\check_for_job.go:111:
 	FloorBrick is _not_ an
 	adequate definition of storage.
+
+jobservice\check_for_job.go:133:
+	After having harvested all tiles,
+	there should be a new job 'SowFarm'
+	to restart the farm again.
 
 mouse\mouse.go:5:
 	Perhaps this entire system

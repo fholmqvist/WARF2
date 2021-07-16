@@ -130,6 +130,12 @@ func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 }
 
 func (j *JobService) checkForFarmingJobs(rs *room.Service) {
+	//////////////////////////////////////
+	// TODO
+	// After having harvested all tiles,
+	// there should be a new job 'SowFarm'
+	// to restart the farm again.
+	//////////////////////////////////////
 	for _, farm := range rs.Farms {
 		idxs, should := farm.ShouldHarvest(j.Map)
 		if !should {

@@ -112,10 +112,13 @@ func (j *JobService) performWork() {
 			}
 		}
 		if !hasArrived {
-			if len(d.Path) == 0 {
+			if len(d.Path) == 0 && jb.NeedsToBeRemoved(j.Map) {
 				d.SetToAvailable()
+				continue
 			}
-			continue
+			if _, ok := jb.(*job.Farming); !ok {
+				continue
+			}
 		}
 		finished := false
 		switch jb.(type) {
