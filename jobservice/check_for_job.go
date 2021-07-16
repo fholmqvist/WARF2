@@ -1,8 +1,6 @@
 package jobservice
 
 import (
-	"fmt"
-
 	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -133,15 +131,14 @@ func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 
 func (j *JobService) checkForFarmingJobs(rs *room.Service) {
 	for _, farm := range rs.Farms {
-		tiles, should := farm.ShouldHarvest()
+		idxs, should := farm.ShouldHarvest()
 		if !should {
 			continue
 		}
 		if j.farmJobAlreadyExists(farm) {
 			continue
 		}
-		j.Jobs = append(j.Jobs, job.NewFarming(farm.ID, tiles.ToIdxs()))
-		fmt.Println("NEW FARM JOB", farm.ID)
+		j.Jobs = append(j.Jobs, job.NewFarming(farm.ID, idxs))
 	}
 }
 

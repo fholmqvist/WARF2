@@ -6,17 +6,17 @@ game\generation.go:17:
 job\carrying.go:48:
 	Obviously not great.
 
-jobservice\check_for_job.go:57:
+jobservice\check_for_job.go:55:
 	Handle more than rocks.
 
-jobservice\check_for_job.go:64:
+jobservice\check_for_job.go:62:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\check_for_job.go:92:
+jobservice\check_for_job.go:90:
 	Handle more than rocks.
 
-jobservice\check_for_job.go:113:
+jobservice\check_for_job.go:111:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 

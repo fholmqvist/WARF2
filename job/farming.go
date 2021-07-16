@@ -7,12 +7,12 @@ import (
 )
 
 type Farming struct {
-	FarmID       string
+	FarmID       int
 	dwarf        *dwarf.Dwarf
 	destinations []int
 }
 
-func NewFarming(farmID string, destinations []int) *Farming {
+func NewFarming(farmID int, destinations []int) *Farming {
 	return &Farming{farmID, nil, destinations}
 }
 

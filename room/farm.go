@@ -7,9 +7,12 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+var farmID = 0
+
 type Farm struct {
-	ID    string
-	tiles m.Tiles
+	ID       int
+	tileIdxs []int
+	farmTile *m.Tile
 }
 
 func NewFarm(mp *m.Map, x, y int) *Farm {
@@ -19,17 +22,24 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 		return nil
 	}
 	sort.Sort(tiles)
-	f.tiles = tiles
-	for _, t := range f.tiles {
+	f.tileIdxs = tiles.ToIdxs()
+	for _, t := range tiles {
 		f.placeFarm(mp, t)
+		if item.IsFarm(mp.Items[t.Idx].Sprite) {
+			f.farmTile = &mp.Items[t.Idx]
+		}
 	}
-	f.ID = tiles.String()
+	if f.farmTile == nil {
+		panic("null farmTile")
+	}
+	f.ID = farmID
+	farmID++
 	return f
 }
 
 func (f *Farm) Update(mp *m.Map) {
-	for _, t := range f.tiles {
-		tile := &mp.Items[t.Idx]
+	for _, tIdx := range f.tileIdxs {
+		tile := &mp.Items[tIdx]
 		if tile.Sprite == 0 {
 			continue
 		}
@@ -73,19 +83,11 @@ func (f *Farm) Update(mp *m.Map) {
 	}
 }
 
-func (f *Farm) ShouldHarvest() (m.Tiles, bool) {
-	farmTile := m.Tile{}
-	for _, tile := range f.tiles {
-		if !item.IsFarm(tile.Sprite) {
-			continue
-		}
-		farmTile = tile
-		break
-	}
-	if !item.IsFarmHarvestable(farmTile.Sprite) {
+func (f *Farm) ShouldHarvest() ([]int, bool) {
+	if !item.IsFarmHarvestable(f.farmTile.Sprite) {
 		return nil, false
 	}
-	return f.tiles, true
+	return f.tileIdxs, true
 }
 
 func (f *Farm) placeFarm(mp *m.Map, t m.Tile) {
