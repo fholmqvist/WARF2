@@ -131,7 +131,7 @@ func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 
 func (j *JobService) checkForFarmingJobs(rs *room.Service) {
 	for _, farm := range rs.Farms {
-		idxs, should := farm.ShouldHarvest()
+		idxs, should := farm.ShouldHarvest(j.Map)
 		if !should {
 			continue
 		}

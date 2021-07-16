@@ -11,8 +11,8 @@ var farmID = 0
 
 type Farm struct {
 	ID       int
-	tileIdxs []int
-	farmTile *m.Tile
+	tileIdxs []int   // To be indexed against Worldmap.
+	farmTile *m.Tile // Knows when farm has reached maturity.
 }
 
 func NewFarm(mp *m.Map, x, y int) *Farm {
@@ -25,12 +25,13 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 	f.tileIdxs = tiles.ToIdxs()
 	for _, t := range tiles {
 		f.placeFarm(mp, t)
-		if item.IsFarm(mp.Items[t.Idx].Sprite) {
-			f.farmTile = &mp.Items[t.Idx]
+		if f.farmTile != nil {
+			continue
 		}
-	}
-	if f.farmTile == nil {
-		panic("null farmTile")
+		if !item.IsFarm(mp.Items[t.Idx].Sprite) {
+			continue
+		}
+		f.farmTile = &mp.Items[t.Idx]
 	}
 	f.ID = farmID
 	farmID++
@@ -83,11 +84,23 @@ func (f *Farm) Update(mp *m.Map) {
 	}
 }
 
-func (f *Farm) ShouldHarvest() ([]int, bool) {
+func (f *Farm) ShouldHarvest(mp *m.Map) ([]int, bool) {
 	if !item.IsFarmHarvestable(f.farmTile.Sprite) {
 		return nil, false
 	}
-	return f.tileIdxs, true
+	return f.GetHarvestIdxs(mp), true
+}
+
+func (f *Farm) GetHarvestIdxs(mp *m.Map) []int {
+	idxs := []int{}
+	for _, tIdx := range f.tileIdxs {
+		if !item.IsFarm(mp.Items[tIdx].Sprite) {
+			continue
+		}
+		idxs = append(idxs, tIdx)
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(idxs)))
+	return idxs
 }
 
 func (f *Farm) placeFarm(mp *m.Map, t m.Tile) {

@@ -1,6 +1,8 @@
 package job
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -36,6 +38,7 @@ func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
 	if f.dwarf.Idx != f.destinations[0] {
 		return false
 	}
+	fmt.Println("WORKING")
 	return true
 }
 
