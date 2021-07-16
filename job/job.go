@@ -14,6 +14,18 @@ const (
 	unfinished = false
 )
 
+///////////////////////////////////
+// TODO
+// This interface is crap.
+// In fact, jobs in general
+// need to be revamped.
+// Expand WorkStates to include
+// more types of walking so that
+// we can simplify mid-work walking
+// logic and generally just remove
+// this crap interface.
+///////////////////////////////////
+
 // Job declares the common interface
 // for jobs, in order to be used within
 // the job service.

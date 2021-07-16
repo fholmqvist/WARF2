@@ -14,6 +14,12 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+//////////////////////////////
+// TODO
+// This is horribly wasteful.
+// Rewrite to a better format.
+//////////////////////////////
+
 // SaveGame defines the equivalent
 // struct of game that is safe for
 // marshaling to JSON.

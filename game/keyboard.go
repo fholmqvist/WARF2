@@ -18,7 +18,7 @@ func (g *Game) SetMouseMode(mode mouse.Mode) {
 
 func HandleKeyboard(g *Game) {
 	if i.IsKeyJustPressed(e.KeySpace) {
-		globals.PAUSE_GAME = true
+		globals.PAUSE_GAME = !globals.PAUSE_GAME
 	}
 	handleTileSettingInput(g)
 }

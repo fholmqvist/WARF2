@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Farming works!"
+message="Smol refactors, comments."
 git add --all
 git commit -m "$message"
 git push

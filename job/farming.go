@@ -33,10 +33,10 @@ func (d *Farming) Finish(*m.Map, *room.Service) {
 // Ran on arrival.
 func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
 	if len(f.destinations) == 0 {
-		return true
+		return finished
 	}
 	if f.dwarf == nil {
-		return false
+		return unfinished
 	}
 	return f.moveDwarf(mp)
 }
@@ -55,10 +55,6 @@ func (f *Farming) SetWorker(dw *dwarf.Dwarf) {
 
 func (f *Farming) GetDestinations() []int {
 	return f.destinations
-}
-
-func (f *Farming) GetWallIdx() int {
-	return -1
 }
 
 func (f *Farming) String() string {

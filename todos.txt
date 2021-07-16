@@ -3,8 +3,22 @@ game\generation.go:17:
 	allocations to function
 	calls, not only in this file.
 
+game\saveload.go:17:
+	This is horribly wasteful.
+	Rewrite to a better format.
+
 job\carrying.go:48:
 	Obviously not great.
+
+job\job.go:17:
+	This interface is crap.
+	In fact, jobs in general
+	need to be revamped.
+	Expand WorkStates to include
+	more types of walking so that
+	we can simplify mid-work walking
+	logic and generally just remove
+	this crap interface.
 
 jobservice\check_for_job.go:55:
 	Handle more than rocks.
