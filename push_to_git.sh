@@ -1,5 +1,5 @@
 #!/bin/bash
-message="PlantFarm. Moved some items to globals due to import cycle not allowed."
+message="Simplifications, small bug fixes."
 git add --all
 git commit -m "$message"
 git push

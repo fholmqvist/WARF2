@@ -102,33 +102,27 @@ func IsLibraryItem(sprite int) bool {
 }
 
 func IsFarm(sprite int) bool {
-	for _, tile := range []int{
-		FarmLeftEmpty,
-		FarmMiddleEmpty,
-		FarmRightEmpty,
-		FarmSingleEmpty,
-		FarmLeftWheat1,
-		FarmMiddleWheat1,
-		FarmRightWheat1,
-		FarmSingleWheat1,
-		FarmLeftWheat2,
-		FarmMiddleWheat2,
-		FarmRightWheat2,
-		FarmSingleWheat2,
-		FarmLeftWheat3,
-		FarmMiddleWheat3,
-		FarmRightWheat3,
-		FarmSingleWheat3,
-		FarmLeftWheat4,
-		FarmMiddleWheat4,
-		FarmRightWheat4,
-		FarmSingleWheat4,
-	} {
-		if sprite == tile {
-			return true
-		}
-	}
-	return false
+	// HELL YEAH!
+	return sprite == FarmLeftEmpty ||
+		sprite == FarmMiddleEmpty ||
+		sprite == FarmRightEmpty ||
+		sprite == FarmSingleEmpty ||
+		sprite == FarmLeftWheat1 ||
+		sprite == FarmMiddleWheat1 ||
+		sprite == FarmRightWheat1 ||
+		sprite == FarmSingleWheat1 ||
+		sprite == FarmLeftWheat2 ||
+		sprite == FarmMiddleWheat2 ||
+		sprite == FarmRightWheat2 ||
+		sprite == FarmSingleWheat2 ||
+		sprite == FarmLeftWheat3 ||
+		sprite == FarmMiddleWheat3 ||
+		sprite == FarmRightWheat3 ||
+		sprite == FarmSingleWheat3 ||
+		sprite == FarmLeftWheat4 ||
+		sprite == FarmMiddleWheat4 ||
+		sprite == FarmRightWheat4 ||
+		sprite == FarmSingleWheat4
 }
 
 func IsFarmSingle(sprite int) bool {
@@ -140,12 +134,10 @@ func IsFarmRight(sprite int) bool {
 }
 
 func IsFarmHarvestable(sprite int) bool {
-	for _, tile := range []int{FarmLeftWheat4, FarmMiddleWheat4, FarmRightWheat4, FarmSingleWheat4} {
-		if sprite == tile {
-			return true
-		}
-	}
-	return false
+	return sprite == FarmLeftWheat4 ||
+		sprite == FarmMiddleWheat4 ||
+		sprite == FarmRightWheat4 ||
+		sprite == FarmSingleWheat4
 }
 
 func IsFarmTileHarvested(sprite int) bool {
@@ -153,5 +145,9 @@ func IsFarmTileHarvested(sprite int) bool {
 	// TODO
 	// Support more than Wheat.
 	///////////////////////////
-	return sprite == Wheat
+	return sprite == FarmLeftEmpty ||
+		sprite == FarmMiddleEmpty ||
+		sprite == FarmRightEmpty ||
+		sprite == FarmSingleEmpty ||
+		sprite == Wheat
 }

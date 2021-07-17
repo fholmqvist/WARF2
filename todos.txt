@@ -2,7 +2,7 @@ game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-globals\items.go:152:
+globals\items.go:144:
 	Support more than Wheat.
 
 job\carrying.go:52:

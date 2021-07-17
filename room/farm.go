@@ -1,6 +1,7 @@
 package room
 
 import (
+	"fmt"
 	"sort"
 
 	gl "github.com/Holmqvist1990/WARF2/globals"
@@ -85,9 +86,11 @@ func (f *Farm) Update(mp *m.Map) {
 func (f *Farm) FullyHarvestedAndCleaned(mp *m.Map) bool {
 	for _, idx := range f.tileIdxs {
 		if !gl.IsFarmTileHarvested(mp.Items[idx].Sprite) {
+
 			return false
 		}
 	}
+	fmt.Println("FULLY HARVESTED")
 	return true
 }
 

@@ -144,7 +144,7 @@ func (j *Service) plantFarmJobAlreadyExists(farm room.Farm) bool {
 	for _, j := range j.Jobs {
 		p, ok := j.(*job.PlantFarm)
 		if !ok {
-			return false
+			continue
 		}
 		if p.FarmID == farm.ID {
 			return true
@@ -157,7 +157,7 @@ func (j *Service) farmJobAlreadyExists(farm room.Farm) bool {
 	for _, j := range j.Jobs {
 		f, ok := j.(*job.Farming)
 		if !ok {
-			return false
+			continue
 		}
 		if f.FarmID == farm.ID {
 			return true
