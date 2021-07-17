@@ -2,7 +2,7 @@ game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-job\carrying.go:48:
+job\carrying.go:52:
 	Obviously not great.
 
 jobservice\check_for_job.go:55:
