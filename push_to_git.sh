@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Smol refactors, comments."
+message="Screenshot, todos."
 git add --all
 git commit -m "$message"
 git push

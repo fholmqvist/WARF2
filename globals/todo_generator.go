@@ -38,6 +38,10 @@ func GenerateTodos() {
 			desc := strings.TrimSpace(lines[idx+1])[3:]
 			descIdx := 2
 			for !strings.Contains(lines[idx+descIdx], "////") {
+				if len(lines[idx+descIdx]) < 3 {
+					descIdx++
+					continue
+				}
 				desc += "\n\t" + strings.TrimSpace(lines[idx+descIdx])[3:]
 				descIdx++
 			}

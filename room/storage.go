@@ -9,6 +9,26 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+///////////////////////////////////
+// TODO
+// If the storage is filled
+// with StorageTiles that
+// aren't maxxed, we should
+// cleanup so that we have
+// fewer yet filled tiles.
+//
+// This opens more slots and
+// prevents storages from being
+// artificially full due to
+// saturation of one specific tile.
+//
+// Now, bad:
+// [1 Rock, 2 Rock, 1 Rock, 4 Rock]
+//
+// Later, good:
+// [4 Rock, 4 Rock,   None,   None]
+//
+///////////////////////////////////
 type Storage struct {
 	Center       int
 	StorageTiles []StorageTile
