@@ -24,8 +24,8 @@ import (
 // struct of game that is safe for
 // marshaling to JSON.
 type SaveGame struct {
-	WorldMap   m.Map        `json:"w"`
-	JobService j.JobService `json:"j"`
+	WorldMap   m.Map     `json:"w"`
+	JobService j.Service `json:"j"`
 }
 
 func (g Game) SaveGame() {
@@ -85,7 +85,7 @@ func loadGame() Game {
 		WorldMap:    &sg.WorldMap,
 		JobService:  &sg.JobService,
 		time:        Time{Frame: 1},
-		mouseSystem: &mouse.System{},
+		mouseSystem: mouse.NewSystem(),
 		ui:          u.GenerateUI(),
 	}
 }

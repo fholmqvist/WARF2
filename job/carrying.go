@@ -41,9 +41,9 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	if c.dwarf == nil {
 		return
 	}
-	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
 	c.dwarf.SetToAvailable()
 	c.dwarf = nil
+	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
 	if !ok {
 		///////////////////////
 		// TODO

@@ -12,7 +12,7 @@ import (
 	"github.com/Holmqvist1990/WARF2/globals"
 	j "github.com/Holmqvist1990/WARF2/jobservice"
 	"github.com/Holmqvist1990/WARF2/mouse"
-	rail "github.com/Holmqvist1990/WARF2/railservice"
+	rail "github.com/Holmqvist1990/WARF2/rail"
 	"github.com/Holmqvist1990/WARF2/room"
 	u "github.com/Holmqvist1990/WARF2/ui"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -45,9 +45,9 @@ type Game struct {
 
 	/* -------------------------------- Services -------------------------------- */
 
-	JobService   *j.JobService
-	DwarfService *dwarf.DwarfService
-	RailService  *rail.RailService
+	JobService   *j.Service
+	DwarfService *dwarf.Service
+	RailService  *rail.Service
 
 	/* ------------------------------ Private state ----------------------------- */
 

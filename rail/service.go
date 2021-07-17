@@ -9,25 +9,29 @@ package rail
 
 import (
 	"github.com/Holmqvist1990/WARF2/globals"
-	mp "github.com/Holmqvist1990/WARF2/worldmap"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-type RailService struct {
+type Service struct {
 	Carts []*Cart
-	Map   *mp.Map
+	Map   *m.Map
 }
 
-func (r *RailService) Update(m *mp.Map) {
+func NewService(mp *m.Map) *Service {
+	return &Service{Map: mp}
+}
+
+func (r *Service) Update(mp *m.Map) {
 	for _, cart := range r.Carts {
-		cart.traversePath(m)
+		cart.traversePath(mp)
 	}
 }
 
-func (r *RailService) PlaceRail(idx int) {
+func (r *Service) PlaceRail(idx int) {
 	r.PlaceRails([]int{idx})
 }
 
-func (r *RailService) PlaceRails(idxs []int) {
+func (r *Service) PlaceRails(idxs []int) {
 	min := globals.TilesT + 1
 	max := -1
 	for _, idx := range idxs {
@@ -35,17 +39,17 @@ func (r *RailService) PlaceRails(idxs []int) {
 		if !ok {
 			continue
 		}
-		if mp.Blocking(t) {
+		if m.Blocking(t) {
 			continue
 		}
 		rt, ok := r.Map.GetRailTileByIndex(idx)
 		if !ok {
 			continue
 		}
-		if rt.Sprite != mp.None {
+		if rt.Sprite != m.None {
 			continue
 		}
-		rt.Sprite = mp.Straight
+		rt.Sprite = m.Straight
 		if idx < min {
 			min = idx
 		}
@@ -56,12 +60,12 @@ func (r *RailService) PlaceRails(idxs []int) {
 	r.FixRails(min, max)
 }
 
-func (r *RailService) PlaceRailXY(x, y int) {
+func (r *Service) PlaceRailXY(x, y int) {
 	idx := globals.XYToIdx(x, y)
 	r.PlaceRails([]int{idx})
 }
 
-func (r *RailService) PlaceRailsXY(xys [][2]int) {
+func (r *Service) PlaceRailsXY(xys [][2]int) {
 	var idxs []int
 	for i := range xys {
 		idxs = append(idxs, globals.XYToIdx(xys[i][0], xys[i][1]))

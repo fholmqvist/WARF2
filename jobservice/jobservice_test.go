@@ -8,7 +8,7 @@ import (
 )
 
 func TestWorkQueue(t *testing.T) {
-	js := &JobService{
+	js := &Service{
 		Jobs: []job.Job{
 			job.NewLibraryRead([]int{10}, 1),
 			job.NewDigging([]int{20}, 0),

@@ -1,35 +1,9 @@
-game\generation.go:17:
-	Replace all inlined
-	allocations to function
-	calls, not only in this file.
-
 game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
 job\carrying.go:48:
 	Obviously not great.
-
-job\job.go:17:
-	This interface is crap.
-	In fact, jobs in general
-	need to be revamped.
-	Expand WorkStates to include
-	more types of walking so that
-	we can simplify mid-work walking
-	logic and generally just remove
-	this crap interface.
-	DONE: Step 1: Remove priority,
-	just inline it with type switch so
-	that we can see it in one place
-	instead of having to dig around
-	every single file by hand.
-	Step 2: JobType enum and just
-	switch on everything? Yeah yeah
-	#SOLID etc, but being able to see
-	everything is increasingly
-	important. Clarity over readability,
-	I'm starting to get it.
 
 jobservice\check_for_job.go:55:
 	Handle more than rocks.
@@ -58,12 +32,12 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-mouse\mouse.go:65:
+mouse\mouse.go:69:
 	Setting and deleting rooms
 	removes items that are
 	already there.
 
-mouse\mouse.go:110:
+mouse\mouse.go:114:
 	Overlays, placeholders, highlights...
 
 room\storage.go:12:
@@ -80,14 +54,6 @@ room\storage.go:12:
 	[1 Rock, 2 Rock, 1 Rock, 4 Rock]
 	Later, good:
 	[4 Rock, 4 Rock,   None,   None]
-
-room\storage.go:73:
-	This just picks a random
-	available storetile and
-	drops it there.
-	Perhaps it would be cooler
-	if the dwarf moves to the
-	new destination.
 
 room\storage_tile.go:19:
 	Switch amount on

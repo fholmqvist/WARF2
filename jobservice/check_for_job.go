@@ -9,7 +9,7 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-func (j *JobService) checkForDiggingJobs() {
+func (j *Service) checkForDiggingJobs() {
 	for _, wall := range j.Map.Tiles {
 		if !m.IsSelectedWall(wall.Sprite) {
 			continue
@@ -32,7 +32,7 @@ func (j *JobService) checkForDiggingJobs() {
 	}
 }
 
-func (j *JobService) diggingJobAlreadyExists(dIdx, jIdx int) bool {
+func (j *Service) diggingJobAlreadyExists(dIdx, jIdx int) bool {
 	for _, jb := range j.Jobs {
 		d, ok := jb.(*job.Digging)
 		if !ok {
@@ -47,7 +47,7 @@ func (j *JobService) diggingJobAlreadyExists(dIdx, jIdx int) bool {
 	return false
 }
 
-func (j *JobService) checkForCarryingJobs(rs *room.Service) {
+func (j *Service) checkForCarryingJobs(rs *room.Service) {
 	for _, it := range j.Map.Items {
 		if it.Resource == resource.None {
 			continue
@@ -99,7 +99,7 @@ func (j *JobService) checkForCarryingJobs(rs *room.Service) {
 	}
 }
 
-func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
+func (j *Service) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 	for _, jb1 := range j.Jobs {
 		c1, ok := jb1.(*job.Carrying)
 		if !ok {
@@ -129,7 +129,7 @@ func (j *JobService) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 	return false
 }
 
-func (j *JobService) checkForFarmingJobs(rs *room.Service) {
+func (j *Service) checkForFarmingJobs(rs *room.Service) {
 	//////////////////////////////////////
 	// TODO
 	// After having harvested all tiles,
@@ -148,7 +148,7 @@ func (j *JobService) checkForFarmingJobs(rs *room.Service) {
 	}
 }
 
-func (j *JobService) farmJobAlreadyExists(farm room.Farm) bool {
+func (j *Service) farmJobAlreadyExists(farm room.Farm) bool {
 	for _, j := range j.Jobs {
 		f, ok := j.(*job.Farming)
 		if !ok {

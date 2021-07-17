@@ -7,11 +7,11 @@ import (
 	"github.com/Holmqvist1990/WARF2/job"
 )
 
-func (jb *JobService) Len() int {
+func (jb *Service) Len() int {
 	return len(jb.Jobs)
 }
 
-func (jb *JobService) Less(i, j int) bool {
+func (jb *Service) Less(i, j int) bool {
 	fst := jb.GetPriority(jb.Jobs[i])
 	snd := jb.GetPriority(jb.Jobs[j])
 	// Randomize equally prioritized.
@@ -22,12 +22,12 @@ func (jb *JobService) Less(i, j int) bool {
 	return fst > snd
 }
 
-func (jb *JobService) Swap(i, j int) {
+func (jb *Service) Swap(i, j int) {
 	jb.Jobs[i], jb.Jobs[j] = jb.Jobs[j], jb.Jobs[i]
 }
 
 // Priority is in ascending order.
-func (jb *JobService) GetPriority(j job.Job) int {
+func (jb *Service) GetPriority(j job.Job) int {
 	switch j.(type) {
 	case *job.Digging:
 		return 5

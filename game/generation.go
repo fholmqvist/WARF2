@@ -7,28 +7,22 @@ import (
 	d "github.com/Holmqvist1990/WARF2/dwarf"
 	j "github.com/Holmqvist1990/WARF2/jobservice"
 	"github.com/Holmqvist1990/WARF2/mouse"
-	rail "github.com/Holmqvist1990/WARF2/railservice"
-	"github.com/Holmqvist1990/WARF2/room"
+	rail "github.com/Holmqvist1990/WARF2/rail"
+	r "github.com/Holmqvist1990/WARF2/room"
 	"github.com/Holmqvist1990/WARF2/ui"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func GenerateGame(dwarves int, worldmap *m.Map) Game {
-	////////////////////////////////
-	// TODO
-	// Replace all inlined
-	// allocations to function
-	// calls, not only in this file.
-	////////////////////////////////
 	game := Game{
 		WorldMap:     worldmap,
-		Rooms:        &room.Service{},
-		JobService:   &j.JobService{Map: worldmap},
+		Rooms:        r.NewService(),
+		JobService:   j.NewService(worldmap),
 		DwarfService: d.NewService(),
-		RailService:  &rail.RailService{Map: worldmap},
+		RailService:  rail.NewService(worldmap),
 
 		time:        Time{Frame: 1},
-		mouseSystem: &mouse.System{},
+		mouseSystem: mouse.NewSystem(),
 		ui:          ui.GenerateUI(),
 	}
 	for i := 0; i < dwarves; i++ {

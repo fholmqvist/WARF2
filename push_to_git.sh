@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Inlined Job.Priority, fixed bug where JobService sorted before checking for jobs."
+message="Fixed some TODOs, cleanup."
 git add --all
 git commit -m "$message"
 git push

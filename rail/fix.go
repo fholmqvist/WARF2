@@ -6,7 +6,7 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-func (r *RailService) FixRails(min, max int) {
+func (r *Service) FixRails(min, max int) {
 	for idx := min; idx <= max; idx++ {
 		t := &r.Map.Rails[idx]
 		if t.Sprite == 0 {

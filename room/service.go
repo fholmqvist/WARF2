@@ -15,6 +15,10 @@ type Service struct {
 	Libraries []Library
 }
 
+func NewService() *Service {
+	return &Service{}
+}
+
 func (s *Service) Update(mp *m.Map) {
 	for _, f := range s.Farms {
 		f.Update(mp)

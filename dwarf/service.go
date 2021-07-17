@@ -12,22 +12,22 @@ const path = "./data/names.txt"
 
 // Contains all utility functions
 // to be used with dwarves at runtime.
-type DwarfService struct {
+type Service struct {
 	Names []string
 }
 
-func NewService() *DwarfService {
-	return &DwarfService{Names: loadNames()}
+func NewService() *Service {
+	return &Service{Names: loadNames()}
 }
 
-func (d *DwarfService) RandomName() string {
+func (d *Service) RandomName() string {
 	return d.Names[rand.Intn(len(d.Names)-1)]
 }
 
 // Loads names files, sorts names
 // and saves it. Useful for keeping
 // order when adding/removing names.
-func (d *DwarfService) CleanNames() {
+func (d *Service) CleanNames() {
 	names := loadNames()
 	saveNames(names)
 }

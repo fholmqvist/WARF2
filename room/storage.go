@@ -70,15 +70,6 @@ func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) (int, bool)
 		s.StorageTiles[tIdx].Add(r, amount)
 		return t.Idx, true
 	}
-	/////////////////////////////
-	// TODO
-	// This just picks a random
-	// available storetile and
-	// drops it there.
-	// Perhaps it would be cooler
-	// if the dwarf moves to the
-	// new destination.
-	/////////////////////////////
 	for _, st := range s.StorageTiles {
 		if st.Unavailable(r) {
 			continue

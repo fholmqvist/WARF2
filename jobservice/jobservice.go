@@ -18,18 +18,22 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-// JobService manages all
+// Service manages all
 // ingame jobs for dwarves.
-type JobService struct {
+type Service struct {
 	Jobs             []job.Job      `json:"jobs"`
 	Workers          []*dwarf.Dwarf `json:"workers"`
 	AvailableWorkers []*dwarf.Dwarf `json:"-"`
 	Map              *m.Map         `json:"-"`
 }
 
+func NewService(mp *m.Map) *Service {
+	return &Service{Map: mp}
+}
+
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
-func (j *JobService) Update(rs *room.Service, mp *m.Map) {
+func (j *Service) Update(rs *room.Service, mp *m.Map) {
 	// CLEANUP.
 	j.removeFinishedJobs(rs)
 	j.updateAvailableWorkers()
@@ -45,11 +49,11 @@ func (j *JobService) Update(rs *room.Service, mp *m.Map) {
 	j.performWork()
 }
 
-func (j *JobService) sortJobPriorities() {
+func (j *Service) sortJobPriorities() {
 	sort.Sort(j)
 }
 
-func (j *JobService) removeFinishedJobs(rs *room.Service) {
+func (j *Service) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
 	for _, job := range j.Jobs {
 		if job.NeedsToBeRemoved(j.Map) {
@@ -61,7 +65,7 @@ func (j *JobService) removeFinishedJobs(rs *room.Service) {
 	j.Jobs = jobs
 }
 
-func (j *JobService) assignWorkers() {
+func (j *Service) assignWorkers() {
 	available := j.AvailableWorkers
 	for _, job := range j.Jobs {
 		if HasWorker(job) {
@@ -85,7 +89,7 @@ func (j *JobService) assignWorkers() {
 	}
 }
 
-func (j *JobService) updateAvailableWorkers() {
+func (j *Service) updateAvailableWorkers() {
 	var available []*dwarf.Dwarf
 	for _, dwarf := range j.Workers {
 		if dwarf.Available() {
@@ -95,7 +99,7 @@ func (j *JobService) updateAvailableWorkers() {
 	j.AvailableWorkers = available
 }
 
-func (j *JobService) performWork() {
+func (j *Service) performWork() {
 	for _, jb := range j.Jobs {
 		d := jb.GetWorker()
 		if d == nil {

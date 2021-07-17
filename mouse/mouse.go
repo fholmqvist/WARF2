@@ -37,6 +37,10 @@ type System struct {
 	Mode Mode
 }
 
+func NewSystem() *System {
+	return &System{}
+}
+
 // Handle all the mouse interactivity.
 func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) {
 	idx := MouseIdx()

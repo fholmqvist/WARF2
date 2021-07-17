@@ -12,7 +12,7 @@ const (
 	LIBRARY_READ_CUTOFF = 80
 )
 
-func (j *JobService) checkForReading(mp *worldmap.Map) {
+func (j *Service) checkForReading(mp *worldmap.Map) {
 	for _, dwf := range j.AvailableWorkers {
 		if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
 			continue
@@ -43,7 +43,7 @@ func getBookshelfDestination(mp *worldmap.Map, dwf dwarf.Dwarf) (int, bool) {
 	return destination.Idx, true
 }
 
-func readingAlreadyExists(g *JobService, dwf *dwarf.Dwarf) bool {
+func readingAlreadyExists(g *Service, dwf *dwarf.Dwarf) bool {
 	for _, jb := range g.Jobs {
 		rd, ok := jb.(*job.LibraryRead)
 		if !ok {

@@ -11,7 +11,7 @@ import (
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/mouse"
-	rail "github.com/Holmqvist1990/WARF2/railservice"
+	rail "github.com/Holmqvist1990/WARF2/rail"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
