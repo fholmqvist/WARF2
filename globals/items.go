@@ -145,9 +145,6 @@ func IsFarmTileHarvested(sprite int) bool {
 	// TODO
 	// Support more than Wheat.
 	///////////////////////////
-	return sprite == FarmLeftEmpty ||
-		sprite == FarmMiddleEmpty ||
-		sprite == FarmRightEmpty ||
-		sprite == FarmSingleEmpty ||
+	return sprite == NoItem ||
 		sprite == Wheat
 }
