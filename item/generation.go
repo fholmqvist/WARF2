@@ -3,21 +3,8 @@ package item
 import (
 	"math/rand"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
-)
-
-var (
-	bookShelves = []int{
-		BookShelfOne, BookShelfTwo, BookShelfThree,
-		BookShelfFour, BookShelfFive, BookShelfSix,
-		BookShelfSeven, BookShelfEight, BookShelfNine,
-		BookShelfTen,
-	}
-
-	furniture = []int{
-		ChairLeft, Table, ChairRight,
-	}
 )
 
 func Place(mp *m.Map, x, y, sprite int) {
@@ -33,13 +20,13 @@ func Place(mp *m.Map, x, y, sprite int) {
 		return
 	}
 	item.Sprite = sprite
-	if IsBlocking(item.Sprite) {
+	if gl.IsBlocking(item.Sprite) {
 		tile.Blocked = true
 	}
 }
 
 func PlaceRandom(mp *m.Map, x, y int, f func() int) {
-	idx := globals.XYToIdx(x, y)
+	idx := gl.XYToIdx(x, y)
 	PlaceRandomIdx(mp, idx, f)
 }
 
@@ -56,19 +43,19 @@ func PlaceRandomIdx(mp *m.Map, idx int, f func() int) {
 		return
 	}
 	item.Sprite = f()
-	if IsBlocking(item.Sprite) {
+	if gl.IsBlocking(item.Sprite) {
 		tile.Blocked = true
 	}
 }
 
 func RandomBookshelf() int {
-	return bookShelves[rand.Intn(len(bookShelves))]
+	return gl.BookShelves[rand.Intn(len(gl.BookShelves))]
 }
 
 func RandomFurniture() int {
-	return furniture[rand.Intn(len(furniture))]
+	return gl.Furniture[rand.Intn(len(gl.Furniture))]
 }
 
 func RandomCrumbledWall() int {
-	return rand.Intn(WallCrumbled4-WallCrumbled1+1) + WallCrumbled1
+	return rand.Intn(gl.WallCrumbled4-gl.WallCrumbled1+1) + gl.WallCrumbled1
 }

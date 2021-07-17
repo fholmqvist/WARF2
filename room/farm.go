@@ -3,6 +3,7 @@ package room
 import (
 	"sort"
 
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/item"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -23,11 +24,11 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 	f.ID = tiles[0].Idx
 	f.tileIdxs = tiles.ToIdxs()
 	for _, t := range tiles {
-		f.placeFarm(mp, t)
+		f.PlantFarm(mp, t)
 		if f.farmTile != nil {
 			continue
 		}
-		if !item.IsFarm(mp.Items[t.Idx].Sprite) {
+		if !gl.IsFarm(mp.Items[t.Idx].Sprite) {
 			continue
 		}
 		f.farmTile = &mp.Items[t.Idx]
@@ -42,47 +43,56 @@ func (f *Farm) Update(mp *m.Map) {
 			continue
 		}
 		switch tile.Sprite {
-		case item.FarmSingleEmpty:
-			tile.Sprite = item.FarmSingleWheat1
-		case item.FarmLeftEmpty:
-			tile.Sprite = item.FarmLeftWheat1
-		case item.FarmMiddleEmpty:
-			tile.Sprite = item.FarmMiddleWheat1
-		case item.FarmRightEmpty:
-			tile.Sprite = item.FarmRightWheat1
+		case gl.FarmSingleEmpty:
+			tile.Sprite = gl.FarmSingleWheat1
+		case gl.FarmLeftEmpty:
+			tile.Sprite = gl.FarmLeftWheat1
+		case gl.FarmMiddleEmpty:
+			tile.Sprite = gl.FarmMiddleWheat1
+		case gl.FarmRightEmpty:
+			tile.Sprite = gl.FarmRightWheat1
 
-		case item.FarmSingleWheat1:
-			tile.Sprite = item.FarmSingleWheat2
-		case item.FarmLeftWheat1:
-			tile.Sprite = item.FarmLeftWheat2
-		case item.FarmMiddleWheat1:
-			tile.Sprite = item.FarmMiddleWheat2
-		case item.FarmRightWheat1:
-			tile.Sprite = item.FarmRightWheat2
+		case gl.FarmSingleWheat1:
+			tile.Sprite = gl.FarmSingleWheat2
+		case gl.FarmLeftWheat1:
+			tile.Sprite = gl.FarmLeftWheat2
+		case gl.FarmMiddleWheat1:
+			tile.Sprite = gl.FarmMiddleWheat2
+		case gl.FarmRightWheat1:
+			tile.Sprite = gl.FarmRightWheat2
 
-		case item.FarmSingleWheat2:
-			tile.Sprite = item.FarmSingleWheat3
-		case item.FarmLeftWheat2:
-			tile.Sprite = item.FarmLeftWheat3
-		case item.FarmMiddleWheat2:
-			tile.Sprite = item.FarmMiddleWheat3
-		case item.FarmRightWheat2:
-			tile.Sprite = item.FarmRightWheat3
+		case gl.FarmSingleWheat2:
+			tile.Sprite = gl.FarmSingleWheat3
+		case gl.FarmLeftWheat2:
+			tile.Sprite = gl.FarmLeftWheat3
+		case gl.FarmMiddleWheat2:
+			tile.Sprite = gl.FarmMiddleWheat3
+		case gl.FarmRightWheat2:
+			tile.Sprite = gl.FarmRightWheat3
 
-		case item.FarmSingleWheat3:
-			tile.Sprite = item.FarmSingleWheat4
-		case item.FarmLeftWheat3:
-			tile.Sprite = item.FarmLeftWheat4
-		case item.FarmMiddleWheat3:
-			tile.Sprite = item.FarmMiddleWheat4
-		case item.FarmRightWheat3:
-			tile.Sprite = item.FarmRightWheat4
+		case gl.FarmSingleWheat3:
+			tile.Sprite = gl.FarmSingleWheat4
+		case gl.FarmLeftWheat3:
+			tile.Sprite = gl.FarmLeftWheat4
+		case gl.FarmMiddleWheat3:
+			tile.Sprite = gl.FarmMiddleWheat4
+		case gl.FarmRightWheat3:
+			tile.Sprite = gl.FarmRightWheat4
 		}
 	}
 }
 
+func (f *Farm) FullyHarvestedAndCleaned(mp *m.Map) bool {
+	for _, idx := range f.tileIdxs {
+		if !gl.IsFarmTileHarvested(mp.Items[idx].Sprite) {
+			return false
+		}
+	}
+	return true
+}
+
 func (f *Farm) ShouldHarvest(mp *m.Map) ([]int, bool) {
-	if !item.IsFarmHarvestable(f.farmTile.Sprite) {
+	if !gl.IsFarmHarvestable(f.farmTile.Sprite) {
 		return nil, false
 	}
 	return f.GetHarvestIdxs(mp), true
@@ -91,7 +101,7 @@ func (f *Farm) ShouldHarvest(mp *m.Map) ([]int, bool) {
 func (f *Farm) GetHarvestIdxs(mp *m.Map) []int {
 	idxs := []int{}
 	for _, tIdx := range f.tileIdxs {
-		if !item.IsFarm(mp.Items[tIdx].Sprite) {
+		if !gl.IsFarm(mp.Items[tIdx].Sprite) {
 			continue
 		}
 		idxs = append(idxs, tIdx)
@@ -100,7 +110,7 @@ func (f *Farm) GetHarvestIdxs(mp *m.Map) []int {
 	return idxs
 }
 
-func (f *Farm) placeFarm(mp *m.Map, t m.Tile) {
+func (f *Farm) PlantFarm(mp *m.Map, t m.Tile) {
 	skips := []bool{
 		m.IsAnyWall(mp.OneTileLeft(t.Idx).Sprite),
 		m.IsAnyWall(mp.OneTileRight(t.Idx).Sprite),
@@ -116,16 +126,16 @@ func (f *Farm) placeFarm(mp *m.Map, t m.Tile) {
 			return
 		}
 	}
-	if item.IsFarmSingle(mp.Items[m.OneTileLeft(t.Idx)].Sprite) {
-		mp.Items[t.Idx-1].Sprite = item.FarmLeftEmpty
-		item.Place(mp, t.X, t.Y, item.FarmRightEmpty)
+	if gl.IsFarmSingle(mp.Items[m.OneTileLeft(t.Idx)].Sprite) {
+		mp.Items[t.Idx-1].Sprite = gl.FarmLeftEmpty
+		item.Place(mp, t.X, t.Y, gl.FarmRightEmpty)
 		return
 	}
-	if item.IsFarmRight(mp.Items[m.OneTileLeft(t.Idx)].Sprite) {
-		mp.Items[t.Idx-1].Sprite = item.FarmMiddleEmpty
-		item.Place(mp, t.X, t.Y, item.FarmRightEmpty)
+	if gl.IsFarmRight(mp.Items[m.OneTileLeft(t.Idx)].Sprite) {
+		mp.Items[t.Idx-1].Sprite = gl.FarmMiddleEmpty
+		item.Place(mp, t.X, t.Y, gl.FarmRightEmpty)
 		return
 	}
-	item.Place(mp, t.X, t.Y, item.FarmSingleEmpty)
+	item.Place(mp, t.X, t.Y, gl.FarmSingleEmpty)
 	return
 }

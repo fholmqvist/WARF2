@@ -2,27 +2,22 @@ game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
+globals\items.go:152:
+	Support more than Wheat.
+
 job\carrying.go:52:
 	Obviously not great.
 
-jobservice\check_for_job.go:55:
-	Handle more than rocks.
+job\plantfarm.go:9:
+	Does nothing.
 
-jobservice\check_for_job.go:62:
+jobservice\check_for_job.go:57:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\check_for_job.go:90:
-	Handle more than rocks.
-
-jobservice\check_for_job.go:111:
+jobservice\check_for_job.go:102:
 	FloorBrick is _not_ an
 	adequate definition of storage.
-
-jobservice\check_for_job.go:133:
-	After having harvested all tiles,
-	there should be a new job 'SowFarm'
-	to restart the farm again.
 
 mouse\mouse.go:5:
 	Perhaps this entire system

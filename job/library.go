@@ -2,6 +2,7 @@ package job
 
 import (
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/room"
 	"github.com/Holmqvist1990/WARF2/worldmap"
@@ -57,7 +58,7 @@ func (l *LibraryRead) String() string {
 }
 
 func shouldGetChair(m *worldmap.Map, l *LibraryRead) bool {
-	return !item.IsChair(m.Items[l.dwarf.Idx].Sprite) &&
+	return !gl.IsChair(m.Items[l.dwarf.Idx].Sprite) &&
 		l.dwarf.State != dwarf.WorkerMoving
 }
 

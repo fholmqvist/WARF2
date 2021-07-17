@@ -1,8 +1,7 @@
 package jobservice
 
 import (
-	"github.com/Holmqvist1990/WARF2/globals"
-	"github.com/Holmqvist1990/WARF2/item"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/job"
 	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
@@ -52,11 +51,7 @@ func (j *Service) checkForCarryingJobs(rs *room.Service) {
 		if it.Resource == resource.None {
 			continue
 		}
-		///////////////////////////
-		// TODO
-		// Handle more than rocks.
-		///////////////////////////
-		if !item.IsCrumbledWall(it.Sprite) {
+		if !typeOfCarryingJob(it.Sprite) {
 			continue
 		}
 		////////////////////////////////////
@@ -70,7 +65,7 @@ func (j *Service) checkForCarryingJobs(rs *room.Service) {
 		if j.carryingJobAlreadyExists(it.Idx, j.Map) {
 			continue
 		}
-		x, y := globals.IdxToXY(it.Idx)
+		x, y := gl.IdxToXY(it.Idx)
 		nearest, storageIdx, ok := rs.FindNearestStorage(j.Map, x, y)
 		if !ok {
 			continue
@@ -87,11 +82,7 @@ func (j *Service) checkForCarryingJobs(rs *room.Service) {
 		}
 		j.Jobs = append(j.Jobs, job.NewCarrying(
 			[]int{it.Idx},
-			///////////////////////////
-			// TODO
-			// Handle more than rocks.
-			///////////////////////////
-			resource.Rock,
+			resource.SpriteToResource(it.Sprite),
 			storageIdx,
 			dst,
 			it.Sprite,
@@ -130,13 +121,14 @@ func (j *Service) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 }
 
 func (j *Service) checkForFarmingJobs(rs *room.Service) {
-	//////////////////////////////////////
-	// TODO
-	// After having harvested all tiles,
-	// there should be a new job 'SowFarm'
-	// to restart the farm again.
-	//////////////////////////////////////
 	for _, farm := range rs.Farms {
+		if farm.FullyHarvestedAndCleaned(j.Map) {
+			if j.plantFarmJobAlreadyExists(farm) {
+				continue
+			}
+			j.Jobs = append(j.Jobs, job.NewPlantFarm(farm.ID))
+			continue
+		}
 		idxs, should := farm.ShouldHarvest(j.Map)
 		if !should {
 			continue
@@ -146,6 +138,19 @@ func (j *Service) checkForFarmingJobs(rs *room.Service) {
 		}
 		j.Jobs = append(j.Jobs, job.NewFarming(farm.ID, idxs))
 	}
+}
+
+func (j *Service) plantFarmJobAlreadyExists(farm room.Farm) bool {
+	for _, j := range j.Jobs {
+		p, ok := j.(*job.PlantFarm)
+		if !ok {
+			return false
+		}
+		if p.FarmID == farm.ID {
+			return true
+		}
+	}
+	return false
 }
 
 func (j *Service) farmJobAlreadyExists(farm room.Farm) bool {
@@ -159,4 +164,8 @@ func (j *Service) farmJobAlreadyExists(farm room.Farm) bool {
 		}
 	}
 	return false
+}
+
+func typeOfCarryingJob(sprite int) bool {
+	return !gl.IsCrumbledWall(sprite) || !gl.IsFarmTileHarvested(sprite)
 }

@@ -4,7 +4,7 @@ import (
 	"sort"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/item"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -103,7 +103,7 @@ func (l *Library) breakupBookshelves(mp *m.Map, y int) {
 		if i == 0 || i == len(items)-1 {
 			continue
 		}
-		if item.IsBookshelf(it.Sprite) {
+		if gl.IsBookshelf(it.Sprite) {
 			shelves++
 		}
 	}
@@ -112,14 +112,14 @@ func (l *Library) breakupBookshelves(mp *m.Map, y int) {
 		return
 	}
 	for i := 0; i < shelves/spaceEvery; i++ {
-		mp.Items[items[spaceEvery*i].Idx].Sprite = item.NoItem
+		mp.Items[items[spaceEvery*i].Idx].Sprite = gl.NoItem
 	}
 }
 
 func (l *Library) generateFurniture(mp *m.Map, t m.Tile) {
 	earlyExists := []bool{
 		m.IsAnyWall(mp.Tiles[m.OneTileLeft(t.Idx)].Sprite),
-		mp.Items[m.OneTileLeft(t.Idx)].Sprite != item.NoItem,
+		mp.Items[m.OneTileLeft(t.Idx)].Sprite != gl.NoItem,
 		m.IsDoorOpening(mp, m.OneTileDown(t.Idx)),
 	}
 	for _, ee := range earlyExists {
@@ -128,18 +128,18 @@ func (l *Library) generateFurniture(mp *m.Map, t m.Tile) {
 		}
 	}
 	for x := t.X; x < t.X+3; x++ {
-		spr := mp.Tiles[globals.XYToIdx(x, t.Y)].Sprite
+		spr := mp.Tiles[gl.XYToIdx(x, t.Y)].Sprite
 		if m.IsAnyWall(spr) {
 			return
 		}
 		if !m.IsWoodFloor(spr) {
 			return
 		}
-		if m.IsDoorOpening(mp, m.OneTileDown(globals.XYToIdx(x, t.Y))) {
+		if m.IsDoorOpening(mp, m.OneTileDown(gl.XYToIdx(x, t.Y))) {
 			return
 		}
 	}
-	item.Place(mp, t.X, t.Y, item.ChairLeft)
-	item.Place(mp, t.X+1, t.Y, item.Table)
-	item.Place(mp, t.X+2, t.Y, item.ChairRight)
+	item.Place(mp, t.X, t.Y, gl.ChairLeft)
+	item.Place(mp, t.X+1, t.Y, gl.Table)
+	item.Place(mp, t.X+2, t.Y, gl.ChairRight)
 }

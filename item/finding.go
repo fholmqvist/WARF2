@@ -4,7 +4,7 @@ import (
 	"math"
 	"sort"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -19,7 +19,7 @@ func FindNearest(m *worldmap.Map, idx int, f func(int) bool) (int, bool) {
 		if !f(itemTile.Sprite) {
 			continue
 		}
-		d := globals.Dist(current.X, current.Y, itemTile.X, itemTile.Y)
+		d := gl.Dist(current.X, current.Y, itemTile.X, itemTile.Y)
 		if d < nearest {
 			nearest = d
 			nearestIdx = itemTile.Idx
@@ -41,8 +41,8 @@ func FindNearestMany(m *worldmap.Map, idx int, f func(int) bool) ([]int, bool) {
 		tiles = append(tiles, itemTile)
 	}
 	sort.Slice(tiles, func(i, j int) bool {
-		first := globals.Dist(current.X, current.Y, tiles[i].X, tiles[i].Y)
-		second := globals.Dist(current.X, current.Y, tiles[j].X, tiles[j].Y)
+		first := gl.Dist(current.X, current.Y, tiles[i].X, tiles[i].Y)
+		second := gl.Dist(current.X, current.Y, tiles[j].X, tiles[j].Y)
 		return first < second
 	})
 	idxs := make([]int, len(tiles))
@@ -53,13 +53,13 @@ func FindNearestMany(m *worldmap.Map, idx int, f func(int) bool) ([]int, bool) {
 }
 
 func FindNearestBookshelf(m *worldmap.Map, idx int) (int, bool) {
-	return FindNearest(m, idx, IsBookshelf)
+	return FindNearest(m, idx, gl.IsBookshelf)
 }
 
 func FindNearestChair(m *worldmap.Map, idx int) (int, bool) {
-	return FindNearest(m, idx, IsChair)
+	return FindNearest(m, idx, gl.IsChair)
 }
 
 func FindNearestChairs(m *worldmap.Map, idx int) ([]int, bool) {
-	return FindNearestMany(m, idx, IsChair)
+	return FindNearestMany(m, idx, gl.IsChair)
 }
