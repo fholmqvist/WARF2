@@ -24,6 +24,19 @@ const (
 // we can simplify mid-work walking
 // logic and generally just remove
 // this crap interface.
+//
+// DONE: Step 1: Remove priority,
+// just inline it with type switch so
+// that we can see it in one place
+// instead of having to dig around
+// every single file by hand.
+//
+// Step 2: JobType enum and just
+// switch on everything? Yeah yeah
+// #SOLID etc, but being able to see
+// everything is increasingly
+// important. Clarity over readability,
+// I'm starting to get it.
 ///////////////////////////////////
 
 // Job declares the common interface
@@ -33,7 +46,6 @@ type Job interface {
 	NeedsToBeRemoved(*m.Map) bool
 	PerformWork(*m.Map, []*dwarf.Dwarf) bool
 	Finish(*m.Map, *room.Service)
-	Priority() int // Ascending importance.
 	GetWorker() *dwarf.Dwarf
 	SetWorker(*dwarf.Dwarf)
 	GetDestinations() []int

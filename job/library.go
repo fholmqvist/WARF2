@@ -40,10 +40,6 @@ func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf) bool {
 	return finished
 }
 
-func (l *LibraryRead) Priority() int {
-	return 0
-}
-
 func (l *LibraryRead) GetWorker() *dwarf.Dwarf {
 	return l.dwarf
 }

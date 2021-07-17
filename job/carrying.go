@@ -67,10 +67,6 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
 	return unfinished
 }
 
-func (c *Carrying) Priority() int {
-	return 1
-}
-
 func (c *Carrying) GetWorker() *dwarf.Dwarf {
 	return c.dwarf
 }

@@ -47,10 +47,6 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
 	return finished
 }
 
-func (d *Digging) Priority() int {
-	return 2
-}
-
 func (d *Digging) GetWorker() *dwarf.Dwarf {
 	return d.dwarf
 }

@@ -30,17 +30,17 @@ type JobService struct {
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
 func (j *JobService) Update(rs *room.Service, mp *m.Map) {
-	j.sortJobPriorities()
+	// CLEANUP.
 	j.removeFinishedJobs(rs)
 	j.updateAvailableWorkers()
-
-	/* ---------------------------------- Check --------------------------------- */
+	// CHECKS.
 	j.checkForDiggingJobs()
 	j.checkForCarryingJobs(rs)
 	j.checkForFarmingJobs(rs)
 	j.checkForReading(mp)
-
-	/* ----------------------------- Assign and work ---------------------------- */
+	// SORT.
+	j.sortJobPriorities()
+	// PERFORM.
 	j.assignWorkers()
 	j.performWork()
 }

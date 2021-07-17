@@ -1,14 +1,19 @@
 package jobservice
 
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+
+	"github.com/Holmqvist1990/WARF2/job"
+)
 
 func (jb *JobService) Len() int {
 	return len(jb.Jobs)
 }
 
 func (jb *JobService) Less(i, j int) bool {
-	fst := jb.Jobs[i].Priority()
-	snd := jb.Jobs[j].Priority()
+	fst := jb.GetPriority(jb.Jobs[i])
+	snd := jb.GetPriority(jb.Jobs[j])
 	// Randomize equally prioritized.
 	if fst == snd {
 		return rand.Intn(2) == 1
@@ -19,4 +24,20 @@ func (jb *JobService) Less(i, j int) bool {
 
 func (jb *JobService) Swap(i, j int) {
 	jb.Jobs[i], jb.Jobs[j] = jb.Jobs[j], jb.Jobs[i]
+}
+
+// Priority is in ascending order.
+func (jb *JobService) GetPriority(j job.Job) int {
+	switch j.(type) {
+	case *job.Digging:
+		return 5
+	case *job.Carrying:
+		return 3
+	case *job.LibraryRead:
+		return 1
+	case *job.Farming:
+		return 3
+	default:
+		panic(fmt.Sprint("missing job type:", j))
+	}
 }

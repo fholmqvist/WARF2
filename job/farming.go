@@ -41,10 +41,6 @@ func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
 	return f.moveDwarf(mp)
 }
 
-func (f *Farming) Priority() int {
-	return 1
-}
-
 func (f *Farming) GetWorker() *dwarf.Dwarf {
 	return f.dwarf
 }
