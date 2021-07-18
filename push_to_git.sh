@@ -1,5 +1,5 @@
 #!/bin/bash
-message="The bug that I was actually trying to fix."
+message="Wheat is carried. Bug fix, refactors."
 git add --all
 git commit -m "$message"
 git push

@@ -10,8 +10,8 @@ import (
 const MAX_STORAGE = 8
 
 type StorageTile struct {
-	Idx    int
-	Tpe    resource.Resource
+	Idx int
+	resource.Resource
 	Amount uint
 }
 
@@ -21,13 +21,13 @@ func (s *StorageTile) Available(tpe resource.Resource) bool {
 	// Switch amount on
 	// resource type.
 	///////////////////
-	if tpe == s.Tpe && s.Amount < MAX_STORAGE {
+	if tpe == s.Resource && s.Amount < MAX_STORAGE {
 		return true
 	}
 	if s.Amount == 0 {
-		s.Tpe = resource.None
+		s.Resource = resource.None
 	}
-	return s.Tpe == resource.None && s.Amount == 0
+	return s.Resource == resource.None && s.Amount == 0
 }
 
 func (s *StorageTile) Unavailable(tpe resource.Resource) bool {
@@ -38,12 +38,11 @@ func (s *StorageTile) Unavailable(tpe resource.Resource) bool {
 // given that the tile is of that type
 // (panics otherwise, enforcing hygenic caller).
 // Remainder is returned to the caller.
-func (s *StorageTile) Add(r resource.Resource, amount uint) (remaining uint) {
-	tpe := s.Tpe
-	if tpe != r && tpe != 0 {
-		panic(fmt.Sprintf("storage: AddItem: trying to add %v to a tile with type of %v", r, tpe))
+func (s *StorageTile) Add(res resource.Resource, amount uint) (remaining uint) {
+	if s.Resource != res && s.Resource != 0 {
+		panic(fmt.Sprintf("storage: AddItem: trying to add %v to a tile with type of %v", res, s.Resource))
 	}
-	s.Tpe = r
+	s.Resource = res
 	for s.Amount < MAX_STORAGE && amount > 0 {
 		s.Amount++
 		amount--
@@ -75,9 +74,9 @@ func createStorageTiles(tt m.Tiles, itt m.Tiles) []StorageTile {
 			amount++
 		}
 		st = append(st, StorageTile{
-			Idx:    t.Idx,
-			Tpe:    itt[t.Idx].Resource,
-			Amount: amount,
+			Idx:      t.Idx,
+			Resource: itt[t.Idx].Resource,
+			Amount:   amount,
 		})
 	}
 	return st

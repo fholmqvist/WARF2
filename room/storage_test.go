@@ -31,9 +31,9 @@ func TestNearestStorage(t *testing.T) {
 
 func TestStorageTileAdd(t *testing.T) {
 	st := StorageTile{
-		Idx:    0,
-		Tpe:    resource.Rock,
-		Amount: 0,
+		Idx:      0,
+		Resource: resource.Rock,
+		Amount:   0,
 	}
 	r := st.Add(resource.Rock, 5)
 	if st.Amount != 5 || r != 0 {
@@ -47,9 +47,9 @@ func TestStorageTileAdd(t *testing.T) {
 
 func TestStorageTileTake(t *testing.T) {
 	st := StorageTile{
-		Idx:    0,
-		Tpe:    resource.Rock,
-		Amount: 10,
+		Idx:      0,
+		Resource: resource.Rock,
+		Amount:   10,
 	}
 	r := st.Take(5)
 	if st.Amount != 5 || r != 5 {

@@ -3,6 +3,7 @@ package job
 import (
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -61,6 +62,7 @@ func (f *Farming) moveDwarf(mp *m.Map) bool {
 	currentIdx := f.destinations[len(f.destinations)-1]
 	if f.dwarf.Idx == currentIdx {
 		mp.Items[currentIdx].Sprite = globals.Wheat
+		mp.Items[currentIdx].Resource = resource.Wheat
 		f.destinations = f.destinations[:len(f.destinations)-1]
 	}
 	if f.NeedsToBeRemoved(mp) {
