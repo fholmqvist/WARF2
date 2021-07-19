@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Dont remove Wheat when deleting farm."
+message="Farming cancelled if farm is removed."
 git add --all
 git commit -m "$message"
 git push

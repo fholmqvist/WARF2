@@ -52,6 +52,15 @@ func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
 	s.Storages = append(s.Storages, *st)
 }
 
+func (s *Service) GetFarm(farmID int) (*Farm, bool) {
+	for _, f := range s.Farms {
+		if farmID == f.ID {
+			return &f, true
+		}
+	}
+	return nil, false
+}
+
 func (s *Service) FindNearestStorage(mp *m.Map, x, y int) (*Storage, int, bool) {
 	if len(s.Storages) == 0 {
 		return nil, -1, false

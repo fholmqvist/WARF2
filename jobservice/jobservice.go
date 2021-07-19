@@ -127,9 +127,13 @@ func (j *Service) performWork(rs *room.Service) {
 		finished := false
 		switch jb.(type) {
 		case *job.LibraryRead:
-			finished = jb.PerformWork(j.Map, j.Workers)
+			finished = jb.PerformWork(j.Map, j.Workers, nil)
+		case *job.Farming:
+			finished = jb.PerformWork(j.Map, nil, rs)
+		case *job.PlantFarm:
+			finished = jb.PerformWork(j.Map, nil, rs)
 		default:
-			finished = jb.PerformWork(j.Map, nil)
+			finished = jb.PerformWork(j.Map, nil, nil)
 		}
 		if !finished {
 			continue

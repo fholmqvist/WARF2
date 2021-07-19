@@ -32,7 +32,7 @@ func (d *Digging) Finish(*m.Map, *room.Service) {
 }
 
 // Ran on arrival.
-func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
+func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	t := &mp.Tiles[d.wallIdx]
 	if !m.IsSelectedWall(t.Sprite) {
 		// Job is, in a sense, done.

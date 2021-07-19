@@ -27,7 +27,7 @@ func (l *LibraryRead) Finish(*m.Map, *room.Service) {
 	l.dwarf = nil
 }
 
-func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf) bool {
+func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	if shouldGetChair(m, l) {
 		return getChair(m, l, dwarves)
 	}

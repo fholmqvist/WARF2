@@ -32,7 +32,12 @@ func (d *Farming) Finish(*m.Map, *room.Service) {
 }
 
 // Ran on arrival.
-func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
+func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	if _, ok := rs.GetFarm(f.FarmID); !ok {
+		f.destinations = []int{}
+		f.path = nil
+		return finished
+	}
 	if len(f.destinations) == 0 {
 		return finished
 	}

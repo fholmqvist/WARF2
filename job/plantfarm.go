@@ -21,7 +21,10 @@ func (p *PlantFarm) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 	return p.Farm.FullyPlanted(mp)
 }
 
-func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
+func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	if _, ok := rs.GetFarm(p.Farm.ID); !ok {
+		return finished
+	}
 	if len(p.destinations) == 0 {
 		return finished
 	}
