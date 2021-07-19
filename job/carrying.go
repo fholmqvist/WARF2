@@ -41,13 +41,18 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	if c.dwarf == nil {
 		return
 	}
+	defer func() {
+		c.dwarf.SetToAvailable()
+		c.dwarf = nil
+	}()
 	// Storage was deleted by user.
 	if c.storageIdx > len(s.Storages)-1 {
 		return
 	}
+	if c.sprite == m.None {
+		return
+	}
 	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
-	c.dwarf.SetToAvailable()
-	c.dwarf = nil
 	if !ok {
 		///////////////////////
 		// TODO
