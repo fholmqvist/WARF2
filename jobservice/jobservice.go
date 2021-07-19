@@ -46,7 +46,7 @@ func (j *Service) Update(rs *room.Service, mp *m.Map) {
 	j.sortJobPriorities()
 	// PERFORM.
 	j.assignWorkers()
-	j.performWork()
+	j.performWork(rs)
 }
 
 func (j *Service) sortJobPriorities() {
@@ -56,7 +56,7 @@ func (j *Service) sortJobPriorities() {
 func (j *Service) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
 	for _, job := range j.Jobs {
-		if job.NeedsToBeRemoved(j.Map) {
+		if job.NeedsToBeRemoved(j.Map, rs) {
 			job.Finish(j.Map, rs)
 			continue
 		}
@@ -99,7 +99,7 @@ func (j *Service) updateAvailableWorkers() {
 	j.AvailableWorkers = available
 }
 
-func (j *Service) performWork() {
+func (j *Service) performWork(rs *room.Service) {
 	for _, jb := range j.Jobs {
 		d := jb.GetWorker()
 		if d == nil {
@@ -116,7 +116,7 @@ func (j *Service) performWork() {
 			}
 		}
 		if !hasArrived {
-			if len(d.Path) == 0 && jb.NeedsToBeRemoved(j.Map) {
+			if len(d.Path) == 0 && jb.NeedsToBeRemoved(j.Map, rs) {
 				d.SetToAvailable()
 				continue
 			}

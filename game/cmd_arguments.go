@@ -105,19 +105,18 @@ func initWithArgs(args []string) *Game {
 		}
 		fmt.Println(ns.Center)
 	case "farm":
-		game = GenerateGame(16, m.BoundariesMap())
+		game = GenerateGame(8, m.BoundariesMap())
 		mp := game.WorldMap
-		mp.DrawOutline(6, 5, 38, 14, m.WallSolid)
-		mp.DrawOutline(24, 13, 38, 22, m.WallSolid)
-		mp.Tiles[620].Sprite = m.Ground
-		for idx := 623; idx <= 634; idx++ {
-			game.WorldMap.Tiles[idx].Sprite = m.Ground
-		}
-		game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 7, 7))
+		mp.DrawOutline(6, 8, 18, 14, m.WallSolid) // Gorgeous!
+		mp.DrawOutline(14, 13, 18, 18, m.WallSolid)
+		mp.Tiles[611].Sprite = m.Ground
+		mp.Tiles[614].Sprite = m.Ground
+		// game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 7, 7)) // Gorgeous
+		game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 9, 9))
 		game.Rooms.Farms[0].Update(mp)
 		game.Rooms.Farms[0].Update(mp)
 		game.Rooms.Farms[0].Update(mp)
-		game.Rooms.Storages = append(game.Rooms.Storages, *room.NewStorage(mp, 5, 5))
+		game.Rooms.Storages = append(game.Rooms.Storages, *room.NewStorage(mp, 15, 14))
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.

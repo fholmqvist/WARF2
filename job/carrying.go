@@ -33,7 +33,7 @@ func NewCarrying(destinations []int, r resource.Resource, storageIdx int, goalDe
 	}
 }
 
-func (c *Carrying) NeedsToBeRemoved(mp *m.Map) bool {
+func (c *Carrying) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 	return c.path != nil && len(c.path) == 0
 }
 

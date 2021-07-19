@@ -126,7 +126,7 @@ func (j *Service) checkForFarmingJobs(rs *room.Service) {
 			if j.plantFarmJobAlreadyExists(farm) {
 				continue
 			}
-			j.Jobs = append(j.Jobs, job.NewPlantFarm(farm.ID))
+			j.Jobs = append(j.Jobs, job.NewPlantFarm(&farm, farm.FarmableIdxs))
 			continue
 		}
 		idxs, should := farm.ShouldHarvest(j.Map)
@@ -146,7 +146,7 @@ func (j *Service) plantFarmJobAlreadyExists(farm room.Farm) bool {
 		if !ok {
 			continue
 		}
-		if p.FarmID == farm.ID {
+		if p.Farm.ID == farm.ID {
 			return true
 		}
 	}

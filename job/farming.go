@@ -19,7 +19,7 @@ func NewFarming(farmID int, destinations []int) *Farming {
 	return &Farming{farmID, nil, destinations, nil}
 }
 
-func (f *Farming) NeedsToBeRemoved(mp *m.Map) bool {
+func (f *Farming) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 	return len(f.destinations) == 0 && f.path == nil
 }
 
@@ -59,37 +59,30 @@ func (f *Farming) String() string {
 }
 
 func (f *Farming) moveDwarf(mp *m.Map) bool {
-	currentIdx := f.destinations[len(f.destinations)-1]
+	currentIdx := getNextIdx(f.destinations)
 	if f.dwarf.Idx == currentIdx {
 		mp.Items[currentIdx].Sprite = globals.Wheat
 		mp.Items[currentIdx].Resource = resource.Wheat
 		f.destinations = f.destinations[:len(f.destinations)-1]
 	}
-	if f.NeedsToBeRemoved(mp) {
+	if f.NeedsToBeRemoved(mp, nil) {
 		return finished
 	}
 	if f.path != nil {
 		f.moveAlongPath()
 		return unfinished
 	}
-	nextIdx := f.getNextIdx()
+	nextIdx := getNextIdx(f.destinations)
 	if nextIdx-f.dwarf.Idx == 1 {
-		f.dwarf.Idx = nextIdx // Adjecent
+		f.dwarf.Idx = nextIdx // Adjacent
 	} else {
-		f.getPath(mp, nextIdx) // Elsewhere
+		path, ok := getPath(mp, nextIdx, f.dwarf) // Elsewhere
+		if !ok {
+			return unfinished
+		}
+		f.path = path
 	}
 	return unfinished
-}
-
-func (f *Farming) getPath(mp *m.Map, next int) {
-	path, ok := f.dwarf.CreatePath(
-		&mp.Tiles[f.dwarf.Idx],
-		&mp.Tiles[next],
-	)
-	if !ok {
-		return
-	}
-	f.path = path
 }
 
 func (f *Farming) moveAlongPath() {
@@ -101,11 +94,4 @@ func (f *Farming) moveAlongPath() {
 	f.dwarf.Idx = f.path[0]
 	// Iterate path.
 	f.path = f.path[1:]
-}
-
-func (f *Farming) getNextIdx() int {
-	if len(f.destinations) == 1 {
-		return f.destinations[0]
-	}
-	return f.destinations[len(f.destinations)-1]
 }

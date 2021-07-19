@@ -18,7 +18,7 @@ const (
 // for jobs, in order to be used within
 // the job service.
 type Job interface {
-	NeedsToBeRemoved(*m.Map) bool
+	NeedsToBeRemoved(*m.Map, *room.Service) bool
 	PerformWork(*m.Map, []*dwarf.Dwarf) bool
 	Finish(*m.Map, *room.Service)
 	GetWorker() *dwarf.Dwarf

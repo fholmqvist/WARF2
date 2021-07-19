@@ -19,7 +19,7 @@ func NewLibraryRead(destinations []int, readingTime int) *LibraryRead {
 	return &LibraryRead{nil, destinations, readingTime}
 }
 
-func (l *LibraryRead) NeedsToBeRemoved(*m.Map) bool {
+func (l *LibraryRead) NeedsToBeRemoved(*m.Map, *room.Service) bool {
 	return l.readingTime <= 0 || l.dwarf == nil
 }
 
