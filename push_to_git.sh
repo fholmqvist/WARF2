@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Carryable not picking up None!"
+message="Farm and Storage interplay fixed."
 git add --all
 git commit -m "$message"
 git push

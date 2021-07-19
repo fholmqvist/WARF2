@@ -66,7 +66,7 @@ func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) (int, bool)
 		return -1, false
 	}
 	t := s.StorageTiles[tIdx]
-	if t.Remaining() > 0 {
+	if t.Available(r) {
 		s.StorageTiles[tIdx].Add(r, amount)
 		return t.Idx, true
 	}
