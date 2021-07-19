@@ -23,12 +23,13 @@ func (d *Digging) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 	return !m.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite) || d.dwarf == nil
 }
 
-func (d *Digging) Finish(*m.Map, *room.Service) {
+func (d *Digging) Finish(*m.Map, *room.Service) bool {
 	if d.dwarf == nil {
-		return
+		return finished
 	}
 	d.dwarf.SetToAvailable()
 	d.dwarf = nil
+	return finished
 }
 
 // Ran on arrival.

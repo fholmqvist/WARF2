@@ -38,12 +38,13 @@ func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Serv
 	return p.moveDwarf(mp)
 }
 
-func (p *PlantFarm) Finish(*m.Map, *room.Service) {
+func (p *PlantFarm) Finish(*m.Map, *room.Service) bool {
 	if p.dwarf == nil {
-		return
+		return finished
 	}
 	p.dwarf.SetToAvailable()
 	p.dwarf = nil
+	return finished
 }
 
 func (p *PlantFarm) GetWorker() *dwarf.Dwarf {

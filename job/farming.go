@@ -23,12 +23,13 @@ func (f *Farming) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 	return len(f.destinations) == 0 && f.path == nil
 }
 
-func (d *Farming) Finish(*m.Map, *room.Service) {
+func (d *Farming) Finish(*m.Map, *room.Service) bool {
 	if d.dwarf == nil {
-		return
+		return finished
 	}
 	d.dwarf.SetToAvailable()
 	d.dwarf = nil
+	return finished
 }
 
 // Ran on arrival.

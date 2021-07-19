@@ -62,6 +62,17 @@ func (s *Service) GetFarm(farmID int) (*Farm, bool) {
 	return nil, false
 }
 
+func (s *Service) GetStorage(storageIdx int) (*Storage, bool) {
+	/////////////////////////
+	// TODO
+	// Should be ID, not IDX.
+	/////////////////////////
+	if storageIdx > len(s.Storages) {
+		return nil, false
+	}
+	return &s.Storages[storageIdx], true
+}
+
 func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res resource.Resource) (*Storage, int, bool) {
 	if len(s.Storages) == 0 {
 		return nil, -1, false

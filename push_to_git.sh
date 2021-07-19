@@ -1,5 +1,5 @@
 #!/bin/bash
-message="PlantFarm cancels if farm no longer exists."
+message="CarryingJob NewStorage WIP."
 git add --all
 git commit -m "$message"
 git push

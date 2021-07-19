@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -37,9 +38,9 @@ func (c *Carrying) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 	return c.path != nil && len(c.path) == 0
 }
 
-func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
+func (c *Carrying) Finish(mp *m.Map, s *room.Service) bool {
 	if c.dwarf == nil {
-		return
+		return finished
 	}
 	defer func() {
 		c.dwarf.SetToAvailable()
@@ -47,22 +48,31 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	}()
 	// Storage was deleted by user.
 	if c.storageIdx > len(s.Storages)-1 {
-		return
+		return finished
 	}
 	if c.sprite == m.None {
-		return
+		return finished
 	}
 	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
 	if !ok {
-		///////////////////////
+		x, y := globals.IdxToXY(c.dwarf.Idx)
+		_, idx, ok := s.FindNearestStorage(mp, x, y, c.resource)
+		if !ok {
+			return unfinished
+		}
+		///////////////////////////////
 		// TODO
-		// Obviously not great.
-		///////////////////////
-		fmt.Println("Carrying: Finish: Couldn't find storage tile.",
-			"Ignoring item (forever lost!).")
-		return
+		// New storage doesn't
+		// reset job. It is treated
+		// as done? Yet to investigate.
+		///////////////////////////////
+		fmt.Println("NEW STORAGE")
+		c.path = nil
+		c.goalDestination = idx
+		return unfinished
 	}
 	mp.Items[dropIdx].Sprite = c.sprite
+	return finished
 }
 
 func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {

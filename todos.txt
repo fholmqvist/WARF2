@@ -8,8 +8,10 @@ game\saveload.go:17:
 globals\items.go:144:
 	Support more than Wheat.
 
-job\carrying.go:57:
-	Obviously not great.
+job\carrying.go:63:
+	New storage doesn't
+	reset job. It is treated
+	as done? Yet to investigate.
 
 jobservice\check_for_job.go:57:
 	FloorBrick is _not_ an
@@ -34,6 +36,9 @@ mouse\mouse.go:69:
 
 mouse\mouse.go:114:
 	Overlays, placeholders, highlights...
+
+room\service.go:66:
+	Should be ID, not IDX.
 
 room\storage.go:12:
 	If the storage is filled
