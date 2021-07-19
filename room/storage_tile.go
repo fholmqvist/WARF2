@@ -15,19 +15,20 @@ type StorageTile struct {
 	Amount uint
 }
 
-func (s *StorageTile) Available(tpe resource.Resource) bool {
+func (s *StorageTile) Available(res resource.Resource) bool {
 	///////////////////
 	// TODO
 	// Switch amount on
 	// resource type.
 	///////////////////
-	if tpe == s.Resource && s.Amount < MAX_STORAGE {
+	if res == s.Resource && s.Amount < MAX_STORAGE {
 		return true
 	}
 	if s.Amount == 0 {
 		s.Resource = resource.None
+		return true
 	}
-	return s.Resource == resource.None && s.Amount == 0
+	return false
 }
 
 func (s *StorageTile) Unavailable(tpe resource.Resource) bool {

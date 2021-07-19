@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/resource"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -61,13 +62,16 @@ func (s *Service) GetFarm(farmID int) (*Farm, bool) {
 	return nil, false
 }
 
-func (s *Service) FindNearestStorage(mp *m.Map, x, y int) (*Storage, int, bool) {
+func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res resource.Resource) (*Storage, int, bool) {
 	if len(s.Storages) == 0 {
 		return nil, -1, false
 	}
 	closest := math.MaxFloat64
 	idx := -1
 	for i, storage := range s.Storages {
+		if !storage.HasSpace(res) {
+			continue
+		}
 		bx, by := globals.IdxToXY(storage.Center)
 		d := globals.Dist(x, y, bx, by)
 		if d < closest {

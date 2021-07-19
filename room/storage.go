@@ -65,19 +65,30 @@ func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) (int, bool)
 	if !ok {
 		return -1, false
 	}
-	t := s.StorageTiles[tIdx]
-	if t.Available(r) {
+	st := s.StorageTiles[tIdx]
+	if st.Available(r) {
+		// Add to nearest.
 		s.StorageTiles[tIdx].Add(r, amount)
-		return t.Idx, true
+		return st.Idx, true
 	}
-	for _, st := range s.StorageTiles {
+	for idx, st := range s.StorageTiles {
 		if st.Unavailable(r) {
 			continue
 		}
-		st.Add(r, amount)
+		// Add to first available.
+		s.StorageTiles[idx].Add(r, amount)
 		return st.Idx, true
 	}
 	return -1, false
+}
+
+func (s *Storage) HasSpace(res resource.Resource) bool {
+	for _, t := range s.StorageTiles {
+		if t.Available(res) {
+			return true
+		}
+	}
+	return false
 }
 
 func determineCenter(mp *m.Map, tiles m.Tiles) int {

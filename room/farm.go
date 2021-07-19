@@ -18,7 +18,7 @@ type Farm struct {
 
 func NewFarm(mp *m.Map, x, y int) *Farm {
 	f := &Farm{}
-	tiles := mp.FloodFillRoom(x, y, func() int { return m.None })
+	tiles := mp.FloodFillRoom(x, y, func() int { return m.Ground })
 	if len(tiles) == 0 {
 		return nil
 	}

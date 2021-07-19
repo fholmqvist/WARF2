@@ -12,6 +12,7 @@ import (
 	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	rail "github.com/Holmqvist1990/WARF2/rail"
+	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -99,7 +100,7 @@ func initWithArgs(args []string) *Game {
 		s2 := room.NewStorage(mp, 21, 6)
 		game.Rooms.Storages = append(game.Rooms.Storages, *s1)
 		game.Rooms.Storages = append(game.Rooms.Storages, *s2)
-		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1)
+		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1, resource.None)
 		if !ok {
 			panic(ok)
 		}
@@ -109,14 +110,16 @@ func initWithArgs(args []string) *Game {
 		mp := game.WorldMap
 		mp.DrawOutline(6, 8, 18, 14, m.WallSolid)
 		mp.DrawOutline(14, 13, 18, 18, m.WallSolid)
+		mp.DrawOutline(20, 24, 25, 29, m.WallSolid)
 		mp.Tiles[611].Sprite = m.Ground
 		mp.Tiles[614].Sprite = m.Ground
-		// game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 7, 7)) // Gorgeous!
+		mp.Tiles[1216].Sprite = m.Ground
 		game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 12, 9))
 		game.Rooms.Farms[0].Update(mp)
 		game.Rooms.Farms[0].Update(mp)
 		game.Rooms.Farms[0].Update(mp)
 		game.Rooms.Storages = append(game.Rooms.Storages, *room.NewStorage(mp, 15, 14))
+		game.Rooms.Storages = append(game.Rooms.Storages, *room.NewStorage(mp, 21, 25))
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.

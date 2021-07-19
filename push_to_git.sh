@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Farm and Storage interplay fixed."
+message="Check Storage for HasSpace before choosing it."
 git add --all
 git commit -m "$message"
 git push

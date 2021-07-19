@@ -66,7 +66,7 @@ func (j *Service) checkForCarryingJobs(rs *room.Service) {
 			continue
 		}
 		x, y := gl.IdxToXY(it.Idx)
-		nearest, storageIdx, ok := rs.FindNearestStorage(j.Map, x, y)
+		nearest, storageIdx, ok := rs.FindNearestStorage(j.Map, x, y, it.Resource)
 		if !ok {
 			continue
 		}
