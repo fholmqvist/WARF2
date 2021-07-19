@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Removed bug where Carrying None removes StorageItem"
+message="Dont remove Wheat when deleting farm."
 git add --all
 git commit -m "$message"
 git push
