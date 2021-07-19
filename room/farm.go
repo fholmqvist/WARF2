@@ -87,6 +87,9 @@ func (f *Farm) Update(mp *m.Map) {
 
 func (f *Farm) FullyHarvestedAndCleaned(mp *m.Map) bool {
 	for _, idx := range f.FarmableIdxs {
+		if mp.Items[idx].Sprite == gl.NoItem {
+			continue
+		}
 		if !gl.IsFarmTileHarvested(mp.Items[idx].Sprite) {
 			return false
 		}

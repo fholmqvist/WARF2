@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Farming cancelled if farm is removed."
+message="Carryable not picking up None!"
 git add --all
 git commit -m "$message"
 git push
