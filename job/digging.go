@@ -59,6 +59,10 @@ func (d *Digging) GetDestinations() []int {
 	return d.destinations
 }
 
+func (d *Digging) HasInternalMove() bool {
+	return false
+}
+
 func (d *Digging) GetWallIdx() int {
 	return d.wallIdx
 }

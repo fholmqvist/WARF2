@@ -1,17 +1,10 @@
 package job
 
 import (
-	"fmt"
-
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
-
-////////////////
-// TODO
-// Does nothing.
-////////////////
 
 type PlantFarm struct {
 	Farm         *room.Farm
@@ -25,13 +18,7 @@ func NewPlantFarm(farm *room.Farm, farmableDestinations []int) *PlantFarm {
 }
 
 func (p *PlantFarm) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
-	return false
-	if !p.Farm.FullyPlanted(mp) {
-		fmt.Println("NOT REMOVING")
-	} else {
-		fmt.Println("REMOVING")
-	}
-	return !p.Farm.FullyPlanted(mp)
+	return p.Farm.FullyPlanted(mp)
 }
 
 func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf) bool {
@@ -64,6 +51,10 @@ func (p *PlantFarm) GetDestinations() []int {
 	return p.destinations
 }
 
+func (p *PlantFarm) HasInternalMove() bool {
+	return true
+}
+
 func (p *PlantFarm) String() string {
 	return "PlantFarm"
 }
@@ -71,23 +62,14 @@ func (p *PlantFarm) String() string {
 func (p *PlantFarm) moveDwarf(mp *m.Map) bool {
 	currentIdx := getNextIdx(p.destinations)
 	if p.dwarf.Idx == currentIdx {
-		fmt.Println("PLANTING")
 		p.Farm.PlantFarm(mp, mp.Items[currentIdx])
 		p.destinations = p.destinations[:len(p.destinations)-1]
-		fmt.Println(p.destinations)
+		p.path = nil
 	}
 	if p.NeedsToBeRemoved(mp, nil) {
 		return finished
 	}
 	if p.path != nil {
-		///////////////////////
-		// TODO
-		// Something iffy here,
-		// currently broken.
-		///////////////////////
-		if p.dwarf.Idx != currentIdx {
-			return unfinished
-		}
 		p.moveAlongPath()
 		return unfinished
 	}
@@ -99,7 +81,6 @@ func (p *PlantFarm) moveDwarf(mp *m.Map) bool {
 		if !ok {
 			return unfinished
 		}
-		fmt.Println("PATH")
 		p.path = path
 	}
 	return unfinished

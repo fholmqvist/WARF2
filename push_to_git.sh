@@ -1,5 +1,5 @@
 #!/bin/bash
-message="WIP PlantFarm."
+message="PlantFarm works."
 git add --all
 git commit -m "$message"
 git push

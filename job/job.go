@@ -24,5 +24,6 @@ type Job interface {
 	GetWorker() *dwarf.Dwarf
 	SetWorker(*dwarf.Dwarf)
 	GetDestinations() []int
+	HasInternalMove() bool
 	String() string
 }

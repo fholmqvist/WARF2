@@ -53,6 +53,10 @@ func (l *LibraryRead) GetDestinations() []int {
 	return l.destinations
 }
 
+func (l *LibraryRead) HasInternalMove() bool {
+	return false
+}
+
 func (l *LibraryRead) String() string {
 	return "Library"
 }

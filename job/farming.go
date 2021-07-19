@@ -54,6 +54,10 @@ func (f *Farming) GetDestinations() []int {
 	return f.destinations
 }
 
+func (f *Farming) HasInternalMove() bool {
+	return true
+}
+
 func (f *Farming) String() string {
 	return "Farming"
 }

@@ -11,13 +11,6 @@ globals\items.go:144:
 job\carrying.go:52:
 	Obviously not great.
 
-job\plantfarm.go:11:
-	Does nothing.
-
-job\plantfarm.go:83:
-	Something iffy here,
-	currently broken.
-
 jobservice\check_for_job.go:57:
 	FloorBrick is _not_ an
 	adequate definition of storage.

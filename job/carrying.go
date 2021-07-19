@@ -83,6 +83,10 @@ func (c *Carrying) GetDestinations() []int {
 	return c.destinations
 }
 
+func (c *Carrying) HasInternalMove() bool {
+	return false
+}
+
 func (c *Carrying) String() string {
 	return "Carrying"
 }

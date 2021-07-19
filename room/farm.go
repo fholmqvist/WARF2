@@ -107,6 +107,11 @@ func (f *Farm) ShouldHarvest(mp *m.Map) ([]int, bool) {
 	if !gl.IsFarmHarvestable(f.farmTile.Sprite) {
 		return nil, false
 	}
+	for _, idx := range f.FarmableIdxs {
+		if !gl.IsFarmHarvestable(mp.Items[idx].Sprite) {
+			return nil, false
+		}
+	}
 	return f.FarmableIdxs, true
 }
 

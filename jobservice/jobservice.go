@@ -120,7 +120,7 @@ func (j *Service) performWork(rs *room.Service) {
 				d.SetToAvailable()
 				continue
 			}
-			if _, ok := jb.(*job.Farming); !ok {
+			if !jb.HasInternalMove() {
 				continue
 			}
 		}

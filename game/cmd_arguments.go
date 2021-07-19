@@ -105,14 +105,14 @@ func initWithArgs(args []string) *Game {
 		}
 		fmt.Println(ns.Center)
 	case "farm":
-		game = GenerateGame(8, m.BoundariesMap())
+		game = GenerateGame(4, m.BoundariesMap())
 		mp := game.WorldMap
-		mp.DrawOutline(6, 8, 18, 14, m.WallSolid) // Gorgeous!
+		mp.DrawOutline(6, 8, 18, 14, m.WallSolid)
 		mp.DrawOutline(14, 13, 18, 18, m.WallSolid)
 		mp.Tiles[611].Sprite = m.Ground
 		mp.Tiles[614].Sprite = m.Ground
-		// game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 7, 7)) // Gorgeous
-		game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 9, 9))
+		// game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 7, 7)) // Gorgeous!
+		game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 12, 9))
 		game.Rooms.Farms[0].Update(mp)
 		game.Rooms.Farms[0].Update(mp)
 		game.Rooms.Farms[0].Update(mp)
