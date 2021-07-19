@@ -18,11 +18,15 @@ func NewPlantFarm(farm *room.Farm, farmableDestinations []int) *PlantFarm {
 }
 
 func (p *PlantFarm) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
+	if p.Farm == nil {
+		return true
+	}
 	return p.Farm.FullyPlanted(mp)
 }
 
 func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	if _, ok := rs.GetFarm(p.Farm.ID); !ok {
+		p.Farm = nil
 		return finished
 	}
 	if len(p.destinations) == 0 {

@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Check Storage for HasSpace before choosing it."
+message="PlantFarm cancels if farm no longer exists."
 git add --all
 git commit -m "$message"
 git push
