@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Carrying picks new storage if full or missing."
+message="all_tiles"
 git add --all
 git commit -m "$message"
 git push
