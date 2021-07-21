@@ -57,9 +57,8 @@ func (j *Service) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
 	for _, job := range j.Jobs {
 		if job.NeedsToBeRemoved(j.Map, rs) {
-			if job.Finish(j.Map, rs) {
-				continue
-			}
+			job.Finish(j.Map, rs)
+			continue
 		}
 		jobs = append(jobs, job)
 	}
@@ -132,6 +131,8 @@ func (j *Service) performWork(rs *room.Service) {
 		case *job.Farming:
 			finished = jb.PerformWork(j.Map, nil, rs)
 		case *job.PlantFarm:
+			finished = jb.PerformWork(j.Map, nil, rs)
+		case *job.Carrying:
 			finished = jb.PerformWork(j.Map, nil, rs)
 		default:
 			finished = jb.PerformWork(j.Map, nil, nil)

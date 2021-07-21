@@ -8,10 +8,8 @@ game\saveload.go:17:
 globals\items.go:144:
 	Support more than Wheat.
 
-job\carrying.go:63:
-	New storage doesn't
-	reset job. It is treated
-	as done? Yet to investigate.
+job\carrying.go:57:
+	Yeah.
 
 jobservice\check_for_job.go:57:
 	FloorBrick is _not_ an

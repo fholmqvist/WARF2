@@ -23,9 +23,9 @@ func (l *LibraryRead) NeedsToBeRemoved(*m.Map, *room.Service) bool {
 	return l.readingTime <= 0 || l.dwarf == nil
 }
 
-func (l *LibraryRead) Finish(*m.Map, *room.Service) bool {
+func (l *LibraryRead) Finish(*m.Map, *room.Service) {
 	l.dwarf = nil
-	return finished
+	return
 }
 
 func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {

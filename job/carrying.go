@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
-	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -38,9 +37,9 @@ func (c *Carrying) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 	return c.path != nil && len(c.path) == 0
 }
 
-func (c *Carrying) Finish(mp *m.Map, s *room.Service) bool {
+func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	if c.dwarf == nil {
-		return finished
+		return
 	}
 	defer func() {
 		c.dwarf.SetToAvailable()
@@ -48,34 +47,30 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) bool {
 	}()
 	// Storage was deleted by user.
 	if c.storageIdx > len(s.Storages)-1 {
-		return finished
+		return
 	}
 	if c.sprite == m.None {
-		return finished
+		return
 	}
 	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
 	if !ok {
-		x, y := globals.IdxToXY(c.dwarf.Idx)
-		_, idx, ok := s.FindNearestStorage(mp, x, y, c.resource)
-		if !ok {
-			return unfinished
-		}
-		///////////////////////////////
+		////////
 		// TODO
-		// New storage doesn't
-		// reset job. It is treated
-		// as done? Yet to investigate.
-		///////////////////////////////
-		fmt.Println("NEW STORAGE")
-		c.path = nil
-		c.goalDestination = idx
-		return unfinished
+		// Yeah.
+		////////
+		fmt.Println("Carrying: Finish: Couldn't find storage tile.",
+			"Ignoring item (forever lost!).")
+		return
 	}
 	mp.Items[dropIdx].Sprite = c.sprite
-	return finished
 }
 
 func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	if storageMissingOrFull(c, rs) {
+		// Try again with
+		// new storage.
+		return finished
+	}
 	if setupPath(c, mp) {
 		return unfinished
 	}
@@ -132,4 +127,17 @@ func moveAlongPath(c *Carrying, mp *m.Map) {
 	c.prev = c.path[0]
 	// Iterate path.
 	c.path = c.path[1:]
+}
+
+func storageMissingOrFull(c *Carrying, rs *room.Service) bool {
+	if len(rs.Storages)-1 < c.storageIdx {
+		c.path = []int{}
+		return true
+	}
+	storage := rs.Storages[c.storageIdx]
+	if !storage.HasSpace(c.resource) {
+		c.path = []int{}
+		return true
+	}
+	return false
 }

@@ -1,5 +1,5 @@
 #!/bin/bash
-message="CarryingJob NewStorage WIP."
+message="Carrying picks new storage if full or missing."
 git add --all
 git commit -m "$message"
 git push
