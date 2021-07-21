@@ -11,9 +11,10 @@ import (
 // Service for gathering data
 // and functionality related to rooms.
 type Service struct {
-	Storages  []Storage
-	Farms     []Farm
-	Libraries []Library
+	Storages   []Storage
+	SleepHalls []SleepHall
+	Farms      []Farm
+	Libraries  []Library
 }
 
 func NewService() *Service {
@@ -24,6 +25,15 @@ func (s *Service) Update(mp *m.Map) {
 	for _, f := range s.Farms {
 		f.Update(mp)
 	}
+}
+
+func (s *Service) AddSleepHall(mp *m.Map, currentMousePos int) {
+	x, y := globals.IdxToXY(currentMousePos)
+	sh := NewSleepHall(mp, x, y)
+	if sh == nil {
+		return
+	}
+	s.SleepHalls = append(s.SleepHalls, *sh)
 }
 
 func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {

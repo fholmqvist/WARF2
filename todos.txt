@@ -32,10 +32,10 @@ mouse\mouse.go:69:
 	removes items that are
 	already there.
 
-mouse\mouse.go:114:
+mouse\mouse.go:117:
 	Overlays, placeholders, highlights...
 
-room\service.go:66:
+room\service.go:76:
 	Should be ID, not IDX.
 
 room\storage.go:12:

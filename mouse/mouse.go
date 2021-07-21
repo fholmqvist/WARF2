@@ -80,6 +80,9 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	case Storage:
 		rs.AddStorage(mp, currentMousePos)
 
+	case SleepHall:
+		rs.AddSleepHall(mp, currentMousePos)
+
 	case Farm:
 		rs.AddFarm(mp, currentMousePos)
 

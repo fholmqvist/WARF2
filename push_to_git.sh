@@ -1,5 +1,5 @@
 #!/bin/bash
-message="all_tiles"
+message="SleepHall WIP."
 git add --all
 git commit -m "$message"
 git push

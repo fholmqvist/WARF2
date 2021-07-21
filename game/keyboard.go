@@ -31,12 +31,15 @@ func handleTileSettingInput(g *Game) {
 		g.SetMouseMode(mouse.Storage)
 	}
 	if i.IsKeyJustPressed(e.Key3) {
-		g.SetMouseMode(mouse.Farm)
+		g.SetMouseMode(mouse.SleepHall)
 	}
 	if i.IsKeyJustPressed(e.Key4) {
-		g.SetMouseMode(mouse.Library)
+		g.SetMouseMode(mouse.Farm)
 	}
 	if i.IsKeyJustPressed(e.Key5) {
+		g.SetMouseMode(mouse.Library)
+	}
+	if i.IsKeyJustPressed(e.Key6) {
 		g.SetMouseMode(mouse.Delete)
 	}
 }

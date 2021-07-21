@@ -33,6 +33,8 @@ const (
 	WoodFloor2
 	WoodFloor3
 	WoodFloor4
+
+	WoodFloorVertical
 )
 const (
 	Straight = iota + 1
