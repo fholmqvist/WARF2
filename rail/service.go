@@ -39,7 +39,11 @@ func (r *Service) PlaceRails(idxs []int) {
 		if !ok {
 			continue
 		}
-		if m.Blocking(t) {
+		itemT, ok := r.Map.GetItemTileByIndex(idx)
+		if !ok {
+			continue
+		}
+		if m.Blocking(t, itemT) {
 			continue
 		}
 		rt, ok := r.Map.GetRailTileByIndex(idx)

@@ -14,7 +14,6 @@ type Tile struct {
 	Sprite   int               `json:"s"`
 	Island   int               `json:"-"`
 	Map      *Map              `json:"-"`
-	Blocked  bool              `json:"b"`
 	Rotation float64           `json:"rt"`
 	Resource resource.Resource `json:"rs"`
 }

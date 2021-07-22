@@ -51,7 +51,7 @@ func (j *Service) checkForCarryingJobs(rs *room.Service) {
 		if it.Resource == resource.None {
 			continue
 		}
-		if !shouldBeCarried(it.Sprite) {
+		if !gl.IsCarriable(it.Sprite) {
 			continue
 		}
 		////////////////////////////////////
@@ -164,8 +164,4 @@ func (j *Service) farmJobAlreadyExists(farm room.Farm) bool {
 		}
 	}
 	return false
-}
-
-func shouldBeCarried(sprite int) bool {
-	return gl.IsCrumbledWall(sprite) || gl.IsFarmTileHarvested(sprite)
 }

@@ -5,11 +5,15 @@ game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-globals\items.go:144:
+globals\items.go:153:
 	Support more than Wheat.
 
-job\carrying.go:57:
+job\carrying.go:58:
 	Yeah.
+
+job\carrying.go:76:
+	Item is no longer there, abort.
+	What should we actually do here?
 
 jobservice\check_for_job.go:57:
 	FloorBrick is _not_ an
@@ -34,6 +38,9 @@ mouse\mouse.go:69:
 
 mouse\mouse.go:117:
 	Overlays, placeholders, highlights...
+
+room\delete.go:9:
+	Are you beginning to smell an abstraction?
 
 room\service.go:76:
 	Should be ID, not IDX.

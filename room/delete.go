@@ -6,6 +6,10 @@ import (
 )
 
 func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
+	/////////////////////////////////////////////
+	// TODO
+	// Are you beginning to smell an abstraction?
+	/////////////////////////////////////////////
 	for i, l := range s.Libraries {
 		for _, lt := range l.tiles {
 			if lt.Idx == currentMousePos {
@@ -26,6 +30,14 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 		for _, idx := range f.AllTileIdxs {
 			if idx == currentMousePos {
 				s.DeleteFarm(mp, i)
+				return
+			}
+		}
+	}
+	for i, sh := range s.SleepHalls {
+		for _, t := range sh.tiles {
+			if t.Idx == currentMousePos {
+				s.DeleteSleepHall(mp, i)
 				return
 			}
 		}
@@ -60,4 +72,12 @@ func (s *Service) DeleteFarm(mp *m.Map, idx int) {
 		mp.Items[idx].Sprite = m.None
 	}
 	s.Farms = append(s.Farms[:idx], s.Farms[idx+1:]...)
+}
+
+func (s *Service) DeleteSleepHall(mp *m.Map, idx int) {
+	for _, t := range s.SleepHalls[idx].tiles {
+		mp.Tiles[t.Idx].Sprite = m.Ground
+		mp.Items[t.Idx].Sprite = m.None
+	}
+	s.SleepHalls = append(s.SleepHalls[:idx], s.SleepHalls[idx+1:]...)
 }

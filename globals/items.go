@@ -57,6 +57,10 @@ const (
 
 	Wheat
 )
+const (
+	BedRed1 = iota + TilesetW*4
+	BedRed2 = TilesetW * 5
+)
 
 var (
 	BookShelves = []int{
@@ -65,24 +69,29 @@ var (
 		BookShelfSeven, BookShelfEight, BookShelfNine,
 		BookShelfTen,
 	}
-
 	Furniture = []int{
 		ChairLeft, Table, ChairRight,
 	}
+	Beds = []int{
+		BedRed1, BedRed2,
+	}
 )
 
-var blockingItems = append([]int{Table}, BookShelves...)
+var blockingItems = [][]int{BookShelves, Furniture, Beds}
 
-// IsBlocking returns true
-// if the sprite is of a
-// type that blocks.
-func IsBlocking(sprite int) bool {
-	for _, i := range blockingItems {
-		if i == sprite {
-			return true
+func IsItemBlocking(sprite int) bool {
+	for _, xs := range blockingItems {
+		for _, x := range xs {
+			if x == sprite {
+				return true
+			}
 		}
 	}
 	return false
+}
+
+func IsCarriable(sprite int) bool {
+	return IsCrumbledWall(sprite) || IsFarmTileHarvested(sprite)
 }
 
 func IsCrumbledWall(sprite int) bool {
@@ -146,4 +155,8 @@ func IsFarmTileHarvested(sprite int) bool {
 	// Support more than Wheat.
 	///////////////////////////
 	return sprite == Wheat
+}
+
+func IsBed(sprite int) bool {
+	return sprite >= BedRed1 && sprite <= BedRed2
 }

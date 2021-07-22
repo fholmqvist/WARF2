@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -71,7 +72,17 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servi
 		// new storage.
 		return finished
 	}
-	if setupPath(c, mp) {
+	if c.path == nil {
+		///////////////////////////////////
+		// TODO
+		// Item is no longer there, abort.
+		// What should we actually do here?
+		///////////////////////////////////
+		if !globals.IsCarriable(mp.Items[c.dwarf.Idx].Sprite) {
+			c.path = []int{}
+			return finished
+		}
+		setupPath(c, mp)
 		return unfinished
 	}
 	if len(c.path) == 0 {
@@ -101,10 +112,7 @@ func (c *Carrying) String() string {
 	return "Carrying"
 }
 
-func setupPath(c *Carrying, mp *m.Map) bool {
-	if c.path != nil {
-		return false
-	}
+func setupPath(c *Carrying, mp *m.Map) {
 	mp.Items[c.dwarf.Idx].Sprite = 0
 	mp.Items[c.dwarf.Idx].Resource = 0
 	c.prev = c.dwarf.Idx
@@ -114,10 +122,9 @@ func setupPath(c *Carrying, mp *m.Map) bool {
 		&mp.Tiles[c.goalDestination],
 	)
 	if !ok {
-		return false
+		return
 	}
 	c.path = path
-	return true
 }
 
 func moveAlongPath(c *Carrying, mp *m.Map) {

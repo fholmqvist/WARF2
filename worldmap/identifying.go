@@ -109,11 +109,11 @@ func IsWoodFloor(sprite int) bool {
 // If we're only surrounded by two walls,
 // and those two walls are aligned,
 // we are in a door opening.
-func IsDoorOpening(m *Map, idx int) bool {
-	if IsAnyWall(m.Tiles[idx].Sprite) {
+func IsDoorOpening(mp *Map, idx int) bool {
+	if IsAnyWall(mp.Tiles[idx].Sprite) {
 		return false
 	}
-	tiles := SurroundingWallTilesFour(m, idx)
+	tiles := SurroundingWallTilesFour(mp, idx)
 	if len(tiles) != 2 {
 		return false
 	}
@@ -129,6 +129,19 @@ func IsDoorOpening(m *Map, idx int) bool {
 		return true
 	}
 	if tiles[0].Dir == Right && tiles[1].Dir == Left {
+		return true
+	}
+	return false
+}
+
+func IsNextToDoorOpening(mp *Map, idx int) bool {
+	if IsDoorOpening(mp, OneTileUp(idx)) ||
+		IsDoorOpening(mp, OneTileDown(idx)) ||
+		IsDoorOpening(mp, OneTileLeft(idx)) ||
+		IsDoorOpening(mp, OneTileRight(idx)) ||
+		IsAnyWall(mp.OneTileDown(idx).Sprite) ||
+		IsAnyWall(mp.OneTileDownLeft(idx).Sprite) ||
+		IsAnyWall(mp.OneTileDownRight(idx).Sprite) {
 		return true
 	}
 	return false

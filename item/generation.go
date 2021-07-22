@@ -20,9 +20,6 @@ func Place(mp *m.Map, x, y, sprite int) {
 		return
 	}
 	item.Sprite = sprite
-	if gl.IsBlocking(item.Sprite) {
-		tile.Blocked = true
-	}
 }
 
 func PlaceRandom(mp *m.Map, x, y int, f func() int) {
@@ -43,9 +40,6 @@ func PlaceRandomIdx(mp *m.Map, idx int, f func() int) {
 		return
 	}
 	item.Sprite = f()
-	if gl.IsBlocking(item.Sprite) {
-		tile.Blocked = true
-	}
 }
 
 func RandomBookshelf() int {

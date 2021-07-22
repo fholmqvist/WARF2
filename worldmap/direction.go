@@ -187,5 +187,5 @@ func NextIdxToDir(idx, next int) (Direction, error) {
 	if next == OneTileRight(idx) {
 		return Right, nil
 	}
-	return Up, fmt.Errorf("idx %v and next %v not adjacent:", idx, next)
+	return Up, fmt.Errorf("idx %v and next %v not adjacent", idx, next)
 }

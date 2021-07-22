@@ -27,14 +27,18 @@ func (t *Tile) PathNeighbors() []astar.Pather {
 		var neighbor *Tile
 		switch t.TileType {
 		case NormalTile:
-			n, ok := t.Map.GetTile(t.X+offsetX, t.Y+offsetY)
+			normalTile, ok := t.Map.GetTile(t.X+offsetX, t.Y+offsetY)
 			if !ok {
 				continue
 			}
-			if !IsExposed(n.Sprite) || n.Blocked {
+			itemTile, ok := t.Map.GetItemTile(t.X+offsetX, t.Y+offsetY)
+			if !ok {
 				continue
 			}
-			neighbor = n
+			if IsAnyWall(normalTile.Sprite) || Blocking(normalTile, itemTile) {
+				continue
+			}
+			neighbor = normalTile
 		case RailTile:
 			n, ok := t.Map.GetRailTile(t.X+offsetX, t.Y+offsetY)
 			if !ok {

@@ -197,3 +197,11 @@ func (m Map) getTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
 	}
 	return t, true
 }
+
+func (m Map) getItemTileByIndexAndDirection(idx int, dir Direction) (*Tile, bool) {
+	itemT, ok := m.GetItemTileByIndex(IndexAtDirection(idx, dir))
+	if !ok {
+		return nil, false
+	}
+	return itemT, true
+}
