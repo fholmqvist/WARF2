@@ -119,17 +119,8 @@ func initWithArgs(args []string) *Game {
 		}
 		game.Rooms.AddSleepHall(game.WorldMap, globals.XYToIdx(7, 7))
 		addDwarfToGame(&game, "Test 1")
-		addDwarfToGame(&game, "Test 2")
 		d1 := game.JobService.Workers[0]
 		d1.Needs.Sleep = 200
-		// d2 := game.JobService.Workers[1]
-		// d2.Characteristics.DesireToRead = 30
-		// f := func(g *Game) {
-		// 	for _, dwf := range g.JobService.Workers {
-		// 		fmt.Println(dwf.Needs.Sleep)
-		// 	}
-		// }
-		// game.debugFunc = &f
 	case "farm":
 		///////////////////////////////////////////////////////
 		// Debugging and testing farms and farming.

@@ -160,3 +160,7 @@ func IsFarmTileHarvested(sprite int) bool {
 func IsBed(sprite int) bool {
 	return sprite >= BedRed1 && sprite <= BedRed2
 }
+
+func IsBedTop(sprite int) bool {
+	return sprite == BedRed1
+}

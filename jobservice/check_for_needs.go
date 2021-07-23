@@ -1,8 +1,6 @@
 package jobservice
 
 import (
-	"fmt"
-
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -32,8 +30,10 @@ func (s *Service) checkForSleep(mp *worldmap.Map, rs *room.Service) {
 		if !ok {
 			continue
 		}
-		fmt.Println("NEW SLEEP")
-		jb := job.NewSleep(bedIndex)
+		jb := job.NewSleep(
+			bedIndex,
+			worldmap.TileDirsToIdxs(worldmap.SurroundingTilesFour(bedIndex)),
+		)
 		SetWorkerAndMove(jb, dwf, mp)
 		s.Jobs = append(s.Jobs, jb)
 		dwf.Needs.Sleep = 0
@@ -52,7 +52,10 @@ func (s *Service) checkForReading(mp *worldmap.Map) {
 		if !ok {
 			continue
 		}
-		jb := job.NewLibraryRead([]int{destination}, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
+		jb := job.NewLibraryRead(
+			[]int{destination},
+			int(dwf.Characteristics.DesireToRead*TIME_FACTOR),
+		)
 		SetWorkerAndMove(jb, dwf, mp)
 		s.Jobs = append(s.Jobs, jb)
 		dwf.Needs.ToRead = 0

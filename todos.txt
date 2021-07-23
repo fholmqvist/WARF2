@@ -23,6 +23,10 @@ jobservice\check_for_job.go:102:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
+jobservice\check_for_needs.go:24:
+	Crashes here.
+	Needs to pick position next to bed.
+
 mouse\mouse.go:5:
 	Perhaps this entire system
 	should be baked into UI?

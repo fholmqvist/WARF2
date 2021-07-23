@@ -15,6 +15,14 @@ type TileDir struct {
 	Dir Direction
 }
 
+func TileDirsToIdxs(t []TileDir) []int {
+	idxs := make([]int, len(t))
+	for i := range t {
+		idxs = append(idxs, t[i].Idx)
+	}
+	return idxs
+}
+
 // Direction type for collision checking.
 type Direction int
 
@@ -42,7 +50,6 @@ func GetDirection(i int) (Direction, error) {
 	case 3:
 		return Right, nil
 	}
-
 	return Up, fmt.Errorf("no such direction: %d", i)
 }
 
@@ -60,7 +67,6 @@ func DirectionToText(dir Direction) string {
 	case Right:
 		return "Right"
 	}
-
 	return "Unknown direction"
 }
 
@@ -68,7 +74,6 @@ func DirectionToText(dir Direction) string {
 // at the direction from the current index.
 func IndexAtDirection(idx int, dir Direction) int {
 	switch dir {
-
 	case Up:
 		return OneTileUp(idx)
 	case Right:
@@ -85,7 +90,6 @@ func IndexAtDirection(idx int, dir Direction) int {
 		return OneTileDownLeft(idx)
 	case DownRight:
 		return OneTileDownRight(idx)
-
 	default:
 		fmt.Println("unknown direction:", DirectionToText(dir))
 		return -1

@@ -25,7 +25,6 @@ func (l *Read) NeedsToBeRemoved(*m.Map, *room.Service) bool {
 
 func (l *Read) Finish(*m.Map, *room.Service) {
 	l.dwarf = nil
-	return
 }
 
 func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {

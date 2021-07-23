@@ -110,14 +110,13 @@ func (j *Service) performWork(rs *room.Service) {
 		if !dw.HasJob() {
 			continue
 		}
-		var hasArrived bool
 		for _, destination := range jb.GetDestinations() {
 			if dw.Idx == destination {
-				hasArrived = true
+				dw.State = dwarf.Arrived
 				break
 			}
 		}
-		if !hasArrived {
+		if dw.State != dwarf.Arrived {
 			if len(dw.Path) == 0 && jb.NeedsToBeRemoved(j.Map, rs) {
 				dw.SetToAvailable()
 				continue
@@ -126,20 +125,7 @@ func (j *Service) performWork(rs *room.Service) {
 				continue
 			}
 		}
-		dw.State = dwarf.Arrived
-		finished := false
-		switch jb.(type) {
-		case *job.Read:
-			finished = jb.PerformWork(j.Map, j.Workers, nil)
-		case *job.Farming:
-			finished = jb.PerformWork(j.Map, nil, rs)
-		case *job.PlantFarm:
-			finished = jb.PerformWork(j.Map, nil, rs)
-		case *job.Carrying:
-			finished = jb.PerformWork(j.Map, nil, rs)
-		default:
-			finished = jb.PerformWork(j.Map, nil, nil)
-		}
+		finished := jb.PerformWork(j.Map, j.Workers, rs)
 		if !finished {
 			continue
 		}

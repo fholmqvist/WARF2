@@ -31,7 +31,6 @@ func (d *Farming) Finish(*m.Map, *room.Service) {
 	d.dwarf = nil
 }
 
-// Ran on arrival.
 func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	if _, ok := rs.GetFarm(f.FarmID); !ok {
 		f.destinations = []int{}

@@ -44,7 +44,6 @@ func (p *PlantFarm) Finish(*m.Map, *room.Service) {
 	}
 	p.dwarf.SetToAvailable()
 	p.dwarf = nil
-	return
 }
 
 func (p *PlantFarm) GetWorker() *dwarf.Dwarf {
