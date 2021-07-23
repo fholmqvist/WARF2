@@ -63,3 +63,7 @@ func FindNearestChair(m *worldmap.Map, idx int) (int, bool) {
 func FindNearestChairs(m *worldmap.Map, idx int) ([]int, bool) {
 	return FindNearestMany(m, idx, gl.IsChair)
 }
+
+func FindNearestBed(m *worldmap.Map, idx int) (int, bool) {
+	return FindNearest(m, idx, gl.IsBed)
+}

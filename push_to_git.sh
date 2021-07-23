@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Started changes on WorkState."
+message="WIP Sleep, Need.Sleep."
 git add --all
 git commit -m "$message"
 git push

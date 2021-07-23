@@ -4,6 +4,7 @@ import (
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/job"
+	"github.com/Holmqvist1990/WARF2/room"
 	"github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -12,12 +13,31 @@ const (
 	LIBRARY_READ_CUTOFF = 80
 )
 
-func (j *Service) checkForReading(mp *worldmap.Map) {
-	for _, dwf := range j.AvailableWorkers {
+func (s *Service) checkForSleep(mp *worldmap.Map, rs *room.Service) {
+	for _, dwf := range s.AvailableWorkers {
+		if dwf.Needs.Sleep < dwarf.MAX_NEED {
+			continue
+		}
+		if sleepAlreadyExists(s, dwf) {
+			continue
+		}
+		bedIndex, ok := item.FindNearestBed(mp, dwf.Idx)
+		if !ok {
+			continue
+		}
+		jb := job.NewSleep(bedIndex)
+		SetWorkerAndMove(jb, dwf, mp)
+		s.Jobs = append(s.Jobs, jb)
+		dwf.Needs.Sleep = 0
+	}
+}
+
+func (s *Service) checkForReading(mp *worldmap.Map) {
+	for _, dwf := range s.AvailableWorkers {
 		if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
 			continue
 		}
-		if readingAlreadyExists(j, dwf) {
+		if readingAlreadyExists(s, dwf) {
 			continue
 		}
 		destination, ok := getBookshelfDestination(mp, *dwf)
@@ -26,7 +46,7 @@ func (j *Service) checkForReading(mp *worldmap.Map) {
 		}
 		jb := job.NewLibraryRead([]int{destination}, int(dwf.Characteristics.DesireToRead*TIME_FACTOR))
 		SetWorkerAndMove(jb, dwf, mp)
-		j.Jobs = append(j.Jobs, jb)
+		s.Jobs = append(s.Jobs, jb)
 		dwf.Needs.ToRead = 0
 	}
 }
@@ -41,6 +61,19 @@ func getBookshelfDestination(mp *worldmap.Map, dwf dwarf.Dwarf) (int, bool) {
 		return -1, false
 	}
 	return destination.Idx, true
+}
+
+func sleepAlreadyExists(s *Service, dwf *dwarf.Dwarf) bool {
+	for _, jb := range s.Jobs {
+		rd, ok := jb.(*job.Sleep)
+		if !ok {
+			continue
+		}
+		if rd.GetWorker() == dwf {
+			return true
+		}
+	}
+	return false
 }
 
 func readingAlreadyExists(g *Service, dwf *dwarf.Dwarf) bool {
