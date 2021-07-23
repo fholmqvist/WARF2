@@ -101,29 +101,30 @@ func (j *Service) updateAvailableWorkers() {
 
 func (j *Service) performWork(rs *room.Service) {
 	for _, jb := range j.Jobs {
-		d := jb.GetWorker()
-		if d == nil {
+		dw := jb.GetWorker()
+		if dw == nil {
 			continue
 		}
-		if !d.HasJob() {
+		if !dw.HasJob() {
 			continue
 		}
 		var hasArrived bool
 		for _, destination := range jb.GetDestinations() {
-			if d.Idx == destination {
+			if dw.Idx == destination {
 				hasArrived = true
 				break
 			}
 		}
 		if !hasArrived {
-			if len(d.Path) == 0 && jb.NeedsToBeRemoved(j.Map, rs) {
-				d.SetToAvailable()
+			if len(dw.Path) == 0 && jb.NeedsToBeRemoved(j.Map, rs) {
+				dw.SetToAvailable()
 				continue
 			}
 			if !jb.HasInternalMove() {
 				continue
 			}
 		}
+		dw.State = dwarf.Arrived
 		finished := false
 		switch jb.(type) {
 		case *job.LibraryRead:
@@ -140,6 +141,6 @@ func (j *Service) performWork(rs *room.Service) {
 		if !finished {
 			continue
 		}
-		d.SetToAvailable()
+		dw.SetToAvailable()
 	}
 }
