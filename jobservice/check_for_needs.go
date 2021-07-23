@@ -1,6 +1,8 @@
 package jobservice
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -21,10 +23,16 @@ func (s *Service) checkForSleep(mp *worldmap.Map, rs *room.Service) {
 		if sleepAlreadyExists(s, dwf) {
 			continue
 		}
+		//////////////////////////////////////
+		// TODO
+		// Crashes here.
+		// Needs to pick position next to bed.
+		//////////////////////////////////////
 		bedIndex, ok := item.FindNearestBed(mp, dwf.Idx)
 		if !ok {
 			continue
 		}
+		fmt.Println("NEW SLEEP")
 		jb := job.NewSleep(bedIndex)
 		SetWorkerAndMove(jb, dwf, mp)
 		s.Jobs = append(s.Jobs, jb)
@@ -78,7 +86,7 @@ func sleepAlreadyExists(s *Service, dwf *dwarf.Dwarf) bool {
 
 func readingAlreadyExists(g *Service, dwf *dwarf.Dwarf) bool {
 	for _, jb := range g.Jobs {
-		rd, ok := jb.(*job.LibraryRead)
+		rd, ok := jb.(*job.Read)
 		if !ok {
 			continue
 		}

@@ -33,12 +33,14 @@ func (jb *Service) GetPriority(j job.Job) int {
 		return 5
 	case *job.Carrying:
 		return 3
-	case *job.LibraryRead:
-		return 1
 	case *job.Farming:
 		return 3
 	case *job.PlantFarm:
 		return 2
+	case *job.Sleep:
+		return 3
+	case *job.Read:
+		return 1
 	default:
 		panic(fmt.Sprint("missing job type:", j))
 	}

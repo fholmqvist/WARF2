@@ -37,10 +37,12 @@ func (j *Service) Update(rs *room.Service, mp *m.Map) {
 	// CLEANUP.
 	j.removeFinishedJobs(rs)
 	j.updateAvailableWorkers()
-	// CHECKS.
+	// JOB CHECKS.
 	j.checkForDiggingJobs()
 	j.checkForCarryingJobs(rs)
 	j.checkForFarmingJobs(rs)
+	// NEED CHECKS.
+	j.checkForSleep(mp, rs)
 	j.checkForReading(mp)
 	// SORT.
 	j.sortJobPriorities()
@@ -127,7 +129,7 @@ func (j *Service) performWork(rs *room.Service) {
 		dw.State = dwarf.Arrived
 		finished := false
 		switch jb.(type) {
-		case *job.LibraryRead:
+		case *job.Read:
 			finished = jb.PerformWork(j.Map, j.Workers, nil)
 		case *job.Farming:
 			finished = jb.PerformWork(j.Map, nil, rs)

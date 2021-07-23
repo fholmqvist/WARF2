@@ -9,26 +9,26 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-type LibraryRead struct {
+type Read struct {
 	dwarf        *dwarf.Dwarf
 	destinations []int
 	readingTime  int
 }
 
-func NewLibraryRead(destinations []int, readingTime int) *LibraryRead {
-	return &LibraryRead{nil, destinations, readingTime}
+func NewLibraryRead(destinations []int, readingTime int) *Read {
+	return &Read{nil, destinations, readingTime}
 }
 
-func (l *LibraryRead) NeedsToBeRemoved(*m.Map, *room.Service) bool {
+func (l *Read) NeedsToBeRemoved(*m.Map, *room.Service) bool {
 	return l.readingTime <= 0 || l.dwarf == nil
 }
 
-func (l *LibraryRead) Finish(*m.Map, *room.Service) {
+func (l *Read) Finish(*m.Map, *room.Service) {
 	l.dwarf = nil
 	return
 }
 
-func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	if shouldGetChair(m, l) {
 		return getChair(m, l, dwarves)
 	}
@@ -42,32 +42,32 @@ func (l *LibraryRead) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Ser
 	return finished
 }
 
-func (l *LibraryRead) GetWorker() *dwarf.Dwarf {
+func (l *Read) GetWorker() *dwarf.Dwarf {
 	return l.dwarf
 }
 
-func (l *LibraryRead) SetWorker(dw *dwarf.Dwarf) {
+func (l *Read) SetWorker(dw *dwarf.Dwarf) {
 	l.dwarf = dw
 }
 
-func (l *LibraryRead) GetDestinations() []int {
+func (l *Read) GetDestinations() []int {
 	return l.destinations
 }
 
-func (l *LibraryRead) HasInternalMove() bool {
+func (l *Read) HasInternalMove() bool {
 	return false
 }
 
-func (l *LibraryRead) String() string {
+func (l *Read) String() string {
 	return "Library"
 }
 
-func shouldGetChair(m *worldmap.Map, l *LibraryRead) bool {
+func shouldGetChair(m *worldmap.Map, l *Read) bool {
 	return !gl.IsChair(m.Items[l.dwarf.Idx].Sprite) &&
 		l.dwarf.State != dwarf.Moving
 }
 
-func getChair(m *worldmap.Map, l *LibraryRead, dwarves []*dwarf.Dwarf) bool {
+func getChair(m *worldmap.Map, l *Read, dwarves []*dwarf.Dwarf) bool {
 	dsts, ok := item.FindNearestChairs(m, l.destinations[0])
 	if !ok {
 		return unfinished

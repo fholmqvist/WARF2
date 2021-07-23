@@ -105,7 +105,35 @@ func initWithArgs(args []string) *Game {
 			panic(ok)
 		}
 		fmt.Println(ns.Center)
+	case "sleep":
+		///////////////////////////////////////////////////////
+		// Debugging and testing sleep halls and sleeping.
+		///////////////////////////////////////////////////////
+		game = GenerateGame(0, emptyMap())
+		game.WorldMap.DrawOutline(6, 5, 38, 14, m.WallSolid)
+		game.WorldMap.DrawOutline(24, 13, 38, 22, m.WallSolid)
+		game.WorldMap.Tiles[252].Sprite = m.Ground
+		game.WorldMap.Tiles[620].Sprite = m.Ground
+		for idx := 623; idx <= 634; idx++ {
+			game.WorldMap.Tiles[idx].Sprite = m.Ground
+		}
+		game.Rooms.AddSleepHall(game.WorldMap, globals.XYToIdx(7, 7))
+		addDwarfToGame(&game, "Test 1")
+		addDwarfToGame(&game, "Test 2")
+		d1 := game.JobService.Workers[0]
+		d1.Needs.Sleep = 200
+		// d2 := game.JobService.Workers[1]
+		// d2.Characteristics.DesireToRead = 30
+		// f := func(g *Game) {
+		// 	for _, dwf := range g.JobService.Workers {
+		// 		fmt.Println(dwf.Needs.Sleep)
+		// 	}
+		// }
+		// game.debugFunc = &f
 	case "farm":
+		///////////////////////////////////////////////////////
+		// Debugging and testing farms and farming.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(4, m.BoundariesMap())
 		mp := game.WorldMap
 		mp.DrawOutline(6, 8, 18, 14, m.WallSolid)

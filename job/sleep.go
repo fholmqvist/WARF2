@@ -1,6 +1,8 @@
 package job
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -17,7 +19,10 @@ func NewSleep(destination int) *Sleep {
 }
 
 func (s *Sleep) NeedsToBeRemoved(*m.Map, *room.Service) bool {
-	return false
+	if s.dwarf == nil {
+		fmt.Println("REMOVING")
+	}
+	return s.dwarf != nil
 }
 
 func (s *Sleep) PerformWork(*m.Map, []*dwarf.Dwarf, *room.Service) bool {
