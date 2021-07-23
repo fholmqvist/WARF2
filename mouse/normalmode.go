@@ -134,7 +134,7 @@ func printDwarf(dwarves *[]*dwarf.Dwarf, currentMousePos int) {
 		if dwarf.Idx != currentMousePos {
 			continue
 		}
-		fmt.Printf("DWARF: %v. STATE: %v.\n", dwarf.Name, dwarf.State)
+		fmt.Println(dwarf.String())
 		return
 	}
 }

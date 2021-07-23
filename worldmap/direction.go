@@ -191,5 +191,11 @@ func NextIdxToDir(idx, next int) (Direction, error) {
 	if next == OneTileRight(idx) {
 		return Right, nil
 	}
-	return Up, fmt.Errorf("idx %v and next %v not adjacent", idx, next)
+	return Up, nextIdxToDirError(idx, next)
+}
+
+func nextIdxToDirError(idx, next int) error {
+	x1, y1 := globals.IdxToXY(idx)
+	x2, y2 := globals.IdxToXY(next)
+	return fmt.Errorf("NextIdxToDir error:\n\tidx %v and next %v not adjacent, vdiff %v, hdiff %v", idx, next, y1-y2, x1-x2)
 }

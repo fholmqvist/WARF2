@@ -23,8 +23,8 @@ func (s *Service) checkForSleep(mp *worldmap.Map, rs *room.Service) {
 		}
 		//////////////////////////////////////
 		// TODO
-		// Crashes here.
-		// Needs to pick position next to bed.
+		// FindNearestBeds (plural).
+		// Don't rest in occupied bed.
 		//////////////////////////////////////
 		bedIndex, ok := item.FindNearestBed(mp, dwf.Idx)
 		if !ok {

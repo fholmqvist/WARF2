@@ -24,8 +24,8 @@ jobservice\check_for_job.go:102:
 	adequate definition of storage.
 
 jobservice\check_for_needs.go:24:
-	Crashes here.
-	Needs to pick position next to bed.
+	FindNearestBeds (plural).
+	Don't rest in occupied bed.
 
 mouse\mouse.go:5:
 	Perhaps this entire system
