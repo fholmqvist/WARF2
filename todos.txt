@@ -35,16 +35,17 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-mouse\mouse.go:69:
+mouse\mouse.go:68:
 	Setting and deleting rooms
 	removes items that are
 	already there.
-
-mouse\mouse.go:117:
-	Overlays, placeholders, highlights...
+	Change: Room needs to be empty.
 
 room\delete.go:9:
 	Are you beginning to smell an abstraction?
+
+room\delete.go:58:
+	Don't delete items in storage.
 
 room\service.go:76:
 	Should be ID, not IDX.

@@ -10,6 +10,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 	// TODO
 	// Are you beginning to smell an abstraction?
 	/////////////////////////////////////////////
+
 	for i, l := range s.Libraries {
 		for _, lt := range l.tiles {
 			if lt.Idx == currentMousePos {
@@ -54,6 +55,10 @@ func (s *Service) DeleteLibrary(mp *m.Map, idx int) {
 }
 
 func (s *Service) DeleteStorage(mp *m.Map, idx int) {
+	/////////////////////////////////////////////
+	// TODO
+	// Don't delete items in storage.
+	/////////////////////////////////////////////
 	st := s.Storages[idx]
 	for _, t := range st.StorageTiles {
 		mp.Tiles[t.Idx].Sprite = m.Ground

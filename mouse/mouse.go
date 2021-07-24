@@ -49,7 +49,6 @@ func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) {
 		unsetHasClicked()
 		return
 	}
-	s.mouseHover(mp)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		s.mouseClick(mp, rs, dwarves, idx)
 		return
@@ -66,12 +65,13 @@ func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) {
 }
 
 func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
-	/////////////////////////////////
+	//////////////////////////////////
 	// TODO
 	// Setting and deleting rooms
 	// removes items that are
 	// already there.
-	/////////////////////////////////
+	// Change: Room needs to be empty.
+	//////////////////////////////////
 	switch s.Mode {
 
 	case Normal:
@@ -112,14 +112,4 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 	}
 	mp.ClearSelectedTiles()
 	unsetHasClicked()
-}
-
-/////////////////////////////////////////////////
-// TODO
-// Overlays, placeholders, highlights...
-/////////////////////////////////////////////////
-func (s *System) mouseHover(mp *m.Map) {
-	switch s.Mode {
-	default:
-	}
 }
