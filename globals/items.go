@@ -107,7 +107,7 @@ func IsChair(sprite int) bool {
 }
 
 func IsLibraryItem(sprite int) bool {
-	return sprite >= ChairLeft && sprite <= ChairRight
+	return IsChair(sprite) || sprite == Table || IsBookshelf(sprite)
 }
 
 func IsFarm(sprite int) bool {

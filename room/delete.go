@@ -6,40 +6,52 @@ import (
 )
 
 func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
-	/////////////////////////////////////////////
+	///////////////////////////////////////////////
 	// TODO
 	// Are you beginning to smell an abstraction?
-	/////////////////////////////////////////////
-
-	for i, l := range s.Libraries {
-		for _, lt := range l.tiles {
-			if lt.Idx == currentMousePos {
-				s.DeleteLibrary(mp, i)
-				return
+	// At some point we could use a quadtree here,
+	// though for the time being I'm not sure the
+	// performance improvement would be that great.
+	///////////////////////////////////////////////
+	itemSprite := mp.Items[currentMousePos].Sprite
+	sprite := mp.Tiles[currentMousePos].Sprite
+	if globals.IsLibraryItem(itemSprite) || m.IsLibraryWoodFloor(sprite) {
+		for i, l := range s.Libraries {
+			for _, lt := range l.tiles {
+				if lt.Idx == currentMousePos {
+					s.DeleteLibrary(mp, i)
+					return
+				}
 			}
 		}
 	}
-	for i, st := range s.Storages {
-		for _, t := range st.StorageTiles {
-			if t.Idx == currentMousePos {
-				s.DeleteStorage(mp, i)
-				return
+	if m.IsStorageFloorBrick(sprite) {
+		for i, st := range s.Storages {
+			for _, t := range st.StorageTiles {
+				if t.Idx == currentMousePos {
+					s.DeleteStorage(mp, i)
+					return
+				}
 			}
 		}
 	}
-	for i, f := range s.Farms {
-		for _, idx := range f.AllTileIdxs {
-			if idx == currentMousePos {
-				s.DeleteFarm(mp, i)
-				return
+	if globals.IsFarm(itemSprite) || itemSprite == globals.NoItem {
+		for i, f := range s.Farms {
+			for _, idx := range f.AllTileIdxs {
+				if idx == currentMousePos {
+					s.DeleteFarm(mp, i)
+					return
+				}
 			}
 		}
 	}
-	for i, sh := range s.SleepHalls {
-		for _, t := range sh.tiles {
-			if t.Idx == currentMousePos {
-				s.DeleteSleepHall(mp, i)
-				return
+	if globals.IsBed(itemSprite) || m.IsSleepHallWoodFloor(sprite) {
+		for i, sh := range s.SleepHalls {
+			for _, t := range sh.tiles {
+				if t.Idx == currentMousePos {
+					s.DeleteSleepHall(mp, i)
+					return
+				}
 			}
 		}
 	}

@@ -59,7 +59,7 @@ func (j *Service) checkForCarryingJobs(rs *room.Service) {
 		// FloorBrick is _not_ an
 		// adequate definition of storage.
 		////////////////////////////////////
-		if m.IsFloorBrick(j.Map.Tiles[it.Idx].Sprite) {
+		if m.IsStorageFloorBrick(j.Map.Tiles[it.Idx].Sprite) {
 			continue
 		}
 		if j.carryingJobAlreadyExists(it.Idx, j.Map) {
@@ -104,7 +104,7 @@ func (j *Service) carryingJobAlreadyExists(idx int, mp *m.Map) bool {
 		// FloorBrick is _not_ an
 		// adequate definition of storage.
 		////////////////////////////////////
-		if m.IsFloorBrick(mp.Tiles[idx].Sprite) {
+		if m.IsStorageFloorBrick(mp.Tiles[idx].Sprite) {
 			return true
 		}
 		for _, jb2 := range j.Jobs {

@@ -1,5 +1,5 @@
 #!/bin/bash
-message="More TODO comments."
+message="DeleteRoomAtMousePos checks."
 git add --all
 git commit -m "$message"
 git push

@@ -121,7 +121,7 @@ func (l *Library) generateFurniture(mp *m.Map, t m.Tile) {
 		if m.IsAnyWall(spr) {
 			return
 		}
-		if !m.IsWoodFloor(spr) {
+		if !m.IsLibraryWoodFloor(spr) {
 			return
 		}
 		if m.IsDoorOpening(mp, m.OneTileDown(gl.XYToIdx(x, t.Y))) {

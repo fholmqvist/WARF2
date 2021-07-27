@@ -43,8 +43,11 @@ mouse\mouse.go:68:
 
 room\delete.go:9:
 	Are you beginning to smell an abstraction?
+	At some point we could use a quadtree here,
+	though for the time being I'm not sure the
+	performance improvement would be that great.
 
-room\delete.go:58:
+room\delete.go:70:
 	Don't delete items in storage.
 
 room\service.go:76:
