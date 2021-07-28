@@ -57,4 +57,5 @@ func addDwarfToGame(g *Game, name string) {
 		return
 	}
 	g.JobService.Workers = append(g.JobService.Workers, dwarf)
+	g.JobService.AvailableWorkers = append(g.JobService.AvailableWorkers, dwarf)
 }

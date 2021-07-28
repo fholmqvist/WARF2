@@ -33,17 +33,19 @@ func NewService(mp *m.Map) *Service {
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
 func (s *Service) Update(rs *room.Service, mp *m.Map) {
-	// CLEANUP.
-	s.removeFinishedJobs(rs)
-	s.updateAvailableWorkers()
-	// CHECKS.
-	s.checkForJobs(rs)
-	s.checkForNeeds(mp, rs)
-	// SORT.
-	s.sortJobPriorities()
-	// PERFORM.
-	s.assignWorkers()
-	s.performWork(rs)
+	if len(s.Jobs) > 0 {
+		s.removeFinishedJobs(rs)
+		s.updateAvailableWorkers()
+	}
+	if len(s.AvailableWorkers) > 0 {
+		s.checkForJobs(rs)
+		s.checkForNeeds(mp, rs)
+	}
+	if len(s.Jobs) > 0 {
+		s.sortJobPriorities()
+		s.assignWorkers()
+		s.performWork(rs)
+	}
 }
 
 func (s *Service) removeFinishedJobs(rs *room.Service) {
@@ -59,25 +61,19 @@ func (s *Service) removeFinishedJobs(rs *room.Service) {
 }
 
 func (s *Service) assignWorkers() {
-	available := s.AvailableWorkers
 	for _, job := range s.Jobs {
 		if HasWorker(job) {
 			continue
 		}
-		var foundWorker bool
 	lookingForWorker:
-		for _, worker := range available {
+		for _, worker := range s.AvailableWorkers {
 			if worker.HasJob() {
 				continue
 			}
-			foundWorker = SetWorkerAndMove(job, worker, s.Map)
-			if !foundWorker {
+			if !SetWorkerAndMove(job, worker, s.Map) {
 				continue
 			}
 			break lookingForWorker
-		}
-		if foundWorker {
-			available = s.AvailableWorkers
 		}
 	}
 }
