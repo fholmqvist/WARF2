@@ -5,7 +5,6 @@ package jobservice
 
 import (
 	"math/rand"
-	"sort"
 	"time"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
@@ -33,43 +32,35 @@ func NewService(mp *m.Map) *Service {
 
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
-func (j *Service) Update(rs *room.Service, mp *m.Map) {
+func (s *Service) Update(rs *room.Service, mp *m.Map) {
 	// CLEANUP.
-	j.removeFinishedJobs(rs)
-	j.updateAvailableWorkers()
-	// JOB CHECKS.
-	j.checkForDiggingJobs()
-	j.checkForCarryingJobs(rs)
-	j.checkForFarmingJobs(rs)
-	// NEED CHECKS.
-	j.checkForSleep(mp, rs)
-	j.checkForReading(mp)
+	s.removeFinishedJobs(rs)
+	s.updateAvailableWorkers()
+	// CHECKS.
+	s.checkForJobs(rs)
+	s.checkForNeeds(mp, rs)
 	// SORT.
-	j.sortJobPriorities()
+	s.sortJobPriorities()
 	// PERFORM.
-	j.assignWorkers()
-	j.performWork(rs)
+	s.assignWorkers()
+	s.performWork(rs)
 }
 
-func (j *Service) sortJobPriorities() {
-	sort.Sort(j)
-}
-
-func (j *Service) removeFinishedJobs(rs *room.Service) {
+func (s *Service) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
-	for _, job := range j.Jobs {
-		if job.NeedsToBeRemoved(j.Map, rs) {
-			job.Finish(j.Map, rs)
+	for _, job := range s.Jobs {
+		if job.NeedsToBeRemoved(s.Map, rs) {
+			job.Finish(s.Map, rs)
 			continue
 		}
 		jobs = append(jobs, job)
 	}
-	j.Jobs = jobs
+	s.Jobs = jobs
 }
 
-func (j *Service) assignWorkers() {
-	available := j.AvailableWorkers
-	for _, job := range j.Jobs {
+func (s *Service) assignWorkers() {
+	available := s.AvailableWorkers
+	for _, job := range s.Jobs {
 		if HasWorker(job) {
 			continue
 		}
@@ -79,30 +70,30 @@ func (j *Service) assignWorkers() {
 			if worker.HasJob() {
 				continue
 			}
-			foundWorker = SetWorkerAndMove(job, worker, j.Map)
+			foundWorker = SetWorkerAndMove(job, worker, s.Map)
 			if !foundWorker {
 				continue
 			}
 			break lookingForWorker
 		}
 		if foundWorker {
-			available = j.AvailableWorkers
+			available = s.AvailableWorkers
 		}
 	}
 }
 
-func (j *Service) updateAvailableWorkers() {
+func (s *Service) updateAvailableWorkers() {
 	var available []*dwarf.Dwarf
-	for _, dwarf := range j.Workers {
+	for _, dwarf := range s.Workers {
 		if dwarf.Available() {
 			available = append(available, dwarf)
 		}
 	}
-	j.AvailableWorkers = available
+	s.AvailableWorkers = available
 }
 
-func (j *Service) performWork(rs *room.Service) {
-	for _, jb := range j.Jobs {
+func (s *Service) performWork(rs *room.Service) {
+	for _, jb := range s.Jobs {
 		dw := jb.GetWorker()
 		if dw == nil {
 			continue
@@ -117,7 +108,7 @@ func (j *Service) performWork(rs *room.Service) {
 			}
 		}
 		if dw.State != dwarf.Arrived {
-			if len(dw.Path) == 0 && jb.NeedsToBeRemoved(j.Map, rs) {
+			if len(dw.Path) == 0 && jb.NeedsToBeRemoved(s.Map, rs) {
 				dw.SetToAvailable()
 				continue
 			}
@@ -125,7 +116,7 @@ func (j *Service) performWork(rs *room.Service) {
 				continue
 			}
 		}
-		finished := jb.PerformWork(j.Map, j.Workers, rs)
+		finished := jb.PerformWork(s.Map, s.Workers, rs)
 		if !finished {
 			continue
 		}

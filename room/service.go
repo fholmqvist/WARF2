@@ -100,5 +100,10 @@ func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res resource.Resource)
 			idx = i
 		}
 	}
+	// No available space
+	// in any storage.
+	if idx == -1 {
+		return nil, -1, false
+	}
 	return &s.Storages[idx], idx, true
 }

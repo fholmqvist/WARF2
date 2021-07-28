@@ -3,9 +3,14 @@ package jobservice
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 
 	"github.com/Holmqvist1990/WARF2/job"
 )
+
+func (j *Service) sortJobPriorities() {
+	sort.Sort(j)
+}
 
 func (jb *Service) Len() int {
 	return len(jb.Jobs)

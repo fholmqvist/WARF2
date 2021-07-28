@@ -13,44 +13,56 @@ const (
 	LIBRARY_READ_CUTOFF = 80
 )
 
-func (s *Service) checkForSleep(mp *worldmap.Map, rs *room.Service) {
+func (s *Service) checkForNeeds(mp *worldmap.Map, rs *room.Service) {
 	for _, dwf := range s.AvailableWorkers {
-		if dwf.Needs.Sleep < dwarf.MAX_NEED {
+		if !dwf.Available() {
 			continue
 		}
-		if sleepAlreadyExists(s, dwf) {
+		if checkForSleep(dwf, s, mp, rs) {
 			continue
 		}
-		//////////////////////////////////////
-		// TODO
-		// FindNearestBeds (plural).
-		// Don't rest in occupied bed.
-		//////////////////////////////////////
-		bedIndex, ok := item.FindNearestBed(mp, dwf.Idx)
-		if !ok {
+		if checkForReading(dwf, s, mp) {
 			continue
 		}
-		jb := job.NewSleep(
-			bedIndex,
-			worldmap.TileDirsToIdxs(worldmap.SurroundingTilesFour(bedIndex)),
-		)
-		SetWorkerAndMove(jb, dwf, mp)
-		s.Jobs = append(s.Jobs, jb)
-		dwf.Needs.Sleep = 0
 	}
 }
 
-func (s *Service) checkForReading(mp *worldmap.Map) {
-	for _, dwf := range s.AvailableWorkers {
+func checkForSleep(dwf *dwarf.Dwarf, s *Service, mp *worldmap.Map, rs *room.Service) (added bool) {
+	if dwf.Needs.Sleep < dwarf.MAX_NEED {
+		return false
+	}
+	if sleepAlreadyExists(s, dwf) {
+		return false
+	}
+	//////////////////////////////////////
+	// TODO
+	// FindNearestBeds (plural).
+	// Don't rest in occupied bed.
+	//////////////////////////////////////
+	bedIndex, ok := item.FindNearestBed(mp, dwf.Idx)
+	if !ok {
+		return false
+	}
+	jb := job.NewSleep(
+		bedIndex,
+		worldmap.TileDirsToIdxs(worldmap.SurroundingTilesFour(bedIndex)),
+	)
+	SetWorkerAndMove(jb, dwf, mp)
+	s.Jobs = append(s.Jobs, jb)
+	dwf.Needs.Sleep = 0
+	return true
+}
+
+func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *worldmap.Map) (added bool) {
 		if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
-			continue
+			return false
 		}
 		if readingAlreadyExists(s, dwf) {
-			continue
+			return false
 		}
 		destination, ok := getBookshelfDestination(mp, *dwf)
 		if !ok {
-			continue
+			return false
 		}
 		jb := job.NewLibraryRead(
 			[]int{destination},
@@ -59,7 +71,7 @@ func (s *Service) checkForReading(mp *worldmap.Map) {
 		SetWorkerAndMove(jb, dwf, mp)
 		s.Jobs = append(s.Jobs, jb)
 		dwf.Needs.ToRead = 0
-	}
+		return true
 }
 
 func getBookshelfDestination(mp *worldmap.Map, dwf dwarf.Dwarf) (int, bool) {
