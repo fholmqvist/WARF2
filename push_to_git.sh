@@ -1,5 +1,5 @@
 #!/bin/bash
-message="More JobService performance improvements."
+message="NextIdxToDir and Sleep bug fixes."
 git add --all
 git commit -m "$message"
 git push

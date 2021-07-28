@@ -35,14 +35,12 @@ func (s *Sleep) PerformWork(*m.Map, []*dwarf.Dwarf, *room.Service) bool {
 		s.arrivedAtIdx = s.dwarf.Idx
 		s.dwarf.Idx = s.bedIdx
 	}
+	s.dwarf.Needs.Sleep = 0
 	s.sleepTime--
 	return unfinished
 }
 
 func (s *Sleep) Finish(*m.Map, *room.Service) {
-	if s.dwarf == nil {
-		return
-	}
 	s.dwarf.Idx = s.arrivedAtIdx
 	s.dwarf.SetToAvailable()
 	s.dwarf = nil

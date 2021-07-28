@@ -58,6 +58,6 @@ func (t *Time) HalfCycle() bool {
 
 // A quarter of a game cycle has passed.
 func (t *Time) QuarterCycle() bool {
-	return t.NewCycle() || t.Frame == globals.CycleLength/4 ||
+	return t.HalfCycle() || t.Frame == globals.CycleLength/4 ||
 		t.Frame == globals.CycleLength/4*2 || t.Frame == globals.CycleLength/4*3
 }

@@ -62,21 +62,19 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 	if len(d.Path) == 0 {
 		return
 	}
-	next := d.Path[0]
-	if d.Idx == next {
+	if d.Idx == d.Path[0] {
 		d.Path = d.Path[1:]
 		return
 	}
-	dir, err := m.NextIdxToDir(d.Idx, next)
+tryagain:
+	var dir m.Direction
+	var err error
+	next := d.Path[0]
+	dir, err = m.NextIdxToDir(d.Idx, next)
 	if err != nil {
-		/////////////////////////
-		// TODO
-		// This shouldn't happen.
-		/////////////////////////
-		// globals.PAUSE_GAME = true
 		fmt.Println(err)
 		d.Path = d.Path[1:]
-		return
+		goto tryagain
 	}
 	if d.Move(mp, &d.Entity, dir) {
 		d.Path = d.Path[1:]

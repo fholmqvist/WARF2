@@ -109,7 +109,7 @@ func initWithArgs(args []string) *Game {
 		///////////////////////////////////////////////////////
 		// Debugging and testing sleep halls and sleeping.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(8, emptyMap())
+		game = GenerateGame(8, m.BoundariesMap())
 		game.WorldMap.DrawOutline(6, 5, 38, 14, m.WallSolid)
 		game.WorldMap.DrawOutline(24, 13, 38, 22, m.WallSolid)
 		game.WorldMap.Tiles[252].Sprite = m.Ground
