@@ -13,16 +13,22 @@ import (
 
 // Element wraps data for UI elements.
 type Element struct {
-	Text   string
-	X      int
-	Y      int
-	Width  int
-	Height int
-	Color  color.Color
+	Text            string
+	X               int
+	Y               int
+	Width           int
+	Height          int
+	TextColor       color.Color
+	BackgroundColor color.Color
 }
 
 func (e Element) Draw(screen *ebiten.Image) {
 	DrawSquare(screen, e)
+}
+
+func (e Element) DrawWithText(screen *ebiten.Image, font font.Face) {
+	e.Draw(screen)
+	text.Draw(screen, e.Text, font, (e.X+e.Width/2)-len(e.Text)*4, (e.Y+e.Height/2)+4, e.TextColor)
 }
 
 func (e Element) MouseIsOver(x, y int) bool {
@@ -36,15 +42,15 @@ type Button struct {
 
 func (b Button) Draw(screen *ebiten.Image, font font.Face) {
 	b.Element.Draw(screen)
-	text.Draw(screen, b.Text, font, (b.X+b.Width/2)-len(b.Text)*4, (b.Y+b.Height/2)+4, color.White)
+	text.Draw(screen, b.Text, font, (b.X+b.Width/2)-len(b.Text)*4, (b.Y+b.Height/2)+4, b.TextColor)
 }
 
 func (b *Button) Select() {
-	b.Color = color.Gray{50}
+	b.BackgroundColor = color.Gray{50}
 }
 
 func (b *Button) Deselect() {
-	b.Color = color.Gray{20}
+	b.BackgroundColor = color.Gray{20}
 }
 
 type ButtonTiled struct {
@@ -77,7 +83,7 @@ type Dropdown struct {
 func NewDropdown(text string, x, y, width int, buttons []ButtonTiled) Dropdown {
 	return Dropdown{
 		Main: ButtonTiled{
-			Element:  Element{text, x, y, width, 1, textColor},
+			Element:  Element{text, x, y, width, 1, textColor, backgroundColor},
 			hovering: false,
 		},
 		Buttons: buttons,

@@ -259,11 +259,11 @@ func initWithArgs(args []string) *Game {
 		state = MainMenu
 	case "game":
 		game = GenerateGame(4, m.NormalMap())
+		globals.DEBUG = false
 	default:
 		game = GenerateGame(4, m.NormalMap())
 		state = MainMenu
 		globals.DEBUG = false
-
 	}
 	game.state = state
 	game.SetMouseMode(mouse.Normal)

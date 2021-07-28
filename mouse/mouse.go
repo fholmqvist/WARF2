@@ -14,14 +14,14 @@ package mouse
 
 import (
 	"fmt"
-
-	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/inpututil"
+	"strings"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
+	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
 // This cluster of variables
@@ -42,26 +42,27 @@ func NewSystem() *System {
 }
 
 // Handle all the mouse interactivity.
-func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) {
-	idx := MouseIdx()
-	if idx < 0 || idx > globals.TilesT {
+func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) string {
+	mousePos := MouseIdx()
+	if mousePos < 0 || mousePos > globals.TilesT {
 		mp.ClearSelectedTiles()
 		unsetHasClicked()
-		return
+		return ""
 	}
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		s.mouseClick(mp, rs, dwarves, idx)
-		return
+		s.mouseClick(mp, rs, dwarves, mousePos)
+		return ""
 	}
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
-		endPoint = idx
+		endPoint = mousePos
 		s.mouseUp(mp, rs)
-		return
+		return ""
 	}
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonRight) {
 		s.Mode = Normal
-		return
+		return ""
 	}
+	return s.mouseHover(mp, dwarves, mousePos)
 }
 
 func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
@@ -112,4 +113,16 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 	}
 	mp.ClearSelectedTiles()
 	unsetHasClicked()
+}
+
+func (s *System) mouseHover(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) string {
+	for _, dwarf := range *dwarves {
+		if dwarf.Idx == currentMousePos {
+			return strings.ReplaceAll(dwarf.String(), "\n", " ")
+		}
+	}
+	if mp.Items[currentMousePos].Sprite != globals.NoItem {
+		return fmt.Sprint(mp.Items[currentMousePos].Sprite)
+	}
+	return ""
 }

@@ -20,9 +20,9 @@ var (
 	yOffset     = 48
 	ySeparation = 100
 	buttons     = []*Button{
-		{Element{"Start", xOffset, yOffset + ySeparation, width, height, color.Gray{100}}},
-		{Element{"Help", xOffset, yOffset + ySeparation*2, width, height, color.Gray{100}}},
-		{Element{"Quit", xOffset, yOffset + ySeparation*3, width, height, color.Gray{100}}},
+		{Element{"Start", xOffset, yOffset + ySeparation, width, height, textColor, color.Gray{100}}},
+		{Element{"Help", xOffset, yOffset + ySeparation*2, width, height, textColor, color.Gray{100}}},
+		{Element{"Quit", xOffset, yOffset + ySeparation*3, width, height, textColor, color.Gray{100}}},
 	}
 )
 

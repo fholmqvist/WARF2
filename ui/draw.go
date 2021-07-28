@@ -6,7 +6,7 @@ import (
 
 func DrawSquare(screen *ebiten.Image, e Element) {
 	square, _ := ebiten.NewImage(e.Width, e.Height, ebiten.FilterDefault)
-	_ = square.Fill(e.Color)
+	_ = square.Fill(e.BackgroundColor)
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(float64(e.X), float64(e.Y))
 	_ = screen.DrawImage(square, op)

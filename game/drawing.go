@@ -12,17 +12,14 @@ import (
 // Draw loop for Game.
 func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.state {
-
 	case MainMenu:
 		g.ui.MainMenu.Draw(screen, g.font)
-
 	case Gameplay:
 		drawMap(g, screen)
 		drawMovables(g, screen)
 		drawWorkers(g, screen)
 		g.ui.DrawGameplay(screen, g.font, g.JobService.Workers, g.uiTiles)
 		drawTPS(g, screen)
-
 	default:
 		panic(fmt.Sprintf("unknown gamestate: %v", g.state))
 	}

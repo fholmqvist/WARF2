@@ -14,13 +14,18 @@ import (
 	"golang.org/x/image/font"
 )
 
-var textColor = color.White
+var (
+	transparentColor = color.Transparent
+	backgroundColor  = color.RGBA{0, 0, 0, 100}
+	textColor        = color.White
+)
 
 // UI wraps all the UI elements for Game
 type UI struct {
 	*MainMenu
-	MouseMode Element
-	BuildMenu Dropdown
+	MouseMode   Element
+	BuildMenu   Dropdown
+	OverviewTab Element
 }
 
 func GenerateUI() UI {
@@ -37,29 +42,41 @@ func GenerateUI() UI {
 	for _, text := range texts {
 		b := ButtonTiled{
 			Element: Element{
-				Text:   text,
-				X:      34,
-				Y:      32 - offset,
-				Width:  11,
-				Height: 1,
-				Color:  textColor,
+				Text:            text,
+				X:               34,
+				Y:               32 - offset,
+				Width:           11,
+				Height:          1,
+				TextColor:       textColor,
+				BackgroundColor: backgroundColor,
 			},
 		}
 		buildMenuButtons = append(buildMenuButtons, b)
 		offset -= 2
 	}
+	overviewTab := Element{
+		Text:            "Hover",
+		X:               0,
+		Y:               0,
+		Width:           gl.TilesW * gl.TileSize,
+		Height:          gl.TileSize,
+		TextColor:       textColor,
+		BackgroundColor: backgroundColor,
+	}
 	return UI{
-		MouseMode: NewMouseOverlay(),
-		MainMenu:  NewMainMenu(),
-		BuildMenu: NewDropdown("Build", 34, 32, 11, buildMenuButtons),
+		MouseMode:   NewMouseOverlay(),
+		MainMenu:    NewMainMenu(),
+		BuildMenu:   NewDropdown("Build", 34, 32, 11, buildMenuButtons),
+		OverviewTab: overviewTab,
 	}
 }
 
 func NewMouseOverlay() Element {
 	return Element{
-		X:     gl.TileSize,
-		Y:     (gl.TileSize * gl.TilesH) + gl.TileSize + 4,
-		Color: textColor,
+		X:               gl.TileSize,
+		Y:               (gl.TileSize * gl.TilesH) + gl.TileSize + 4,
+		TextColor:       textColor,
+		BackgroundColor: backgroundColor,
 	}
 }
 
@@ -69,6 +86,12 @@ func (ui *UI) DrawGameplay(screen *ebiten.Image, gameFont font.Face, dw []*dwarf
 	}
 	drawMouseMode(screen, uiTiles, gameFont, ui.MouseMode)
 	ui.BuildMenu.Draw(screen, uiTiles, gameFont)
+	if ui.OverviewTab.Text == "" {
+		ui.OverviewTab.BackgroundColor = transparentColor
+	} else {
+		ui.OverviewTab.BackgroundColor = backgroundColor
+	}
+	ui.OverviewTab.DrawWithText(screen, gameFont)
 }
 
 func (ui *UI) UpdateGameplayMenus() (mouse.Mode, bool) {
@@ -88,15 +111,15 @@ func drawMouseMode(screen *ebiten.Image, uiTiles *ebiten.Image, gameFont font.Fa
 		gl.TilesT+gl.TilesW-1-12, gl.TilesT+(gl.TilesW*2)-1-12,
 		false, // Unselectable
 	)
-	text.Draw(screen, mouseMode.Text, gameFont, mouseMode.X, mouseMode.Y, mouseMode.Color)
+	text.Draw(screen, mouseMode.Text, gameFont, mouseMode.X, mouseMode.Y, mouseMode.TextColor)
 }
 
-func drawOverview(screen *ebiten.Image, gameFont font.Face, dw []*dwarf.Dwarf, mm Element) {
+func drawOverview(screen *ebiten.Image, gameFont font.Face, dw []*dwarf.Dwarf, mouseMode Element) {
 	x, y, xo, yo := 20, 20, 10, 20
 	drawBackground(screen, x, y, (len(dw)*y)+y+yo)
-	text.Draw(screen, "Dwarves:", gameFont, x+xo, y*2, mm.Color)
+	text.Draw(screen, "Dwarves:", gameFont, x+xo, y*2, mouseMode.BackgroundColor)
 	for i, d := range dw {
-		text.Draw(screen, d.Characteristics.Name, gameFont, (x*2)+xo, yo+(y*(i+2)), mm.Color)
+		text.Draw(screen, d.Characteristics.Name, gameFont, (x*2)+xo, yo+(y*(i+2)), mouseMode.TextColor)
 	}
 }
 
@@ -108,6 +131,7 @@ func drawBackground(screen *ebiten.Image, x, y, height int) {
 		y,
 		sw - 40,
 		height,
+		color.Opaque,
 		color.Gray{50},
 	}
 	DrawSquare(screen, e)

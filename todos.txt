@@ -35,7 +35,7 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-mouse\mouse.go:68:
+mouse\mouse.go:69:
 	Setting and deleting rooms
 	removes items that are
 	already there.
@@ -72,7 +72,7 @@ room\storage_tile.go:19:
 	Switch amount on
 	resource type.
 
-ui\elements.go:51:
+ui\elements.go:57:
 	Height does nothing.
 
 worldmap\generation.go:74:

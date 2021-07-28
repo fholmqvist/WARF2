@@ -25,7 +25,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 			f := *g.debugFunc
 			f(g)
 		}
-		g.handleInput()
+		g.ui.OverviewTab.Text = g.handleInput()
 		// Only run if game is not paused.
 		if !g.time.Tick() {
 			return nil
@@ -56,13 +56,14 @@ func (g *Game) UpdateDwarves() {
 	}
 }
 
-func (g *Game) handleInput() {
+func (g *Game) handleInput() string {
 	if mode, changed := g.ui.UpdateGameplayMenus(); changed {
 		g.SetMouseMode(mode)
-		return
+		return ""
 	}
-	g.mouseSystem.Handle(g.WorldMap, g.Rooms, &g.JobService.Workers)
+	overviewText := g.mouseSystem.Handle(g.WorldMap, g.Rooms, &g.JobService.Workers)
 	HandleKeyboard(g)
+	return overviewText
 }
 
 func (g *Game) updateMainMenu() {
