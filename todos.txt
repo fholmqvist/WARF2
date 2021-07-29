@@ -12,11 +12,11 @@ job\carrying.go:76:
 	Item is no longer there, abort.
 	What should we actually do here?
 
-jobservice\check_for_job.go:58:
+jobservice\check_for_job.go:57:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\check_for_job.go:137:
+jobservice\check_for_job.go:136:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
@@ -32,19 +32,13 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-mouse\mouse.go:69:
-	Setting and deleting rooms
-	removes items that are
-	already there.
-	Change: Room needs to be empty.
-
 room\delete.go:9:
 	Are you beginning to smell an abstraction?
 	At some point we could use a quadtree here,
 	though for the time being I'm not sure the
 	performance improvement would be that great.
 
-room\delete.go:70:
+room\delete.go:69:
 	Don't delete items in storage.
 
 room\service.go:76:
@@ -65,7 +59,12 @@ room\storage.go:12:
 	Later, good:
 	[4 Rock, 4 Rock,   None,   None]
 
-room\storage_tile.go:19:
+room\storage_tile.go:16:
+	When these tiles are deleted,
+	amount is lost and the remaining
+	sprite is counted as one item.
+
+room\storage_tile.go:25:
 	Switch amount on
 	resource type.
 

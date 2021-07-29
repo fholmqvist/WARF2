@@ -39,7 +39,6 @@ func checkForDiggingJob(s *Service, wall m.Tile) (added bool) {
 			continue
 		}
 		destinations = append(destinations, destination.Idx)
-
 	}
 	// We have satisfied the need
 	// as a worker is on the way.

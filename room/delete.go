@@ -60,8 +60,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 func (s *Service) DeleteLibrary(mp *m.Map, idx int) {
 	l := s.Libraries[idx]
 	for _, t := range l.tiles {
-		mp.Tiles[t.Idx].Sprite = m.Ground
-		mp.Items[t.Idx].Sprite = m.None
+		ResetGroundTile(mp, t.Idx)
 	}
 	s.Libraries = append(s.Libraries[:idx], s.Libraries[idx+1:]...)
 }
@@ -73,8 +72,7 @@ func (s *Service) DeleteStorage(mp *m.Map, idx int) {
 	/////////////////////////////////////////////
 	st := s.Storages[idx]
 	for _, t := range st.StorageTiles {
-		mp.Tiles[t.Idx].Sprite = m.Ground
-		mp.Items[t.Idx].Sprite = m.None
+		ResetGroundTile(mp, t.Idx)
 	}
 	s.Storages = append(s.Storages[:idx], s.Storages[idx+1:]...)
 }
@@ -82,19 +80,22 @@ func (s *Service) DeleteStorage(mp *m.Map, idx int) {
 func (s *Service) DeleteFarm(mp *m.Map, idx int) {
 	f := s.Farms[idx]
 	for _, idx := range f.AllTileIdxs {
-		mp.Tiles[idx].Sprite = m.Ground
-		if mp.Items[idx].Sprite == globals.Wheat {
-			continue
-		}
-		mp.Items[idx].Sprite = m.None
+		ResetGroundTile(mp, idx)
 	}
 	s.Farms = append(s.Farms[:idx], s.Farms[idx+1:]...)
 }
 
 func (s *Service) DeleteSleepHall(mp *m.Map, idx int) {
 	for _, t := range s.SleepHalls[idx].tiles {
-		mp.Tiles[t.Idx].Sprite = m.Ground
-		mp.Items[t.Idx].Sprite = m.None
+		ResetGroundTile(mp, t.Idx)
 	}
 	s.SleepHalls = append(s.SleepHalls[:idx], s.SleepHalls[idx+1:]...)
+}
+
+func ResetGroundTile(mp *m.Map, idx int) {
+	mp.Tiles[idx].Sprite = m.Ground
+	if globals.IsCarriable(mp.Items[idx].Sprite) {
+		return
+	}
+	mp.Items[idx].Sprite = m.None
 }

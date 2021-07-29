@@ -66,33 +66,19 @@ func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) st
 }
 
 func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
-	//////////////////////////////////
-	// TODO
-	// Setting and deleting rooms
-	// removes items that are
-	// already there.
-	// Change: Room needs to be empty.
-	//////////////////////////////////
 	switch s.Mode {
-
 	case Normal:
 		noneMode(mp, dwarves, currentMousePos)
-
 	case Storage:
 		rs.AddStorage(mp, currentMousePos)
-
 	case SleepHall:
 		rs.AddSleepHall(mp, currentMousePos)
-
 	case Farm:
 		rs.AddFarm(mp, currentMousePos)
-
 	case Library:
 		rs.AddLibrary(mp, currentMousePos)
-
 	case Delete:
 		setHasClicked(currentMousePos)
-
 	default:
 		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)
 	}
@@ -103,7 +89,6 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 		return
 	}
 	switch s.Mode {
-
 	case Normal:
 		FuncOverRange(mp, startPoint, endPoint, mouseUpSetWalls)
 

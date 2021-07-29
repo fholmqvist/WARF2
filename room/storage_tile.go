@@ -13,6 +13,12 @@ type StorageTile struct {
 	Idx int
 	resource.Resource
 	Amount uint
+	////////////////////////////////////
+	// TODO
+	// When these tiles are deleted,
+	// amount is lost and the remaining
+	// sprite is counted as one item.
+	////////////////////////////////////
 }
 
 func (s *StorageTile) Available(res resource.Resource) bool {
