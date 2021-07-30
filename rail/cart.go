@@ -3,6 +3,7 @@ package rail
 import (
 	"log"
 
+	"github.com/Holmqvist1990/WARF2/dwarf"
 	e "github.com/Holmqvist1990/WARF2/entity"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 
@@ -11,7 +12,7 @@ import (
 
 type Cart struct {
 	e.Entity
-	e.Walker
+	dwarf.Walker
 }
 
 func NewCart(idx int) *Cart {

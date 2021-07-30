@@ -3,8 +3,8 @@ package room
 import (
 	"math"
 
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
-	"github.com/Holmqvist1990/WARF2/resource"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -83,7 +83,7 @@ func (s *Service) GetStorage(storageIdx int) (*Storage, bool) {
 	return &s.Storages[storageIdx], true
 }
 
-func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res resource.Resource) (*Storage, int, bool) {
+func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res entity.Resource) (*Storage, int, bool) {
 	if len(s.Storages) == 0 {
 		return nil, -1, false
 	}

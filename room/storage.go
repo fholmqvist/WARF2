@@ -4,8 +4,8 @@ import (
 	"math"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
-	"github.com/Holmqvist1990/WARF2/resource"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -50,7 +50,7 @@ func (s *Storage) Use(dwarf *dwarf.Dwarf) {
 	// Nothing yet.
 }
 
-func (s *Storage) GetAvailableTile(r resource.Resource) (idx int, ok bool) {
+func (s *Storage) GetAvailableTile(r entity.Resource) (idx int, ok bool) {
 	for _, t := range s.StorageTiles {
 		if t.Unavailable(r) {
 			continue
@@ -60,7 +60,7 @@ func (s *Storage) GetAvailableTile(r resource.Resource) (idx int, ok bool) {
 	return -1, false
 }
 
-func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) (int, bool) {
+func (s *Storage) AddItem(idx int, amount uint, r entity.Resource) (int, bool) {
 	tIdx, ok := s.getStorageTileIdxFromWorldIdx(idx)
 	if !ok {
 		return -1, false
@@ -82,7 +82,7 @@ func (s *Storage) AddItem(idx int, amount uint, r resource.Resource) (int, bool)
 	return -1, false
 }
 
-func (s *Storage) HasSpace(res resource.Resource) bool {
+func (s *Storage) HasSpace(res entity.Resource) bool {
 	for _, t := range s.StorageTiles {
 		if t.Available(res) {
 			return true

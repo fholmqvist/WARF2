@@ -1,4 +1,6 @@
-package globals
+package entity
+
+import gl "github.com/Holmqvist1990/WARF2/globals"
 
 // Due to "import cycle not allowed" :(
 // Generally a great rule, but really sucks
@@ -14,7 +16,7 @@ const (
 	WallCrumbled4
 )
 const (
-	BookShelfOne = iota + TilesetW
+	BookShelfOne = iota + gl.TilesetW
 	BookShelfTwo
 	BookShelfThree
 	BookShelfFour
@@ -30,7 +32,7 @@ const (
 	ChairRight
 )
 const (
-	FarmSingleEmpty = iota + TilesetW*2
+	FarmSingleEmpty = iota + gl.TilesetW*2
 	FarmLeftEmpty
 	FarmMiddleEmpty
 	FarmRightEmpty
@@ -58,8 +60,8 @@ const (
 	Wheat
 )
 const (
-	BedRed1 = iota + TilesetW*4
-	BedRed2 = TilesetW * 5
+	BedRed1 = iota + gl.TilesetW*4
+	BedRed2 = gl.TilesetW * 5
 )
 
 var (

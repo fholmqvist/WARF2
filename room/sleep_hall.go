@@ -3,7 +3,7 @@ package room
 import (
 	"sort"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/entity"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -24,22 +24,22 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 			m.IsAnyWall(mp.Tiles[m.OneTileDown(t.Idx)].Sprite) {
 			continue
 		}
-		if globals.IsBed(mp.Items[t.Idx].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileDown(t.Idx)].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileLeft(t.Idx)].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileDownLeft(t.Idx)].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileRight(t.Idx)].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileDownRight(t.Idx)].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileUp(t.Idx)].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileUpLeft(t.Idx)].Sprite) ||
-			globals.IsBed(mp.Items[m.OneTileUpRight(t.Idx)].Sprite) {
+		if entity.IsBed(mp.Items[t.Idx].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileDown(t.Idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileLeft(t.Idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileDownLeft(t.Idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileRight(t.Idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileDownRight(t.Idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileUp(t.Idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileUpLeft(t.Idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileUpRight(t.Idx)].Sprite) {
 			continue
 		}
 		if m.IsNextToDoorOpening(mp, t.Idx) {
 			continue
 		}
-		mp.Items[t.Idx].Sprite = globals.BedRed1
-		mp.Items[m.OneTileDown(t.Idx)].Sprite = globals.BedRed2
+		mp.Items[t.Idx].Sprite = entity.BedRed1
+		mp.Items[m.OneTileDown(t.Idx)].Sprite = entity.BedRed2
 	}
 	return s
 }

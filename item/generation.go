@@ -3,6 +3,7 @@ package item
 import (
 	"math/rand"
 
+	"github.com/Holmqvist1990/WARF2/entity"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -43,13 +44,13 @@ func PlaceRandomIdx(mp *m.Map, idx int, f func() int) {
 }
 
 func RandomBookshelf() int {
-	return gl.BookShelves[rand.Intn(len(gl.BookShelves))]
+	return entity.BookShelves[rand.Intn(len(entity.BookShelves))]
 }
 
 func RandomFurniture() int {
-	return gl.Furniture[rand.Intn(len(gl.Furniture))]
+	return entity.Furniture[rand.Intn(len(entity.Furniture))]
 }
 
 func RandomCrumbledWall() int {
-	return rand.Intn(gl.WallCrumbled4-gl.WallCrumbled1+1) + gl.WallCrumbled1
+	return rand.Intn(entity.WallCrumbled4-entity.WallCrumbled1+1) + entity.WallCrumbled1
 }

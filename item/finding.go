@@ -4,6 +4,7 @@ import (
 	"math"
 	"sort"
 
+	"github.com/Holmqvist1990/WARF2/entity"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -53,17 +54,17 @@ func FindNearestMany(m *worldmap.Map, idx int, f func(int) bool) ([]int, bool) {
 }
 
 func FindNearestBookshelf(m *worldmap.Map, idx int) (int, bool) {
-	return FindNearest(m, idx, gl.IsBookshelf)
+	return FindNearest(m, idx, entity.IsBookshelf)
 }
 
 func FindNearestChair(m *worldmap.Map, idx int) (int, bool) {
-	return FindNearest(m, idx, gl.IsChair)
+	return FindNearest(m, idx, entity.IsChair)
 }
 
 func FindNearestChairs(m *worldmap.Map, idx int) ([]int, bool) {
-	return FindNearestMany(m, idx, gl.IsChair)
+	return FindNearestMany(m, idx, entity.IsChair)
 }
 
 func FindNearestBed(m *worldmap.Map, idx int) (int, bool) {
-	return FindNearest(m, idx, gl.IsBedTop)
+	return FindNearest(m, idx, entity.IsBedTop)
 }

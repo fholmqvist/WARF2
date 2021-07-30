@@ -9,10 +9,10 @@ import (
 	"time"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	rail "github.com/Holmqvist1990/WARF2/rail"
-	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -100,7 +100,7 @@ func initWithArgs(args []string) *Game {
 		s2 := room.NewStorage(mp, 21, 6)
 		game.Rooms.Storages = append(game.Rooms.Storages, *s1)
 		game.Rooms.Storages = append(game.Rooms.Storages, *s2)
-		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1, resource.None)
+		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1, entity.ResourceNone)
 		if !ok {
 			panic(ok)
 		}

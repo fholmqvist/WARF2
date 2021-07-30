@@ -17,6 +17,7 @@ import (
 	"strings"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -106,7 +107,7 @@ func (s *System) mouseHover(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos 
 			return strings.ReplaceAll(dwarf.String(), "\n", " ")
 		}
 	}
-	if mp.Items[currentMousePos].Sprite != globals.NoItem {
+	if mp.Items[currentMousePos].Sprite != entity.NoItem {
 		return fmt.Sprint(mp.Items[currentMousePos].Sprite)
 	}
 	return ""

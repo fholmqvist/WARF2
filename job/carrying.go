@@ -4,14 +4,13 @@ import (
 	"fmt"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
-	"github.com/Holmqvist1990/WARF2/globals"
-	"github.com/Holmqvist1990/WARF2/resource"
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 type Carrying struct {
-	resource        resource.Resource
+	resource        entity.Resource
 	dwarf           *dwarf.Dwarf
 	destinations    []int
 	goalDestination int
@@ -21,7 +20,7 @@ type Carrying struct {
 	prev            int
 }
 
-func NewCarrying(destinations []int, r resource.Resource, storageIdx int, goalDestination, sprite int) *Carrying {
+func NewCarrying(destinations []int, r entity.Resource, storageIdx int, goalDestination, sprite int) *Carrying {
 	return &Carrying{
 		resource:        r,
 		dwarf:           nil,
@@ -78,7 +77,7 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servi
 		// Item is no longer there, abort.
 		// What should we actually do here?
 		///////////////////////////////////
-		if !globals.IsCarriable(mp.Items[c.dwarf.Idx].Sprite) {
+		if !entity.IsCarriable(mp.Items[c.dwarf.Idx].Sprite) {
 			c.path = []int{}
 			return finished
 		}

@@ -3,6 +3,7 @@ package worldmap
 import (
 	"fmt"
 
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
 )
 
@@ -33,7 +34,7 @@ func IsColliding(mp *Map, current int, next Direction) bool {
 // answering whether the tile at the
 // current index is Blocking movement.
 func Blocking(t *Tile, itemT *Tile) bool {
-	return IsAnyWall(t.Sprite) || globals.IsItemBlocking(itemT.Sprite)
+	return IsAnyWall(t.Sprite) || entity.IsItemBlocking(itemT.Sprite)
 }
 
 // IndexOutOfBounds checks whether the given index

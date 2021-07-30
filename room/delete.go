@@ -1,7 +1,7 @@
 package room
 
 import (
-	"github.com/Holmqvist1990/WARF2/globals"
+	"github.com/Holmqvist1990/WARF2/entity"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -15,7 +15,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 	///////////////////////////////////////////////
 	itemSprite := mp.Items[currentMousePos].Sprite
 	sprite := mp.Tiles[currentMousePos].Sprite
-	if globals.IsLibraryItem(itemSprite) || m.IsLibraryWoodFloor(sprite) {
+	if entity.IsLibraryItem(itemSprite) || m.IsLibraryWoodFloor(sprite) {
 		for i, l := range s.Libraries {
 			for _, lt := range l.tiles {
 				if lt.Idx == currentMousePos {
@@ -35,7 +35,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 			}
 		}
 	}
-	if globals.IsFarm(itemSprite) || itemSprite == globals.NoItem {
+	if entity.IsFarm(itemSprite) || itemSprite == entity.NoItem {
 		for i, f := range s.Farms {
 			for _, idx := range f.AllTileIdxs {
 				if idx == currentMousePos {
@@ -45,7 +45,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 			}
 		}
 	}
-	if globals.IsBed(itemSprite) || m.IsSleepHallWoodFloor(sprite) {
+	if entity.IsBed(itemSprite) || m.IsSleepHallWoodFloor(sprite) {
 		for i, sh := range s.SleepHalls {
 			for _, t := range sh.tiles {
 				if t.Idx == currentMousePos {
@@ -94,7 +94,7 @@ func (s *Service) DeleteSleepHall(mp *m.Map, idx int) {
 
 func ResetGroundTile(mp *m.Map, idx int) {
 	mp.Tiles[idx].Sprite = m.Ground
-	if globals.IsCarriable(mp.Items[idx].Sprite) {
+	if entity.IsCarriable(mp.Items[idx].Sprite) {
 		return
 	}
 	mp.Items[idx].Sprite = m.None

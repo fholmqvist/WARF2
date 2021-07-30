@@ -2,8 +2,8 @@ package job
 
 import (
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/item"
-	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -39,7 +39,7 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 	}
 	t.Sprite = m.Ground
 	mp.Items[t.Idx].Sprite = item.RandomCrumbledWall()
-	mp.Items[t.Idx].Resource = resource.Rock
+	mp.Items[t.Idx].Resource = entity.ResourceRock
 	for _, nb := range m.SurroundingTilesFour(t.Idx) {
 		mp.FixWall(&mp.Tiles[nb.Idx])
 	}

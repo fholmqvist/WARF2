@@ -1,14 +1,14 @@
+entity\items.go:155:
+	Support more than Wheat.
+
 game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-globals\items.go:153:
-	Support more than Wheat.
-
-job\carrying.go:58:
+job\carrying.go:57:
 	Yeah.
 
-job\carrying.go:76:
+job\carrying.go:75:
 	Item is no longer there, abort.
 	What should we actually do here?
 

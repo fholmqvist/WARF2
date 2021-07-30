@@ -3,7 +3,7 @@ package room
 import (
 	"fmt"
 
-	"github.com/Holmqvist1990/WARF2/resource"
+	"github.com/Holmqvist1990/WARF2/entity"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -11,7 +11,7 @@ const MAX_STORAGE = 8
 
 type StorageTile struct {
 	Idx int
-	resource.Resource
+	entity.Resource
 	Amount uint
 	////////////////////////////////////
 	// TODO
@@ -21,7 +21,7 @@ type StorageTile struct {
 	////////////////////////////////////
 }
 
-func (s *StorageTile) Available(res resource.Resource) bool {
+func (s *StorageTile) Available(res entity.Resource) bool {
 	///////////////////
 	// TODO
 	// Switch amount on
@@ -31,13 +31,13 @@ func (s *StorageTile) Available(res resource.Resource) bool {
 		return true
 	}
 	if s.Amount == 0 {
-		s.Resource = resource.None
+		s.Resource = entity.ResourceNone
 		return true
 	}
 	return false
 }
 
-func (s *StorageTile) Unavailable(tpe resource.Resource) bool {
+func (s *StorageTile) Unavailable(tpe entity.Resource) bool {
 	return !s.Available(tpe)
 }
 
@@ -45,7 +45,7 @@ func (s *StorageTile) Unavailable(tpe resource.Resource) bool {
 // given that the tile is of that type
 // (panics otherwise, enforcing hygenic caller).
 // Remainder is returned to the caller.
-func (s *StorageTile) Add(res resource.Resource, amount uint) (remaining uint) {
+func (s *StorageTile) Add(res entity.Resource, amount uint) (remaining uint) {
 	if s.Resource != res && s.Resource != 0 {
 		panic(fmt.Sprintf("storage: AddItem: trying to add %v to a tile with type of %v", res, s.Resource))
 	}
@@ -77,7 +77,7 @@ func createStorageTiles(tt m.Tiles, itt m.Tiles) []StorageTile {
 	var st []StorageTile
 	for _, t := range tt {
 		var amount uint
-		if itt[t.Idx].Resource != resource.None {
+		if itt[t.Idx].Resource != entity.ResourceNone {
 			amount++
 		}
 		st = append(st, StorageTile{

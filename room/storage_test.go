@@ -3,14 +3,14 @@ package room
 import (
 	"testing"
 
-	"github.com/Holmqvist1990/WARF2/resource"
+	"github.com/Holmqvist1990/WARF2/entity"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 func TestNearestStorage(t *testing.T) {
 	mp := m.BoundariesMap()
 	service := Service{}
-	_, _, ok := service.FindNearestStorage(mp, 1, 1, resource.None)
+	_, _, ok := service.FindNearestStorage(mp, 1, 1, entity.ResourceNone)
 	if ok {
 		t.Fatal("did not expect to be ok")
 	}
@@ -20,7 +20,7 @@ func TestNearestStorage(t *testing.T) {
 	s2 := NewStorage(mp, 21, 6)
 	service.Storages = append(service.Storages, *s1)
 	service.Storages = append(service.Storages, *s2)
-	ns, _, ok := service.FindNearestStorage(mp, 1, 1, resource.None)
+	ns, _, ok := service.FindNearestStorage(mp, 1, 1, entity.ResourceNone)
 	if !ok {
 		t.Fatal("expected to be ok, wasn't")
 	}
@@ -32,14 +32,14 @@ func TestNearestStorage(t *testing.T) {
 func TestStorageTileAdd(t *testing.T) {
 	st := StorageTile{
 		Idx:      0,
-		Resource: resource.Rock,
+		Resource: entity.ResourceRock,
 		Amount:   0,
 	}
-	r := st.Add(resource.Rock, 5)
+	r := st.Add(entity.ResourceRock, 5)
 	if st.Amount != 5 || r != 0 {
 		t.Fatalf("wanted [%v, %v] got [%v %v]", 5, 0, st.Amount, r)
 	}
-	r = st.Add(resource.Rock, 5)
+	r = st.Add(entity.ResourceRock, 5)
 	if st.Amount != 8 || r != 2 {
 		t.Fatalf("wanted [%v, %v] got [%v %v]", 8, 2, st.Amount, r)
 	}
@@ -48,7 +48,7 @@ func TestStorageTileAdd(t *testing.T) {
 func TestStorageTileTake(t *testing.T) {
 	st := StorageTile{
 		Idx:      0,
-		Resource: resource.Rock,
+		Resource: entity.ResourceRock,
 		Amount:   10,
 	}
 	r := st.Take(5)

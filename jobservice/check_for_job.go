@@ -1,9 +1,9 @@
 package jobservice
 
 import (
+	"github.com/Holmqvist1990/WARF2/entity"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/job"
-	"github.com/Holmqvist1990/WARF2/resource"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
@@ -48,10 +48,10 @@ func checkForDiggingJob(s *Service, wall m.Tile) (added bool) {
 }
 
 func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) {
-	if itm.Resource == resource.None {
+	if itm.Resource == entity.ResourceNone {
 		return false
 	}
-	if !gl.IsCarriable(itm.Sprite) {
+	if !entity.IsCarriable(itm.Sprite) {
 		return false
 	}
 	////////////////////////////////////
@@ -82,7 +82,7 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 	}
 	s.Jobs = append(s.Jobs, job.NewCarrying(
 		[]int{itm.Idx},
-		resource.SpriteToResource(itm.Sprite),
+		entity.SpriteToResource(itm.Sprite),
 		storageIdx,
 		dst,
 		itm.Sprite,

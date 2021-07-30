@@ -3,8 +3,8 @@ package jobservice
 import (
 	"testing"
 
+	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/job"
-	"github.com/Holmqvist1990/WARF2/resource"
 )
 
 func TestWorkQueue(t *testing.T) {
@@ -12,13 +12,13 @@ func TestWorkQueue(t *testing.T) {
 		Jobs: []job.Job{
 			job.NewLibraryRead([]int{10}, 1),
 			job.NewDigging([]int{20}, 0),
-			job.NewCarrying([]int{30}, resource.Rock, 0, 0, 0),
+			job.NewCarrying([]int{30}, entity.ResourceRock, 0, 0, 0),
 			job.NewLibraryRead([]int{11}, 1),
 			job.NewDigging([]int{21}, 0),
 			job.NewLibraryRead([]int{12}, 1),
-			job.NewCarrying([]int{31}, resource.Rock, 0, 0, 0),
+			job.NewCarrying([]int{31}, entity.ResourceRock, 0, 0, 0),
 			job.NewDigging([]int{22}, 0),
-			job.NewCarrying([]int{32}, resource.Rock, 0, 0, 0),
+			job.NewCarrying([]int{32}, entity.ResourceRock, 0, 0, 0),
 		},
 	}
 	js.sortJobPriorities()
