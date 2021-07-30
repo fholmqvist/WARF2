@@ -20,23 +20,25 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 	switch rm.(type) {
 	case *Storage:
 		s.DeleteStorage(mp, id)
-	case *SleepHall:
-		s.DeleteSleepHall(mp, id)
-	case *Farm:
-		s.DeleteFarm(mp, id)
-	case *Library:
-		s.DeleteLibrary(mp, id)
 	default:
-		panic(fmt.Sprintf("unknown room type: %v", rm.String()))
+		s.DeleteRoom(mp, id)
 	}
 }
 
-func (s *Service) DeleteLibrary(mp *m.Map, id int) {
-	l, idx := getLibrary(s, id)
-	for _, t := range l.tiles {
-		ResetGroundTile(mp, t.Idx)
+func (s *Service) DeleteRoom(mp *m.Map, id int) {
+	var room Room
+	var idx int
+	for i, rm := range s.Rooms {
+		if rm.GetID() == id {
+			room = rm
+			idx = i
+			break
+		}
 	}
-	s.Libraries = append(s.Libraries[:idx], s.Libraries[idx+1:]...)
+	for _, t := range room.Tiles() {
+		ResetGroundTile(mp, t)
+	}
+	s.Rooms = append(s.Rooms[:idx], s.Rooms[idx+1:]...)
 }
 
 func (s *Service) DeleteStorage(mp *m.Map, id int) {
@@ -46,23 +48,7 @@ func (s *Service) DeleteStorage(mp *m.Map, id int) {
 		mp.Items[t.Idx].Resource = t.Resource
 		mp.Items[t.Idx].ResourceAmount = t.Amount
 	}
-	s.Storages = append(s.Storages[:idx], s.Storages[idx+1:]...)
-}
-
-func (s *Service) DeleteFarm(mp *m.Map, id int) {
-	f, idx := getFarm(s, id)
-	for _, idx := range f.AllTileIdxs {
-		ResetGroundTile(mp, idx)
-	}
-	s.Farms = append(s.Farms[:idx], s.Farms[idx+1:]...)
-}
-
-func (s *Service) DeleteSleepHall(mp *m.Map, id int) {
-	h, idx := getSleepHall(s, id)
-	for _, t := range h.tiles {
-		ResetGroundTile(mp, t.Idx)
-	}
-	s.SleepHalls = append(s.SleepHalls[:idx], s.SleepHalls[idx+1:]...)
+	s.Rooms = append(s.Rooms[:idx], s.Rooms[idx+1:]...)
 }
 
 func ResetGroundTile(mp *m.Map, idx int) {
@@ -74,54 +60,15 @@ func ResetGroundTile(mp *m.Map, idx int) {
 	mp.Items[idx].Sprite = m.None
 }
 
-func getLibrary(s *Service, id int) (Library, int) {
-	var lib Library
-	var idx int
-	for i, l := range s.Libraries {
-		if l.ID == id {
-			lib = l
-			idx = i
-			break
+func getStorage(s *Service, id int) (*Storage, int) {
+	for i, rm := range s.Rooms {
+		storage, ok := rm.(*Storage)
+		if !ok {
+			continue
 		}
-	}
-	return lib, idx
-}
-
-func getStorage(s *Service, id int) (Storage, int) {
-	var st Storage
-	var idx int
-	for i, storage := range s.Storages {
 		if storage.ID == id {
-			st = storage
-			idx = i
-			break
+			return storage, i
 		}
 	}
-	return st, idx
-}
-
-func getFarm(s *Service, id int) (Farm, int) {
-	var f Farm
-	var idx int
-	for i, farm := range s.Farms {
-		if farm.ID == id {
-			f = farm
-			idx = i
-			break
-		}
-	}
-	return f, idx
-}
-
-func getSleepHall(s *Service, id int) (SleepHall, int) {
-	var h SleepHall
-	var idx int
-	for i, hall := range s.SleepHalls {
-		if hall.ID == id {
-			h = hall
-			idx = i
-			break
-		}
-	}
-	return h, idx
+	return nil, -1
 }

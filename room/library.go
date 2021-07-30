@@ -16,7 +16,13 @@ var libraryAutoID = 0
 // dwarves and increases
 // their knowledge.
 type Library struct {
-	ID    int
+	ID int
+	///////////////////////
+	// TODO
+	// Should be indexes.
+	// Check other rooms
+	// for the same change.
+	///////////////////////
 	tiles m.Tiles
 }
 
@@ -47,6 +53,12 @@ func (l *Library) GetID() int {
 
 func (l *Library) String() string {
 	return "Library"
+}
+
+func (l *Library) Update(mp *m.Map) {}
+
+func (l *Library) Tiles() []int {
+	return l.tiles.ToIdxs()
 }
 
 // Use library.

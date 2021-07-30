@@ -11,10 +11,7 @@ import (
 // Service for gathering data
 // and functionality related to rooms.
 type Service struct {
-	Storages   []Storage
-	SleepHalls []SleepHall
-	Farms      []Farm
-	Libraries  []Library
+	Rooms []Room
 }
 
 func NewService() *Service {
@@ -22,8 +19,8 @@ func NewService() *Service {
 }
 
 func (s *Service) Update(mp *m.Map) {
-	for _, f := range s.Farms {
-		f.Update(mp)
+	for _, rm := range s.Rooms {
+		rm.Update(mp)
 	}
 }
 
@@ -33,7 +30,7 @@ func (s *Service) AddSleepHall(mp *m.Map, currentMousePos int) {
 	if sh == nil {
 		return
 	}
-	s.SleepHalls = append(s.SleepHalls, *sh)
+	s.Rooms = append(s.Rooms, sh)
 }
 
 func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
@@ -42,7 +39,7 @@ func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
 	if l == nil {
 		return
 	}
-	s.Libraries = append(s.Libraries, *l)
+	s.Rooms = append(s.Rooms, l)
 }
 
 func (s *Service) AddFarm(mp *m.Map, currentMousePos int) {
@@ -51,7 +48,7 @@ func (s *Service) AddFarm(mp *m.Map, currentMousePos int) {
 	if f == nil {
 		return
 	}
-	s.Farms = append(s.Farms, *f)
+	s.Rooms = append(s.Rooms, f)
 }
 
 func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
@@ -60,44 +57,40 @@ func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
 	if st == nil {
 		return
 	}
-	s.Storages = append(s.Storages, *st)
+	s.Rooms = append(s.Rooms, st)
 }
 
-func (s *Service) GetFarm(farmID int) (*Farm, bool) {
-	for _, f := range s.Farms {
-		if farmID == f.ID {
-			return &f, true
+func (s *Service) GetFarm(id int) (*Farm, bool) {
+	for _, rm := range s.Rooms {
+		if id != rm.GetID() {
+			continue
+		}
+		farm, ok := rm.(*Farm)
+		if !ok {
+			continue
+		}
+		return farm, true
+	}
+	return nil, false
+}
+
+func (s *Service) GetStorage(id int) (*Storage, bool) {
+	for _, r := range s.Rooms {
+		if r.GetID() == id {
+			return r.(*Storage), true
 		}
 	}
 	return nil, false
 }
 
-func (s *Service) GetStorage(storageIdx int) (*Storage, bool) {
-	/////////////////////////
-	// TODO
-	// Should be ID, not IDX.
-	/////////////////////////
-	if storageIdx > len(s.Storages) {
-		return nil, false
-	}
-	return &s.Storages[storageIdx], true
-}
-
 func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res entity.Resource) (*Storage, int, bool) {
-	if len(s.Storages) == 0 {
-		return nil, -1, false
-	}
-	if len(s.Storages) == 1 {
-		st := &s.Storages[0]
-		if st.HasSpace(res) {
-			return st, 0, true
-		} else {
-			return nil, -1, false
-		}
-	}
 	closest := math.MaxFloat64
 	idx := -1
-	for i, storage := range s.Storages {
+	for i, rm := range s.Rooms {
+		storage, ok := rm.(*Storage)
+		if !ok {
+			continue
+		}
 		if !storage.HasSpace(res) {
 			continue
 		}
@@ -113,5 +106,5 @@ func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res entity.Resource) (
 		// in any storage.
 		return nil, -1, false
 	}
-	return &s.Storages[idx], idx, true
+	return s.Rooms[idx].(*Storage), idx, true
 }

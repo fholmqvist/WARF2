@@ -19,8 +19,12 @@ func (s *Service) checkForJobs(rs *room.Service) {
 			continue
 		}
 	}
-	for _, farm := range rs.Farms {
-		if checkForFarmingJobs(s, farm, rs) {
+	for _, rm := range rs.Rooms {
+		farm, ok := rm.(*room.Farm)
+		if !ok {
+			continue
+		}
+		if checkForFarmingJobs(s, *farm, rs) {
 			continue
 		}
 	}

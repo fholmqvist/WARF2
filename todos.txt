@@ -5,18 +5,18 @@ game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-job\carrying.go:58:
+job\carrying.go:61:
 	Yeah.
 
-job\carrying.go:76:
+job\carrying.go:79:
 	Item is no longer there, abort.
 	What should we actually do here?
 
-jobservice\check_for_job.go:57:
+jobservice\check_for_job.go:61:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\check_for_job.go:136:
+jobservice\check_for_job.go:140:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
@@ -28,10 +28,12 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-room\service.go:76:
-	Should be ID, not IDX.
+room\library.go:20:
+	Should be indexes.
+	Check other rooms
+	for the same change.
 
-room\storage.go:14:
+room\storage.go:13:
 	If the storage is filled
 	with StorageTiles that
 	aren't maxxed, we should

@@ -46,14 +46,17 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 		c.dwarf.SetToAvailable()
 		c.dwarf = nil
 	}()
-	// Storage was deleted by user.
-	if c.storageIdx > len(s.Storages)-1 {
-		return
-	}
 	if c.sprite == m.None {
 		return
 	}
-	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, c.amount, c.resource)
+	if c.storageIdx > len(s.Rooms)-1 {
+		return
+	}
+	storage, ok := s.Rooms[c.storageIdx].(*room.Storage)
+	if !ok {
+		return
+	}
+	dropIdx, ok := storage.AddItem(c.dwarf.Idx, c.amount, c.resource)
 	if !ok {
 		////////
 		// TODO
@@ -139,11 +142,14 @@ func moveAlongPath(c *Carrying, mp *m.Map) {
 }
 
 func storageMissingOrFull(c *Carrying, rs *room.Service) bool {
-	if len(rs.Storages)-1 < c.storageIdx {
+	if len(rs.Rooms)-1 < c.storageIdx {
 		c.path = []int{}
 		return true
 	}
-	storage := rs.Storages[c.storageIdx]
+	storage, ok := rs.Rooms[c.storageIdx].(*room.Storage)
+	if !ok {
+		return true
+	}
 	if !storage.HasSpace(c.resource) {
 		c.path = []int{}
 		return true

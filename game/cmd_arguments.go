@@ -96,10 +96,10 @@ func initWithArgs(args []string) *Game {
 		mp := game.WorldMap
 		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
 		mp.DrawOutline(20, 5, 25, 10, m.WallSolid)
-		s1 := room.NewStorage(mp, 6, 6)
-		s2 := room.NewStorage(mp, 21, 6)
-		game.Rooms.Storages = append(game.Rooms.Storages, *s1)
-		game.Rooms.Storages = append(game.Rooms.Storages, *s2)
+		s1 := room.Room(room.NewStorage(mp, 6, 6))
+		s2 := room.Room(room.NewStorage(mp, 21, 6))
+		game.Rooms.Rooms = append(game.Rooms.Rooms, s1)
+		game.Rooms.Rooms = append(game.Rooms.Rooms, s2)
 		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1, entity.ResourceNone)
 		if !ok {
 			panic(ok)
@@ -138,12 +138,12 @@ func initWithArgs(args []string) *Game {
 		mp.Tiles[611].Sprite = m.Ground
 		mp.Tiles[614].Sprite = m.Ground
 		mp.Tiles[1216].Sprite = m.Ground
-		game.Rooms.Farms = append(game.Rooms.Farms, *room.NewFarm(mp, 12, 9))
-		game.Rooms.Farms[0].Update(mp)
-		game.Rooms.Farms[0].Update(mp)
-		game.Rooms.Farms[0].Update(mp)
-		game.Rooms.Storages = append(game.Rooms.Storages, *room.NewStorage(mp, 15, 14))
-		game.Rooms.Storages = append(game.Rooms.Storages, *room.NewStorage(mp, 21, 25))
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewFarm(mp, 12, 9))
+		game.Rooms.Rooms[0].Update(mp)
+		game.Rooms.Rooms[0].Update(mp)
+		game.Rooms.Rooms[0].Update(mp)
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 15, 14))
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 21, 25))
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.

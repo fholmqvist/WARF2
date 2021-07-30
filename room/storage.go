@@ -3,7 +3,6 @@ package room
 import (
 	"math"
 
-	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
@@ -57,10 +56,7 @@ func (s *Storage) GetID() int {
 	return s.ID
 }
 
-// Use storage.
-func (s *Storage) Use(dwarf *dwarf.Dwarf) {
-	// Nothing yet.
-}
+func (s *Storage) Update(mp *m.Map) {}
 
 func (s *Storage) GetAvailableTile(r entity.Resource) (idx int, ok bool) {
 	for _, t := range s.StorageTiles {
@@ -105,6 +101,14 @@ func (s *Storage) HasSpace(res entity.Resource) bool {
 
 func (s *Storage) String() string {
 	return "Storage"
+}
+
+func (s *Storage) Tiles() []int {
+	idxs := make([]int, len(s.StorageTiles))
+	for i, t := range s.StorageTiles {
+		idxs[i] = t.Idx
+	}
+	return idxs
 }
 
 func determineCenter(mp *m.Map, tiles m.Tiles) int {

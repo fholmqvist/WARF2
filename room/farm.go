@@ -52,6 +52,10 @@ func (f *Farm) String() string {
 	return "Farm"
 }
 
+func (f *Farm) Tiles() []int {
+	return f.AllTileIdxs
+}
+
 func (f *Farm) Update(mp *m.Map) {
 	for _, tIdx := range f.FarmableIdxs {
 		tile := &mp.Items[tIdx]

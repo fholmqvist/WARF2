@@ -59,3 +59,9 @@ func (s *SleepHall) GetID() int {
 func (s *SleepHall) String() string {
 	return "SleepHall"
 }
+
+func (s *SleepHall) Update(mp *m.Map) {}
+
+func (s *SleepHall) Tiles() []int {
+	return s.tiles.ToIdxs()
+}
