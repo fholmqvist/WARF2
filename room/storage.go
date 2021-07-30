@@ -9,6 +9,8 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+var storageAutoID = 0
+
 ///////////////////////////////////
 // TODO
 // If the storage is filled
@@ -30,6 +32,7 @@ import (
 //
 ///////////////////////////////////
 type Storage struct {
+	ID           int
 	Center       int
 	StorageTiles []StorageTile
 }
@@ -40,9 +43,18 @@ func NewStorage(mp *m.Map, x, y int) *Storage {
 	if len(tiles) == 0 {
 		return nil
 	}
+	for _, t := range tiles {
+		mp.Tiles[t.Idx].Room = s
+	}
 	s.StorageTiles = createStorageTiles(tiles, mp.Items)
 	s.Center = determineCenter(mp, tiles)
+	s.ID = storageAutoID
+	storageAutoID++
 	return s
+}
+
+func (s *Storage) GetID() int {
+	return s.ID
 }
 
 // Use storage.
@@ -89,6 +101,10 @@ func (s *Storage) HasSpace(res entity.Resource) bool {
 		}
 	}
 	return false
+}
+
+func (s *Storage) String() string {
+	return "Storage"
 }
 
 func determineCenter(mp *m.Map, tiles m.Tiles) int {

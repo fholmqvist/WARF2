@@ -32,19 +32,10 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-room\delete.go:9:
-	Are you beginning to smell an abstraction?
-	At some point we could use a quadtree here,
-	though for the time being I'm not sure the
-	performance improvement would be that great.
-
-room\delete.go:69:
-	Don't delete items in storage.
-
 room\service.go:76:
 	Should be ID, not IDX.
 
-room\storage.go:12:
+room\storage.go:14:
 	If the storage is filled
 	with StorageTiles that
 	aren't maxxed, we should

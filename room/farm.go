@@ -8,6 +8,8 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+var farmAutoID = 0
+
 type Farm struct {
 	ID           int     // First tile.
 	AllTileIdxs  []int   // To be indexed against Worldmap.
@@ -32,10 +34,22 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 		}
 		f.farmTile = &mp.Items[t.Idx]
 	}
-	f.ID = tiles[0].Idx
+	for _, t := range tiles {
+		mp.Tiles[t.Idx].Room = f
+	}
 	f.AllTileIdxs = tiles.ToIdxs()
 	f.FarmableIdxs = f.farmableIndexes(mp)
+	f.ID = farmAutoID
+	farmAutoID++
 	return f
+}
+
+func (f *Farm) GetID() int {
+	return f.ID
+}
+
+func (f *Farm) String() string {
+	return "Farm"
 }
 
 func (f *Farm) Update(mp *m.Map) {

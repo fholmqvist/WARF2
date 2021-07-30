@@ -10,10 +10,13 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+var libraryAutoID = 0
+
 // Library room relaxes
 // dwarves and increases
 // their knowledge.
 type Library struct {
+	ID    int
 	tiles m.Tiles
 }
 
@@ -32,7 +35,18 @@ func NewLibrary(mp *m.Map, x, y int) *Library {
 	for _, t := range l.tiles {
 		lastShelfRow = l.placeItems(mp, t, firstRow, lastShelfRow)
 	}
+	for _, t := range tiles {
+		mp.Tiles[t.Idx].Room = l
+	}
 	return l
+}
+
+func (l *Library) GetID() int {
+	return l.ID
+}
+
+func (l *Library) String() string {
+	return "Library"
 }
 
 // Use library.

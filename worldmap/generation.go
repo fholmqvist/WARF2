@@ -70,7 +70,7 @@ func FloodFillGround(x, y int, m *Map, island int) {
 }
 
 // Resets islands!
-func (mp *Map) FloodFillRoom(x, y int, f func() int) Tiles {
+func (mp *Map) FloodFillRoom(x, y int, spriteGenerator func() int) Tiles {
 	///////////////////////////////////
 	// TODO
 	// New feature:
@@ -90,7 +90,7 @@ func (mp *Map) FloodFillRoom(x, y int, f func() int) Tiles {
 		if IsDoorOpening(mp, idx) {
 			return false
 		}
-		mp.Tiles[idx].Sprite = f()
+		mp.Tiles[idx].Sprite = spriteGenerator()
 		mp.Tiles[idx].Island = island
 		tiles = append(tiles, mp.Tiles[idx])
 		return true

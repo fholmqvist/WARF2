@@ -7,7 +7,10 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+var sleepHallAutoID = 0
+
 type SleepHall struct {
+	ID    int
 	tiles m.Tiles
 }
 
@@ -41,5 +44,18 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 		mp.Items[t.Idx].Sprite = entity.BedRed1
 		mp.Items[m.OneTileDown(t.Idx)].Sprite = entity.BedRed2
 	}
+	for _, t := range tiles {
+		mp.Tiles[t.Idx].Room = s
+	}
+	s.ID = sleepHallAutoID
+	sleepHallAutoID++
 	return s
+}
+
+func (s *SleepHall) GetID() int {
+	return s.ID
+}
+
+func (s *SleepHall) String() string {
+	return "SleepHall"
 }

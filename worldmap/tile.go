@@ -16,6 +16,7 @@ type Tile struct {
 	Map      *Map            `json:"-"`
 	Rotation float64         `json:"rt"`
 	Resource entity.Resource `json:"rs"`
+	Room     interface{}     // *room.Room, import cycle
 }
 
 type Tiles []Tile
