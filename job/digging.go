@@ -40,6 +40,7 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 	t.Sprite = m.Ground
 	mp.Items[t.Idx].Sprite = item.RandomCrumbledWall()
 	mp.Items[t.Idx].Resource = entity.ResourceRock
+	mp.Items[t.Idx].ResourceAmount = 1
 	for _, nb := range m.SurroundingTilesFour(t.Idx) {
 		mp.FixWall(&mp.Tiles[nb.Idx])
 	}

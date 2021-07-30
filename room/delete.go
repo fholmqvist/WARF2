@@ -43,6 +43,8 @@ func (s *Service) DeleteStorage(mp *m.Map, id int) {
 	st, idx := getStorage(s, id)
 	for _, t := range st.StorageTiles {
 		ResetGroundTile(mp, t.Idx)
+		mp.Items[t.Idx].Resource = t.Resource
+		mp.Items[t.Idx].ResourceAmount = t.Amount
 	}
 	s.Storages = append(s.Storages[:idx], s.Storages[idx+1:]...)
 }

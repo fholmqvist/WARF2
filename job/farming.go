@@ -70,6 +70,7 @@ func (f *Farming) moveDwarf(mp *m.Map) bool {
 	if f.dwarf.Idx == currentIdx {
 		mp.Items[currentIdx].Sprite = entity.Wheat
 		mp.Items[currentIdx].Resource = entity.ResourceWheat
+		mp.Items[currentIdx].ResourceAmount = 1
 		f.destinations = f.destinations[:len(f.destinations)-1]
 	}
 	if f.NeedsToBeRemoved(mp, nil) {

@@ -87,6 +87,14 @@ func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res entity.Resource) (
 	if len(s.Storages) == 0 {
 		return nil, -1, false
 	}
+	if len(s.Storages) == 1 {
+		st := &s.Storages[0]
+		if st.HasSpace(res) {
+			return st, 0, true
+		} else {
+			return nil, -1, false
+		}
+	}
 	closest := math.MaxFloat64
 	idx := -1
 	for i, storage := range s.Storages {
@@ -101,9 +109,6 @@ func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res entity.Resource) (
 		}
 	}
 	if idx == -1 {
-		if s.Storages[0].HasSpace(res) {
-			return &s.Storages[0], idx, true
-		}
 		// No available space
 		// in any storage.
 		return nil, -1, false

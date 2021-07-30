@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Delete room by reference to interface."
+message="ResourceAmount."
 git add --all
 git commit -m "$message"
 git push

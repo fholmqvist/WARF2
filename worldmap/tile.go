@@ -8,15 +8,16 @@ import (
 // Tile data struct.
 type Tile struct {
 	TileType
-	Idx      int             `json:"i"`
-	X        int             `json:"x"`
-	Y        int             `json:"y"`
-	Sprite   int             `json:"s"`
-	Island   int             `json:"-"`
-	Map      *Map            `json:"-"`
-	Rotation float64         `json:"rt"`
-	Resource entity.Resource `json:"rs"`
-	Room     interface{}     // *room.Room, import cycle
+	Idx            int             `json:"i"`
+	X              int             `json:"x"`
+	Y              int             `json:"y"`
+	Sprite         int             `json:"s"`
+	Island         int             `json:"-"`
+	Map            *Map            `json:"-"`
+	Rotation       float64         `json:"rt"`
+	Resource       entity.Resource `json:"rs"`
+	ResourceAmount uint            `json:"rsa"`
+	Room           interface{}     // *room.Room, import cycle
 }
 
 type Tiles []Tile

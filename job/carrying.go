@@ -11,6 +11,7 @@ import (
 
 type Carrying struct {
 	resource        entity.Resource
+	amount          uint
 	dwarf           *dwarf.Dwarf
 	destinations    []int
 	goalDestination int
@@ -52,7 +53,7 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	if c.sprite == m.None {
 		return
 	}
-	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, 1, c.resource)
+	dropIdx, ok := s.Storages[c.storageIdx].AddItem(c.dwarf.Idx, c.amount, c.resource)
 	if !ok {
 		////////
 		// TODO
@@ -112,8 +113,10 @@ func (c *Carrying) String() string {
 }
 
 func setupPath(c *Carrying, mp *m.Map) {
+	c.amount = mp.Items[c.dwarf.Idx].ResourceAmount
 	mp.Items[c.dwarf.Idx].Sprite = 0
 	mp.Items[c.dwarf.Idx].Resource = 0
+	mp.Items[c.dwarf.Idx].ResourceAmount = 0
 	c.prev = c.dwarf.Idx
 	c.destinations[0] = c.dwarf.Idx
 	path, ok := c.dwarf.CreatePath(
