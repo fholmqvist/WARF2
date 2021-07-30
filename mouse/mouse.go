@@ -14,7 +14,6 @@ package mouse
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/entity"
@@ -104,11 +103,15 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 func (s *System) mouseHover(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) string {
 	for _, dwarf := range *dwarves {
 		if dwarf.Idx == currentMousePos {
-			return strings.ReplaceAll(dwarf.String(), "\n", " ")
+			return dwarf.String()
 		}
 	}
 	if mp.Items[currentMousePos].Sprite != entity.NoItem {
-		return fmt.Sprint(mp.Items[currentMousePos].Sprite)
+		itm := mp.Items[currentMousePos]
+		if itm.ResourceAmount == 0 {
+			return fmt.Sprintf("ITEM: %v.", entity.ItemToString(itm.Sprite))
+		}
+		return fmt.Sprintf("ITEM: %v.  AMOUNT: %v.", entity.ItemToString(itm.Sprite), itm.ResourceAmount)
 	}
 	return ""
 }

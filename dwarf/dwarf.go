@@ -30,7 +30,7 @@ func New(startingIdx int, name string) *Dwarf {
 }
 
 func (d Dwarf) String() string {
-	return fmt.Sprintf("NAME: %v.\n\tIDX: %v.\n\tSTATE: %v.\n\tPATH-LEN: %v.",
+	return fmt.Sprintf("NAME: %v.  IDX: %v.  STATE: %v.  PATH-LEN: %v.",
 		d.Name, d.Idx, d.State, len(d.Path))
 }
 

@@ -2,11 +2,94 @@ package entity
 
 import gl "github.com/Holmqvist1990/WARF2/globals"
 
-// Due to "import cycle not allowed" :(
-// Generally a great rule, but really sucks
-// when you have to do things like this.
-//
-// item.Table makes more sense than globals.Table.
+func ItemToString(itm int) string {
+	switch itm {
+	case NoItem:
+		return "No item"
+	case WallCrumbled1:
+		return "Crumbled wall"
+	case WallCrumbled2:
+		return "Crumbled wall"
+	case WallCrumbled3:
+		return "Crumbled wall"
+	case WallCrumbled4:
+		return "Crumbled wall"
+	case BookShelfOne:
+		return "Bookshelf"
+	case BookShelfTwo:
+		return "Bookshelf"
+	case BookShelfThree:
+		return "Bookshelf"
+	case BookShelfFour:
+		return "Bookshelf"
+	case BookShelfFive:
+		return "Bookshelf"
+	case BookShelfSix:
+		return "Bookshelf"
+	case BookShelfSeven:
+		return "Bookshelf"
+	case BookShelfEight:
+		return "Bookshelf"
+	case BookShelfNine:
+		return "Bookshelf"
+	case BookShelfTen:
+		return "Bookshelf"
+	case ChairLeft:
+		return "Chair"
+	case Table:
+		return "Table"
+	case ChairRight:
+		return "Chair"
+	case FarmSingleEmpty:
+		return "Farm"
+	case FarmLeftEmpty:
+		return "Farm"
+	case FarmMiddleEmpty:
+		return "Farm"
+	case FarmRightEmpty:
+		return "Farm"
+	case FarmSingleWheat1:
+		return "Farm"
+	case FarmLeftWheat1:
+		return "Farm"
+	case FarmMiddleWheat1:
+		return "Farm"
+	case FarmRightWheat1:
+		return "Farm"
+	case FarmSingleWheat2:
+		return "Farm"
+	case FarmLeftWheat2:
+		return "Farm"
+	case FarmMiddleWheat2:
+		return "Farm"
+	case FarmRightWheat2:
+		return "Farm"
+	case FarmSingleWheat3:
+		return "Farm"
+	case FarmLeftWheat3:
+		return "Farm"
+	case FarmMiddleWheat3:
+		return "Farm"
+	case FarmRightWheat3:
+		return "Farm"
+	case FarmSingleWheat4:
+		return "Farm"
+	case FarmLeftWheat4:
+		return "Farm"
+	case FarmMiddleWheat4:
+		return "Farm"
+	case FarmRightWheat4:
+		return "Farm"
+	case Wheat:
+		return "Wheat"
+	case BedRed1:
+		return "Bed"
+	case BedRed2:
+		return "Bed"
+	default:
+		return "unknown"
+	}
+}
 
 const (
 	NoItem = iota
