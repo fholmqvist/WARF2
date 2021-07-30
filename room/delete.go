@@ -21,15 +21,15 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 	case *Storage:
 		s.DeleteStorage(mp, id)
 	default:
-		s.DeleteRoom(mp, id)
+		s.DeleteRoom(mp, id, rm.String())
 	}
 }
 
-func (s *Service) DeleteRoom(mp *m.Map, id int) {
+func (s *Service) DeleteRoom(mp *m.Map, id int, roomType string) {
 	var room Room
 	var idx int
 	for i, rm := range s.Rooms {
-		if rm.GetID() == id {
+		if rm.GetID() == id && rm.String() == roomType {
 			room = rm
 			idx = i
 			break
