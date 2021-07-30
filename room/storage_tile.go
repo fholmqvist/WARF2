@@ -9,6 +9,12 @@ import (
 
 const MAX_STORAGE = 8
 
+/////////////////////////////////////
+// TODO
+// Remove and just use regular tiles.
+// Code duplication, accidental
+// complexity and broken hovering.
+/////////////////////////////////////
 type StorageTile struct {
 	Idx int
 	entity.Resource

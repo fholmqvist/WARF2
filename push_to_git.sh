@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Hovering item shows name and amount."
+message="TODO remove storage tiles."
 git add --all
 git commit -m "$message"
 git push
