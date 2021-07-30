@@ -65,6 +65,6 @@ func FindNearestChairs(m *worldmap.Map, idx int) ([]int, bool) {
 	return FindNearestMany(m, idx, entity.IsChair)
 }
 
-func FindNearestBed(m *worldmap.Map, idx int) (int, bool) {
-	return FindNearest(m, idx, entity.IsBedTop)
+func FindNearestBeds(m *worldmap.Map, idx int) ([]int, bool) {
+	return FindNearestMany(m, idx, entity.IsBedTop)
 }

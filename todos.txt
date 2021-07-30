@@ -20,10 +20,6 @@ jobservice\check_for_job.go:136:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\check_for_needs.go:37:
-	FindNearestBeds (plural).
-	Don't rest in occupied bed.
-
 mouse\mouse.go:5:
 	Perhaps this entire system
 	should be baked into UI?

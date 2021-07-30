@@ -18,7 +18,7 @@ func (s *Service) checkForNeeds(mp *worldmap.Map, rs *room.Service) {
 		if !dwf.Available() {
 			continue
 		}
-		if checkForSleep(dwf, s, mp, rs) {
+		if checkForSleep(dwf, s.Workers, s, mp, rs) {
 			continue
 		}
 		if checkForReading(dwf, s, mp) {
@@ -27,25 +27,35 @@ func (s *Service) checkForNeeds(mp *worldmap.Map, rs *room.Service) {
 	}
 }
 
-func checkForSleep(dwf *dwarf.Dwarf, s *Service, mp *worldmap.Map, rs *room.Service) (added bool) {
+func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *worldmap.Map, rs *room.Service) (added bool) {
 	if dwf.Needs.Sleep < dwarf.MAX_NEED {
 		return false
 	}
 	if sleepAlreadyExists(s, dwf) {
 		return false
 	}
-	//////////////////////////////////////
-	// TODO
-	// FindNearestBeds (plural).
-	// Don't rest in occupied bed.
-	//////////////////////////////////////
-	bedIndex, ok := item.FindNearestBed(mp, dwf.Idx)
+	bedIdxs, ok := item.FindNearestBeds(mp, dwf.Idx)
 	if !ok {
 		return false
 	}
+	// Don't rest in occupied bed.
+	target := -1
+	for _, dst := range bedIdxs {
+		for _, dwarf := range dwarves {
+			if dwarf.Idx == dst {
+				continue
+			}
+		}
+		target = dst
+		break
+	}
+	// No available beds.
+	if target == -1 {
+		return false
+	}
 	jb := job.NewSleep(
-		bedIndex,
-		worldmap.TileDirsToIdxs(worldmap.SurroundingTilesFour(bedIndex)),
+		target,
+		worldmap.TileDirsToIdxs(worldmap.SurroundingTilesFour(target)),
 	)
 	SetWorkerAndMove(jb, dwf, mp)
 	s.Jobs = append(s.Jobs, jb)
@@ -54,24 +64,24 @@ func checkForSleep(dwf *dwarf.Dwarf, s *Service, mp *worldmap.Map, rs *room.Serv
 }
 
 func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *worldmap.Map) (added bool) {
-		if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
-			return false
-		}
-		if readingAlreadyExists(s, dwf) {
-			return false
-		}
-		destination, ok := getBookshelfDestination(mp, *dwf)
-		if !ok {
-			return false
-		}
-		jb := job.NewLibraryRead(
-			[]int{destination},
-			int(dwf.Characteristics.DesireToRead*TIME_FACTOR),
-		)
-		SetWorkerAndMove(jb, dwf, mp)
-		s.Jobs = append(s.Jobs, jb)
-		dwf.Needs.ToRead = 0
-		return true
+	if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
+		return false
+	}
+	if readingAlreadyExists(s, dwf) {
+		return false
+	}
+	destination, ok := getBookshelfDestination(mp, *dwf)
+	if !ok {
+		return false
+	}
+	jb := job.NewLibraryRead(
+		[]int{destination},
+		int(dwf.Characteristics.DesireToRead*TIME_FACTOR),
+	)
+	SetWorkerAndMove(jb, dwf, mp)
+	s.Jobs = append(s.Jobs, jb)
+	dwf.Needs.ToRead = 0
+	return true
 }
 
 func getBookshelfDestination(mp *worldmap.Map, dwf dwarf.Dwarf) (int, bool) {
