@@ -38,7 +38,7 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 			entity.IsBed(mp.Items[m.OneTileUpRight(t.Idx)].Sprite) {
 			continue
 		}
-		if m.IsNextToDoorOpening(mp, t.Idx) {
+		if m.IsNextToDoorOpening(mp, t.Idx) || m.IsNextToDoorOpening(mp, m.OneTileDown(t.Idx)) {
 			continue
 		}
 		mp.Items[t.Idx].Sprite = entity.BedRed1

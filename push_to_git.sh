@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Room comparison when deleting."
+message="CMD: all-rooms."
 git add --all
 git commit -m "$message"
 git push

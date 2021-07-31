@@ -163,6 +163,26 @@ func initWithArgs(args []string) *Game {
 		d1.Characteristics.DesireToRead = 20
 		d2 := game.JobService.Workers[1]
 		d2.Characteristics.DesireToRead = 30
+	case "all-rooms":
+		game = GenerateGame(0, m.FilledMap())
+		mp := game.WorldMap
+		for y := 0; y < globals.TilesH-8; y += 7 {
+			for x := 0; x < globals.TilesW-8; x += 7 {
+				mp.DrawSquareSprite(2+x, 2+y, 8+x, 8+y, m.Ground)
+			}
+		}
+		openings := []int{
+			372, 379, 386, 393, 400, 407, 694, 701, 708, 715,
+			722, 729, 1016, 1023, 1030, 1037, 1044, 1051, 1158,
+			1165, 1172, 1179, 1186,
+		}
+		for _, v := range openings {
+			mp.Tiles[v].Sprite = m.Ground
+		}
+		game.Rooms.AddStorage(mp, 94)
+		game.Rooms.AddSleepHall(mp, 101)
+		game.Rooms.AddFarm(mp, 108)
+		game.Rooms.AddLibrary(mp, 115)
 	case "rails":
 		///////////////////////////////////////////////////////
 		// Debugging rails.
@@ -223,7 +243,6 @@ func initWithArgs(args []string) *Game {
 		///////////////////////////////////////////////////////
 		maintenance()
 		os.Exit(3)
-
 	case "git":
 		///////////////////////////////////////////////////////
 		// Runs maintenance.
