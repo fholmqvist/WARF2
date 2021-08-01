@@ -11,7 +11,7 @@ var sleepHallAutoID = 0
 
 type SleepHall struct {
 	ID    int
-	tiles m.Tiles
+	tiles []int
 }
 
 func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
@@ -20,32 +20,32 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 	if len(tiles) == 0 {
 		return nil
 	}
-	sort.Sort(tiles)
+	sort.Ints(tiles)
 	s.tiles = tiles
-	for _, t := range s.tiles {
-		if m.IsAnyWall(mp.Tiles[t.Idx].Sprite) ||
-			m.IsAnyWall(mp.Tiles[m.OneTileDown(t.Idx)].Sprite) {
+	for _, idx := range s.tiles {
+		if m.IsAnyWall(mp.Tiles[idx].Sprite) ||
+			m.IsAnyWall(mp.Tiles[m.OneTileDown(idx)].Sprite) {
 			continue
 		}
-		if entity.IsBed(mp.Items[t.Idx].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileDown(t.Idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileLeft(t.Idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileDownLeft(t.Idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileRight(t.Idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileDownRight(t.Idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileUp(t.Idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileUpLeft(t.Idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileUpRight(t.Idx)].Sprite) {
+		if entity.IsBed(mp.Items[idx].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileDown(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileLeft(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileDownLeft(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileRight(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileDownRight(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileUp(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileUpLeft(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneTileUpRight(idx)].Sprite) {
 			continue
 		}
-		if m.IsNextToDoorOpening(mp, t.Idx) || m.IsNextToDoorOpening(mp, m.OneTileDown(t.Idx)) {
+		if m.IsNextToDoorOpening(mp, idx) || m.IsNextToDoorOpening(mp, m.OneTileDown(idx)) {
 			continue
 		}
-		mp.Items[t.Idx].Sprite = entity.BedRed1
-		mp.Items[m.OneTileDown(t.Idx)].Sprite = entity.BedRed2
+		mp.Items[idx].Sprite = entity.BedRed1
+		mp.Items[m.OneTileDown(idx)].Sprite = entity.BedRed2
 	}
 	for _, t := range tiles {
-		mp.Tiles[t.Idx].Room = s
+		mp.Tiles[t].Room = s
 	}
 	s.ID = sleepHallAutoID
 	sleepHallAutoID++
@@ -63,5 +63,5 @@ func (s *SleepHall) String() string {
 func (s *SleepHall) Update(mp *m.Map) {}
 
 func (s *SleepHall) Tiles() []int {
-	return s.tiles.ToIdxs()
+	return s.tiles
 }

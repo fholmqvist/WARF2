@@ -23,19 +23,19 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 	if len(tiles) == 0 {
 		return nil
 	}
-	sort.Sort(tiles)
-	for _, t := range tiles {
-		f.PlantFarm(mp, t)
+	sort.Ints(tiles)
+	for _, idx := range tiles {
+		f.PlantFarm(mp, mp.Tiles[idx])
 		if f.farmTile != nil {
 			continue
 		}
-		if !entity.IsFarm(mp.Items[t.Idx].Sprite) {
+		if !entity.IsFarm(mp.Items[idx].Sprite) {
 			continue
 		}
-		f.farmTile = &mp.Items[t.Idx]
-		mp.Tiles[t.Idx].Room = f
+		f.farmTile = &mp.Items[idx]
+		mp.Tiles[idx].Room = f
 	}
-	f.AllTileIdxs = tiles.ToIdxs()
+	f.AllTileIdxs = tiles
 	f.FarmableIdxs = f.farmableIndexes(mp)
 	f.ID = farmAutoID
 	farmAutoID++

@@ -16,14 +16,8 @@ var libraryAutoID = 0
 // dwarves and increases
 // their knowledge.
 type Library struct {
-	ID int
-	///////////////////////
-	// TODO
-	// Should be indexes.
-	// Check other rooms
-	// for the same change.
-	///////////////////////
-	tiles m.Tiles
+	ID    int
+	tiles []int
 }
 
 func NewLibrary(mp *m.Map, x, y int) *Library {
@@ -32,17 +26,15 @@ func NewLibrary(mp *m.Map, x, y int) *Library {
 	if len(tiles) == 0 {
 		return nil
 	}
-	sort.Sort(tiles)
+	sort.Ints(tiles)
 	l.tiles = tiles
 	var (
-		firstRow     = tiles[0].Y
+		firstRow     = mp.Tiles[tiles[0]].Y
 		lastShelfRow = -1
 	)
-	for _, t := range l.tiles {
-		lastShelfRow = l.placeItems(mp, t, firstRow, lastShelfRow)
-	}
-	for _, t := range tiles {
-		mp.Tiles[t.Idx].Room = l
+	for _, idx := range l.tiles {
+		lastShelfRow = l.placeItems(mp, mp.Tiles[idx], firstRow, lastShelfRow)
+		mp.Tiles[idx].Room = l
 	}
 	return l
 }
@@ -58,7 +50,7 @@ func (l *Library) String() string {
 func (l *Library) Update(mp *m.Map) {}
 
 func (l *Library) Tiles() []int {
-	return l.tiles.ToIdxs()
+	return l.tiles
 }
 
 // Use library.
@@ -106,9 +98,9 @@ func (l *Library) generateBookshelves(mp *m.Map, t m.Tile) {
 // through an entire room unbroken.
 func (l *Library) breakupBookshelves(mp *m.Map, y int) {
 	items := []m.Tile{}
-	for _, t := range l.tiles {
-		if t.Y == y {
-			items = append(items, mp.Items[t.Idx])
+	for _, idx := range l.tiles {
+		if mp.Tiles[idx].Y == y {
+			items = append(items, mp.Items[idx])
 		}
 	}
 	if len(items) == 0 {

@@ -70,7 +70,7 @@ func FloodFillGround(x, y int, m *Map, island int) {
 }
 
 // Resets islands!
-func (mp *Map) FloodFillRoom(x, y int, spriteGenerator func() int) Tiles {
+func (mp *Map) FloodFillRoom(x, y int, spriteGenerator func() int) []int {
 	///////////////////////////////////
 	// TODO
 	// New feature:
@@ -78,12 +78,8 @@ func (mp *Map) FloodFillRoom(x, y int, spriteGenerator func() int) Tiles {
 	// should merge the two rooms,
 	// extending the first.
 	///////////////////////////////////
-	///////////////////////////////////
-	// TODO
-	// Should return indexes.
-	///////////////////////////////////
 	island := 99
-	tiles := []Tile{}
+	tiles := []int{}
 	FloodFill(x, y, mp, island, func(idx int) bool {
 		if !IsGround(mp.Tiles[idx].Sprite) {
 			return false
@@ -96,7 +92,7 @@ func (mp *Map) FloodFillRoom(x, y int, spriteGenerator func() int) Tiles {
 		}
 		mp.Tiles[idx].Sprite = spriteGenerator()
 		mp.Tiles[idx].Island = island
-		tiles = append(tiles, mp.Tiles[idx])
+		tiles = append(tiles, mp.Tiles[idx].Idx)
 		return true
 	})
 	mp.ResetIslands()

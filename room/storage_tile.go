@@ -73,16 +73,16 @@ func (s *StorageTile) Remaining() uint {
 	return MAX_STORAGE - s.Amount
 }
 
-func createStorageTiles(tt m.Tiles, itt m.Tiles) []StorageTile {
+func createStorageTiles(mp *m.Map, tiles []int) []StorageTile {
 	var st []StorageTile
-	for _, t := range tt {
+	for _, idx := range tiles {
 		var amount uint
-		if itt[t.Idx].Resource != entity.ResourceNone {
+		if mp.Items[idx].Resource != entity.ResourceNone {
 			amount++
 		}
 		st = append(st, StorageTile{
-			Idx:      t.Idx,
-			Resource: itt[t.Idx].Resource,
+			Idx:      idx,
+			Resource: mp.Items[idx].Resource,
 			Amount:   amount,
 		})
 	}

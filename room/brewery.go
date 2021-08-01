@@ -20,26 +20,26 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 	if len(tiles) == 0 {
 		return nil
 	}
-	sort.Sort(tiles)
-	for i, t := range tiles {
+	sort.Ints(tiles)
+	for i, idx := range tiles {
 		if i%2 == 0 {
 			continue
 		}
-		if m.IsAnyWall(mp.OneTileLeft(t.Idx).Sprite) ||
-			m.IsAnyWall(mp.OneTileRight(t.Idx).Sprite) ||
-			m.IsAnyWall(mp.OneTileUp(t.Idx).Sprite) ||
-			m.IsAnyWall(mp.OneTileUpLeft(t.Idx).Sprite) ||
-			m.IsAnyWall(mp.OneTileUpRight(t.Idx).Sprite) ||
-			m.IsAnyWall(mp.OneTileDown(t.Idx).Sprite) ||
-			m.IsAnyWall(mp.OneTileDownLeft(t.Idx).Sprite) ||
-			m.IsAnyWall(mp.OneTileDownRight(t.Idx).Sprite) {
+		if m.IsAnyWall(mp.OneTileLeft(idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileRight(idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileUp(idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileUpLeft(idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileUpRight(idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileDown(idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileDownLeft(idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileDownRight(idx).Sprite) {
 			continue
 		}
-		mp.Items[t.Idx].Resource = entity.ResourceNone
-		mp.Items[t.Idx].Sprite = entity.EmptyBarrel
-		mp.Tiles[t.Idx].Room = b
+		mp.Items[idx].Resource = entity.ResourceNone
+		mp.Items[idx].Sprite = entity.EmptyBarrel
+		mp.Tiles[idx].Room = b
 	}
-	b.tiles = tiles.ToIdxs()
+	b.tiles = tiles
 	b.ID = breweryAutoID
 	breweryAutoID++
 	return b

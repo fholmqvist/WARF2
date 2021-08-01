@@ -42,10 +42,10 @@ func NewStorage(mp *m.Map, x, y int) *Storage {
 	if len(tiles) == 0 {
 		return nil
 	}
-	for _, t := range tiles {
-		mp.Tiles[t.Idx].Room = s
+	for _, idxs := range tiles {
+		mp.Tiles[idxs].Room = s
 	}
-	s.StorageTiles = createStorageTiles(tiles, mp.Items)
+	s.StorageTiles = createStorageTiles(mp, tiles)
 	s.Center = determineCenter(mp, tiles)
 	s.ID = storageAutoID
 	storageAutoID++
@@ -111,21 +111,21 @@ func (s *Storage) Tiles() []int {
 	return idxs
 }
 
-func determineCenter(mp *m.Map, tiles m.Tiles) int {
+func determineCenter(mp *m.Map, tiles []int) int {
 	minx, maxx := math.MaxInt16, -1
 	miny, maxy := math.MaxInt16, -1
-	for _, t := range tiles {
-		if t.X < minx {
-			minx = t.X
+	for _, idx := range tiles {
+		if mp.Tiles[idx].X < minx {
+			minx = mp.Tiles[idx].X
 		}
-		if t.X > maxx {
-			maxx = t.X
+		if mp.Tiles[idx].X > maxx {
+			maxx = mp.Tiles[idx].X
 		}
-		if t.Y < miny {
-			miny = t.Y
+		if mp.Tiles[idx].Y < miny {
+			miny = mp.Tiles[idx].Y
 		}
-		if t.Y > maxy {
-			maxy = t.Y
+		if mp.Tiles[idx].Y > maxy {
+			maxy = mp.Tiles[idx].Y
 		}
 	}
 	midx := minx + ((maxx - minx) / 2)

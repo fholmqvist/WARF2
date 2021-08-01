@@ -28,11 +28,6 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-room\library.go:20:
-	Should be indexes.
-	Check other rooms
-	for the same change.
-
 room\storage.go:13:
 	If the storage is filled
 	with StorageTiles that
@@ -65,6 +60,3 @@ worldmap\generation.go:74:
 	Filling a room of the same type
 	should merge the two rooms,
 	extending the first.
-
-worldmap\generation.go:81:
-	Should return indexes.
