@@ -144,6 +144,24 @@ func initWithArgs(args []string) *Game {
 		game.Rooms.Rooms[0].Update(mp)
 		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 15, 14))
 		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 21, 25))
+	case "brewery":
+		///////////////////////////////////////////////////////
+		// Debugging and testing breweries and brewing.
+		///////////////////////////////////////////////////////
+		game = GenerateGame(4, m.BoundariesMap())
+		mp := game.WorldMap
+		mp.DrawOutline(6, 8, 18, 14, m.WallSolid)
+		mp.DrawOutline(14, 13, 18, 18, m.WallSolid)
+		mp.DrawOutline(6, 13, 13, 18, m.WallSolid)
+		mp.Tiles[611].Sprite = m.Ground
+		mp.Tiles[614].Sprite = m.Ground
+		mp.Tiles[605].Sprite = m.Ground
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewFarm(mp, 12, 9))
+		game.Rooms.Rooms[0].Update(mp)
+		game.Rooms.Rooms[0].Update(mp)
+		game.Rooms.Rooms[0].Update(mp)
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 15, 14))
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewBrewery(mp, 7, 14))
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.
@@ -164,6 +182,9 @@ func initWithArgs(args []string) *Game {
 		d2 := game.JobService.Workers[1]
 		d2.Characteristics.DesireToRead = 30
 	case "all-rooms":
+		///////////////////////////////////////////////////////
+		// Generate all rooms.
+		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.FilledMap())
 		mp := game.WorldMap
 		for y := 0; y < globals.TilesH-8; y += 7 {

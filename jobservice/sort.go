@@ -42,6 +42,8 @@ func (jb *Service) GetPriority(j job.Job) int {
 		return 3
 	case *job.PlantFarm:
 		return 2
+	case *job.FillBrewer:
+		return 2
 	case *job.Sleep:
 		return 3
 	case *job.Read:

@@ -10,8 +10,9 @@ import (
 var breweryAutoID = 0
 
 type Brewery struct {
-	ID    int
-	tiles []int
+	ID      int
+	barrels []int
+	tiles   []int
 }
 
 func NewBrewery(mp *m.Map, x, y int) *Brewery {
@@ -38,6 +39,7 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 		mp.Items[idx].Resource = entity.ResourceNone
 		mp.Items[idx].Sprite = entity.EmptyBarrel
 		mp.Tiles[idx].Room = b
+		b.barrels = append(b.barrels, idx)
 	}
 	b.tiles = tiles
 	b.ID = breweryAutoID
@@ -59,4 +61,14 @@ func (b *Brewery) String() string {
 
 func (b *Brewery) Tiles() []int {
 	return b.tiles
+}
+
+func (b *Brewery) GetEmptyBarrel(mp *m.Map) (int, bool) {
+	for _, idx := range b.barrels {
+		if !entity.IsBarrel(mp.Items[idx].Sprite) {
+			continue
+		}
+		return idx, true
+	}
+	return -1, false
 }

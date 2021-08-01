@@ -20,12 +20,11 @@ func (s *Service) checkForJobs(rs *room.Service) {
 		}
 	}
 	for _, rm := range rs.Rooms {
-		farm, ok := rm.(*room.Farm)
-		if !ok {
-			continue
-		}
-		if checkForFarmingJobs(s, *farm, rs) {
-			continue
+		switch rm.(type) {
+		case *room.Farm:
+			checkForFarmingJobs(s, *rm.(*room.Farm), rs)
+		case *room.Brewery:
+			checkBreweryJobs(s, *rm.(*room.Brewery), rs)
 		}
 	}
 }
@@ -39,7 +38,7 @@ func checkForDiggingJob(s *Service, wall m.Tile) (added bool) {
 		if m.IsColliding(s.Map, wall.Idx, destination.Dir) {
 			continue
 		}
-		if diggingJobAlreadyExists(s, destination.Idx, wall.Idx) {
+		if diggingJobExists(s, destination.Idx, wall.Idx) {
 			continue
 		}
 		destinations = append(destinations, destination.Idx)
@@ -66,7 +65,7 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 	if m.IsStorageFloorBrick(s.Map.Tiles[itm.Idx].Sprite) {
 		return false
 	}
-	if carryingJobAlreadyExists(s, itm.Idx, s.Map) {
+	if carryingJobExists(s, itm.Idx, s.Map) {
 		return false
 	}
 	x, y := gl.IdxToXY(itm.Idx)
@@ -94,26 +93,47 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 	return true
 }
 
-func checkForFarmingJobs(s *Service, farm room.Farm, rs *room.Service) (added bool) {
+func checkForFarmingJobs(s *Service, farm room.Farm, rs *room.Service) {
 	if farm.FullyHarvestedAndCleaned(s.Map) {
-		if s.plantFarmJobAlreadyExists(farm) {
-			return false
+		if plantFarmJobExists(s, farm) {
+			return
 		}
 		s.Jobs = append(s.Jobs, job.NewPlantFarm(&farm, farm.FarmableIdxs))
-		return false
+		return
 	}
 	idxs, should := farm.ShouldHarvest(s.Map)
 	if !should {
-		return false
+		return
 	}
-	if s.farmJobAlreadyExists(farm) {
-		return false
+	if farmJobExists(s, farm) {
+		return
 	}
 	s.Jobs = append(s.Jobs, job.NewFarming(farm.ID, idxs))
-	return true
+	return
 }
 
-func diggingJobAlreadyExists(s *Service, dIdx, jIdx int) bool {
+func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
+	for _, rm := range rs.Rooms {
+		storage, ok := rm.(*room.Storage)
+		if !ok {
+			continue
+		}
+		wheatIdx, has := storage.HasWheat()
+		if !has {
+			continue
+		}
+		barrelIndex, ok := brewery.GetEmptyBarrel(s.Map)
+		if !ok {
+			continue
+		}
+		if breweryJobExists(s, wheatIdx, barrelIndex) {
+			continue
+		}
+		s.Jobs = append(s.Jobs, job.NewFillBrewer(wheatIdx, barrelIndex))
+	}
+}
+
+func diggingJobExists(s *Service, dIdx, jIdx int) bool {
 	for _, jb := range s.Jobs {
 		d, ok := jb.(*job.Digging)
 		if !ok {
@@ -128,7 +148,7 @@ func diggingJobAlreadyExists(s *Service, dIdx, jIdx int) bool {
 	return false
 }
 
-func carryingJobAlreadyExists(s *Service, idx int, mp *m.Map) bool {
+func carryingJobExists(s *Service, idx int, mp *m.Map) bool {
 	for _, jb1 := range s.Jobs {
 		c1, ok := jb1.(*job.Carrying)
 		if !ok {
@@ -158,7 +178,7 @@ func carryingJobAlreadyExists(s *Service, idx int, mp *m.Map) bool {
 	return false
 }
 
-func (s *Service) plantFarmJobAlreadyExists(farm room.Farm) bool {
+func plantFarmJobExists(s *Service, farm room.Farm) bool {
 	for _, j := range s.Jobs {
 		p, ok := j.(*job.PlantFarm)
 		if !ok {
@@ -171,13 +191,26 @@ func (s *Service) plantFarmJobAlreadyExists(farm room.Farm) bool {
 	return false
 }
 
-func (s *Service) farmJobAlreadyExists(farm room.Farm) bool {
+func farmJobExists(s *Service, farm room.Farm) bool {
 	for _, j := range s.Jobs {
 		f, ok := j.(*job.Farming)
 		if !ok {
 			continue
 		}
 		if f.FarmID == farm.ID {
+			return true
+		}
+	}
+	return false
+}
+
+func breweryJobExists(s *Service, wheatIdx int, barrelIndex int) bool {
+	for _, j := range s.Jobs {
+		b, ok := j.(*job.FillBrewer)
+		if !ok {
+			continue
+		}
+		if b.WheatIndex == wheatIdx || b.BarrelIndex == barrelIndex {
 			return true
 		}
 	}

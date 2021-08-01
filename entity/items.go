@@ -252,8 +252,12 @@ func IsFarmTileHarvested(sprite int) bool {
 	return sprite == Wheat
 }
 
+func IsEmptyBarrel(sprite int) bool {
+	return sprite == EmptyBarrel
+}
+
 func IsBarrel(sprite int) bool {
-	return sprite == EmptyBarrel || sprite == FilledBarrel
+	return IsEmptyBarrel(sprite) || sprite == FilledBarrel
 }
 
 func IsBed(sprite int) bool {
