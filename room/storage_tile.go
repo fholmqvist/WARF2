@@ -64,6 +64,7 @@ func (s *StorageTile) TakeAll() uint {
 	all := s.ResourceAmount
 	s.ResourceAmount = 0
 	s.Resource = entity.ResourceNone
+	s.Sprite = m.Ground
 	return all
 }
 

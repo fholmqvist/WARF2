@@ -33,9 +33,6 @@ func (f *FillBrewer) NeedsToBeRemoved(mp *m.Map, rs *room.Service) bool {
 func (f *FillBrewer) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) bool {
 	if f.path == nil {
 		f.amount = f.StorageTile.TakeAll()
-		f.StorageTile.Sprite = 0
-		f.StorageTile.Resource = 0
-		f.StorageTile.ResourceAmount = 0
 		f.setupPath(mp)
 		return unfinished
 	}
