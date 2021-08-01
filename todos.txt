@@ -12,11 +12,15 @@ job\carrying.go:79:
 	Item is no longer there, abort.
 	What should we actually do here?
 
-jobservice\check_for_job.go:60:
+job\fill_brewer.go:33:
+	This does not empty StorageTile!
+	Remove StorageTile!
+
+jobservice\check_for_job.go:62:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\check_for_job.go:160:
+jobservice\check_for_job.go:167:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 

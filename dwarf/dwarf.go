@@ -67,6 +67,9 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 		return
 	}
 tryagain:
+	if len(d.Path) == 0 {
+		return
+	}
 	var dir m.Direction
 	var err error
 	next := d.Path[0]

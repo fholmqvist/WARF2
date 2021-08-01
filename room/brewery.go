@@ -65,7 +65,7 @@ func (b *Brewery) Tiles() []int {
 
 func (b *Brewery) GetEmptyBarrel(mp *m.Map) (int, bool) {
 	for _, idx := range b.barrels {
-		if !entity.IsBarrel(mp.Items[idx].Sprite) {
+		if !entity.IsEmptyBarrel(mp.Items[idx].Sprite) {
 			continue
 		}
 		return idx, true

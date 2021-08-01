@@ -1,5 +1,5 @@
 #!/bin/bash
-message="WIP FillBrewer."
+message="FillBrewer done."
 git add --all
 git commit -m "$message"
 git push

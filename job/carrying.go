@@ -85,7 +85,7 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servi
 			c.path = []int{}
 			return finished
 		}
-		setupPath(c, mp)
+		c.setupPath(mp)
 		return unfinished
 	}
 	if len(c.path) == 0 {
@@ -115,7 +115,7 @@ func (c *Carrying) String() string {
 	return "Carrying"
 }
 
-func setupPath(c *Carrying, mp *m.Map) {
+func (c *Carrying) setupPath(mp *m.Map) {
 	c.amount = mp.Items[c.dwarf.Idx].ResourceAmount
 	mp.Items[c.dwarf.Idx].Sprite = 0
 	mp.Items[c.dwarf.Idx].Resource = 0
