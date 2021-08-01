@@ -1,6 +1,8 @@
 package worldmap
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
 )
@@ -18,6 +20,11 @@ type Tile struct {
 	Resource       entity.Resource `json:"rs"`
 	ResourceAmount uint            `json:"rsa"`
 	Room           interface{}     // *room.Room, import cycle
+}
+
+func (t *Tile) String() string {
+	return fmt.Sprintf("IDX: %v. SPRITE: %v. RESOURCE: %v. AMOUNT: %v.",
+		t.Idx, entity.ItemToString(t.Sprite), t.Resource, t.ResourceAmount)
 }
 
 type Tiles []Tile

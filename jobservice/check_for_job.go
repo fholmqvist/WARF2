@@ -1,8 +1,6 @@
 package jobservice
 
 import (
-	"fmt"
-
 	"github.com/Holmqvist1990/WARF2/entity"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -120,7 +118,7 @@ func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
 		if !ok {
 			continue
 		}
-		wheatIdx, has := storage.HasWheat()
+		storageTile, has := storage.HasWheat()
 		if !has {
 			continue
 		}
@@ -128,12 +126,11 @@ func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
 		if !ok {
 			continue
 		}
-		if breweryJobExists(s, wheatIdx, barrelIdx) {
+		if breweryJobExists(s, storageTile.Idx, barrelIdx) {
 			continue
 		}
-		fmt.Println("FILL", wheatIdx, barrelIdx)
 		s.Jobs = append(s.Jobs, job.NewFillBrewer(
-			wheatIdx,
+			storageTile,
 			barrelIdx,
 			m.TileDirsToIdxs(m.SurroundingTilesFour(barrelIdx))),
 		)
@@ -218,7 +215,6 @@ func breweryJobExists(s *Service, wheatIdx int, barrelIndex int) bool {
 			continue
 		}
 		if f.WheatIndex == wheatIdx || f.BarrelIndex == barrelIndex {
-			fmt.Println("SAME", wheatIdx, barrelIndex)
 			return true
 		}
 	}

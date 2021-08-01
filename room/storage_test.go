@@ -30,33 +30,33 @@ func TestNearestStorage(t *testing.T) {
 }
 
 func TestStorageTileAdd(t *testing.T) {
-	st := StorageTile{
-		Idx:      0,
-		Resource: entity.ResourceRock,
-		Amount:   0,
-	}
+	st := StorageTile{&m.Tile{
+		Idx:            0,
+		Resource:       entity.ResourceRock,
+		ResourceAmount: 0,
+	}}
 	r := st.Add(entity.ResourceRock, 5)
-	if st.Amount != 5 || r != 0 {
-		t.Fatalf("wanted [%v, %v] got [%v %v]", 5, 0, st.Amount, r)
+	if st.ResourceAmount != 5 || r != 0 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 5, 0, st.ResourceAmount, r)
 	}
 	r = st.Add(entity.ResourceRock, 5)
-	if st.Amount != 8 || r != 2 {
-		t.Fatalf("wanted [%v, %v] got [%v %v]", 8, 2, st.Amount, r)
+	if st.ResourceAmount != 8 || r != 2 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 8, 2, st.ResourceAmount, r)
 	}
 }
 
 func TestStorageTileTake(t *testing.T) {
-	st := StorageTile{
-		Idx:      0,
-		Resource: entity.ResourceRock,
-		Amount:   10,
-	}
+	st := StorageTile{&m.Tile{
+		Idx:            0,
+		Resource:       entity.ResourceRock,
+		ResourceAmount: 10,
+	}}
 	r := st.Take(5)
-	if st.Amount != 5 || r != 5 {
-		t.Fatalf("wanted [%v, %v] got [%v %v]", 5, 5, st.Amount, r)
+	if st.ResourceAmount != 5 || r != 5 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 5, 5, st.ResourceAmount, r)
 	}
 	r = st.Take(10)
-	if st.Amount != 0 || r != 5 {
-		t.Fatalf("wanted [%v, %v] got [%v %v]", 0, 5, st.Amount, r)
+	if st.ResourceAmount != 0 || r != 5 {
+		t.Fatalf("wanted [%v, %v] got [%v %v]", 0, 5, st.ResourceAmount, r)
 	}
 }

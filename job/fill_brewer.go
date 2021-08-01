@@ -8,6 +8,7 @@ import (
 )
 
 type FillBrewer struct {
+	StorageTile  *room.StorageTile
 	WheatIndex   int
 	BarrelIndex  int
 	destinations []int
@@ -16,9 +17,10 @@ type FillBrewer struct {
 	amount       uint
 }
 
-func NewFillBrewer(wheatIdx, barrelIdx int, destinations []int) *FillBrewer {
+func NewFillBrewer(st *room.StorageTile, barrelIdx int, destinations []int) *FillBrewer {
 	return &FillBrewer{
-		WheatIndex:   wheatIdx,
+		StorageTile:  st,
+		WheatIndex:   st.Idx,
 		BarrelIndex:  barrelIdx,
 		destinations: destinations,
 	}
@@ -30,15 +32,10 @@ func (f *FillBrewer) NeedsToBeRemoved(mp *m.Map, rs *room.Service) bool {
 
 func (f *FillBrewer) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) bool {
 	if f.path == nil {
-		////////////////////////////////////
-		// TODO
-		// This does not empty StorageTile!
-		// Remove StorageTile!
-		////////////////////////////////////
-		f.amount = mp.Items[f.dwarf.Idx].ResourceAmount
-		mp.Items[f.dwarf.Idx].Sprite = 0
-		mp.Items[f.dwarf.Idx].Resource = 0
-		mp.Items[f.dwarf.Idx].ResourceAmount = 0
+		f.amount = f.StorageTile.TakeAll()
+		f.StorageTile.Sprite = 0
+		f.StorageTile.Resource = 0
+		f.StorageTile.ResourceAmount = 0
 		f.setupPath(mp)
 		return unfinished
 	}

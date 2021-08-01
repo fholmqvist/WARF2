@@ -99,13 +99,13 @@ func (s *Storage) HasSpace(res entity.Resource) bool {
 	return false
 }
 
-func (s *Storage) HasWheat() (int, bool) {
+func (s *Storage) HasWheat() (*StorageTile, bool) {
 	for _, t := range s.StorageTiles {
 		if t.Resource == entity.ResourceWheat {
-			return t.Idx, true
+			return &t, true
 		}
 	}
-	return -1, false
+	return nil, false
 }
 
 func (s *Storage) String() string {

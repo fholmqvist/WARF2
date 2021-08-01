@@ -9,16 +9,8 @@ import (
 
 const MAX_STORAGE = 8
 
-/////////////////////////////////////
-// TODO
-// Remove and just use regular tiles.
-// Code duplication, accidental
-// complexity and broken hovering.
-/////////////////////////////////////
 type StorageTile struct {
-	Idx int
-	entity.Resource
-	Amount uint
+	*m.Tile
 }
 
 func (s *StorageTile) Available(res entity.Resource) bool {
@@ -27,10 +19,10 @@ func (s *StorageTile) Available(res entity.Resource) bool {
 	// Switch amount on
 	// resource type.
 	///////////////////
-	if res == s.Resource && s.Amount < MAX_STORAGE {
+	if res == s.Resource && s.ResourceAmount < MAX_STORAGE {
 		return true
 	}
-	if s.Amount == 0 {
+	if s.ResourceAmount == 0 {
 		s.Resource = entity.ResourceNone
 		return true
 	}
@@ -50,8 +42,8 @@ func (s *StorageTile) Add(res entity.Resource, amount uint) (remaining uint) {
 		panic(fmt.Sprintf("storage: AddItem: trying to add %v to a tile with type of %v", res, s.Resource))
 	}
 	s.Resource = res
-	for s.Amount < MAX_STORAGE && amount > 0 {
-		s.Amount++
+	for s.ResourceAmount < MAX_STORAGE && amount > 0 {
+		s.ResourceAmount++
 		amount--
 	}
 	return amount
@@ -60,31 +52,33 @@ func (s *StorageTile) Add(res entity.Resource, amount uint) (remaining uint) {
 // Returns up to the desiredAmount,
 // reducing the stored tile amount.
 func (s *StorageTile) Take(desiredAmount uint) uint {
-	returnAmount := s.Amount
-	if s.Amount < desiredAmount {
-		s.Amount = 0
-		return returnAmount
+	returnAmount := s.ResourceAmount
+	if s.ResourceAmount < desiredAmount {
+		return s.TakeAll()
 	}
-	s.Amount -= desiredAmount
+	s.ResourceAmount -= desiredAmount
 	return returnAmount - desiredAmount
 }
 
+func (s *StorageTile) TakeAll() uint {
+	all := s.ResourceAmount
+	s.ResourceAmount = 0
+	s.Resource = entity.ResourceNone
+	return all
+}
+
 func (s *StorageTile) Remaining() uint {
-	return MAX_STORAGE - s.Amount
+	return MAX_STORAGE - s.ResourceAmount
 }
 
 func createStorageTiles(mp *m.Map, tiles []int) []StorageTile {
-	var st []StorageTile
+	var sts []StorageTile
 	for _, idx := range tiles {
 		var amount uint
 		if mp.Items[idx].Resource != entity.ResourceNone {
 			amount++
 		}
-		st = append(st, StorageTile{
-			Idx:      idx,
-			Resource: mp.Items[idx].Resource,
-			Amount:   amount,
-		})
+		sts = append(sts, StorageTile{&mp.Items[idx]})
 	}
-	return st
+	return sts
 }
