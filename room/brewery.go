@@ -3,6 +3,7 @@ package room
 import (
 	"sort"
 
+	"github.com/Holmqvist1990/WARF2/entity"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -20,7 +21,22 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 		return nil
 	}
 	sort.Sort(tiles)
-	for _, t := range tiles {
+	for i, t := range tiles {
+		if i%2 == 0 {
+			continue
+		}
+		if m.IsAnyWall(mp.OneTileLeft(t.Idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileRight(t.Idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileUp(t.Idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileUpLeft(t.Idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileUpRight(t.Idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileDown(t.Idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileDownLeft(t.Idx).Sprite) ||
+			m.IsAnyWall(mp.OneTileDownRight(t.Idx).Sprite) {
+			continue
+		}
+		mp.Items[t.Idx].Resource = entity.ResourceNone
+		mp.Items[t.Idx].Sprite = entity.EmptyBarrel
 		mp.Tiles[t.Idx].Room = b
 	}
 	b.tiles = tiles.ToIdxs()

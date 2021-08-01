@@ -82,6 +82,10 @@ func ItemToString(itm int) string {
 		return "Farm"
 	case Wheat:
 		return "Wheat"
+	case EmptyBarrel:
+		return "Empty barrel"
+	case FilledBarrel:
+		return "Filled barrel"
 	case BedRed1:
 		return "Bed"
 	case BedRed2:
@@ -141,6 +145,9 @@ const (
 	FarmRightWheat4
 
 	Wheat
+
+	EmptyBarrel
+	FilledBarrel
 )
 const (
 	BedRed1 = iota + gl.TilesetW*4
@@ -157,12 +164,15 @@ var (
 	Furniture = []int{
 		ChairLeft, Table, ChairRight,
 	}
+	Brew = []int{
+		EmptyBarrel, FilledBarrel,
+	}
 	Beds = []int{
 		BedRed1, BedRed2,
 	}
 )
 
-var blockingItems = [][]int{BookShelves, Furniture, Beds}
+var blockingItems = [][]int{BookShelves, Furniture, Brew, Beds}
 
 func IsItemBlocking(sprite int) bool {
 	for _, xs := range blockingItems {
@@ -240,6 +250,10 @@ func IsFarmTileHarvested(sprite int) bool {
 	// Support more than Wheat.
 	///////////////////////////
 	return sprite == Wheat
+}
+
+func IsBarrel(sprite int) bool {
+	return sprite == EmptyBarrel || sprite == FilledBarrel
 }
 
 func IsBed(sprite int) bool {

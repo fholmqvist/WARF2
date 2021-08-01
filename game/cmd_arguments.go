@@ -183,6 +183,7 @@ func initWithArgs(args []string) *Game {
 		game.Rooms.AddSleepHall(mp, 101)
 		game.Rooms.AddFarm(mp, 108)
 		game.Rooms.AddLibrary(mp, 115)
+		game.Rooms.AddBrewery(mp, 122)
 	case "rails":
 		///////////////////////////////////////////////////////
 		// Debugging rails.
