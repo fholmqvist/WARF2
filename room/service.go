@@ -24,6 +24,15 @@ func (s *Service) Update(mp *m.Map) {
 	}
 }
 
+func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
+	x, y := globals.IdxToXY(currentMousePos)
+	st := NewStorage(mp, x, y)
+	if st == nil {
+		return
+	}
+	s.Rooms = append(s.Rooms, st)
+}
+
 func (s *Service) AddSleepHall(mp *m.Map, currentMousePos int) {
 	x, y := globals.IdxToXY(currentMousePos)
 	sh := NewSleepHall(mp, x, y)
@@ -31,15 +40,6 @@ func (s *Service) AddSleepHall(mp *m.Map, currentMousePos int) {
 		return
 	}
 	s.Rooms = append(s.Rooms, sh)
-}
-
-func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
-	x, y := globals.IdxToXY(currentMousePos)
-	l := NewLibrary(mp, x, y)
-	if l == nil {
-		return
-	}
-	s.Rooms = append(s.Rooms, l)
 }
 
 func (s *Service) AddFarm(mp *m.Map, currentMousePos int) {
@@ -51,13 +51,22 @@ func (s *Service) AddFarm(mp *m.Map, currentMousePos int) {
 	s.Rooms = append(s.Rooms, f)
 }
 
-func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
+func (s *Service) AddBrewery(mp *m.Map, currentMousePos int) {
 	x, y := globals.IdxToXY(currentMousePos)
-	st := NewStorage(mp, x, y)
-	if st == nil {
+	b := NewBrewery(mp, x, y)
+	if b == nil {
 		return
 	}
-	s.Rooms = append(s.Rooms, st)
+	s.Rooms = append(s.Rooms, b)
+}
+
+func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
+	x, y := globals.IdxToXY(currentMousePos)
+	l := NewLibrary(mp, x, y)
+	if l == nil {
+		return
+	}
+	s.Rooms = append(s.Rooms, l)
 }
 
 func (s *Service) GetFarm(id int) (*Farm, bool) {
@@ -76,9 +85,14 @@ func (s *Service) GetFarm(id int) (*Farm, bool) {
 
 func (s *Service) GetStorage(id int) (*Storage, bool) {
 	for _, r := range s.Rooms {
-		if r.GetID() == id {
-			return r.(*Storage), true
+		if r.GetID() != id {
+			continue
 		}
+		storage, ok := r.(*Storage)
+		if !ok {
+			continue
+		}
+		return storage, true
 	}
 	return nil, false
 }

@@ -9,6 +9,7 @@ const (
 	Storage
 	SleepHall
 	Farm
+	Brewery
 	Library
 	Delete
 )
@@ -18,6 +19,7 @@ var ModeFromString = map[string]Mode{
 	"Storage":   Storage,
 	"SleepHall": SleepHall,
 	"Farm":      Farm,
+	"Brewery":   Brewery,
 	"Library":   Library,
 	"Delete":    Delete,
 }
@@ -28,6 +30,7 @@ func (m Mode) String() string {
 		"Storage",
 		"SleepHall",
 		"Farm",
+		"Brewery",
 		"Library",
 		"Delete",
 	}[m]

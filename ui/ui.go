@@ -34,6 +34,7 @@ func GenerateUI() UI {
 		mouse.Storage.String(),
 		mouse.SleepHall.String(),
 		mouse.Farm.String(),
+		mouse.Brewery.String(),
 		mouse.Library.String(),
 		mouse.Delete.String(),
 	}

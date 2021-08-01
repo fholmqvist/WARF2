@@ -7,14 +7,14 @@ import (
 )
 
 func RandomFloorBrick() int {
-	return rand.Intn(FloorBricks10-FloorBricks1+1) + FloorBricks1
+	return rand.Intn(StorageFloor10-StorageFloor1+1) + StorageFloor1
 }
 
 func RandomWoodFloor() int {
 	if rand.Intn(3) < 2 {
-		return WoodFloor1
+		return LibraryFloor1
 	}
-	return rand.Intn(WoodFloor4-WoodFloor1+1) + WoodFloor1
+	return rand.Intn(LibraryFloor4-LibraryFloor1+1) + LibraryFloor1
 }
 
 // FloodFill finds an "island"
@@ -77,6 +77,10 @@ func (mp *Map) FloodFillRoom(x, y int, spriteGenerator func() int) Tiles {
 	// Filling a room of the same type
 	// should merge the two rooms,
 	// extending the first.
+	///////////////////////////////////
+	///////////////////////////////////
+	// TODO
+	// Should return indexes.
 	///////////////////////////////////
 	island := 99
 	tiles := []Tile{}

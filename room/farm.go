@@ -33,8 +33,6 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 			continue
 		}
 		f.farmTile = &mp.Items[t.Idx]
-	}
-	for _, t := range tiles {
 		mp.Tiles[t.Idx].Room = f
 	}
 	f.AllTileIdxs = tiles.ToIdxs()

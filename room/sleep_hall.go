@@ -16,7 +16,7 @@ type SleepHall struct {
 
 func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 	s := &SleepHall{}
-	tiles := mp.FloodFillRoom(x, y, func() int { return m.WoodFloorVertical })
+	tiles := mp.FloodFillRoom(x, y, func() int { return m.SleepHallFloor })
 	if len(tiles) == 0 {
 		return nil
 	}

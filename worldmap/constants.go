@@ -17,24 +17,26 @@ const (
 	WallSelectedExposed
 )
 const (
-	FloorBricks1 = iota + globals.TilesetW
-	FloorBricks2
-	FloorBricks3
-	FloorBricks4
-	FloorBricks5
-	FloorBricks6
-	FloorBricks7
-	FloorBricks8
-	FloorBricks9
-	FloorBricks10
+	StorageFloor1 = iota + globals.TilesetW
+	StorageFloor2
+	StorageFloor3
+	StorageFloor4
+	StorageFloor5
+	StorageFloor6
+	StorageFloor7
+	StorageFloor8
+	StorageFloor9
+	StorageFloor10
 )
 const (
-	WoodFloor1 = iota + globals.TilesetW*2
-	WoodFloor2
-	WoodFloor3
-	WoodFloor4
+	LibraryFloor1 = iota + globals.TilesetW*2
+	LibraryFloor2
+	LibraryFloor3
+	LibraryFloor4
 
-	WoodFloorVertical
+	SleepHallFloor
+
+	BreweryFloor
 )
 const (
 	Straight = iota + 1

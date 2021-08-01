@@ -99,15 +99,15 @@ func IsRail(sprite int) bool {
 }
 
 func IsStorageFloorBrick(sprite int) bool {
-	return sprite >= FloorBricks1 && sprite <= FloorBricks10
+	return sprite >= StorageFloor1 && sprite <= StorageFloor10
 }
 
 func IsLibraryWoodFloor(sprite int) bool {
-	return sprite >= WoodFloor1 && sprite < WoodFloor4
+	return sprite >= LibraryFloor1 && sprite < LibraryFloor4
 }
 
 func IsSleepHallWoodFloor(sprite int) bool {
-	return sprite == WoodFloorVertical
+	return sprite == SleepHallFloor
 }
 
 // If we're only surrounded by two walls,

@@ -75,6 +75,8 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 		rs.AddSleepHall(mp, currentMousePos)
 	case Farm:
 		rs.AddFarm(mp, currentMousePos)
+	case Brewery:
+		rs.AddBrewery(mp, currentMousePos)
 	case Library:
 		rs.AddLibrary(mp, currentMousePos)
 	case Delete:

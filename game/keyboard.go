@@ -12,8 +12,7 @@ import (
 // and updates the equivalent UI text(s).
 func (g *Game) SetMouseMode(mode mouse.Mode) {
 	g.mouseSystem.Mode = mode
-	state := mode.String()
-	g.ui.MouseMode.Text = "GOWARF - " + state
+	g.ui.MouseMode.Text = "GOWARF - " + mode.String()
 }
 
 func HandleKeyboard(g *Game) {
@@ -36,10 +35,13 @@ func handleTileSettingInput(g *Game) {
 	if i.IsKeyJustPressed(e.Key4) {
 		g.SetMouseMode(mouse.Farm)
 	}
-	if i.IsKeyJustPressed(e.Key5) {
-		g.SetMouseMode(mouse.Library)
+	if i.IsKeyJustPressed(e.Key4) {
+		g.SetMouseMode(mouse.Brewery)
 	}
 	if i.IsKeyJustPressed(e.Key6) {
+		g.SetMouseMode(mouse.Library)
+	}
+	if i.IsKeyJustPressed(e.Key7) {
 		g.SetMouseMode(mouse.Delete)
 	}
 }
