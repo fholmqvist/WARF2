@@ -23,6 +23,7 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 	}
 	sort.Ints(tiles)
 	for i, idx := range tiles {
+		mp.Tiles[idx].Room = b
 		if i%2 == 0 {
 			continue
 		}
@@ -36,9 +37,9 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 			m.IsAnyWall(mp.OneTileDownRight(idx).Sprite) {
 			continue
 		}
+		mp.Items[idx].ResourceAmount = 0
 		mp.Items[idx].Resource = entity.ResourceNone
 		mp.Items[idx].Sprite = entity.EmptyBarrel
-		mp.Tiles[idx].Room = b
 		b.barrels = append(b.barrels, idx)
 	}
 	b.tiles = tiles

@@ -25,6 +25,7 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 	}
 	sort.Ints(tiles)
 	for _, idx := range tiles {
+		mp.Tiles[idx].Room = f
 		f.PlantFarm(mp, mp.Tiles[idx])
 		if f.farmTile != nil {
 			continue
@@ -33,7 +34,6 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 			continue
 		}
 		f.farmTile = &mp.Items[idx]
-		mp.Tiles[idx].Room = f
 	}
 	f.AllTileIdxs = tiles
 	f.FarmableIdxs = f.farmableIndexes(mp)

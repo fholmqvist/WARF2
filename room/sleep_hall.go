@@ -23,6 +23,7 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 	sort.Ints(tiles)
 	s.tiles = tiles
 	for _, idx := range s.tiles {
+		mp.Tiles[idx].Room = s
 		if m.IsAnyWall(mp.Tiles[idx].Sprite) ||
 			m.IsAnyWall(mp.Tiles[m.OneTileDown(idx)].Sprite) {
 			continue
@@ -43,9 +44,6 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 		}
 		mp.Items[idx].Sprite = entity.BedRed1
 		mp.Items[m.OneTileDown(idx)].Sprite = entity.BedRed2
-	}
-	for _, t := range tiles {
-		mp.Tiles[t].Room = s
 	}
 	s.ID = sleepHallAutoID
 	sleepHallAutoID++

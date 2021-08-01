@@ -35,7 +35,7 @@ func handleTileSettingInput(g *Game) {
 	if i.IsKeyJustPressed(e.Key4) {
 		g.SetMouseMode(mouse.Farm)
 	}
-	if i.IsKeyJustPressed(e.Key4) {
+	if i.IsKeyJustPressed(e.Key5) {
 		g.SetMouseMode(mouse.Brewery)
 	}
 	if i.IsKeyJustPressed(e.Key6) {

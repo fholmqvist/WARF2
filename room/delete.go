@@ -10,6 +10,9 @@ import (
 func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 	pointer := mp.Tiles[currentMousePos].Room
 	if pointer == nil {
+		pointer = mp.Items[currentMousePos].Room
+	}
+	if pointer == nil {
 		return
 	}
 	rm, ok := pointer.(Room)
@@ -58,6 +61,8 @@ func ResetGroundTile(mp *m.Map, idx int) {
 		return
 	}
 	mp.Items[idx].Sprite = m.None
+	mp.Items[idx].Resource = entity.ResourceNone
+	mp.Items[idx].ResourceAmount = 0
 }
 
 func getStorage(s *Service, id int) (*Storage, int) {

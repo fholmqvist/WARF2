@@ -68,6 +68,7 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 	}
 tryagain:
 	if len(d.Path) == 0 {
+		d.Path = nil
 		return
 	}
 	var dir m.Direction
