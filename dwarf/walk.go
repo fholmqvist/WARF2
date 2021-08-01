@@ -30,7 +30,7 @@ func (w *Walker) Move(mp *m.Map, e *entity.Entity, d m.Direction) bool {
 
 func (w *Walker) moveUp(mp *m.Map, e *entity.Entity) bool {
 	if e.Idx > globals.TilesW && m.NotColliding(mp, e.Idx, m.Up) {
-		e.Idx = m.OneTileUp(e.Idx)
+		e.Idx = m.OneUp(e.Idx)
 		return true
 	}
 	return false
@@ -38,7 +38,7 @@ func (w *Walker) moveUp(mp *m.Map, e *entity.Entity) bool {
 
 func (w *Walker) moveRight(mp *m.Map, e *entity.Entity) bool {
 	if e.Idx%globals.TilesW-(globals.TilesW-1) != 0 && m.NotColliding(mp, e.Idx, m.Right) {
-		e.Idx = m.OneTileRight(e.Idx)
+		e.Idx = m.OneRight(e.Idx)
 		return true
 	}
 	return false
@@ -46,7 +46,7 @@ func (w *Walker) moveRight(mp *m.Map, e *entity.Entity) bool {
 
 func (w *Walker) moveDown(mp *m.Map, e *entity.Entity) bool {
 	if e.Idx < globals.TilesT-globals.TilesW && m.NotColliding(mp, e.Idx, m.Down) {
-		e.Idx = m.OneTileDown(e.Idx)
+		e.Idx = m.OneDown(e.Idx)
 		return true
 	}
 	return false
@@ -54,7 +54,7 @@ func (w *Walker) moveDown(mp *m.Map, e *entity.Entity) bool {
 
 func (w *Walker) moveLeft(mp *m.Map, e *entity.Entity) bool {
 	if e.Idx%globals.TilesW != 0 && m.NotColliding(mp, e.Idx, m.Left) {
-		e.Idx = m.OneTileLeft(e.Idx)
+		e.Idx = m.OneLeft(e.Idx)
 		return true
 	}
 	return false

@@ -32,10 +32,10 @@ func GraphicName(sprite int) string {
 // adjacent tiles of a given index.
 func SurroundingTilesFour(idx int) []TileDir {
 	return []TileDir{
-		{Idx: OneTileUp(idx), Dir: Up},
-		{Idx: OneTileRight(idx), Dir: Right},
-		{Idx: OneTileDown(idx), Dir: Down},
-		{Idx: OneTileLeft(idx), Dir: Left}}
+		{Idx: OneUp(idx), Dir: Up},
+		{Idx: OneRight(idx), Dir: Right},
+		{Idx: OneDown(idx), Dir: Down},
+		{Idx: OneLeft(idx), Dir: Left}}
 }
 
 func SurroundingWallTilesFour(m *Map, idx int) []TileDir {
@@ -53,10 +53,10 @@ func SurroundingWallTilesFour(m *Map, idx int) []TileDir {
 // adjacent tiles of a given index.
 func SurroundingTilesEight(idx int) []TileDir {
 	corners := []TileDir{
-		{Idx: OneTileUpLeft(idx), Dir: UpLeft},
-		{Idx: OneTileUpRight(idx), Dir: UpRight},
-		{Idx: OneTileDownLeft(idx), Dir: DownLeft},
-		{Idx: OneTileDownRight(idx), Dir: DownRight}}
+		{Idx: OneUpLeft(idx), Dir: UpLeft},
+		{Idx: OneUpRight(idx), Dir: UpRight},
+		{Idx: OneDownLeft(idx), Dir: DownLeft},
+		{Idx: OneDownRight(idx), Dir: DownRight}}
 
 	return append(SurroundingTilesFour(idx), corners...)
 }
@@ -139,10 +139,10 @@ func IsDoorOpening(mp *Map, idx int) bool {
 }
 
 func IsNextToDoorOpening(mp *Map, idx int) bool {
-	if IsDoorOpening(mp, OneTileUp(idx)) ||
-		IsDoorOpening(mp, OneTileDown(idx)) ||
-		IsDoorOpening(mp, OneTileLeft(idx)) ||
-		IsDoorOpening(mp, OneTileRight(idx)) ||
+	if IsDoorOpening(mp, OneUp(idx)) ||
+		IsDoorOpening(mp, OneDown(idx)) ||
+		IsDoorOpening(mp, OneLeft(idx)) ||
+		IsDoorOpening(mp, OneRight(idx)) ||
 		IsAnyWall(mp.OneTileDown(idx).Sprite) ||
 		IsAnyWall(mp.OneTileDownLeft(idx).Sprite) ||
 		IsAnyWall(mp.OneTileDownRight(idx).Sprite) {

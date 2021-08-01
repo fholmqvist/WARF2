@@ -22,11 +22,9 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 		return nil
 	}
 	sort.Ints(tiles)
-	for i, idx := range tiles {
-		mp.Tiles[idx].Room = b
-		if i%2 == 0 {
-			continue
-		}
+	for _, idx := range tiles {
+		tile := &mp.Tiles[idx]
+		tile.Room = b
 		if m.IsAnyWall(mp.OneTileLeft(idx).Sprite) ||
 			m.IsAnyWall(mp.OneTileRight(idx).Sprite) ||
 			m.IsAnyWall(mp.OneTileUp(idx).Sprite) ||
@@ -35,6 +33,10 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 			m.IsAnyWall(mp.OneTileDown(idx).Sprite) ||
 			m.IsAnyWall(mp.OneTileDownLeft(idx).Sprite) ||
 			m.IsAnyWall(mp.OneTileDownRight(idx).Sprite) {
+			continue
+		}
+		if entity.IsBarrel(mp.Items[m.OneLeft(idx)].Sprite) ||
+			entity.IsBarrel(mp.Items[m.OneRight(idx)].Sprite) {
 			continue
 		}
 		mp.Items[idx].ResourceAmount = 0

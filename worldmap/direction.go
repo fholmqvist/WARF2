@@ -75,120 +75,120 @@ func DirectionToText(dir Direction) string {
 func IndexAtDirection(idx int, dir Direction) int {
 	switch dir {
 	case Up:
-		return OneTileUp(idx)
+		return OneUp(idx)
 	case Right:
-		return OneTileRight(idx)
+		return OneRight(idx)
 	case Down:
-		return OneTileDown(idx)
+		return OneDown(idx)
 	case Left:
-		return OneTileLeft(idx)
+		return OneLeft(idx)
 	case UpLeft:
-		return OneTileUpLeft(idx)
+		return OneUpLeft(idx)
 	case UpRight:
-		return OneTileUpRight(idx)
+		return OneUpRight(idx)
 	case DownLeft:
-		return OneTileDownLeft(idx)
+		return OneDownLeft(idx)
 	case DownRight:
-		return OneTileDownRight(idx)
+		return OneDownRight(idx)
 	default:
 		fmt.Println("unknown direction:", DirectionToText(dir))
 		return -1
 	}
 }
 
-func OneTileUp(idx int) int {
+func OneUp(idx int) int {
 	return idx - globals.TilesW
 }
 
 func (m *Map) OneTileUp(idx int) Tile {
-	return m.Tiles[OneTileUp(idx)]
+	return m.Tiles[OneUp(idx)]
 }
 
 func (m *Map) OneRailUp(idx int) Tile {
-	return m.Rails[OneTileUp(idx)]
+	return m.Rails[OneUp(idx)]
 }
 
-func OneTileDown(idx int) int {
+func OneDown(idx int) int {
 	return idx + globals.TilesW
 }
 
 func (m *Map) OneTileDown(idx int) Tile {
-	return m.Tiles[OneTileDown(idx)]
+	return m.Tiles[OneDown(idx)]
 }
 
 func (m *Map) OneRailDown(idx int) Tile {
-	return m.Rails[OneTileDown(idx)]
+	return m.Rails[OneDown(idx)]
 }
 
-func OneTileLeft(idx int) int {
+func OneLeft(idx int) int {
 	return idx - 1
 }
 
 func (m *Map) OneTileLeft(idx int) Tile {
-	return m.Tiles[OneTileLeft(idx)]
+	return m.Tiles[OneLeft(idx)]
 }
 
 func (m *Map) OneRailLeft(idx int) Tile {
-	return m.Rails[OneTileLeft(idx)]
+	return m.Rails[OneLeft(idx)]
 }
 
-func OneTileRight(idx int) int {
+func OneRight(idx int) int {
 	return idx + 1
 }
 
 func (m *Map) OneTileRight(idx int) Tile {
-	return m.Tiles[OneTileRight(idx)]
+	return m.Tiles[OneRight(idx)]
 }
 
 func (m *Map) OneRailRight(idx int) Tile {
-	return m.Rails[OneTileRight(idx)]
+	return m.Rails[OneRight(idx)]
 }
 
-func OneTileUpLeft(idx int) int {
-	return OneTileUp(OneTileLeft(idx))
+func OneUpLeft(idx int) int {
+	return OneUp(OneLeft(idx))
 }
 
 func (m *Map) OneTileUpLeft(idx int) Tile {
-	return m.Tiles[OneTileUp(OneTileLeft(idx))]
+	return m.Tiles[OneUp(OneLeft(idx))]
 }
 
-func OneTileUpRight(idx int) int {
-	return OneTileUp(OneTileRight(idx))
+func OneUpRight(idx int) int {
+	return OneUp(OneRight(idx))
 }
 
 func (m *Map) OneTileUpRight(idx int) Tile {
-	return m.Tiles[OneTileUp(OneTileRight(idx))]
+	return m.Tiles[OneUp(OneRight(idx))]
 }
 
-func OneTileDownLeft(idx int) int {
-	return OneTileDown(OneTileLeft(idx))
+func OneDownLeft(idx int) int {
+	return OneDown(OneLeft(idx))
 }
 
 func (m *Map) OneTileDownLeft(idx int) Tile {
-	return m.Tiles[OneTileDown(OneTileLeft(idx))]
+	return m.Tiles[OneDown(OneLeft(idx))]
 }
 
-func OneTileDownRight(idx int) int {
-	return OneTileDown(OneTileRight(idx))
+func OneDownRight(idx int) int {
+	return OneDown(OneRight(idx))
 }
 
 func (m *Map) OneTileDownRight(idx int) Tile {
-	return m.Tiles[OneTileDown(OneTileRight(idx))]
+	return m.Tiles[OneDown(OneRight(idx))]
 }
 
 // NextIdxToDir returns the direction needed
 // to traverse to the next position
 func NextIdxToDir(idx, next int) (Direction, error) {
-	if next == OneTileUp(idx) {
+	if next == OneUp(idx) {
 		return Up, nil
 	}
-	if next == OneTileDown(idx) {
+	if next == OneDown(idx) {
 		return Down, nil
 	}
-	if next == OneTileLeft(idx) {
+	if next == OneLeft(idx) {
 		return Left, nil
 	}
-	if next == OneTileRight(idx) {
+	if next == OneRight(idx) {
 		return Right, nil
 	}
 	return Up, nextIdxToDirError(idx, next)

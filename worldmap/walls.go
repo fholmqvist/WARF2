@@ -42,7 +42,7 @@ func (m *Map) FixWall(t *Tile) {
 		return
 	}
 	if IsBoundary(t.Sprite) {
-		if IsExposed(m.Tiles[OneTileDown(t.Idx)].Sprite) {
+		if IsExposed(m.Tiles[OneDown(t.Idx)].Sprite) {
 			m.Tiles[t.Idx].Sprite = BoundaryExposed
 		} else {
 			m.Tiles[t.Idx].Sprite = BoundarySolid
@@ -50,7 +50,7 @@ func (m *Map) FixWall(t *Tile) {
 		return
 	}
 	if IsWall(t.Sprite) {
-		if IsExposed(m.Tiles[OneTileDown(t.Idx)].Sprite) {
+		if IsExposed(m.Tiles[OneDown(t.Idx)].Sprite) {
 			m.Tiles[t.Idx].Sprite = WallExposed
 		} else {
 			m.Tiles[t.Idx].Sprite = WallSolid
@@ -58,7 +58,7 @@ func (m *Map) FixWall(t *Tile) {
 		return
 	}
 	if IsSelectedWall(t.Sprite) {
-		if IsExposed(m.Tiles[OneTileDown(t.Idx)].Sprite) {
+		if IsExposed(m.Tiles[OneDown(t.Idx)].Sprite) {
 			m.Tiles[t.Idx].Sprite = WallSelectedExposed
 		} else {
 			m.Tiles[t.Idx].Sprite = WallSelectedSolid

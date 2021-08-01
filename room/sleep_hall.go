@@ -25,25 +25,25 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 	for _, idx := range s.tiles {
 		mp.Tiles[idx].Room = s
 		if m.IsAnyWall(mp.Tiles[idx].Sprite) ||
-			m.IsAnyWall(mp.Tiles[m.OneTileDown(idx)].Sprite) {
+			m.IsAnyWall(mp.Tiles[m.OneDown(idx)].Sprite) {
 			continue
 		}
 		if entity.IsBed(mp.Items[idx].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileDown(idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileLeft(idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileDownLeft(idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileRight(idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileDownRight(idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileUp(idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileUpLeft(idx)].Sprite) ||
-			entity.IsBed(mp.Items[m.OneTileUpRight(idx)].Sprite) {
+			entity.IsBed(mp.Items[m.OneDown(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneLeft(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneDownLeft(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneRight(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneDownRight(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneUp(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneUpLeft(idx)].Sprite) ||
+			entity.IsBed(mp.Items[m.OneUpRight(idx)].Sprite) {
 			continue
 		}
-		if m.IsNextToDoorOpening(mp, idx) || m.IsNextToDoorOpening(mp, m.OneTileDown(idx)) {
+		if m.IsNextToDoorOpening(mp, idx) || m.IsNextToDoorOpening(mp, m.OneDown(idx)) {
 			continue
 		}
 		mp.Items[idx].Sprite = entity.BedRed1
-		mp.Items[m.OneTileDown(idx)].Sprite = entity.BedRed2
+		mp.Items[m.OneDown(idx)].Sprite = entity.BedRed2
 	}
 	s.ID = sleepHallAutoID
 	sleepHallAutoID++

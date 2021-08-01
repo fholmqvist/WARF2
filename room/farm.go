@@ -144,12 +144,12 @@ func (f *Farm) PlantFarm(mp *m.Map, t m.Tile) {
 	defer func() {
 		mp.Items[t.Idx].Resource = entity.ResourceNone
 	}()
-	if entity.IsFarmSingle(mp.Items[m.OneTileLeft(t.Idx)].Sprite) {
+	if entity.IsFarmSingle(mp.Items[m.OneLeft(t.Idx)].Sprite) {
 		mp.Items[t.Idx-1].Sprite = entity.FarmLeftEmpty
 		item.Place(mp, t.X, t.Y, entity.FarmRightEmpty)
 		return
 	}
-	if entity.IsFarmRight(mp.Items[m.OneTileLeft(t.Idx)].Sprite) {
+	if entity.IsFarmRight(mp.Items[m.OneLeft(t.Idx)].Sprite) {
 		mp.Items[t.Idx-1].Sprite = entity.FarmMiddleEmpty
 		item.Place(mp, t.X, t.Y, entity.FarmRightEmpty)
 		return

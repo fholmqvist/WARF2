@@ -126,9 +126,9 @@ func (l *Library) breakupBookshelves(mp *m.Map, y int) {
 
 func (l *Library) generateFurniture(mp *m.Map, t m.Tile) {
 	earlyExists := []bool{
-		m.IsAnyWall(mp.Tiles[m.OneTileLeft(t.Idx)].Sprite),
-		mp.Items[m.OneTileLeft(t.Idx)].Sprite != entity.NoItem,
-		m.IsDoorOpening(mp, m.OneTileDown(t.Idx)),
+		m.IsAnyWall(mp.Tiles[m.OneLeft(t.Idx)].Sprite),
+		mp.Items[m.OneLeft(t.Idx)].Sprite != entity.NoItem,
+		m.IsDoorOpening(mp, m.OneDown(t.Idx)),
 	}
 	for _, ee := range earlyExists {
 		if ee {
@@ -143,7 +143,7 @@ func (l *Library) generateFurniture(mp *m.Map, t m.Tile) {
 		if !m.IsLibraryWoodFloor(spr) {
 			return
 		}
-		if m.IsDoorOpening(mp, m.OneTileDown(gl.XYToIdx(x, t.Y))) {
+		if m.IsDoorOpening(mp, m.OneDown(gl.XYToIdx(x, t.Y))) {
 			return
 		}
 	}
