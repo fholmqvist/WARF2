@@ -14,28 +14,18 @@ import (
 )
 
 var (
-	width       = 240
-	height      = 80
-	xOffset     = (globals.ScreenWidth / 2) - width/2
-	yOffset     = 48
-	ySeparation = 100
-	buttons     = []*Button{
-		{Element{"Start", xOffset, yOffset + ySeparation, width, height, textColor, color.Gray{100}}},
-		{Element{"Help", xOffset, yOffset + ySeparation*2, width, height, textColor, color.Gray{100}}},
-		{Element{"Quit", xOffset, yOffset + ySeparation*3, width, height, textColor, color.Gray{100}}},
-	}
+	width       = 20
+	height      = 1
+	xOffset     = (globals.ScreenWidth/globals.TileSize)/2 - width/2
+	yOffset     = 8
+	ySeparation = 4
 )
-
-func init() {
-	buttons[0].Select()
-	buttons[1].Deselect()
-	buttons[2].Deselect()
-}
 
 type MainMenu struct {
 	idx            int
 	keySensitivity int
 	logo           *e.Image
+	buttons        []*Button
 }
 
 func NewMainMenu() *MainMenu {
@@ -45,25 +35,30 @@ func NewMainMenu() *MainMenu {
 	}
 	return &MainMenu{
 		logo: logo,
+		buttons: []*Button{
+			{Element{"Start", xOffset, yOffset + ySeparation, width, height, textColor, color.Gray{100}}, true},
+			{Element{"Help", xOffset, yOffset + ySeparation*2, width, height, textColor, color.Gray{100}}, false},
+			{Element{"Quit", xOffset, yOffset + ySeparation*3, width, height, textColor, color.Gray{100}}, false},
+		},
 	}
 }
 
-func (m *MainMenu) Draw(screen *ebiten.Image, font font.Face) {
-	for _, b := range buttons {
-		b.Draw(screen, font)
+func (m *MainMenu) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face) {
+	for _, b := range m.buttons {
+		b.Draw(screen, uiTiles, font)
 	}
 	drawLogo(m, screen)
 }
 
-func (m *MainMenu) Select() {
-	m.idx %= len(buttons)
+func (m *MainMenu) SelectHoveredButton() {
+	m.idx %= len(m.buttons)
 	m.keySensitivity = 0
-	for i, b := range buttons {
+	for i, b := range m.buttons {
 		if i == m.idx {
-			b.Select()
+			b.hovering = true
 			continue
 		}
-		b.Deselect()
+		b.hovering = false
 	}
 }
 
@@ -78,28 +73,31 @@ func (m *MainMenu) UpdateMainMenu() int {
 	if inp.IsKeyJustPressed(e.KeyUp) || inp.IsKeyJustPressed(e.KeyW) {
 		m.idx--
 		if m.idx < 0 {
-			m.idx = len(buttons) - 1
+			m.idx = len(m.buttons) - 1
 		}
-		m.Select()
+		m.SelectHoveredButton()
 		return -1
 	}
 	if inp.IsKeyJustPressed(e.KeyDown) || inp.IsKeyJustPressed(e.KeyS) {
 		m.idx++
-		m.Select()
+		m.SelectHoveredButton()
 		return -1
 	}
 	return -1
 }
 
 func (m *MainMenu) mouseAndSelect() (int, bool) {
-	for i, b := range buttons {
+	for i, b := range m.buttons {
 		x, y := ebiten.CursorPosition()
-		if b.MouseIsOver(x, y) {
-			m.idx = i
-			m.Select()
-			if inp.IsMouseButtonJustPressed(e.MouseButtonLeft) {
-				return i, true
-			}
+		x /= globals.TileSize
+		y /= globals.TileSize
+		if !b.MouseIsOver(x, y) {
+			continue
+		}
+		m.idx = i
+		m.SelectHoveredButton()
+		if inp.IsMouseButtonJustPressed(e.MouseButtonLeft) {
+			return i, true
 		}
 	}
 	if inp.IsKeyJustPressed(e.KeyEnter) {

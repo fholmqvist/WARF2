@@ -47,7 +47,7 @@ room\storage_tile.go:17:
 	Switch amount on
 	resource type.
 
-ui\elements.go:57:
+ui\elements.go:40:
 	Height does nothing.
 
 worldmap\generation.go:74:

@@ -37,23 +37,6 @@ func (e Element) MouseIsOver(x, y int) bool {
 }
 
 type Button struct {
-	Element
-}
-
-func (b Button) Draw(screen *ebiten.Image, font font.Face) {
-	b.Element.Draw(screen)
-	text.Draw(screen, b.Text, font, (b.X+b.Width/2)-len(b.Text)*4, (b.Y+b.Height/2)+4, b.TextColor)
-}
-
-func (b *Button) Select() {
-	b.BackgroundColor = color.Gray{50}
-}
-
-func (b *Button) Deselect() {
-	b.BackgroundColor = color.Gray{20}
-}
-
-type ButtonTiled struct {
 	///////////////////////
 	// TODO
 	// Height does nothing.
@@ -62,7 +45,7 @@ type ButtonTiled struct {
 	hovering bool
 }
 
-func (b ButtonTiled) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face) {
+func (b Button) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face) {
 	// July 11 2021: Current golf record.
 	drawTiledButton(
 		screen, font, uiTiles,
@@ -71,18 +54,18 @@ func (b ButtonTiled) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font
 		b.hovering,
 	)
 	x := (b.X * gl.TileSize) + (b.Width*gl.TileSize)/2 - len(b.Text)*3
-	y := (b.Y * gl.TileSize) + (b.Y / 2) + 4
+	y := (b.Y * gl.TileSize) + gl.TileSize + gl.TileSize/4
 	text.Draw(screen, b.Text, font, x, y, textColor)
 }
 
 type Dropdown struct {
-	Main    ButtonTiled
-	Buttons []ButtonTiled
+	Main    Button
+	Buttons []Button
 }
 
-func NewDropdown(text string, x, y, width int, buttons []ButtonTiled) Dropdown {
+func NewDropdown(text string, x, y, width int, buttons []Button) Dropdown {
 	return Dropdown{
-		Main: ButtonTiled{
+		Main: Button{
 			Element:  Element{text, x, y, width, 1, textColor, backgroundColor},
 			hovering: false,
 		},

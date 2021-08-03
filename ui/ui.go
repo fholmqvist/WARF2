@@ -39,9 +39,9 @@ func GenerateUI() UI {
 		mouse.Delete.String(),
 	}
 	offset := len(texts) * 2
-	buildMenuButtons := []ButtonTiled{}
+	buildMenuButtons := []Button{}
 	for _, text := range texts {
-		b := ButtonTiled{
+		b := Button{
 			Element: Element{
 				Text:            text,
 				X:               34,

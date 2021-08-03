@@ -13,7 +13,7 @@ import (
 func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.state {
 	case MainMenu:
-		g.ui.MainMenu.Draw(screen, g.font)
+		g.ui.MainMenu.Draw(screen, g.uiTiles, g.font)
 	case Gameplay:
 		drawMap(g, screen)
 		drawMovables(g, screen)
