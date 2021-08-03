@@ -23,6 +23,7 @@ var (
 // UI wraps all the UI elements for Game
 type UI struct {
 	*MainMenu
+	*HelpMenu
 	MouseMode   Element
 	BuildMenu   Dropdown
 	OverviewTab Element
@@ -67,6 +68,7 @@ func GenerateUI() UI {
 	return UI{
 		MouseMode:   NewMouseOverlay(),
 		MainMenu:    NewMainMenu(),
+		HelpMenu:    NewHelpMenu(),
 		BuildMenu:   NewDropdown("Build", 34, 32, 11, buildMenuButtons),
 		OverviewTab: overviewTab,
 	}

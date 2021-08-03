@@ -15,18 +15,14 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	switch g.state {
 	case MainMenu:
 		g.updateMainMenu()
+	case HelpMenu:
+		g.updateHelpMenu()
 	case Gameplay:
-		// Only update state if
-		// player is actively playing.
-		if g.state != Gameplay {
-			return nil
-		}
 		if g.debugFunc != nil && globals.DEBUG {
 			f := *g.debugFunc
 			f(g)
 		}
 		g.ui.OverviewTab.Text = g.handleInput()
-		// Only run if game is not paused.
 		if !g.time.Tick() {
 			return nil
 		}
@@ -73,16 +69,27 @@ func (g *Game) updateMainMenu() {
 		return
 	case 0:
 		go func() {
-			// To prevent from mouseclick
-			// carrying over to game.
+			// Discard further input, yield.
 			time.Sleep(time.Millisecond * 100)
 			g.state = Gameplay
 		}()
 	case 1:
-		panic("help not implemented")
+		g.state = HelpMenu
+		go func() {
+			// Discard further input, yield.
+			time.Sleep(time.Millisecond * 100)
+			g.ui.HelpMenu.Clickable = true
+		}()
 	case 2:
 		os.Exit(3)
 	default:
 		panic(fmt.Sprintf("%d is not a valid return", menuState))
+	}
+}
+
+func (g *Game) updateHelpMenu() {
+	back := g.ui.HelpMenu.Update()
+	if back {
+		g.state = MainMenu
 	}
 }
