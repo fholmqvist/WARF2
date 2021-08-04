@@ -20,6 +20,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 		panic(fmt.Sprintf("unknown room type: %v", rm))
 	}
 	id := rm.GetID()
+	fmt.Println(id, rm.String())
 	switch rm.(type) {
 	case *Storage:
 		s.DeleteStorage(mp, id)
@@ -32,11 +33,14 @@ func (s *Service) DeleteRoom(mp *m.Map, id int, roomType string) {
 	var room Room
 	var idx int
 	for i, rm := range s.Rooms {
-		if rm.GetID() == id && rm.String() == roomType {
+		if rm.String() == roomType && rm.GetID() == id {
 			room = rm
 			idx = i
 			break
 		}
+	}
+	if room == nil {
+		return
 	}
 	for _, t := range room.Tiles() {
 		ResetGroundTile(mp, t)
@@ -46,6 +50,9 @@ func (s *Service) DeleteRoom(mp *m.Map, id int, roomType string) {
 
 func (s *Service) DeleteStorage(mp *m.Map, id int) {
 	st, idx := getStorage(s, id)
+	if st == nil {
+		return
+	}
 	for _, t := range st.StorageTiles {
 		ResetGroundTile(mp, t.Idx)
 		mp.Items[t.Idx].Resource = t.Resource
@@ -71,7 +78,7 @@ func getStorage(s *Service, id int) (*Storage, int) {
 		if !ok {
 			continue
 		}
-		if storage.ID == id {
+		if storage.GetID() == id {
 			return storage, i
 		}
 	}

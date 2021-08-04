@@ -43,6 +43,9 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 }
 
 func (f *Farm) GetID() int {
+	if f == nil {
+		return -1
+	}
 	return f.ID
 }
 

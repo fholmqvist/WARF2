@@ -35,8 +35,8 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 			m.IsAnyWall(mp.OneTileDownRight(idx).Sprite) {
 			continue
 		}
-		if entity.IsBarrel(mp.Items[m.OneLeft(idx)].Sprite) ||
-			entity.IsBarrel(mp.Items[m.OneRight(idx)].Sprite) {
+		if entity.IsBarrel(mp.Items[m.OneUp(idx)].Sprite) &&
+			entity.IsBarrel(mp.Items[m.OneUp(m.OneUp(idx))].Sprite) {
 			continue
 		}
 		mp.Items[idx].ResourceAmount = 0
@@ -50,11 +50,12 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 	return b
 }
 
-func (b *Brewery) Update(*m.Map) {
-
-}
+func (b *Brewery) Update(*m.Map) {}
 
 func (b *Brewery) GetID() int {
+	if b == nil {
+		return -1
+	}
 	return b.ID
 }
 

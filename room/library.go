@@ -36,10 +36,15 @@ func NewLibrary(mp *m.Map, x, y int) *Library {
 		lastShelfRow = l.placeItems(mp, mp.Tiles[idx], firstRow, lastShelfRow)
 		mp.Tiles[idx].Room = l
 	}
+	l.ID = libraryAutoID
+	libraryAutoID++
 	return l
 }
 
 func (l *Library) GetID() int {
+	if l == nil {
+		return -1
+	}
 	return l.ID
 }
 

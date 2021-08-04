@@ -53,6 +53,9 @@ func NewStorage(mp *m.Map, x, y int) *Storage {
 }
 
 func (s *Storage) GetID() int {
+	if s == nil {
+		return -1
+	}
 	return s.ID
 }
 

@@ -20,11 +20,11 @@ func (s *Service) checkForJobs(rs *room.Service) {
 		}
 	}
 	for _, rm := range rs.Rooms {
-		switch rm.(type) {
+		switch r := rm.(type) {
 		case *room.Farm:
-			checkForFarmingJobs(s, *rm.(*room.Farm), rs)
+			checkForFarmingJobs(s, *r, rs)
 		case *room.Brewery:
-			checkBreweryJobs(s, *rm.(*room.Brewery), rs)
+			checkBreweryJobs(s, *r, rs)
 		}
 	}
 }

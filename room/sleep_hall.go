@@ -51,6 +51,9 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 }
 
 func (s *SleepHall) GetID() int {
+	if s == nil {
+		return -1
+	}
 	return s.ID
 }
 
