@@ -30,6 +30,8 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 }
 
 func (s *Service) DeleteRoom(mp *m.Map, id int, roomType string) {
+	s.Lock()
+	defer s.Unlock()
 	var room Room
 	var idx int
 	for i, rm := range s.Rooms {

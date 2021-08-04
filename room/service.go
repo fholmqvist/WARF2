@@ -3,6 +3,7 @@ package room
 import (
 	"fmt"
 	"math"
+	"sync"
 
 	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
@@ -13,6 +14,7 @@ import (
 // and functionality related to rooms.
 type Service struct {
 	Rooms []Room
+	sync.RWMutex
 }
 
 func NewService() *Service {
@@ -26,6 +28,8 @@ func (s *Service) Update(mp *m.Map) {
 }
 
 func (s *Service) AddRoom(mp *m.Map, currentMousePos int, rm Room) {
+	s.Lock()
+	defer s.Unlock()
 	x, y := globals.IdxToXY(currentMousePos)
 	var newRoom Room
 	switch rm.(type) {
