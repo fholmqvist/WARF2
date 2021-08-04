@@ -66,24 +66,31 @@ func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) st
 }
 
 func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
+	var rm room.Room
 	switch s.Mode {
 	case Normal:
 		noneMode(mp, dwarves, currentMousePos)
 	case Storage:
-		rs.AddStorage(mp, currentMousePos)
+		rm = &room.Storage{}
 	case SleepHall:
-		rs.AddSleepHall(mp, currentMousePos)
+		rm = &room.SleepHall{}
 	case Farm:
-		rs.AddFarm(mp, currentMousePos)
+		rm = &room.Farm{}
 	case Brewery:
-		rs.AddBrewery(mp, currentMousePos)
+		rm = &room.Brewery{}
+	case Bar:
+		rm = &room.Bar{}
 	case Library:
-		rs.AddLibrary(mp, currentMousePos)
+		rm = &room.Library{}
 	case Delete:
 		setHasClicked(currentMousePos)
 	default:
-		fmt.Println("mouseClick: unknown MouseMode:", s.Mode)
+		panic(fmt.Sprintf("mouseClick: unknown MouseMode: %v", s.Mode))
 	}
+	if rm == nil {
+		return
+	}
+	rs.AddRoom(mp, currentMousePos, rm)
 }
 
 func (s *System) mouseUp(mp *m.Map, rs *room.Service) {

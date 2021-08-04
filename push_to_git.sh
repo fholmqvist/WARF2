@@ -1,5 +1,5 @@
 #!/bin/bash
-message="ESC and PAUSE menu."
+message="Bar WIP."
 git add --all
 git commit -m "$message"
 git push

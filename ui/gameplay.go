@@ -77,6 +77,7 @@ func buildMenuButtons() []Button {
 		mouse.SleepHall.String(),
 		mouse.Farm.String(),
 		mouse.Brewery.String(),
+		mouse.Bar.String(),
 		mouse.Library.String(),
 		mouse.Delete.String(),
 	}

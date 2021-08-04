@@ -11,6 +11,15 @@ import (
 	"strings"
 )
 
+/*
+	Each TODO must be in the following format:
+		/////////
+		// TODO
+		// [non-empty description]
+		/////////
+	Where the start and end slashes must be
+	four or more in length.
+*/
 func GenerateTodos() {
 	todos := []string{}
 	filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
@@ -37,7 +46,7 @@ func GenerateTodos() {
 			}
 			desc := strings.TrimSpace(lines[idx+1])[3:]
 			descIdx := 2
-			for !strings.Contains(lines[idx+descIdx], "////") {
+			for !strings.Contains(lines[idx+descIdx], "////////") {
 				if len(lines[idx+descIdx]) < 3 {
 					descIdx++
 					continue

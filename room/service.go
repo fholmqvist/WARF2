@@ -1,6 +1,7 @@
 package room
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/Holmqvist1990/WARF2/entity"
@@ -24,49 +25,26 @@ func (s *Service) Update(mp *m.Map) {
 	}
 }
 
-func (s *Service) AddStorage(mp *m.Map, currentMousePos int) {
+func (s *Service) AddRoom(mp *m.Map, currentMousePos int, rm Room) {
 	x, y := globals.IdxToXY(currentMousePos)
-	st := NewStorage(mp, x, y)
-	if st == nil {
-		return
+	var newRoom Room
+	switch rm.(type) {
+	case *Storage:
+		newRoom = NewStorage(mp, x, y)
+	case *SleepHall:
+		newRoom = NewSleepHall(mp, x, y)
+	case *Farm:
+		newRoom = NewFarm(mp, x, y)
+	case *Brewery:
+		newRoom = NewBrewery(mp, x, y)
+	case *Bar:
+		newRoom = NewBar(mp, x, y)
+	case *Library:
+		newRoom = NewLibrary(mp, x, y)
+	default:
+		panic(fmt.Sprintf("unknown room type: %v", rm))
 	}
-	s.Rooms = append(s.Rooms, st)
-}
-
-func (s *Service) AddSleepHall(mp *m.Map, currentMousePos int) {
-	x, y := globals.IdxToXY(currentMousePos)
-	sh := NewSleepHall(mp, x, y)
-	if sh == nil {
-		return
-	}
-	s.Rooms = append(s.Rooms, sh)
-}
-
-func (s *Service) AddFarm(mp *m.Map, currentMousePos int) {
-	x, y := globals.IdxToXY(currentMousePos)
-	f := NewFarm(mp, x, y)
-	if f == nil {
-		return
-	}
-	s.Rooms = append(s.Rooms, f)
-}
-
-func (s *Service) AddBrewery(mp *m.Map, currentMousePos int) {
-	x, y := globals.IdxToXY(currentMousePos)
-	b := NewBrewery(mp, x, y)
-	if b == nil {
-		return
-	}
-	s.Rooms = append(s.Rooms, b)
-}
-
-func (s *Service) AddLibrary(mp *m.Map, currentMousePos int) {
-	x, y := globals.IdxToXY(currentMousePos)
-	l := NewLibrary(mp, x, y)
-	if l == nil {
-		return
-	}
-	s.Rooms = append(s.Rooms, l)
+	s.Rooms = append(s.Rooms, newRoom)
 }
 
 func (s *Service) GetFarm(id int) (*Farm, bool) {

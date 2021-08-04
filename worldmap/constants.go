@@ -37,6 +37,8 @@ const (
 	SleepHallFloor
 
 	BreweryFloor
+
+	BarFloor
 )
 const (
 	Straight = iota + 1

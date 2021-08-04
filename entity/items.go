@@ -86,6 +86,24 @@ func ItemToString(itm int) string {
 		return "Empty barrel"
 	case FilledBarrel:
 		return "Filled barrel"
+	case BarH:
+		return "Bar"
+	case BarV:
+		return "Bar"
+	case BarLeft:
+		return "Bar"
+	case BarRight:
+		return "Bar"
+	case BarTopLeft:
+		return "Bar"
+	case BarTopRight:
+		return "Bar"
+	case BarDrinksLeft:
+		return "Bar Drinks"
+	case BarDrinksRight:
+		return "Bar Drinks"
+	case BarStool:
+		return "Stool"
 	case BedRed1:
 		return "Bed"
 	case BedRed2:
@@ -148,10 +166,22 @@ const (
 
 	EmptyBarrel
 	FilledBarrel
+
+	BarH
+	BarV
+	BarLeft
+	BarRight
+	BarTopLeft
+	BarTopRight
+
+	BarDrinksLeft
+	BarDrinksRight
+
+	BarStool
 )
 const (
 	BedRed1 = iota + gl.TilesetW*4
-	BedRed2 = gl.TilesetW * 5
+	BedRed2
 )
 
 var (
@@ -167,12 +197,14 @@ var (
 	Brew = []int{
 		EmptyBarrel, FilledBarrel,
 	}
+	Bar = []int{BarH, BarV, BarLeft, BarRight, BarTopLeft,
+		BarTopRight, BarDrinksLeft, BarDrinksRight, BarStool}
 	Beds = []int{
 		BedRed1, BedRed2,
 	}
 )
 
-var blockingItems = [][]int{BookShelves, Furniture, Brew, Beds}
+var blockingItems = [][]int{BookShelves, Furniture, Brew, Bar, Beds}
 
 func IsItemBlocking(sprite int) bool {
 	for _, xs := range blockingItems {

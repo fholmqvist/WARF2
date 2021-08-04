@@ -76,7 +76,7 @@ func initWithArgs(args []string) *Game {
 			d := dwarf.New(282+i, fmt.Sprintf("test%v", i+1))
 			game.JobService.Workers = append(game.JobService.Workers, d)
 		}
-		game.Rooms.AddStorage(mp, globals.XYToIdx(6, 6))
+		game.Rooms.AddRoom(mp, globals.XYToIdx(6, 6), &room.Storage{})
 	case "wall-stress":
 		///////////////////////////////////////////////////////
 		// Stress test for digging jobs.
@@ -117,7 +117,7 @@ func initWithArgs(args []string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddSleepHall(game.WorldMap, globals.XYToIdx(7, 7))
+		game.Rooms.AddRoom(game.WorldMap, globals.XYToIdx(7, 7), &room.SleepHall{})
 		game.JobService.Workers[0].Needs.Sleep = 200
 		game.JobService.Workers[1].Needs.Sleep = 200
 		game.JobService.Workers[2].Needs.Sleep = 200
@@ -174,7 +174,7 @@ func initWithArgs(args []string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddLibrary(game.WorldMap, globals.XYToIdx(7, 7))
+		game.Rooms.AddRoom(game.WorldMap, globals.XYToIdx(7, 7), &room.Library{})
 		addDwarfToGame(&game, "Test 1")
 		addDwarfToGame(&game, "Test 2")
 		d1 := game.JobService.Workers[0]
@@ -200,11 +200,12 @@ func initWithArgs(args []string) *Game {
 		for _, v := range openings {
 			mp.Tiles[v].Sprite = m.Ground
 		}
-		game.Rooms.AddStorage(mp, 94)
-		game.Rooms.AddSleepHall(mp, 101)
-		game.Rooms.AddFarm(mp, 108)
-		game.Rooms.AddLibrary(mp, 115)
-		game.Rooms.AddBrewery(mp, 122)
+		game.Rooms.AddRoom(mp, 94, &room.Storage{})
+		game.Rooms.AddRoom(mp, 101, &room.SleepHall{})
+		game.Rooms.AddRoom(mp, 108, &room.Farm{})
+		game.Rooms.AddRoom(mp, 115, &room.Library{})
+		game.Rooms.AddRoom(mp, 122, &room.Brewery{})
+		game.Rooms.AddRoom(mp, 129, &room.Bar{})
 	case "rails":
 		///////////////////////////////////////////////////////
 		// Debugging rails.
