@@ -1,5 +1,5 @@
 #!/bin/bash
-message="HelpMenu WIP."
+message="UI cleanup."
 git add --all
 git commit -m "$message"
 git push

@@ -68,18 +68,14 @@ func (g *Game) updateMainMenu() {
 	case -1:
 		return
 	case 0:
-		go func() {
-			// Discard further input, yield.
-			time.Sleep(time.Millisecond * 100)
+		delay(func() {
 			g.state = Gameplay
-		}()
+		})
 	case 1:
 		g.state = HelpMenu
-		go func() {
-			// Discard further input, yield.
-			time.Sleep(time.Millisecond * 100)
+		delay(func() {
 			g.ui.HelpMenu.Clickable = true
-		}()
+		})
 	case 2:
 		os.Exit(3)
 	default:
@@ -92,4 +88,11 @@ func (g *Game) updateHelpMenu() {
 	if back {
 		g.state = MainMenu
 	}
+}
+
+func delay(f func()) {
+	go func() {
+		time.Sleep(time.Millisecond * 100)
+		f()
+	}()
 }

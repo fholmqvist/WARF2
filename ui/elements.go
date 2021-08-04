@@ -47,7 +47,7 @@ type Button struct {
 
 func (b Button) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face) {
 	// July 11 2021: Current golf record.
-	drawTiledButton(
+	drawButtonTiles(
 		screen, font, uiTiles,
 		b.X+(gl.TilesW*b.Y), b.X+(gl.TilesW*b.Y)+gl.TilesW,
 		b.X+(gl.TilesW*b.Y)+b.Width, b.X+(gl.TilesW*b.Y)+b.Width+gl.TilesW,
@@ -119,4 +119,38 @@ func (d *Dropdown) handleMenuNavigation(x, y int) (mode mouse.Mode, clicked bool
 		}
 	}
 	return
+}
+
+func drawButtonTiles(screen *ebiten.Image, gameFont font.Face, uiTiles *ebiten.Image, tl, bl, tr, br int, highlighted bool) {
+	// Wrapper to reduce noice.
+	draw := func(sprite, idx int) {
+		gl.DrawTile(sprite, screen, uiTiles, 1, gl.DrawOptions(idx, 1, 0))
+	}
+	var (
+		tlc = TopLeft
+		blc = BottomLeft
+		tc  = Top
+		bc  = Bottom
+		trc = TopRight
+		brc = BottomRight
+	)
+	if highlighted {
+		tlc = Highlighted_TopLeft
+		blc = Highlighted_BottomLeft
+		tc = Highlighted_Top
+		bc = Highlighted_Bottom
+		trc = Highlighted_TopRight
+		brc = Highlighted_BottomRight
+	}
+	// Left.
+	draw(tlc, tl)
+	draw(blc, bl)
+	// Middle.
+	for i := 1; i < tr-tl; i++ {
+		draw(tc, tl+i)
+		draw(bc, tl+gl.TilesW+i)
+	}
+	// Right.
+	draw(trc, tr)
+	draw(brc, br)
 }

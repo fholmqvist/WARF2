@@ -20,7 +20,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		drawMap(g, screen)
 		drawMovables(g, screen)
 		drawWorkers(g, screen)
-		g.ui.DrawGameplay(screen, g.font, g.JobService.Workers, g.uiTiles)
+		g.ui.GameplayUI.Draw(screen, g.uiTiles, g.font, &g.ui, g.JobService.Workers)
 		drawTPS(g, screen)
 	default:
 		panic(fmt.Sprintf("unknown gamestate: %v", g.state))
