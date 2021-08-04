@@ -42,9 +42,6 @@ func (c *Carrying) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
 }
 
 func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
-	if c.resource == entity.ResourceBeer {
-		fmt.Println("BEER FINISH")
-	}
 	if c.dwarf == nil {
 		return
 	}
@@ -76,9 +73,6 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 }
 
 func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
-	if c.resource == entity.ResourceBeer {
-		fmt.Println(c.resource.String())
-	}
 	if storageMissingOrFull(c, rs) {
 		// Try again with
 		// new storage.
@@ -136,6 +130,7 @@ func (c *Carrying) setupPath(mp *m.Map) {
 		&mp.Tiles[c.goalDestination],
 	)
 	if !ok {
+		fmt.Println("UNABLE TO SETUP PATH", c.dwarf.Name, c.resource.String())
 		return
 	}
 	c.path = path

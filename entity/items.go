@@ -195,7 +195,14 @@ var (
 		ChairLeft, Table, ChairRight,
 	}
 	Brew = []int{
-		EmptyBarrel, FilledBarrel,
+		///////////////////////////////////
+		// TODO
+		// job.Carrying doesn't pick these
+		// up if they are blocking. Extend
+		// it to work with blocking items
+		// by finding non-blocking neighbours.
+		///////////////////////////////////
+		// EmptyBarrel, FilledBarrel,
 	}
 	Bar = []int{BarH, BarV, BarLeft, BarRight, BarTopLeft,
 		BarTopRight, BarDrinksLeft, BarDrinksRight, BarStool}

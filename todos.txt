@@ -1,4 +1,11 @@
-entity\items.go:280:
+entity\items.go:198:
+	job.Carrying doesn't pick these
+	up if they are blocking. Extend
+	it to work with blocking items
+	by finding non-blocking neighbours.
+	////////////////////////////////
+
+entity\items.go:287:
 	Support more than Wheat.
 
 game\saveload.go:17:
@@ -6,20 +13,20 @@ game\saveload.go:17:
 	Rewrite to a better format.
 	///////////////////////////
 
-job\carrying.go:67:
+job\carrying.go:64:
 	Yeah.
 
-job\carrying.go:88:
+job\carrying.go:82:
 	Item is no longer there, abort.
 	What should we actually do here?
 	////////////////////////////////
 
-jobservice\check_for_job.go:68:
+jobservice\check_for_job.go:66:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 	/////////////////////////////////
 
-jobservice\check_for_job.go:173:
+jobservice\check_for_job.go:170:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 	/////////////////////////////////

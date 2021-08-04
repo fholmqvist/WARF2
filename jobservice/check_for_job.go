@@ -1,8 +1,6 @@
 package jobservice
 
 import (
-	"fmt"
-
 	"github.com/Holmqvist1990/WARF2/entity"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -79,7 +77,6 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 	x, y := gl.IdxToXY(itm.Idx)
 	nearest, storageIdx, ok := rs.FindNearestStorage(s.Map, x, y, itm.Resource)
 	if !ok {
-		fmt.Println("NO STORAGE FOUND")
 		return false
 	}
 	dst, ok := nearest.GetAvailableTile(itm.Resource)

@@ -30,6 +30,7 @@ var startPoint = -1
 var endPoint = -1
 var hasClicked = false
 var firstClickedSprite = -1
+var justPlacedRoom = false
 
 // System for handling
 // all functionality by mouse.
@@ -90,7 +91,11 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	if rm == nil {
 		return
 	}
-	rs.AddRoom(mp, currentMousePos, rm)
+	if !justPlacedRoom {
+		rs.AddRoom(mp, currentMousePos, rm)
+	}
+	justPlacedRoom = true
+	globals.Delay(func() { justPlacedRoom = false })
 }
 
 func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
