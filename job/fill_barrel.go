@@ -7,7 +7,7 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-type FillBrewer struct {
+type FillBarrel struct {
 	StorageTile  *room.StorageTile
 	WheatIndex   int
 	BarrelIndex  int
@@ -17,8 +17,8 @@ type FillBrewer struct {
 	amount       uint
 }
 
-func NewFillBrewer(st *room.StorageTile, barrelIdx int, destinations []int) *FillBrewer {
-	return &FillBrewer{
+func NewFillBrewer(st *room.StorageTile, barrelIdx int, destinations []int) *FillBarrel {
+	return &FillBarrel{
 		StorageTile:  st,
 		WheatIndex:   st.Idx,
 		BarrelIndex:  barrelIdx,
@@ -26,11 +26,11 @@ func NewFillBrewer(st *room.StorageTile, barrelIdx int, destinations []int) *Fil
 	}
 }
 
-func (f *FillBrewer) NeedsToBeRemoved(mp *m.Map, rs *room.Service) bool {
+func (f *FillBarrel) NeedsToBeRemoved(mp *m.Map, rs *room.Service) bool {
 	return f.path == nil && len(f.destinations) == 0
 }
 
-func (f *FillBrewer) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) bool {
+func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) bool {
 	if f.path == nil {
 		f.amount = f.StorageTile.TakeAll()
 		f.setupPath(mp)
@@ -48,7 +48,7 @@ func (f *FillBrewer) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) 
 	return unfinished
 }
 
-func (f *FillBrewer) Finish(mp *m.Map, rs *room.Service) {
+func (f *FillBarrel) Finish(mp *m.Map, rs *room.Service) {
 	if f.dwarf == nil {
 		return
 	}
@@ -58,27 +58,27 @@ func (f *FillBrewer) Finish(mp *m.Map, rs *room.Service) {
 	f.dwarf = nil
 }
 
-func (f *FillBrewer) GetWorker() *dwarf.Dwarf {
+func (f *FillBarrel) GetWorker() *dwarf.Dwarf {
 	return f.dwarf
 }
 
-func (f *FillBrewer) SetWorker(d *dwarf.Dwarf) {
+func (f *FillBarrel) SetWorker(d *dwarf.Dwarf) {
 	f.dwarf = d
 }
 
-func (f *FillBrewer) GetDestinations() []int {
+func (f *FillBarrel) GetDestinations() []int {
 	return f.destinations
 }
 
-func (f *FillBrewer) HasInternalMove() bool {
+func (f *FillBarrel) HasInternalMove() bool {
 	return false
 }
 
-func (f *FillBrewer) String() string {
-	return "FillBrewer"
+func (f *FillBarrel) String() string {
+	return "FillBarrel"
 }
 
-func (f *FillBrewer) setupPath(mp *m.Map) {
+func (f *FillBarrel) setupPath(mp *m.Map) {
 	path := []int{}
 	for _, dst := range f.destinations {
 		p, ok := f.dwarf.CreatePath(

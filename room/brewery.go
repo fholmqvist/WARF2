@@ -7,12 +7,20 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-var breweryAutoID = 0
+var (
+	breweryAutoID = 0
+	brewDone      = uint(1)
+)
 
 type Brewery struct {
 	ID      int
-	barrels []int
+	barrels []*brewingBarrel
 	tiles   []int
+}
+
+type brewingBarrel struct {
+	idx int
+	val uint
 }
 
 func NewBrewery(mp *m.Map, x, y int) *Brewery {
@@ -42,7 +50,7 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 		mp.Items[idx].ResourceAmount = 0
 		mp.Items[idx].Resource = entity.ResourceNone
 		mp.Items[idx].Sprite = entity.EmptyBarrel
-		b.barrels = append(b.barrels, idx)
+		b.barrels = append(b.barrels, &brewingBarrel{idx, 0})
 	}
 	b.tiles = tiles
 	b.ID = breweryAutoID
@@ -50,7 +58,21 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 	return b
 }
 
-func (b *Brewery) Update(*m.Map) {}
+func (b *Brewery) Update(mp *m.Map) {
+	for _, barrel := range b.barrels {
+		if !entity.IsFilledBarrel(mp.Items[barrel.idx].Sprite) {
+			continue
+		}
+		barrel.val++
+		if barrel.val < brewDone {
+			continue
+		}
+		// This opens up for
+		// checkForCarryingJob
+		// on this tile.
+		mp.Items[barrel.idx].Resource = entity.ResourceBeer
+	}
+}
 
 func (b *Brewery) GetID() int {
 	if b == nil {
@@ -68,11 +90,11 @@ func (b *Brewery) Tiles() []int {
 }
 
 func (b *Brewery) GetEmptyBarrel(mp *m.Map) (int, bool) {
-	for _, idx := range b.barrels {
-		if !entity.IsEmptyBarrel(mp.Items[idx].Sprite) {
+	for _, barrel := range b.barrels {
+		if !entity.IsEmptyBarrel(mp.Items[barrel.idx].Sprite) {
 			continue
 		}
-		return idx, true
+		return barrel.idx, true
 	}
 	return -1, false
 }

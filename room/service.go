@@ -80,7 +80,7 @@ func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res entity.Resource) (
 	idx := -1
 	for i, rm := range s.Rooms {
 		storage, ok := rm.(*Storage)
-		if !ok {
+		if !ok || storage == nil {
 			continue
 		}
 		if !storage.HasSpace(res) {

@@ -6,20 +6,20 @@ game\saveload.go:17:
 	Rewrite to a better format.
 	///////////////////////////
 
-job\carrying.go:61:
+job\carrying.go:67:
 	Yeah.
 
-job\carrying.go:79:
+job\carrying.go:88:
 	Item is no longer there, abort.
 	What should we actually do here?
 	////////////////////////////////
 
-jobservice\check_for_job.go:60:
+jobservice\check_for_job.go:68:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 	/////////////////////////////////
 
-jobservice\check_for_job.go:164:
+jobservice\check_for_job.go:173:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 	/////////////////////////////////

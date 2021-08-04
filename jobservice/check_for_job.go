@@ -1,6 +1,8 @@
 package jobservice
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/entity"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -20,11 +22,17 @@ func (s *Service) checkForJobs(rs *room.Service) {
 		}
 	}
 	for _, rm := range rs.Rooms {
-		switch r := rm.(type) {
-		case *room.Farm:
-			checkForFarmingJobs(s, *r, rs)
-		case *room.Brewery:
-			checkBreweryJobs(s, *r, rs)
+		if f, ok := rm.(*room.Farm); ok {
+			if f == nil {
+				continue
+			}
+			checkForFarmingJobs(s, *f, rs)
+		}
+		if b, ok := rm.(*room.Brewery); ok {
+			if b == nil {
+				continue
+			}
+			checkBreweryJobs(s, *b, rs)
 		}
 	}
 }
@@ -71,6 +79,7 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 	x, y := gl.IdxToXY(itm.Idx)
 	nearest, storageIdx, ok := rs.FindNearestStorage(s.Map, x, y, itm.Resource)
 	if !ok {
+		fmt.Println("NO STORAGE FOUND")
 		return false
 	}
 	dst, ok := nearest.GetAvailableTile(itm.Resource)
@@ -115,7 +124,7 @@ func checkForFarmingJobs(s *Service, farm room.Farm, rs *room.Service) {
 func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
 	for _, rm := range rs.Rooms {
 		storage, ok := rm.(*room.Storage)
-		if !ok {
+		if !ok || storage == nil {
 			continue
 		}
 		storageTile, has := storage.HasWheat()
@@ -126,7 +135,7 @@ func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
 		if !ok {
 			continue
 		}
-		if breweryJobExists(s, storageTile.Idx, barrelIdx) {
+		if fillBarrelJobExists(s, storageTile.Idx, barrelIdx) {
 			continue
 		}
 		s.Jobs = append(s.Jobs, job.NewFillBrewer(
@@ -208,9 +217,9 @@ func farmJobExists(s *Service, farm room.Farm) bool {
 	return false
 }
 
-func breweryJobExists(s *Service, wheatIdx int, barrelIndex int) bool {
+func fillBarrelJobExists(s *Service, wheatIdx int, barrelIndex int) bool {
 	for _, j := range s.Jobs {
-		f, ok := j.(*job.FillBrewer)
+		f, ok := j.(*job.FillBarrel)
 		if !ok {
 			continue
 		}

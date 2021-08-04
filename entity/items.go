@@ -218,7 +218,7 @@ func IsItemBlocking(sprite int) bool {
 }
 
 func IsCarriable(sprite int) bool {
-	return IsCrumbledWall(sprite) || IsFarmTileHarvested(sprite)
+	return IsCrumbledWall(sprite) || IsFarmTileHarvested(sprite) || IsFilledBarrel(sprite)
 }
 
 func IsCrumbledWall(sprite int) bool {
@@ -288,8 +288,12 @@ func IsEmptyBarrel(sprite int) bool {
 	return sprite == EmptyBarrel
 }
 
+func IsFilledBarrel(sprite int) bool {
+	return sprite == FilledBarrel
+}
+
 func IsBarrel(sprite int) bool {
-	return IsEmptyBarrel(sprite) || sprite == FilledBarrel
+	return IsEmptyBarrel(sprite) || IsFilledBarrel(sprite)
 }
 
 func IsBed(sprite int) bool {
