@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
+	"github.com/Holmqvist1990/WARF2/globals"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	"github.com/hajimehoshi/ebiten"
@@ -12,9 +13,10 @@ import (
 )
 
 type GameplayUI struct {
-	MouseMode   Element
-	BuildMenu   Dropdown
-	OverviewTab Element
+	MouseMode            Element
+	BuildMenu            Dropdown
+	PauseMenu            EscPauseMenu
+	MouseOverInformation Element
 }
 
 func NewGameplayUI() *GameplayUI {
@@ -29,24 +31,34 @@ func NewGameplayUI() *GameplayUI {
 		BackgroundColor: backgroundColor,
 	}
 	return &GameplayUI{
-		MouseMode:   NewMouseOverlay(),
-		BuildMenu:   NewDropdown("Build", 34, 32, 11, buildMenuButtons),
-		OverviewTab: overviewTab,
+		MouseMode:            NewMouseOverlay(),
+		BuildMenu:            NewDropdown("Build", 34, 32, 11, buildMenuButtons),
+		PauseMenu:            NewEscPauseMenu(),
+		MouseOverInformation: overviewTab,
 	}
 }
 
 func (g *GameplayUI) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face, ui *UI, dw []*dwarf.Dwarf) {
-	if ebiten.IsKeyPressed(ebiten.KeyTab) {
-		drawOverview(screen, font, dw, ui.MouseMode)
-	}
 	drawMouseMode(screen, uiTiles, font, ui.MouseMode)
 	ui.BuildMenu.Draw(screen, uiTiles, font)
-	if ui.OverviewTab.Text == "" {
-		ui.OverviewTab.BackgroundColor = transparentColor
+	if ui.MouseOverInformation.Text == "" {
+		ui.MouseOverInformation.BackgroundColor = transparentColor
 	} else {
-		ui.OverviewTab.BackgroundColor = backgroundColor
+		ui.MouseOverInformation.BackgroundColor = backgroundColor
 	}
-	ui.OverviewTab.DrawWithText(screen, font)
+	ui.MouseOverInformation.DrawWithText(screen, font)
+	g.handlePausing(screen, font)
+	if ebiten.IsKeyPressed(ebiten.KeyTab) && !globals.GAME_PAUSED {
+		drawOverview(screen, font, dw, ui.MouseMode)
+	}
+}
+
+func (g *GameplayUI) handlePausing(screen *ebiten.Image, font font.Face) {
+	if globals.ESC_MENU {
+		g.PauseMenu.DrawESC(screen, font)
+	} else if globals.GAME_PAUSED {
+		g.PauseMenu.DrawPause(screen, font)
+	}
 }
 
 func NewMouseOverlay() Element {

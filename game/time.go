@@ -27,7 +27,7 @@ type Time struct {
 // Decriments until one cycle
 // has been consumed, then resets.
 func (t *Time) Tick() bool {
-	if globals.PAUSE_GAME {
+	if globals.GAME_PAUSED {
 		return false
 	}
 	t.Frame--

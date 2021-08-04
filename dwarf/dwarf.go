@@ -51,7 +51,7 @@ func (d *Dwarf) randomWalk(mp *m.Map) {
 	if rand.Intn(100) > 90 {
 		dir, err := m.GetDirection(rand.Intn(4))
 		if err != nil {
-			globals.PAUSE_GAME = true
+			globals.GAME_PAUSED = true
 			fmt.Println(err)
 		}
 		d.Move(mp, &d.Entity, dir)

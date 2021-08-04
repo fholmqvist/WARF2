@@ -3,6 +3,7 @@ package globals
 import (
 	"image"
 	"math"
+	"time"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -53,4 +54,12 @@ func IdxToY(idx int) int {
 // index based on the given X and Y values.
 func XYToIdx(x, y int) int {
 	return x + y*TilesW
+}
+
+// Sleep 100ms.
+func Delay(f func()) {
+	go func() {
+		time.Sleep(time.Millisecond * 100)
+		f()
+	}()
 }

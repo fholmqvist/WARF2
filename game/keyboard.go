@@ -8,16 +8,25 @@ import (
 	i "github.com/hajimehoshi/ebiten/inpututil"
 )
 
-// SetMouseMode set the internal mousemode,
+// SetMouseMode sets the internal mouse.Mode,
 // and updates the equivalent UI text(s).
 func (g *Game) SetMouseMode(mode mouse.Mode) {
 	g.mouseSystem.Mode = mode
 	g.ui.MouseMode.Text = "GOWARF - " + mode.String()
 }
 
+// Pausing, mouse.Mode.
 func HandleKeyboard(g *Game) {
 	if i.IsKeyJustPressed(e.KeySpace) {
-		globals.PAUSE_GAME = !globals.PAUSE_GAME
+		globals.GAME_PAUSED = !globals.GAME_PAUSED
+		globals.ESC_MENU = false
+	}
+	if i.IsKeyJustPressed(e.KeyEscape) {
+		globals.ESC_MENU = !globals.ESC_MENU
+		globals.GAME_PAUSED = globals.ESC_MENU
+	}
+	if globals.GAME_PAUSED || globals.ESC_MENU {
+		return
 	}
 	handleTileSettingInput(g)
 }

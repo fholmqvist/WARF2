@@ -3,7 +3,6 @@ package game
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/Holmqvist1990/WARF2/globals"
 
@@ -22,7 +21,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 			f := *g.debugFunc
 			f(g)
 		}
-		g.ui.OverviewTab.Text = g.handleInput()
+		g.ui.MouseOverInformation.Text = g.handleInput()
 		if !g.time.Tick() {
 			return nil
 		}
@@ -53,12 +52,15 @@ func (g *Game) UpdateDwarves() {
 }
 
 func (g *Game) handleInput() string {
+	HandleKeyboard(g)
+	if globals.GAME_PAUSED {
+		return ""
+	}
 	if mode, changed := g.ui.UpdateGameplayMenus(); changed {
 		g.SetMouseMode(mode)
 		return ""
 	}
 	overviewText := g.mouseSystem.Handle(g.WorldMap, g.Rooms, &g.JobService.Workers)
-	HandleKeyboard(g)
 	return overviewText
 }
 
@@ -68,12 +70,12 @@ func (g *Game) updateMainMenu() {
 	case -1:
 		return
 	case 0:
-		delay(func() {
+		globals.Delay(func() {
 			g.state = Gameplay
 		})
 	case 1:
 		g.state = HelpMenu
-		delay(func() {
+		globals.Delay(func() {
 			g.ui.HelpMenu.Clickable = true
 		})
 	case 2:
@@ -88,11 +90,4 @@ func (g *Game) updateHelpMenu() {
 	if back {
 		g.state = MainMenu
 	}
-}
-
-func delay(f func()) {
-	go func() {
-		time.Sleep(time.Millisecond * 100)
-		f()
-	}()
 }
