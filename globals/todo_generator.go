@@ -23,35 +23,31 @@ import (
 func GenerateTodos() {
 	todos := []string{}
 	filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if skip(path) {
-			return nil
-		}
-		if info.IsDir() {
+		if skip(err, info, path) {
 			return nil
 		}
 		content, err := ioutil.ReadFile(path)
 		if err != nil {
 			panic(err)
 		}
-		if !bytes.Contains(content, []byte("// TODO")) {
+		if !isTodo(content) {
 			return nil
 		}
-		lines := strings.Split(strings.ReplaceAll(string(content), "\r\n", "\n"), "\n")
+		lines := split(content)
 		for idx, line := range lines {
 			if !strings.Contains(line, " TODO") {
 				continue
 			}
 			desc := strings.TrimSpace(lines[idx+1])[3:]
 			descIdx := 2
-			for !strings.Contains(lines[idx+descIdx], "////////") {
-				if len(lines[idx+descIdx]) < 3 {
+			current := lines[idx+descIdx]
+			for !isEndMarker(current) {
+				current = lines[idx+descIdx]
+				if len(current) < 3 {
 					descIdx++
 					continue
 				}
-				desc += "\n\t" + strings.TrimSpace(lines[idx+descIdx])[3:]
+				desc += "\n\t" + strings.TrimSpace(current)[3:]
 				descIdx++
 			}
 			todo := fmt.Sprintf(
@@ -75,7 +71,13 @@ func GenerateTodos() {
 	}
 }
 
-func skip(path string) bool {
+func skip(err error, info fs.FileInfo, path string) bool {
+	if err != nil {
+		return true
+	}
+	if info.IsDir() {
+		return true
+	}
 	skips := []string{".git", "todo_generator"}
 	for _, skip := range skips {
 		if strings.Contains(path, skip) {
@@ -83,4 +85,16 @@ func skip(path string) bool {
 		}
 	}
 	return false
+}
+
+func isTodo(content []byte) bool {
+	return bytes.Contains(content, []byte("// TODO"))
+}
+
+func isEndMarker(line string) bool {
+	return strings.Contains(line, "////////")
+}
+
+func split(content []byte) []string {
+	return strings.Split(strings.ReplaceAll(string(content), "\r\n", "\n"), "\n")
 }

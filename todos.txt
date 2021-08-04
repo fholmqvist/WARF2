@@ -4,6 +4,7 @@ entity\items.go:280:
 game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
+	///////////////////////////
 
 job\carrying.go:61:
 	Yeah.
@@ -11,14 +12,17 @@ job\carrying.go:61:
 job\carrying.go:79:
 	Item is no longer there, abort.
 	What should we actually do here?
+	////////////////////////////////
 
 jobservice\check_for_job.go:60:
 	FloorBrick is _not_ an
 	adequate definition of storage.
+	/////////////////////////////////
 
 jobservice\check_for_job.go:164:
 	FloorBrick is _not_ an
 	adequate definition of storage.
+	/////////////////////////////////
 
 mouse\mouse.go:5:
 	Perhaps this entire system
@@ -27,6 +31,7 @@ mouse\mouse.go:5:
 	where the UI now has mouse-over
 	and click functionality of its own,
 	splitting and duplicating efforts.
+	////////////////////////////////////
 
 room\bar.go:28:
 	Actually generate items.
@@ -45,10 +50,12 @@ room\storage.go:13:
 	[1 Rock, 2 Rock, 1 Rock, 4 Rock]
 	Later, good:
 	[4 Rock, 4 Rock,   None,   None]
+	////////////////////////////////
 
 room\storage_tile.go:17:
 	Switch amount on
 	resource type.
+	////////////////
 
 ui\elements.go:40:
 	Height does nothing.
@@ -58,3 +65,4 @@ worldmap\generation.go:74:
 	Filling a room of the same type
 	should merge the two rooms,
 	extending the first.
+	////////////////////////////////
