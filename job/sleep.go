@@ -13,15 +13,16 @@ type Sleep struct {
 	dwarf        *dwarf.Dwarf
 	sleepTime    int
 	arrivedAtIdx int
+	remove       bool
 }
 
 func NewSleep(bedIdx int, destinations []int) *Sleep {
 	sleep := 600
-	return &Sleep{bedIdx, destinations, nil, sleep, -1}
+	return &Sleep{bedIdx, destinations, nil, sleep, -1, false}
 }
 
-func (s *Sleep) NeedsToBeRemoved(*m.Map, *room.Service) bool {
-	return s.dwarf != nil && s.sleepTime == 0
+func (s *Sleep) Remove() bool {
+	return s.remove
 }
 
 func (s *Sleep) PerformWork(*m.Map, []*dwarf.Dwarf, *room.Service) bool {
@@ -29,6 +30,7 @@ func (s *Sleep) PerformWork(*m.Map, []*dwarf.Dwarf, *room.Service) bool {
 		return unfinished
 	}
 	if s.sleepTime == 0 {
+		s.remove = true
 		return finished
 	}
 	if s.arrivedAtIdx == -1 {

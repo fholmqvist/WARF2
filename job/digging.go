@@ -12,15 +12,15 @@ type Digging struct {
 	dwarf        *dwarf.Dwarf
 	destinations []int
 	wallIdx      int
+	remove       bool
 }
 
 func NewDigging(destinations []int, wallIdx int) *Digging {
-	return &Digging{nil, destinations, wallIdx}
+	return &Digging{nil, destinations, wallIdx, false}
 }
 
-// Checks if the tile of to-be-dug wall is still selected.
-func (d *Digging) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
-	return !m.IsSelectedWall(mp.Tiles[d.wallIdx].Sprite) || d.dwarf == nil
+func (d *Digging) Remove() bool {
+	return d.remove
 }
 
 func (d *Digging) Finish(*m.Map, *room.Service) {
@@ -35,6 +35,7 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 	t := &mp.Tiles[d.wallIdx]
 	if !m.IsSelectedWall(t.Sprite) {
 		// Job is, in a sense, done.
+		d.remove = true
 		return finished
 	}
 	t.Sprite = m.Ground
@@ -44,6 +45,7 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 	for _, nb := range m.NeighTileDirFour(t.Idx) {
 		mp.FixWall(&mp.Tiles[nb.Idx])
 	}
+	d.remove = true
 	return finished
 }
 

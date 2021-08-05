@@ -12,14 +12,15 @@ type Farming struct {
 	dwarf        *dwarf.Dwarf
 	destinations []int
 	path         []int
+	remove       bool
 }
 
 func NewFarming(farmID int, destinations []int) *Farming {
-	return &Farming{farmID, nil, destinations, nil}
+	return &Farming{farmID, nil, destinations, nil, false}
 }
 
-func (f *Farming) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
-	return len(f.destinations) == 0 && f.path == nil
+func (f *Farming) Remove() bool {
+	return f.remove
 }
 
 func (d *Farming) Finish(*m.Map, *room.Service) {
@@ -31,12 +32,17 @@ func (d *Farming) Finish(*m.Map, *room.Service) {
 }
 
 func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	if f.remove {
+		return finished
+	}
 	if _, ok := rs.GetFarm(f.FarmID); !ok {
 		f.destinations = []int{}
 		f.path = nil
+		f.remove = true
 		return finished
 	}
 	if len(f.destinations) == 0 {
+		f.remove = true
 		return finished
 	}
 	if f.dwarf == nil {
@@ -72,9 +78,10 @@ func (f *Farming) moveDwarf(mp *m.Map) bool {
 		mp.Items[currentIdx].Resource = entity.ResourceWheat
 		mp.Items[currentIdx].ResourceAmount = 1
 		f.destinations = f.destinations[:len(f.destinations)-1]
-	}
-	if f.NeedsToBeRemoved(mp, nil) {
-		return finished
+		if len(f.destinations) == 0 {
+			f.remove = true
+			return finished
+		}
 	}
 	if f.path != nil {
 		f.moveAlongPath()

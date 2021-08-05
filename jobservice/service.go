@@ -61,7 +61,7 @@ func (s *Service) Update(rs *room.Service, mp *m.Map) {
 func (s *Service) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
 	for _, job := range s.Jobs {
-		if job.NeedsToBeRemoved(s.Map, rs) {
+		if job.Remove() {
 			job.Finish(s.Map, rs)
 			continue
 		}
@@ -114,7 +114,7 @@ func (s *Service) performWork(rs *room.Service) {
 			}
 		}
 		if dw.State != dwarf.Arrived {
-			if len(dw.Path) == 0 && jb.NeedsToBeRemoved(s.Map, rs) {
+			if len(dw.Path) == 0 && jb.Remove() {
 				dw.SetToAvailable()
 				continue
 			}

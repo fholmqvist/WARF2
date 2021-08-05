@@ -10,12 +10,12 @@ import (
 func TestWorkQueue(t *testing.T) {
 	js := &Service{
 		Jobs: []job.Job{
-			job.NewLibraryRead([]int{10}, 1),
+			job.NewRead([]int{10}, 1),
 			job.NewDigging([]int{20}, 0),
 			job.NewCarrying([]int{30}, entity.ResourceRock, 0, 0, 0),
-			job.NewLibraryRead([]int{11}, 1),
+			job.NewRead([]int{11}, 1),
 			job.NewDigging([]int{21}, 0),
-			job.NewLibraryRead([]int{12}, 1),
+			job.NewRead([]int{12}, 1),
 			job.NewCarrying([]int{31}, entity.ResourceRock, 0, 0, 0),
 			job.NewDigging([]int{22}, 0),
 			job.NewCarrying([]int{32}, entity.ResourceRock, 0, 0, 0),

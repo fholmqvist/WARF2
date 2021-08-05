@@ -15,6 +15,7 @@ type FillBarrel struct {
 	dwarf        *dwarf.Dwarf
 	path         []int
 	amount       uint
+	remove       bool
 }
 
 func NewFillBrewer(st *room.StorageTile, barrelIdx int, destinations []int) *FillBarrel {
@@ -26,8 +27,8 @@ func NewFillBrewer(st *room.StorageTile, barrelIdx int, destinations []int) *Fil
 	}
 }
 
-func (f *FillBarrel) NeedsToBeRemoved(mp *m.Map, rs *room.Service) bool {
-	return f.path == nil && len(f.destinations) == 0
+func (f *FillBarrel) Remove() bool {
+	return f.remove
 }
 
 func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) bool {
@@ -40,6 +41,7 @@ func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) 
 		f.dwarf.Idx = f.BarrelIndex
 		f.path = nil
 		f.destinations = []int{}
+		f.remove = true
 		return finished
 	}
 	f.dwarf.Idx = f.path[0]

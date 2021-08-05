@@ -66,19 +66,14 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 		d.Path = d.Path[1:]
 		return
 	}
-tryagain:
-	if len(d.Path) == 0 {
-		d.Path = nil
-		return
-	}
-	var dir m.Direction
-	var err error
 	next := d.Path[0]
-	dir, err = m.NextIdxToDir(d.Idx, next)
+	dir, err := m.NextIdxToDir(d.Idx, next)
 	if err != nil {
-		fmt.Println(err)
-		d.Path = d.Path[1:]
-		goto tryagain
+		fmt.Println(err, d.Name)
+		mp.Tiles[d.Idx].Sprite = m.WallSelectedSolid
+		mp.Tiles[next].Sprite = m.WallSelectedSolid
+		globals.GAME_PAUSED = true
+		return
 	}
 	if d.Move(mp, &d.Entity, dir) {
 		d.Path = d.Path[1:]

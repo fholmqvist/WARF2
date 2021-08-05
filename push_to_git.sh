@@ -1,5 +1,5 @@
 #!/bin/bash
-message="skipCarrying not checking NIL correctly."
+message="Renamed NeedsToBeRemoved to Remove. dwarf.traversePath fix."
 git add --all
 git commit -m "$message"
 git push

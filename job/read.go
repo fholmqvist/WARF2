@@ -13,14 +13,15 @@ type Read struct {
 	dwarf        *dwarf.Dwarf
 	destinations []int
 	readingTime  int
+	remove       bool
 }
 
-func NewLibraryRead(destinations []int, readingTime int) *Read {
-	return &Read{nil, destinations, readingTime}
+func NewRead(destinations []int, readingTime int) *Read {
+	return &Read{nil, destinations, readingTime, false}
 }
 
-func (l *Read) NeedsToBeRemoved(*m.Map, *room.Service) bool {
-	return l.readingTime <= 0 || l.dwarf == nil
+func (l *Read) Remove() bool {
+	return l.remove
 }
 
 func (l *Read) Finish(*m.Map, *room.Service) {
@@ -38,6 +39,7 @@ func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) b
 	}
 	// Done!
 	l.readingTime = 0
+	l.remove = true
 	return finished
 }
 

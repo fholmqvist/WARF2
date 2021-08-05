@@ -19,6 +19,7 @@ type Carrying struct {
 	sprite          int
 	path            []int
 	prev            int
+	remove          bool
 }
 
 func NewCarrying(destinations []int, r entity.Resource, storageIdx int, goalDestination, sprite int) *Carrying {
@@ -48,20 +49,22 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servi
 		///////////////////////////////////
 		if !entity.IsCarriable(mp.Items[c.dwarf.Idx].Sprite) {
 			c.path = []int{}
+			c.remove = true
 			return finished
 		}
 		c.setupPath(mp)
 		return unfinished
 	}
 	if len(c.path) == 0 {
+		c.remove = true
 		return finished
 	}
 	moveAlongPath(c, mp)
 	return unfinished
 }
 
-func (c *Carrying) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
-	return c.path != nil && len(c.path) == 0
+func (c *Carrying) Remove() bool {
+	return c.remove
 }
 
 func (c *Carrying) Finish(mp *m.Map, s *room.Service) {

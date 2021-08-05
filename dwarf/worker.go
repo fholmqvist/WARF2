@@ -23,6 +23,7 @@ func (d *Dwarf) Available() bool {
 
 // SetToAvailable sets availability of worker.
 func (d *Dwarf) SetToAvailable() {
+	d.Path = nil
 	d.State = Idle
 }
 

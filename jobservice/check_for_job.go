@@ -219,7 +219,6 @@ func skipCarryingJob(s *Service, itm m.Tile) bool {
 		return skip
 	}
 	if !entity.IsCarriable(itm.Sprite) {
-		fmt.Println("NOT CARRIABLE", entity.ItemToString(itm.Sprite))
 		return skip
 	}
 	rm := s.Map.Tiles[itm.Idx].Room

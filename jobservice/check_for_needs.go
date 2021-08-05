@@ -74,7 +74,7 @@ func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *m.Map) (added bool) {
 	if !ok {
 		return false
 	}
-	jb := job.NewLibraryRead(
+	jb := job.NewRead(
 		[]int{destination},
 		int(dwf.Characteristics.DesireToRead*TIME_FACTOR),
 	)

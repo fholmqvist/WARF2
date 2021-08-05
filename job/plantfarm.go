@@ -11,25 +11,28 @@ type PlantFarm struct {
 	destinations []int
 	dwarf        *dwarf.Dwarf
 	path         []int
+	remove       bool
 }
 
 func NewPlantFarm(farm *room.Farm, farmableDestinations []int) *PlantFarm {
-	return &PlantFarm{farm, farmableDestinations, nil, nil}
+	return &PlantFarm{farm, farmableDestinations, nil, nil, false}
 }
 
-func (p *PlantFarm) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
-	if p.Farm == nil {
-		return true
-	}
-	return p.Farm.FullyPlanted(mp)
+func (p *PlantFarm) Remove() bool {
+	return p.remove
 }
 
 func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	if p.remove {
+		return finished
+	}
 	if _, ok := rs.GetFarm(p.Farm.ID); !ok {
 		p.Farm = nil
+		p.remove = true
 		return finished
 	}
 	if len(p.destinations) == 0 {
+		p.remove = true
 		return finished
 	}
 	if p.dwarf == nil {
@@ -72,9 +75,10 @@ func (p *PlantFarm) moveDwarf(mp *m.Map) bool {
 		p.Farm.PlantFarm(mp, mp.Items[currentIdx])
 		p.destinations = p.destinations[:len(p.destinations)-1]
 		p.path = nil
-	}
-	if p.NeedsToBeRemoved(mp, nil) {
-		return finished
+		if len(p.destinations) == 0 {
+			p.remove = true
+			return finished
+		}
 	}
 	if p.path != nil {
 		p.moveAlongPath()
