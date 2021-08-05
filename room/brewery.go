@@ -72,6 +72,7 @@ func (b *Brewery) Update(mp *m.Map) {
 		// checkForCarryingJob
 		// on this tile.
 		mp.Items[barrel.idx].Resource = entity.ResourceBeer
+		mp.Items[barrel.idx].ResourceAmount = 1
 	}
 }
 

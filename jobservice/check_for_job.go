@@ -28,7 +28,7 @@ func (s *Service) checkForJobs(rs *room.Service) {
 		case *room.Brewery:
 			checkBreweryJobs(s, *v, rs)
 		case *room.Bar:
-			checkBarJobs(s, *v, rs)
+			checkBarJobs(s, v, rs)
 		}
 	}
 }
@@ -134,7 +134,7 @@ func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
 	}
 }
 
-func checkBarJobs(s *Service, bar room.Bar, rs *room.Service) {
+func checkBarJobs(s *Service, bar *room.Bar, rs *room.Service) {
 	if !bar.NeedsMoreBeer() {
 		return
 	}
@@ -151,6 +151,7 @@ func checkBarJobs(s *Service, bar room.Bar, rs *room.Service) {
 			continue
 		}
 		s.Jobs = append(s.Jobs, job.NewGetBeer(
+			bar,
 			storageTile,
 			bar.BeerRefillIndex,
 			m.NeighTileFour(storageTile.Idx),

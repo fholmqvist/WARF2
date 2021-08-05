@@ -112,7 +112,7 @@ func (s *Storage) HasBeer() (*StorageTile, bool) {
 
 func (s *Storage) has(res entity.Resource) (*StorageTile, bool) {
 	for _, t := range s.StorageTiles {
-		if t.Available(res) {
+		if t.Has(res) {
 			return &t, true
 		}
 	}

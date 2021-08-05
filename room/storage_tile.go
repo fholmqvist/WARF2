@@ -29,8 +29,12 @@ func (s *StorageTile) Available(res entity.Resource) bool {
 	return false
 }
 
-func (s *StorageTile) Unavailable(tpe entity.Resource) bool {
-	return !s.Available(tpe)
+func (s *StorageTile) Unavailable(res entity.Resource) bool {
+	return !s.Available(res)
+}
+
+func (s *StorageTile) Has(res entity.Resource) bool {
+	return s.Resource == res && s.ResourceAmount > 0
 }
 
 // Adds the amount of resource to the tile,
