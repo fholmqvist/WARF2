@@ -90,6 +90,15 @@ func (b *Brewery) Tiles() []int {
 	return b.tiles
 }
 
+func (b *Brewery) NeedsMoreWheat(mp *m.Map) bool {
+	for _, barrel := range b.barrels {
+		if entity.IsEmptyBarrel(mp.Items[barrel.idx].Sprite) {
+			return true
+		}
+	}
+	return false
+}
+
 func (b *Brewery) GetEmptyBarrel(mp *m.Map) (int, bool) {
 	for _, barrel := range b.barrels {
 		if !entity.IsEmptyBarrel(mp.Items[barrel.idx].Sprite) {

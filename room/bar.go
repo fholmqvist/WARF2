@@ -11,9 +11,13 @@ import (
 
 var barAutoID = 0
 
+const NEEDS_MORE_BEER_RATE = 5
+
 type Bar struct {
-	ID    int
-	tiles []int
+	ID              int
+	tiles           []int
+	Beers           uint
+	BeerRefillIndex int
 }
 
 func NewBar(mp *m.Map, x, y int) (*Bar, bool) {
@@ -28,7 +32,7 @@ func NewBar(mp *m.Map, x, y int) (*Bar, bool) {
 		tile := &mp.Tiles[idx]
 		tile.Room = b
 		if !hasPlacedBar {
-			hasPlacedBar = placeBar(mp, tiles, idx)
+			hasPlacedBar = b.placeBar(mp, tiles, idx)
 		}
 	}
 	if !hasPlacedBar {
@@ -59,6 +63,22 @@ func (b *Bar) Tiles() []int {
 	return b.tiles
 }
 
+func (b *Bar) AddBeer(amount uint) {
+	b.Beers += amount
+}
+
+func (b *Bar) ConsumeBeer() bool {
+	if b.Beers <= 0 {
+		return false
+	}
+	b.Beers--
+	return true
+}
+
+func (b *Bar) NeedsMoreBeer() bool {
+	return b.Beers <= NEEDS_MORE_BEER_RATE
+}
+
 var bars = [][]int{
 	{
 		entity.BarDrinksLeft, entity.BarDrinksRight, entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem,
@@ -76,7 +96,7 @@ var bars = [][]int{
 	},
 }
 
-func placeBar(mp *m.Map, tiles []int, idx int) bool {
+func (b *Bar) placeBar(mp *m.Map, tiles []int, idx int) bool {
 	////////////////
 	// TODO
 	// This is crap.
@@ -99,6 +119,9 @@ func placeBar(mp *m.Map, tiles []int, idx int) bool {
 	randomBar := bars[rand.Intn(len(bars))]
 	for i := 0; i < len(placements); i++ {
 		mp.Items[placements[i]].Sprite = randomBar[i]
+		if randomBar[i] == entity.BarDrinksLeft {
+			b.BeerRefillIndex = m.OneDown(placements[i])
+		}
 	}
 	return true
 }

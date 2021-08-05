@@ -18,7 +18,7 @@ job\carrying.go:45:
 job\carrying.go:90:
 	Yeah.
 
-jobservice\check_for_job.go:156:
+jobservice\check_for_job.go:185:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
@@ -36,7 +36,7 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-room\bar.go:80:
+room\bar.go:100:
 	This is crap.
 
 room\storage.go:13:

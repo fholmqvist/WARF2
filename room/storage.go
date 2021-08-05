@@ -103,8 +103,16 @@ func (s *Storage) HasSpace(res entity.Resource) bool {
 }
 
 func (s *Storage) HasWheat() (*StorageTile, bool) {
+	return s.has(entity.ResourceWheat)
+}
+
+func (s *Storage) HasBeer() (*StorageTile, bool) {
+	return s.has(entity.ResourceBeer)
+}
+
+func (s *Storage) has(res entity.Resource) (*StorageTile, bool) {
 	for _, t := range s.StorageTiles {
-		if t.Resource == entity.ResourceWheat {
+		if t.Available(res) {
 			return &t, true
 		}
 	}

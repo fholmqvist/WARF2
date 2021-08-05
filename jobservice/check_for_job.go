@@ -27,6 +27,8 @@ func (s *Service) checkForJobs(rs *room.Service) {
 			checkForFarmingJobs(s, *v, rs)
 		case *room.Brewery:
 			checkBreweryJobs(s, *v, rs)
+		case *room.Bar:
+			checkBarJobs(s, *v, rs)
 		}
 	}
 }
@@ -105,6 +107,9 @@ func checkForFarmingJobs(s *Service, farm room.Farm, rs *room.Service) {
 }
 
 func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
+	if !brewery.NeedsMoreWheat(s.Map) {
+		return
+	}
 	for _, rm := range rs.Rooms {
 		storage, ok := rm.(*room.Storage)
 		if !ok || storage == nil {
@@ -126,6 +131,30 @@ func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
 			barrelIdx,
 			m.NeighTileFour(storageTile.Idx)),
 		)
+	}
+}
+
+func checkBarJobs(s *Service, bar room.Bar, rs *room.Service) {
+	if !bar.NeedsMoreBeer() {
+		return
+	}
+	for _, rm := range rs.Rooms {
+		storage, ok := rm.(*room.Storage)
+		if !ok || storage == nil {
+			continue
+		}
+		storageTile, has := storage.HasBeer()
+		if !has {
+			continue
+		}
+		if getBeerJobExists(s, storageTile.Idx, bar.BeerRefillIndex) {
+			continue
+		}
+		s.Jobs = append(s.Jobs, job.NewGetBeer(
+			storageTile,
+			bar.BeerRefillIndex,
+			m.NeighTileFour(storageTile.Idx),
+		))
 	}
 }
 
@@ -200,13 +229,26 @@ func farmJobExists(s *Service, farm room.Farm) bool {
 	return false
 }
 
-func fillBarrelJobExists(s *Service, wheatIdx int, barrelIndex int) bool {
+func fillBarrelJobExists(s *Service, wheatIdx, barrelIndex int) bool {
 	for _, j := range s.Jobs {
 		f, ok := j.(*job.FillBarrel)
 		if !ok {
 			continue
 		}
 		if f.WheatIndex == wheatIdx || f.BarrelIndex == barrelIndex {
+			return true
+		}
+	}
+	return false
+}
+
+func getBeerJobExists(s *Service, beerIdx, beerRefillIdx int) bool {
+	for _, j := range s.Jobs {
+		g, ok := j.(*job.GetBeer)
+		if !ok {
+			continue
+		}
+		if g.StorageTile.Idx == beerIdx || g.BeerRefillIndex == beerRefillIdx {
 			return true
 		}
 	}

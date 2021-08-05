@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Bar placement decent enough for now."
+message="checkForJob GetBeer."
 git add --all
 git commit -m "$message"
 git push
