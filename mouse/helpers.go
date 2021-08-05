@@ -14,13 +14,13 @@ import (
 // These two functions below wrap this functionality
 // and use lambdas to inject specific behaviour.
 
-func clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick func(*m.Map, int, int)) {
-	if !hasClicked {
+func (s *System) clickFunctions(mp *m.Map, currentMousePos int, firstClick func(), dragClick func(*m.Map, int, int)) {
+	if !s.hasClicked {
 		firstClick()
-		setHasClicked(currentMousePos)
+		s.setHasClicked(currentMousePos)
 	}
-	if startPoint >= 0 {
-		FuncOverRange(mp, currentMousePos, startPoint, dragClick)
+	if s.startPoint >= 0 {
+		FuncOverRange(mp, currentMousePos, s.startPoint, dragClick)
 	}
 }
 
@@ -66,12 +66,12 @@ func MouseIdx() int {
 	return mx + (my * globals.TilesW)
 }
 
-func setHasClicked(currentMousePos int) {
-	startPoint = currentMousePos
-	hasClicked = true
+func (s *System) setHasClicked(currentMousePos int) {
+	s.startPoint = currentMousePos
+	s.hasClicked = true
 }
 
-func unsetHasClicked() {
-	startPoint = -1
-	hasClicked = false
+func (s *System) unsetHasClicked() {
+	s.startPoint = -1
+	s.hasClicked = false
 }

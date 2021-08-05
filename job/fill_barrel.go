@@ -81,7 +81,7 @@ func (f *FillBarrel) String() string {
 func (f *FillBarrel) setupPath(mp *m.Map) {
 	path := []int{}
 	for _, dst := range f.destinations {
-		p, ok := f.dwarf.CreatePath(
+		p, ok := m.CreatePath(
 			&mp.Tiles[f.dwarf.Idx],
 			&mp.Tiles[dst],
 		)

@@ -125,12 +125,12 @@ func (c *Carrying) setupPath(mp *m.Map) {
 	mp.Items[c.dwarf.Idx].ResourceAmount = 0
 	c.prev = c.dwarf.Idx
 	c.destinations[0] = c.dwarf.Idx
-	path, ok := c.dwarf.CreatePath(
+	path, ok := m.CreatePath(
 		&mp.Tiles[c.dwarf.Idx],
 		&mp.Tiles[c.goalDestination],
 	)
 	if !ok {
-		fmt.Println("UNABLE TO SETUP PATH", c.dwarf.Name, c.resource.String())
+		fmt.Printf("Carrying: No path for %v from %v to %v.\n", c.dwarf.Name, c.dwarf.Idx, c.goalDestination)
 		return
 	}
 	c.path = path

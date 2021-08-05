@@ -4,8 +4,6 @@ import (
 	"github.com/Holmqvist1990/WARF2/entity"
 	"github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
-
-	"github.com/beefsack/go-astar"
 )
 
 // Walker defines functionality for walking
@@ -59,31 +57,11 @@ func (w *Walker) moveLeft(mp *m.Map, e *entity.Entity) bool {
 	}
 	return false
 }
-
-// InitiateWalk attempts to set
-// a new path based on the given
-// destinations and proceeds to start
-// walking it if it was successful.
-// Return value determins whether
-// path was found.
-func (w *Walker) InitiateWalk(from, to *m.Tile) bool {
-	path, ok := w.CreatePath(from, to)
+func (w *Walker) SetupPath(from, to *m.Tile) bool {
+	path, ok := m.CreatePath(from, to)
 	if !ok {
 		return false
 	}
 	w.Path = path
 	return true
-}
-
-func (w *Walker) CreatePath(from, to *m.Tile) ([]int, bool) {
-	path, _, ok := astar.Path(from, to)
-	if !ok {
-		return nil, false
-	}
-	var pathIdxs []int
-	for _, t := range m.Reverse(path) {
-		tile := t.(*m.Tile)
-		pathIdxs = append(pathIdxs, tile.Idx)
-	}
-	return pathIdxs, true
 }

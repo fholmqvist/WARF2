@@ -24,22 +24,23 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-// This cluster of variables
-// help with (de)selecting walls.
-var startPoint = -1
-var endPoint = -1
-var hasClicked = false
-var firstClickedSprite = -1
-var justPlacedRoom = false
-
 // System for handling
 // all functionality by mouse.
 type System struct {
-	Mode Mode
+	Mode               Mode
+	startPoint         int  // First click.
+	endPoint           int  // Mouse up.
+	hasClicked         bool // Prevent resetting startPoint.
+	firstClickedSprite int  // Remember what our first "hit" was.
+	justPlacedRoom     bool // To prevent double-placing rooms.
 }
 
 func NewSystem() *System {
-	return &System{}
+	return &System{
+		startPoint:         -1,
+		endPoint:           -1,
+		firstClickedSprite: -1,
+	}
 }
 
 // Handle all the mouse interactivity.
@@ -47,7 +48,7 @@ func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) st
 	mousePos := MouseIdx()
 	if mousePos < 0 || mousePos > globals.TilesT {
 		mp.ClearSelectedTiles()
-		unsetHasClicked()
+		s.unsetHasClicked()
 		return ""
 	}
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
@@ -55,7 +56,7 @@ func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) st
 		return ""
 	}
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
-		endPoint = mousePos
+		s.endPoint = mousePos
 		s.mouseUp(mp, rs)
 		return ""
 	}
@@ -70,7 +71,7 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	var rm room.Room
 	switch s.Mode {
 	case Normal:
-		noneMode(mp, dwarves, currentMousePos)
+		s.noneMode(mp, dwarves, currentMousePos)
 	case Storage:
 		rm = &room.Storage{}
 	case SleepHall:
@@ -84,34 +85,36 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	case Library:
 		rm = &room.Library{}
 	case Delete:
-		setHasClicked(currentMousePos)
+		s.setHasClicked(currentMousePos)
 	default:
 		panic(fmt.Sprintf("mouseClick: unknown MouseMode: %v", s.Mode))
 	}
 	if rm == nil {
 		return
 	}
-	if !justPlacedRoom {
+	// To prevent double placement of rooms
+	// due to the refiring nature of this function.
+	if !s.justPlacedRoom {
 		rs.AddRoom(mp, currentMousePos, rm)
 	}
-	justPlacedRoom = true
-	globals.Delay(func() { justPlacedRoom = false })
+	s.justPlacedRoom = true
+	globals.Delay(func() { s.justPlacedRoom = false })
 }
 
 func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
-	if startPoint == -1 {
+	if s.startPoint == -1 {
 		return
 	}
 	switch s.Mode {
 	case Normal:
-		FuncOverRange(mp, startPoint, endPoint, mouseUpSetWalls)
+		FuncOverRange(mp, s.startPoint, s.endPoint, s.mouseUpSetWalls)
 
 	case Delete:
-		rs.DeleteRoomAtMousePos(mp, startPoint)
-		unsetHasClicked()
+		rs.DeleteRoomAtMousePos(mp, s.startPoint)
+		s.unsetHasClicked()
 	}
 	mp.ClearSelectedTiles()
-	unsetHasClicked()
+	s.unsetHasClicked()
 }
 
 func (s *System) mouseHover(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) string {

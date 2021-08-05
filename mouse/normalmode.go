@@ -8,9 +8,9 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
-func noneMode(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
+func (s *System) noneMode(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
 	mp.ClearSelectedTiles()
-	clickFunctions(mp, currentMousePos,
+	s.clickFunctions(mp, currentMousePos,
 		func() {
 			printMousePos(currentMousePos)
 			printDwarf(dwarves, currentMousePos)
@@ -19,7 +19,7 @@ func noneMode(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
 			if !ok {
 				return
 			}
-			firstClickedSprite = tile.Sprite
+			s.firstClickedSprite = tile.Sprite
 			// Replace that tile with one from SelectedTiles.
 			tile, ok = mp.GetSelectionTileByIndex(currentMousePos)
 			if !ok {
@@ -28,15 +28,15 @@ func noneMode(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
 			// Selecting a non-wall defaults to
 			// wall in order to enable wall selection
 			// without having first clicked on a wall.
-			if !m.IsSelectedWall(firstClickedSprite) {
-				firstClickedSprite = m.WallSolid
+			if !m.IsSelectedWall(s.firstClickedSprite) {
+				s.firstClickedSprite = m.WallSolid
 			}
 			if m.IsWallOrSelected(tile.Sprite) {
-				tile.Sprite = invertSelected(firstClickedSprite)
+				tile.Sprite = invertSelected(s.firstClickedSprite)
 			}
 		},
 		func(mp *m.Map, x int, y int) {
-			selectionWalls(mp, x, y)
+			selectionWalls(s, mp, x, y)
 		})
 }
 
@@ -44,7 +44,7 @@ func noneMode(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) {
 // functions into one just made the interface
 // that much more complicated. Sometimes, not
 // having DRY everywhere ain't that bad.
-func mouseUpSetWalls(mp *m.Map, x, y int) {
+func (s *System) mouseUpSetWalls(mp *m.Map, x, y int) {
 	selectionTile, ok := mp.GetSelectionTile(x, y)
 	if !ok {
 		return
@@ -57,11 +57,11 @@ func mouseUpSetWalls(mp *m.Map, x, y int) {
 	if !ok {
 		return
 	}
-	setWalls(tile)
+	setWalls(s, tile)
 	selectionTile.Sprite = m.None
 }
 
-func selectionWalls(mp *m.Map, x, y int) {
+func selectionWalls(s *System, mp *m.Map, x, y int) {
 	tile, ok := mp.GetTile(x, y)
 	if !ok {
 		return
@@ -75,14 +75,14 @@ func selectionWalls(mp *m.Map, x, y int) {
 	}
 	// In order to invert between (un)selected.
 	selectionTile.Sprite = tile.Sprite
-	setWalls(selectionTile)
+	setWalls(s, selectionTile)
 }
 
-func setWalls(tile *m.Tile) {
+func setWalls(s *System, tile *m.Tile) {
 	if !m.IsWallOrSelected(tile.Sprite) {
 		return
 	}
-	if m.IsWall(firstClickedSprite) {
+	if m.IsWall(s.firstClickedSprite) {
 		setToSelected(tile)
 		return
 	}

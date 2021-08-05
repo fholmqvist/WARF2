@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Nil issue, not concurrency. Carrying beer is done for now, added TODO."
+message="Cleanup, small refactors."
 git add --all
 git commit -m "$message"
 git push

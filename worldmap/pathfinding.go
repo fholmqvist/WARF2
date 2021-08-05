@@ -17,6 +17,19 @@ var (
 	_ astar.Pather = &Tile{}
 )
 
+func CreatePath(from *Tile, to *Tile) ([]int, bool) {
+	path, _, ok := astar.Path(from, to)
+	if !ok {
+		return nil, false
+	}
+	var pathIdxs []int
+	for _, t := range Reverse(path) {
+		tile := t.(*Tile)
+		pathIdxs = append(pathIdxs, tile.Idx)
+	}
+	return pathIdxs, true
+}
+
 // PathNeighbors is the implementation for
 // the interface required by go-astar for
 // determining surrounding (walkable) neighbors.

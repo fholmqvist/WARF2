@@ -39,7 +39,7 @@ func (d *Dwarf) MoveTo(idx int, mp *m.Map) bool {
 		d.SetToAvailable()
 		return false
 	}
-	ok = d.InitiateWalk(from, to)
+	ok = d.SetupPath(from, to)
 	if !ok {
 		d.SetToAvailable()
 		return false

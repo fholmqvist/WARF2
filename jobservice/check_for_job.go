@@ -89,6 +89,7 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 		// has gone terribly wrong.
 		panic("job_service: check_for_job: it.Idx == dst")
 	}
+
 	s.Jobs = append(s.Jobs, job.NewCarrying(
 		[]int{itm.Idx},
 		entity.SpriteToResource(itm.Sprite),

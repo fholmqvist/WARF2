@@ -13,7 +13,7 @@ func getNextIdx(destinations []int) int {
 }
 
 func getPath(mp *m.Map, next int, dwarf *dwarf.Dwarf) ([]int, bool) {
-	return dwarf.CreatePath(
+	return m.CreatePath(
 		&mp.Tiles[dwarf.Idx],
 		&mp.Tiles[next],
 	)
