@@ -42,22 +42,16 @@ func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) 
 		f.path = nil
 		f.destinations = []int{}
 		f.remove = true
+		mp.Items[f.BarrelIndex].Sprite = entity.FilledBarrel
+		mp.Items[f.BarrelIndex].ResourceAmount = f.amount
+		f.dwarf.SetToAvailable()
+		f.dwarf = nil
 		return finished
 	}
 	f.dwarf.Idx = f.path[0]
 	f.destinations[0] = f.path[0]
 	f.path = f.path[1:]
 	return unfinished
-}
-
-func (f *FillBarrel) Finish(mp *m.Map, rs *room.Service) {
-	if f.dwarf == nil {
-		return
-	}
-	mp.Items[f.BarrelIndex].Sprite = entity.FilledBarrel
-	mp.Items[f.BarrelIndex].ResourceAmount = f.amount
-	f.dwarf.SetToAvailable()
-	f.dwarf = nil
 }
 
 func (f *FillBarrel) GetWorker() *dwarf.Dwarf {

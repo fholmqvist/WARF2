@@ -62,7 +62,6 @@ func (s *Service) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
 	for _, job := range s.Jobs {
 		if job.Remove() {
-			job.Finish(s.Map, rs)
 			continue
 		}
 		jobs = append(jobs, job)

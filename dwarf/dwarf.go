@@ -70,8 +70,8 @@ func (d *Dwarf) traversePath(mp *m.Map) {
 	dir, err := m.NextIdxToDir(d.Idx, next)
 	if err != nil {
 		fmt.Println(err, d.Name)
-		mp.Tiles[d.Idx].Sprite = m.WallSelectedSolid
-		mp.Tiles[next].Sprite = m.WallSelectedSolid
+		mp.Tiles[d.Idx].Sprite = m.WARNING
+		mp.Tiles[next].Sprite = m.WARNING
 		globals.GAME_PAUSED = true
 		return
 	}

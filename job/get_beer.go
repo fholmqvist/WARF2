@@ -38,6 +38,8 @@ func (g *GetBeer) PerformWork(mp *m.Map, dwf []*dwarf.Dwarf, rs *room.Service) b
 		g.path = nil
 		g.destinations = []int{}
 		g.remove = true
+		g.dwarf.SetToAvailable()
+		g.dwarf = nil
 		return finished
 	}
 	g.dwarf.Idx = g.path[0]
@@ -59,14 +61,6 @@ func (g *GetBeer) setupPath(mp *m.Map) {
 	}
 	mp.Items[g.dwarf.Idx].Sprite = entity.NoItem
 	g.path = path
-}
-
-func (g *GetBeer) Finish(mp *m.Map, rs *room.Service) {
-	if g.dwarf == nil {
-		return
-	}
-	g.dwarf.SetToAvailable()
-	g.dwarf = nil
 }
 
 func (g *GetBeer) Remove() bool {

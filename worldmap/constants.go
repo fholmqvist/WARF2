@@ -5,6 +5,7 @@ import "github.com/Holmqvist1990/WARF2/globals"
 // World tile sprite constant.
 const (
 	None = iota
+	WARNING
 
 	Ground
 

@@ -23,14 +23,6 @@ func (f *Farming) Remove() bool {
 	return f.remove
 }
 
-func (d *Farming) Finish(*m.Map, *room.Service) {
-	if d.dwarf == nil {
-		return
-	}
-	d.dwarf.SetToAvailable()
-	d.dwarf = nil
-}
-
 func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	if f.remove {
 		return finished
@@ -39,6 +31,8 @@ func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 		f.destinations = []int{}
 		f.path = nil
 		f.remove = true
+		f.dwarf.SetToAvailable()
+		f.dwarf = nil
 		return finished
 	}
 	if len(f.destinations) == 0 {

@@ -19,7 +19,6 @@ const (
 // the job service.
 type Job interface {
 	PerformWork(*m.Map, []*dwarf.Dwarf, *room.Service) bool
-	Finish(*m.Map, *room.Service)
 	Remove() bool
 	GetWorker() *dwarf.Dwarf
 	SetWorker(*dwarf.Dwarf)

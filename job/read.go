@@ -24,10 +24,6 @@ func (l *Read) Remove() bool {
 	return l.remove
 }
 
-func (l *Read) Finish(*m.Map, *room.Service) {
-	l.dwarf = nil
-}
-
 func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	if shouldGetChair(m, l) {
 		return getChair(m, l, dwarves)
@@ -40,6 +36,8 @@ func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) b
 	// Done!
 	l.readingTime = 0
 	l.remove = true
+	l.dwarf.SetToAvailable()
+	l.dwarf = nil
 	return finished
 }
 

@@ -33,20 +33,14 @@ func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Serv
 	}
 	if len(p.destinations) == 0 {
 		p.remove = true
+		p.dwarf.SetToAvailable()
+		p.dwarf = nil
 		return finished
 	}
 	if p.dwarf == nil {
 		return unfinished
 	}
 	return p.moveDwarf(mp)
-}
-
-func (p *PlantFarm) Finish(*m.Map, *room.Service) {
-	if p.dwarf == nil {
-		return
-	}
-	p.dwarf.SetToAvailable()
-	p.dwarf = nil
 }
 
 func (p *PlantFarm) GetWorker() *dwarf.Dwarf {

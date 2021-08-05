@@ -23,19 +23,13 @@ func (d *Digging) Remove() bool {
 	return d.remove
 }
 
-func (d *Digging) Finish(*m.Map, *room.Service) {
-	if d.dwarf == nil {
-		return
-	}
-	d.dwarf.SetToAvailable()
-	d.dwarf = nil
-}
-
 func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	t := &mp.Tiles[d.wallIdx]
 	if !m.IsSelectedWall(t.Sprite) {
 		// Job is, in a sense, done.
 		d.remove = true
+		d.dwarf.SetToAvailable()
+		d.dwarf = nil
 		return finished
 	}
 	t.Sprite = m.Ground
@@ -46,6 +40,8 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 		mp.FixWall(&mp.Tiles[nb.Idx])
 	}
 	d.remove = true
+	d.dwarf.SetToAvailable()
+	d.dwarf = nil
 	return finished
 }
 

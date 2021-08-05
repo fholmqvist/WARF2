@@ -56,7 +56,7 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servi
 		return unfinished
 	}
 	if len(c.path) == 0 {
-		c.remove = true
+		c.finish(mp, rs)
 		return finished
 	}
 	moveAlongPath(c, mp)
@@ -67,10 +67,8 @@ func (c *Carrying) Remove() bool {
 	return c.remove
 }
 
-func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
-	if c.dwarf == nil {
-		return
-	}
+func (c *Carrying) finish(mp *m.Map, rs *room.Service) {
+	c.remove = true
 	defer func() {
 		c.dwarf.SetToAvailable()
 		c.dwarf = nil
@@ -78,10 +76,10 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	if c.sprite == m.None {
 		return
 	}
-	if c.storageIdx > len(s.Rooms)-1 {
+	if c.storageIdx > len(rs.Rooms)-1 {
 		return
 	}
-	storage, ok := s.Rooms[c.storageIdx].(*room.Storage)
+	storage, ok := rs.Rooms[c.storageIdx].(*room.Storage)
 	if !ok {
 		return
 	}

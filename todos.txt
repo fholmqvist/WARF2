@@ -15,7 +15,7 @@ job\carrying.go:45:
 	Item is no longer there, abort.
 	What should we actually do here?
 
-job\carrying.go:90:
+job\carrying.go:88:
 	Yeah.
 
 jobservice\check_for_job.go:186:
