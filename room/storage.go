@@ -36,11 +36,11 @@ type Storage struct {
 	StorageTiles []StorageTile
 }
 
-func NewStorage(mp *m.Map, x, y int) *Storage {
+func NewStorage(mp *m.Map, x, y int) (*Storage, bool) {
 	s := &Storage{}
 	tiles := mp.FloodFillRoom(x, y, m.RandomFloorBrick)
 	if len(tiles) == 0 {
-		return nil
+		return nil, false
 	}
 	for _, idxs := range tiles {
 		mp.Tiles[idxs].Room = s
@@ -49,7 +49,7 @@ func NewStorage(mp *m.Map, x, y int) *Storage {
 	s.Center = determineCenter(mp, tiles)
 	s.ID = storageAutoID
 	storageAutoID++
-	return s
+	return s, true
 }
 
 func (s *Storage) GetID() int {

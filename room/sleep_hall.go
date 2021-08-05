@@ -14,11 +14,11 @@ type SleepHall struct {
 	tiles []int
 }
 
-func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
+func NewSleepHall(mp *m.Map, x, y int) (*SleepHall, bool) {
 	s := &SleepHall{}
 	tiles := mp.FloodFillRoom(x, y, func() int { return m.SleepHallFloor })
 	if len(tiles) == 0 {
-		return nil
+		return nil, false
 	}
 	sort.Ints(tiles)
 	s.tiles = tiles
@@ -47,7 +47,7 @@ func NewSleepHall(mp *m.Map, x, y int) *SleepHall {
 	}
 	s.ID = sleepHallAutoID
 	sleepHallAutoID++
-	return s
+	return s, true
 }
 
 func (s *SleepHall) GetID() int {

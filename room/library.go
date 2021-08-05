@@ -20,11 +20,11 @@ type Library struct {
 	tiles []int
 }
 
-func NewLibrary(mp *m.Map, x, y int) *Library {
+func NewLibrary(mp *m.Map, x, y int) (*Library, bool) {
 	l := &Library{}
 	tiles := mp.FloodFillRoom(x, y, m.RandomWoodFloor)
 	if len(tiles) == 0 {
-		return nil
+		return nil, false
 	}
 	sort.Ints(tiles)
 	l.tiles = tiles
@@ -38,7 +38,7 @@ func NewLibrary(mp *m.Map, x, y int) *Library {
 	}
 	l.ID = libraryAutoID
 	libraryAutoID++
-	return l
+	return l, true
 }
 
 func (l *Library) GetID() int {

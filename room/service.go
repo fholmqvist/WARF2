@@ -28,26 +28,28 @@ func (s *Service) Update(mp *m.Map) {
 func (s *Service) AddRoom(mp *m.Map, currentMousePos int, rm Room) {
 	x, y := globals.IdxToXY(currentMousePos)
 	var newRoom Room
+	var ok bool
 	switch rm.(type) {
 	case *Storage:
-		newRoom = NewStorage(mp, x, y)
+		newRoom, ok = NewStorage(mp, x, y)
 	case *SleepHall:
-		newRoom = NewSleepHall(mp, x, y)
+		newRoom, ok = NewSleepHall(mp, x, y)
 	case *Farm:
-		newRoom = NewFarm(mp, x, y)
+		newRoom, ok = NewFarm(mp, x, y)
 	case *Brewery:
-		newRoom = NewBrewery(mp, x, y)
+		newRoom, ok = NewBrewery(mp, x, y)
 	case *Bar:
-		newRoom = NewBar(mp, x, y)
+		newRoom, ok = NewBar(mp, x, y)
 	case *Library:
-		newRoom = NewLibrary(mp, x, y)
+		newRoom, ok = NewLibrary(mp, x, y)
 	default:
 		panic(fmt.Sprintf("unknown room type: %v", rm))
 	}
-	if newRoom == nil {
+	if !ok {
 		fmt.Println("NEW ROOM WAS NIL")
 		return
 	}
+	fmt.Println("PLACING", rm)
 	s.Rooms = append(s.Rooms, newRoom)
 }
 

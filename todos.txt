@@ -36,9 +36,6 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-room\bar.go:28:
-	Actually generate items.
-
 room\storage.go:13:
 	If the storage is filled
 	with StorageTiles that

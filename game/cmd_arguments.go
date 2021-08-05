@@ -22,6 +22,10 @@ func initWithArgs(args []string) *Game {
 	state := Gameplay
 	globals.DEBUG = true
 	switch args[0] {
+	case "":
+		game = GenerateGame(4, m.NormalMap())
+		state = MainMenu
+		globals.DEBUG = false
 	case "fill":
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall selection.
@@ -96,10 +100,12 @@ func initWithArgs(args []string) *Game {
 		mp := game.WorldMap
 		mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
 		mp.DrawOutline(20, 5, 25, 10, m.WallSolid)
-		s1 := room.Room(room.NewStorage(mp, 6, 6))
-		s2 := room.Room(room.NewStorage(mp, 21, 6))
-		game.Rooms.Rooms = append(game.Rooms.Rooms, s1)
-		game.Rooms.Rooms = append(game.Rooms.Rooms, s2)
+		if s, ok := room.NewStorage(mp, 6, 6); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, s)
+		}
+		if s, ok := room.NewStorage(mp, 21, 6); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, s)
+		}
 		ns, _, ok := game.Rooms.FindNearestStorage(mp, 1, 1, entity.ResourceNone)
 		if !ok {
 			panic(ok)
@@ -138,12 +144,19 @@ func initWithArgs(args []string) *Game {
 		mp.Tiles[611].Sprite = m.Ground
 		mp.Tiles[614].Sprite = m.Ground
 		mp.Tiles[1216].Sprite = m.Ground
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewFarm(mp, 12, 9))
-		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 15, 14))
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 21, 25))
+		if f, ok := room.NewFarm(mp, 12, 9); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, f)
+			game.Rooms.Rooms[0].Update(mp)
+			game.Rooms.Rooms[0].Update(mp)
+			game.Rooms.Rooms[0].Update(mp)
+			game.Rooms.Rooms[0].Update(mp)
+		}
+		if s, ok := room.NewStorage(mp, 15, 14); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, s)
+		}
+		if s, ok := room.NewStorage(mp, 21, 25); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, s)
+		}
 	case "brewery":
 		///////////////////////////////////////////////////////
 		// Debugging and testing breweries and brewing.
@@ -156,13 +169,19 @@ func initWithArgs(args []string) *Game {
 		mp.Tiles[609].Sprite = m.Ground
 		mp.Tiles[564].Sprite = m.Ground
 		mp.Tiles[611].Sprite = m.Ground
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewFarm(mp, 7, 10))
-		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewBrewery(mp, 7, 14))
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 13, 14))
+		if f, ok := room.NewFarm(mp, 7, 10); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, f)
+			game.Rooms.Rooms[0].Update(mp)
+			game.Rooms.Rooms[0].Update(mp)
+			game.Rooms.Rooms[0].Update(mp)
+			game.Rooms.Rooms[0].Update(mp)
+		}
+		if b, ok := room.NewBrewery(mp, 7, 14); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, b)
+		}
+		if s, ok := room.NewStorage(mp, 13, 14); ok {
+			game.Rooms.Rooms = append(game.Rooms.Rooms, s)
+		}
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.
@@ -304,9 +323,7 @@ func initWithArgs(args []string) *Game {
 		game = GenerateGame(4, m.NormalMap())
 		globals.DEBUG = false
 	default:
-		game = GenerateGame(4, m.NormalMap())
-		state = MainMenu
-		globals.DEBUG = false
+		panic(fmt.Sprintf("unknown arg: %v", args[0]))
 	}
 	game.state = state
 	game.SetMouseMode(mouse.Normal)

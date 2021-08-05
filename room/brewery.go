@@ -23,11 +23,11 @@ type brewingBarrel struct {
 	val uint
 }
 
-func NewBrewery(mp *m.Map, x, y int) *Brewery {
+func NewBrewery(mp *m.Map, x, y int) (*Brewery, bool) {
 	b := &Brewery{}
 	tiles := mp.FloodFillRoom(x, y, func() int { return m.BreweryFloor })
 	if len(tiles) == 0 {
-		return nil
+		return nil, false
 	}
 	sort.Ints(tiles)
 	for _, idx := range tiles {
@@ -55,7 +55,7 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 	b.tiles = tiles
 	b.ID = breweryAutoID
 	breweryAutoID++
-	return b
+	return b, true
 }
 
 func (b *Brewery) Update(mp *m.Map) {

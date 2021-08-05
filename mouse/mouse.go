@@ -89,12 +89,9 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	default:
 		panic(fmt.Sprintf("mouseClick: unknown MouseMode: %v", s.Mode))
 	}
-	if rm == nil {
-		return
-	}
 	// To prevent double placement of rooms
 	// due to the refiring nature of this function.
-	if !s.justPlacedRoom {
+	if !s.justPlacedRoom && rm != nil {
 		rs.AddRoom(mp, currentMousePos, rm)
 	}
 	s.justPlacedRoom = true

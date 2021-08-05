@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Bugfixes for Brewery, FillBarrel and Carrying."
+message="Safer room placement, some refactors, WIP Bar placement."
 git add --all
 git commit -m "$message"
 git push

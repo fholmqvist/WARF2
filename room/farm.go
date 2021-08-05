@@ -17,11 +17,11 @@ type Farm struct {
 	farmTile     *m.Tile // Knows when farm has reached maturity.
 }
 
-func NewFarm(mp *m.Map, x, y int) *Farm {
+func NewFarm(mp *m.Map, x, y int) (*Farm, bool) {
 	f := &Farm{}
 	tiles := mp.FloodFillRoom(x, y, func() int { return m.Ground })
 	if len(tiles) == 0 {
-		return nil
+		return nil, false
 	}
 	sort.Ints(tiles)
 	for _, idx := range tiles {
@@ -39,7 +39,7 @@ func NewFarm(mp *m.Map, x, y int) *Farm {
 	f.FarmableIdxs = f.farmableIndexes(mp)
 	f.ID = farmAutoID
 	farmAutoID++
-	return f
+	return f, true
 }
 
 func (f *Farm) GetID() int {
