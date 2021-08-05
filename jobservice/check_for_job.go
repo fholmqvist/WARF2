@@ -1,6 +1,8 @@
 package jobservice
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/entity"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -70,6 +72,7 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 		panic("job_service: check_for_job: it.Idx == dst")
 	}
 	if _, ok := m.CreatePath(&s.Map.Tiles[itm.Idx], &s.Map.Tiles[dst]); !ok {
+		fmt.Println("NO PATH FOR", entity.ItemToString(s.Map.Items[itm.Idx].Sprite))
 		return false
 	}
 	s.Jobs = append(s.Jobs, job.NewCarrying(
@@ -211,21 +214,23 @@ func fillBarrelJobExists(s *Service, wheatIdx int, barrelIndex int) bool {
 }
 
 func skipCarryingJob(s *Service, itm m.Tile) bool {
+	skip, dontSkip := true, false
 	if itm.Resource == entity.ResourceNone {
-		return true
+		return skip
 	}
 	if !entity.IsCarriable(itm.Sprite) {
-		return true
+		fmt.Println("NOT CARRIABLE", entity.ItemToString(itm.Sprite))
+		return skip
 	}
 	rm := s.Map.Tiles[itm.Idx].Room
-	if rm == nil {
-		return true
+	if rm == (*room.Room)(nil) {
+		return skip
 	}
 	if _, ok := rm.(*room.Storage); ok {
-		return true
+		return skip
 	}
 	if carryingJobExists(s, itm.Idx, s.Map) {
-		return true
+		return skip
 	}
-	return false
+	return dontSkip
 }
