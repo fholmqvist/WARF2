@@ -50,7 +50,7 @@ func (g *GetBeer) PerformWork(mp *m.Map, dwf []*dwarf.Dwarf, rs *room.Service) b
 
 func (g *GetBeer) setupPath(mp *m.Map) {
 	path, ok := m.CreatePath(
-		&mp.Tiles[g.dwarf.Idx],
+		&mp.Tiles[g.StorageTile.Idx],
 		&mp.Tiles[g.BeerRefillIndex],
 	)
 	if !ok {
