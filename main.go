@@ -34,7 +34,7 @@ func main() {
 }
 
 func handleArgs() []string {
-	g.FramesToMove = g.SUPER
+	g.GAME_SPEED = g.SUPER
 	if len(os.Args) > 2 {
 		var speed int
 		switch strings.ToLower(os.Args[2]) {
@@ -45,7 +45,7 @@ func handleArgs() []string {
 		case "super":
 			speed = g.SUPER
 		}
-		g.FramesToMove = speed
+		g.GAME_SPEED = speed
 	}
 	return os.Args[1:]
 }

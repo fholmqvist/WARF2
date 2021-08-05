@@ -32,6 +32,9 @@ func NewService(mp *m.Map) *Service {
 
 // Update runs every frame, handling
 // the lifetime cycle of jobs.
+// Most likely to be the biggest
+// performance hit. If game slows
+// down, start here.
 func (s *Service) Update(rs *room.Service, mp *m.Map) {
 	if len(s.Jobs) > 0 {
 		s.removeFinishedJobs(rs)

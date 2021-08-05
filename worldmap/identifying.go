@@ -28,9 +28,14 @@ func GraphicName(sprite int) string {
 	return fmt.Sprintf("unknown graphic #%d", sprite)
 }
 
-// SurroundingTilesFour returns four
-// adjacent tiles of a given index.
-func SurroundingTilesFour(idx int) []TileDir {
+func NeighTileFour(idx int) []int {
+	return []int{
+		OneUp(idx), OneRight(idx),
+		OneDown(idx), OneLeft(idx),
+	}
+}
+
+func NeighTileDirFour(idx int) []TileDir {
 	return []TileDir{
 		{Idx: OneUp(idx), Dir: Up},
 		{Idx: OneRight(idx), Dir: Right},
@@ -38,8 +43,8 @@ func SurroundingTilesFour(idx int) []TileDir {
 		{Idx: OneLeft(idx), Dir: Left}}
 }
 
-func SurroundingWallTilesFour(m *Map, idx int) []TileDir {
-	tiles := SurroundingTilesFour(idx)
+func NeighWallTileDirFour(m *Map, idx int) []TileDir {
+	tiles := NeighTileDirFour(idx)
 	wallTiles := []TileDir{}
 	for _, t := range tiles {
 		if IsAnyWall(m.Tiles[t.Idx].Sprite) {
@@ -58,7 +63,7 @@ func SurroundingTilesEight(idx int) []TileDir {
 		{Idx: OneDownLeft(idx), Dir: DownLeft},
 		{Idx: OneDownRight(idx), Dir: DownRight}}
 
-	return append(SurroundingTilesFour(idx), corners...)
+	return append(NeighTileDirFour(idx), corners...)
 }
 
 func IsNone(sprite int) bool {
@@ -117,7 +122,7 @@ func IsDoorOpening(mp *Map, idx int) bool {
 	if IsAnyWall(mp.Tiles[idx].Sprite) {
 		return false
 	}
-	tiles := SurroundingWallTilesFour(mp, idx)
+	tiles := NeighWallTileDirFour(mp, idx)
 	if len(tiles) != 2 {
 		return false
 	}

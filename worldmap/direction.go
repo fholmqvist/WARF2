@@ -15,14 +15,6 @@ type TileDir struct {
 	Dir Direction
 }
 
-func TileDirsToIdxs(t []TileDir) []int {
-	idxs := make([]int, len(t))
-	for i := range t {
-		idxs = append(idxs, t[i].Idx)
-	}
-	return idxs
-}
-
 // Direction type for collision checking.
 type Direction int
 

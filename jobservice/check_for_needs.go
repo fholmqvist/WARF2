@@ -5,7 +5,7 @@ import (
 	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/job"
 	"github.com/Holmqvist1990/WARF2/room"
-	"github.com/Holmqvist1990/WARF2/worldmap"
+	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
 const (
@@ -13,7 +13,7 @@ const (
 	LIBRARY_READ_CUTOFF = 80
 )
 
-func (s *Service) checkForNeeds(mp *worldmap.Map, rs *room.Service) {
+func (s *Service) checkForNeeds(mp *m.Map, rs *room.Service) {
 	for _, dwf := range s.AvailableWorkers {
 		if !dwf.Available() {
 			continue
@@ -27,7 +27,7 @@ func (s *Service) checkForNeeds(mp *worldmap.Map, rs *room.Service) {
 	}
 }
 
-func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *worldmap.Map, rs *room.Service) (added bool) {
+func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *m.Map, rs *room.Service) (added bool) {
 	if dwf.Needs.Sleep < dwarf.MAX_NEED {
 		return false
 	}
@@ -55,7 +55,7 @@ func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *wor
 	}
 	jb := job.NewSleep(
 		target,
-		worldmap.TileDirsToIdxs(worldmap.SurroundingTilesFour(target)),
+		m.NeighTileFour(target),
 	)
 	SetWorkerAndMove(jb, dwf, mp)
 	s.Jobs = append(s.Jobs, jb)
@@ -63,7 +63,7 @@ func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *wor
 	return true
 }
 
-func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *worldmap.Map) (added bool) {
+func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *m.Map) (added bool) {
 	if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
 		return false
 	}
@@ -84,13 +84,13 @@ func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *worldmap.Map) (added bool
 	return true
 }
 
-func getBookshelfDestination(mp *worldmap.Map, dwf dwarf.Dwarf) (int, bool) {
+func getBookshelfDestination(mp *m.Map, dwf dwarf.Dwarf) (int, bool) {
 	bookshelf, ok := item.FindNearestBookshelf(mp, dwf.Idx)
 	if !ok {
 		return -1, false
 	}
 	destination := mp.OneTileDown(bookshelf)
-	if !worldmap.IsExposed(destination.Sprite) {
+	if !m.IsExposed(destination.Sprite) {
 		return -1, false
 	}
 	return destination.Idx, true

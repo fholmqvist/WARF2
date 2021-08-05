@@ -9,7 +9,7 @@ import (
 
 var (
 	breweryAutoID = 0
-	brewDone      = uint(1)
+	brewDone      = uint(5)
 )
 
 type Brewery struct {
@@ -61,6 +61,7 @@ func NewBrewery(mp *m.Map, x, y int) *Brewery {
 func (b *Brewery) Update(mp *m.Map) {
 	for _, barrel := range b.barrels {
 		if !entity.IsFilledBarrel(mp.Items[barrel.idx].Sprite) {
+			barrel.val = 0
 			continue
 		}
 		barrel.val++

@@ -11,18 +11,18 @@ game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-job\carrying.go:64:
-	Yeah.
-
-job\carrying.go:82:
+job\carrying.go:44:
 	Item is no longer there, abort.
 	What should we actually do here?
+
+job\carrying.go:87:
+	Yeah.
 
 jobservice\check_for_job.go:153:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\service.go:41:
+jobservice\service.go:44:
 	Keep track of failed checks
 	with backoff to reduce CPU
 	load for complex checks that

@@ -22,9 +22,6 @@ type Carrying struct {
 }
 
 func NewCarrying(destinations []int, r entity.Resource, storageIdx int, goalDestination, sprite int) *Carrying {
-	if r == entity.ResourceBeer {
-		fmt.Println("NEW CARRYING BEER")
-	}
 	return &Carrying{
 		resource:        r,
 		dwarf:           nil,
@@ -35,6 +32,32 @@ func NewCarrying(destinations []int, r entity.Resource, storageIdx int, goalDest
 		path:            nil,
 		prev:            0,
 	}
+}
+
+func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	if storageMissingOrFull(c, rs) {
+		// Try again with
+		// new storage.
+		return finished
+	}
+	if c.path == nil {
+		///////////////////////////////////
+		// TODO
+		// Item is no longer there, abort.
+		// What should we actually do here?
+		///////////////////////////////////
+		if !entity.IsCarriable(mp.Items[c.dwarf.Idx].Sprite) {
+			c.path = []int{}
+			return finished
+		}
+		c.setupPath(mp)
+		return unfinished
+	}
+	if len(c.path) == 0 {
+		return finished
+	}
+	moveAlongPath(c, mp)
+	return unfinished
 }
 
 func (c *Carrying) NeedsToBeRemoved(mp *m.Map, r *room.Service) bool {
@@ -72,32 +95,6 @@ func (c *Carrying) Finish(mp *m.Map, s *room.Service) {
 	mp.Items[dropIdx].Sprite = c.sprite
 }
 
-func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
-	if storageMissingOrFull(c, rs) {
-		// Try again with
-		// new storage.
-		return finished
-	}
-	if c.path == nil {
-		///////////////////////////////////
-		// TODO
-		// Item is no longer there, abort.
-		// What should we actually do here?
-		///////////////////////////////////
-		if !entity.IsCarriable(mp.Items[c.dwarf.Idx].Sprite) {
-			c.path = []int{}
-			return finished
-		}
-		c.setupPath(mp)
-		return unfinished
-	}
-	if len(c.path) == 0 {
-		return finished
-	}
-	moveAlongPath(c, mp)
-	return unfinished
-}
-
 func (c *Carrying) GetWorker() *dwarf.Dwarf {
 	return c.dwarf
 }
@@ -119,8 +116,13 @@ func (c *Carrying) String() string {
 }
 
 func (c *Carrying) setupPath(mp *m.Map) {
+	switch mp.Items[c.dwarf.Idx].Sprite {
+	case entity.FilledBarrel:
+		mp.Items[c.dwarf.Idx].Sprite = entity.EmptyBarrel
+	default:
+		mp.Items[c.dwarf.Idx].Sprite = entity.NoItem
+	}
 	c.amount = mp.Items[c.dwarf.Idx].ResourceAmount
-	mp.Items[c.dwarf.Idx].Sprite = 0
 	mp.Items[c.dwarf.Idx].Resource = 0
 	mp.Items[c.dwarf.Idx].ResourceAmount = 0
 	c.prev = c.dwarf.Idx

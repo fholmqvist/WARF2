@@ -13,7 +13,7 @@ const (
 	SUPER  = 0
 )
 
-var FramesToMove = NORMAL
+var GAME_SPEED = NORMAL
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -36,7 +36,7 @@ func (t *Time) Tick() bool {
 	}
 	t.framesToMove--
 	if t.framesToMove <= -1 {
-		t.framesToMove = FramesToMove
+		t.framesToMove = GAME_SPEED
 	}
 	return true
 }

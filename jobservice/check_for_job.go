@@ -34,7 +34,7 @@ func checkForDiggingJob(s *Service, wall m.Tile) (added bool) {
 		return false
 	}
 	var destinations []int
-	for _, destination := range m.SurroundingTilesFour(wall.Idx) {
+	for _, destination := range m.NeighTileDirFour(wall.Idx) {
 		if m.IsColliding(s.Map, wall.Idx, destination.Dir) {
 			continue
 		}
@@ -121,7 +121,7 @@ func checkBreweryJobs(s *Service, brewery room.Brewery, rs *room.Service) {
 		s.Jobs = append(s.Jobs, job.NewFillBrewer(
 			storageTile,
 			barrelIdx,
-			m.TileDirsToIdxs(m.SurroundingTilesFour(barrelIdx))),
+			m.NeighTileFour(storageTile.Idx)),
 		)
 	}
 }

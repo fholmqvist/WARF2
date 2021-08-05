@@ -148,20 +148,21 @@ func initWithArgs(args []string) *Game {
 		///////////////////////////////////////////////////////
 		// Debugging and testing breweries and brewing.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(4, m.BoundariesMap())
+		game = GenerateGame(2, m.BoundariesMap())
 		mp := game.WorldMap
-		mp.DrawOutline(6, 8, 18, 14, m.WallSolid)
-		mp.DrawOutline(14, 13, 18, 18, m.WallSolid)
+		mp.DrawOutline(6, 9, 13, 14, m.WallSolid)
+		mp.DrawOutline(12, 13, 18, 18, m.WallSolid)
 		mp.DrawOutline(6, 13, 13, 18, m.WallSolid)
+		mp.Tiles[609].Sprite = m.Ground
+		mp.Tiles[564].Sprite = m.Ground
 		mp.Tiles[611].Sprite = m.Ground
-		mp.Tiles[614].Sprite = m.Ground
-		mp.Tiles[605].Sprite = m.Ground
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewFarm(mp, 12, 9))
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewFarm(mp, 7, 10))
 		game.Rooms.Rooms[0].Update(mp)
 		game.Rooms.Rooms[0].Update(mp)
 		game.Rooms.Rooms[0].Update(mp)
-		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 15, 14))
+		game.Rooms.Rooms[0].Update(mp)
 		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewBrewery(mp, 7, 14))
+		game.Rooms.Rooms = append(game.Rooms.Rooms, room.NewStorage(mp, 13, 14))
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.

@@ -71,7 +71,7 @@ func (f *FillBarrel) GetDestinations() []int {
 }
 
 func (f *FillBarrel) HasInternalMove() bool {
-	return false
+	return true
 }
 
 func (f *FillBarrel) String() string {
@@ -80,7 +80,7 @@ func (f *FillBarrel) String() string {
 
 func (f *FillBarrel) setupPath(mp *m.Map) {
 	path := []int{}
-	for _, dst := range f.destinations {
+	for _, dst := range m.NeighTileFour(f.BarrelIndex) {
 		p, ok := m.CreatePath(
 			&mp.Tiles[f.dwarf.Idx],
 			&mp.Tiles[dst],
@@ -94,5 +94,6 @@ func (f *FillBarrel) setupPath(mp *m.Map) {
 	if len(path) == 0 {
 		return
 	}
+	mp.Items[f.dwarf.Idx].Sprite = entity.NoItem
 	f.path = path
 }
