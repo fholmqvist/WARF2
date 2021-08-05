@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Removed job.Finish, added WARNING tile."
+message="room.Bar tiles set."
 git add --all
 git commit -m "$message"
 git push

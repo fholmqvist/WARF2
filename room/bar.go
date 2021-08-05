@@ -26,11 +26,11 @@ func NewBar(mp *m.Map, x, y int) (*Bar, bool) {
 	if len(tiles) == 0 {
 		return nil, false
 	}
+	b.tiles = tiles
 	sort.Ints(tiles)
 	hasPlacedBar := false
 	for _, idx := range tiles {
-		tile := &mp.Tiles[idx]
-		tile.Room = b
+		mp.Tiles[idx].Room = b
 		if !hasPlacedBar {
 			hasPlacedBar = b.placeBar(mp, tiles, idx)
 		}

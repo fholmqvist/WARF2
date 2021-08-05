@@ -13,6 +13,7 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 		pointer = mp.Items[currentMousePos].Room
 	}
 	if pointer == nil {
+		fmt.Println("ROOM POINTER WAS NIL AT", currentMousePos)
 		return
 	}
 	rm, ok := pointer.(Room)
@@ -20,7 +21,6 @@ func (s *Service) DeleteRoomAtMousePos(mp *m.Map, currentMousePos int) {
 		panic(fmt.Sprintf("unknown room type: %v", rm))
 	}
 	id := rm.GetID()
-	fmt.Println(id, rm.String())
 	switch rm.(type) {
 	case *Storage:
 		s.DeleteStorage(mp, id)
