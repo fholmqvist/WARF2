@@ -1,32 +1,26 @@
 package dwarf
 
 const (
-	MAX_NEED     = uint16(100)
-	SLEEP_AMOUNT = uint16(50)
+	MAX       = uint16(100)
+	SLEEP_INC = uint16(25)
+	DRINK_INC = uint16(25)
 )
 
 type Needs struct {
-	Sleep  uint16
-	ToRead uint16
+	Sleep uint16
+	Drink uint16
+	Read  uint16
 }
 
 func (n *Needs) Update(c Characteristics) {
-	n.DesireToSleep()
-	n.DesireToRead(c)
+	n.Sleep = inc(n.Sleep, SLEEP_INC)
+	n.Drink = inc(n.Drink, DRINK_INC)
+	n.Read = inc(n.Read, c.DesireToRead)
 }
 
-func (n *Needs) DesireToSleep() {
-	if n.Sleep > MAX_NEED {
-		n.Sleep = MAX_NEED
-		return
+func inc(val, amount uint16) uint16 {
+	if val+amount > MAX {
+		return MAX
 	}
-	n.Sleep += SLEEP_AMOUNT
-}
-
-func (n *Needs) DesireToRead(c Characteristics) {
-	if n.ToRead > MAX_NEED {
-		n.ToRead = MAX_NEED
-		return
-	}
-	n.ToRead += c.DesireToRead
+	return val + amount
 }

@@ -201,9 +201,17 @@ func initWithArgs(args []string) *Game {
 		for _, v := range []int{94, 101, 108, 115, 122, 129} {
 			x, y := globals.IdxToXY(v)
 			if b, ok := room.NewBar(mp, x, y); ok {
-				game.Rooms.AddRoom(mp, v, b)
+				game.Rooms.AddRoom(mp, b)
 			}
 		}
+		if s, ok := room.NewStorage(mp, 37, 23); ok {
+			game.Rooms.AddRoom(mp, s)
+			st, _ := game.Rooms.GetStorage(0)
+			st.StorageTiles[0].Add(entity.ResourceBeer, 10)
+			st.StorageTiles[0].Sprite = entity.FilledBarrel
+		}
+		addDwarfToGame(&game, "Test 1")
+		addDwarfToGame(&game, "Test 2")
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.
@@ -216,7 +224,7 @@ func initWithArgs(args []string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddRoom(game.WorldMap, globals.XYToIdx(7, 7), &room.Library{})
+		game.Rooms.AddRoom(game.WorldMap, &room.Library{})
 		addDwarfToGame(&game, "Test 1")
 		addDwarfToGame(&game, "Test 2")
 		d1 := game.JobService.Workers[0]

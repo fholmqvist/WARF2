@@ -52,7 +52,7 @@ func (s *Service) AddRoomByType(mp *m.Map, currentMousePos int, rm Room) {
 	s.Rooms = append(s.Rooms, newRoom)
 }
 
-func (s *Service) AddRoom(mp *m.Map, currentMousePos int, rm Room) {
+func (s *Service) AddRoom(mp *m.Map, rm Room) {
 	if rm == (Room)(nil) {
 		fmt.Println("AddRoom: Room was nil!")
 	}

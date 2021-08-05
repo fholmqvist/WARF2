@@ -1,5 +1,5 @@
 #!/bin/bash
-message="room.Bar tiles set."
+message="WIP DrinkBeer."
 git add --all
 git commit -m "$message"
 git push

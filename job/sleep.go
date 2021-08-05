@@ -6,6 +6,8 @@ import (
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
+const SLEEP_TIME = 600
+
 // Just needs to walk to the destination.
 type Sleep struct {
 	bedIdx       int
@@ -17,8 +19,7 @@ type Sleep struct {
 }
 
 func NewSleep(bedIdx int, destinations []int) *Sleep {
-	sleep := 600
-	return &Sleep{bedIdx, destinations, nil, sleep, -1, false}
+	return &Sleep{bedIdx, destinations, nil, SLEEP_TIME, -1, false}
 }
 
 func (s *Sleep) Remove() bool {

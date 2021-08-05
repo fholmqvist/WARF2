@@ -1,6 +1,8 @@
 package jobservice
 
 import (
+	"fmt"
+
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/item"
 	"github.com/Holmqvist1990/WARF2/job"
@@ -21,6 +23,9 @@ func (s *Service) checkForNeeds(mp *m.Map, rs *room.Service) {
 		if checkForSleep(dwf, s.Workers, s, mp, rs) {
 			continue
 		}
+		if checkForDrink(dwf) {
+			continue
+		}
 		if checkForReading(dwf, s, mp) {
 			continue
 		}
@@ -28,7 +33,7 @@ func (s *Service) checkForNeeds(mp *m.Map, rs *room.Service) {
 }
 
 func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *m.Map, rs *room.Service) (added bool) {
-	if dwf.Needs.Sleep < dwarf.MAX_NEED {
+	if dwf.Needs.Sleep < dwarf.MAX {
 		return false
 	}
 	if sleepAlreadyExists(s, dwf) {
@@ -63,8 +68,16 @@ func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *m.M
 	return true
 }
 
+func checkForDrink(dwf *dwarf.Dwarf) bool {
+	if dwf.Needs.Drink < dwarf.MAX {
+		return false
+	}
+	fmt.Println("THIRSTY!")
+	return false
+}
+
 func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *m.Map) (added bool) {
-	if dwf.Needs.ToRead < LIBRARY_READ_CUTOFF {
+	if dwf.Needs.Read < LIBRARY_READ_CUTOFF {
 		return false
 	}
 	if readingAlreadyExists(s, dwf) {
@@ -80,7 +93,7 @@ func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *m.Map) (added bool) {
 	)
 	SetWorkerAndMove(jb, dwf, mp)
 	s.Jobs = append(s.Jobs, jb)
-	dwf.Needs.ToRead = 0
+	dwf.Needs.Read = 0
 	return true
 }
 
