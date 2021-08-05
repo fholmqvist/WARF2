@@ -89,7 +89,9 @@ func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) 
 		// has gone terribly wrong.
 		panic("job_service: check_for_job: it.Idx == dst")
 	}
-
+	if _, ok := m.CreatePath(&s.Map.Tiles[itm.Idx], &s.Map.Tiles[dst]); !ok {
+		return false
+	}
 	s.Jobs = append(s.Jobs, job.NewCarrying(
 		[]int{itm.Idx},
 		entity.SpriteToResource(itm.Sprite),

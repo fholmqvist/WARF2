@@ -26,7 +26,7 @@ jobservice\check_for_job.go:66:
 	adequate definition of storage.
 	/////////////////////////////////
 
-jobservice\check_for_job.go:171:
+jobservice\check_for_job.go:173:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 	/////////////////////////////////
