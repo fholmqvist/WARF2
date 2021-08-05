@@ -1,6 +1,7 @@
 package room
 
 import (
+	"math/rand"
 	"sort"
 
 	"github.com/Holmqvist1990/WARF2/entity"
@@ -58,10 +59,31 @@ func (b *Bar) Tiles() []int {
 	return b.tiles
 }
 
+var bars = [][]int{
+	{
+		entity.BarDrinksLeft, entity.BarDrinksRight, entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem,
+		entity.NoItem, entity.NoItem, entity.NoItem, entity.BarV, entity.BarStool, entity.NoItem,
+		entity.BarLeft, entity.BarH, entity.BarH, entity.BarRight, entity.BarStool, entity.NoItem,
+		entity.BarStool, entity.BarStool, entity.BarStool, entity.BarStool, entity.BarStool, entity.NoItem,
+		entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem,
+	},
+	{
+		entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem, entity.BarDrinksLeft, entity.BarDrinksRight,
+		entity.NoItem, entity.BarStool, entity.BarV, entity.NoItem, entity.NoItem, entity.NoItem,
+		entity.NoItem, entity.BarStool, entity.BarLeft, entity.BarH, entity.BarH, entity.BarRight,
+		entity.NoItem, entity.BarStool, entity.BarStool, entity.BarStool, entity.BarStool, entity.BarStool,
+		entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem,
+	},
+}
+
 func placeBar(mp *m.Map, tiles []int, idx int) bool {
+	////////////////
+	// TODO
+	// This is crap.
+	////////////////
 	placements := []int{}
 	idxX, idxY := globals.IdxToXY(idx)
-	width, height := 5, 5
+	width, height := 6, 5
 	for y := idxY; y < idxY+height; y++ {
 		for x := idxX; x < idxX+width; x++ {
 			curr := globals.XYToIdx(x, y)
@@ -74,15 +96,9 @@ func placeBar(mp *m.Map, tiles []int, idx int) bool {
 			placements = append(placements, curr)
 		}
 	}
-	barItems := []int{
-		entity.BarDrinksLeft, entity.BarDrinksRight, entity.NoItem, entity.NoItem, entity.NoItem,
-		entity.NoItem, entity.NoItem, entity.NoItem, entity.BarV, entity.BarStool,
-		entity.BarLeft, entity.BarH, entity.BarH, entity.BarRight, entity.BarStool,
-		entity.BarStool, entity.BarStool, entity.BarStool, entity.BarStool, entity.BarStool,
-		entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem, entity.NoItem,
-	}
+	randomBar := bars[rand.Intn(len(bars))]
 	for i := 0; i < len(placements); i++ {
-		mp.Items[placements[i]].Sprite = barItems[i]
+		mp.Items[placements[i]].Sprite = randomBar[i]
 	}
 	return true
 }

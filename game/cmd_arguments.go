@@ -80,7 +80,7 @@ func initWithArgs(args []string) *Game {
 			d := dwarf.New(282+i, fmt.Sprintf("test%v", i+1))
 			game.JobService.Workers = append(game.JobService.Workers, d)
 		}
-		game.Rooms.AddRoom(mp, globals.XYToIdx(6, 6), &room.Storage{})
+		game.Rooms.AddRoomByType(mp, globals.XYToIdx(6, 6), &room.Storage{})
 	case "wall-stress":
 		///////////////////////////////////////////////////////
 		// Stress test for digging jobs.
@@ -123,7 +123,7 @@ func initWithArgs(args []string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddRoom(game.WorldMap, globals.XYToIdx(7, 7), &room.SleepHall{})
+		game.Rooms.AddRoomByType(game.WorldMap, globals.XYToIdx(7, 7), &room.SleepHall{})
 		game.JobService.Workers[0].Needs.Sleep = 200
 		game.JobService.Workers[1].Needs.Sleep = 200
 		game.JobService.Workers[2].Needs.Sleep = 200
@@ -182,6 +182,28 @@ func initWithArgs(args []string) *Game {
 		if s, ok := room.NewStorage(mp, 13, 14); ok {
 			game.Rooms.Rooms = append(game.Rooms.Rooms, s)
 		}
+	case "bar":
+		game = GenerateGame(0, m.FilledMap())
+		mp := game.WorldMap
+		for y := 0; y < globals.TilesH-8; y += 7 {
+			for x := 0; x < globals.TilesW-8; x += 7 {
+				mp.DrawSquareSprite(2+x, 2+y, 8+x, 8+y, m.Ground)
+			}
+		}
+		openings := []int{
+			372, 379, 386, 393, 400, 407, 694, 701, 708, 715,
+			722, 729, 1016, 1023, 1030, 1037, 1044, 1051, 1158,
+			1165, 1172, 1179, 1186,
+		}
+		for _, v := range openings {
+			mp.Tiles[v].Sprite = m.Ground
+		}
+		for _, v := range []int{94, 101, 108, 115, 122, 129} {
+			x, y := globals.IdxToXY(v)
+			if b, ok := room.NewBar(mp, x, y); ok {
+				game.Rooms.AddRoom(mp, v, b)
+			}
+		}
 	case "library":
 		///////////////////////////////////////////////////////
 		// Debugging and testing library generation.
@@ -220,12 +242,12 @@ func initWithArgs(args []string) *Game {
 		for _, v := range openings {
 			mp.Tiles[v].Sprite = m.Ground
 		}
-		game.Rooms.AddRoom(mp, 94, &room.Storage{})
-		game.Rooms.AddRoom(mp, 101, &room.SleepHall{})
-		game.Rooms.AddRoom(mp, 108, &room.Farm{})
-		game.Rooms.AddRoom(mp, 115, &room.Library{})
-		game.Rooms.AddRoom(mp, 122, &room.Brewery{})
-		game.Rooms.AddRoom(mp, 129, &room.Bar{})
+		game.Rooms.AddRoomByType(mp, 94, &room.Storage{})
+		game.Rooms.AddRoomByType(mp, 101, &room.SleepHall{})
+		game.Rooms.AddRoomByType(mp, 108, &room.Farm{})
+		game.Rooms.AddRoomByType(mp, 115, &room.Library{})
+		game.Rooms.AddRoomByType(mp, 122, &room.Brewery{})
+		game.Rooms.AddRoomByType(mp, 129, &room.Bar{})
 	case "rails":
 		///////////////////////////////////////////////////////
 		// Debugging rails.

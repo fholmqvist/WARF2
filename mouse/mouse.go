@@ -92,7 +92,7 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 	// To prevent double placement of rooms
 	// due to the refiring nature of this function.
 	if !s.justPlacedRoom && rm != nil {
-		rs.AddRoom(mp, currentMousePos, rm)
+		rs.AddRoomByType(mp, currentMousePos, rm)
 	}
 	s.justPlacedRoom = true
 	globals.Delay(func() { s.justPlacedRoom = false })

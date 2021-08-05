@@ -25,7 +25,7 @@ func (s *Service) Update(mp *m.Map) {
 	}
 }
 
-func (s *Service) AddRoom(mp *m.Map, currentMousePos int, rm Room) {
+func (s *Service) AddRoomByType(mp *m.Map, currentMousePos int, rm Room) {
 	x, y := globals.IdxToXY(currentMousePos)
 	var newRoom Room
 	var ok bool
@@ -49,8 +49,14 @@ func (s *Service) AddRoom(mp *m.Map, currentMousePos int, rm Room) {
 		fmt.Println("NEW ROOM WAS NIL")
 		return
 	}
-	fmt.Println("PLACING", rm)
 	s.Rooms = append(s.Rooms, newRoom)
+}
+
+func (s *Service) AddRoom(mp *m.Map, currentMousePos int, rm Room) {
+	if rm == (Room)(nil) {
+		fmt.Println("AddRoom: Room was nil!")
+	}
+	s.Rooms = append(s.Rooms, rm)
 }
 
 func (s *Service) GetFarm(id int) (*Farm, bool) {
