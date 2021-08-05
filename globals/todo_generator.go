@@ -40,9 +40,8 @@ func GenerateTodos() {
 			}
 			desc := strings.TrimSpace(lines[idx+1])[3:]
 			descIdx := 2
-			current := lines[idx+descIdx]
-			for !isEndMarker(current) {
-				current = lines[idx+descIdx]
+			for !isEndMarker(lines[idx+descIdx]) {
+				current := lines[idx+descIdx]
 				if len(current) < 3 {
 					descIdx++
 					continue

@@ -20,17 +20,11 @@ func (s *Service) checkForJobs(rs *room.Service) {
 		}
 	}
 	for _, rm := range rs.Rooms {
-		if f, ok := rm.(*room.Farm); ok {
-			if f == nil {
-				continue
-			}
-			checkForFarmingJobs(s, *f, rs)
-		}
-		if b, ok := rm.(*room.Brewery); ok {
-			if b == nil {
-				continue
-			}
-			checkBreweryJobs(s, *b, rs)
+		switch v := rm.(type) {
+		case *room.Farm:
+			checkForFarmingJobs(s, *v, rs)
+		case *room.Brewery:
+			checkBreweryJobs(s, *v, rs)
 		}
 	}
 }
@@ -57,21 +51,7 @@ func checkForDiggingJob(s *Service, wall m.Tile) (added bool) {
 }
 
 func checkForCarryingJob(s *Service, itm m.Tile, rs *room.Service) (added bool) {
-	if itm.Resource == entity.ResourceNone {
-		return false
-	}
-	if !entity.IsCarriable(itm.Sprite) {
-		return false
-	}
-	////////////////////////////////////
-	// TODO
-	// FloorBrick is _not_ an
-	// adequate definition of storage.
-	////////////////////////////////////
-	if m.IsStorageFloorBrick(s.Map.Tiles[itm.Idx].Sprite) {
-		return false
-	}
-	if carryingJobExists(s, itm.Idx, s.Map) {
+	if skipCarryingJob(s, itm) {
 		return false
 	}
 	x, y := gl.IdxToXY(itm.Idx)
@@ -226,6 +206,26 @@ func fillBarrelJobExists(s *Service, wheatIdx int, barrelIndex int) bool {
 		if f.WheatIndex == wheatIdx || f.BarrelIndex == barrelIndex {
 			return true
 		}
+	}
+	return false
+}
+
+func skipCarryingJob(s *Service, itm m.Tile) bool {
+	if itm.Resource == entity.ResourceNone {
+		return true
+	}
+	if !entity.IsCarriable(itm.Sprite) {
+		return true
+	}
+	rm := s.Map.Tiles[itm.Idx].Room
+	if rm == nil {
+		return true
+	}
+	if _, ok := rm.(*room.Storage); ok {
+		return true
+	}
+	if carryingJobExists(s, itm.Idx, s.Map) {
+		return true
 	}
 	return false
 }

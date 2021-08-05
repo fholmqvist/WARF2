@@ -38,6 +38,13 @@ func (s *Service) Update(rs *room.Service, mp *m.Map) {
 		s.updateAvailableWorkers()
 	}
 	if len(s.AvailableWorkers) > 0 {
+		///////////////////////////////
+		// TODO
+		// Keep track of failed checks
+		// with backoff to reduce CPU
+		// load for complex checks that
+		// now fail on every frame.
+		///////////////////////////////
 		s.checkForJobs(rs)
 		s.checkForNeeds(mp, rs)
 	}

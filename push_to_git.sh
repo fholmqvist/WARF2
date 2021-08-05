@@ -1,5 +1,5 @@
 #!/bin/bash
-message="checkForCarrying doesn't add unwalkable jobs."
+message="Bugfixes: TodoGenerator and CheckForJob."
 git add --all
 git commit -m "$message"
 git push
