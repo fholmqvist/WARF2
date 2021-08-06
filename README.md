@@ -22,33 +22,12 @@ Built with [Golang](https://golang.org/) and the [Ebiten](https://ebiten.org/) f
 
 ✅ Job/Activity system.
 
-✅ Rooms:
-* Storage.
-* Library.
+## TODO (ONGOING)
 
-## WIP
+❌ Extend UI system.
 
-🔹 Rail system.
+❌ More rooms/activities.
 
-🔹 UI system.
+❌ Gameplay loop.
 
-## TODO
-
-❌ More graphics - UI, components, menus.
-
-❌ Activities - Sleeping, eating, farming ...
-
-❌ Sound system.
-
-❌ Etc.
-
-## What's with all the comments?
-
-The linter I used when first writing this was _very adament_ in enforcing a specific style
-of commenting public functions, leading to great declarative comments like:
-```
-// Returns10 returns 10.
-func Returns10() int { return 10 }
-```
-
-I have since switched to another linter ([golangci-lint](https://golangci-lint.run/)) just to avoid this.
+❌ Sound.
