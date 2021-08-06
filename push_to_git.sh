@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Cleanup jobs. mouse.mouseHover bounds check. Increased dwarves in -sleep."
+message="Dwarves dont sleep in occupied beds."
 git add --all
 git commit -m "$message"
 git push

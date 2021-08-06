@@ -26,9 +26,16 @@ func (s *Sleep) Remove() bool {
 	return s.remove
 }
 
-func (s *Sleep) PerformWork(*m.Map, []*dwarf.Dwarf, *room.Service) bool {
-	// Put dwarf in bed.
+func (s *Sleep) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	// Just arrived.
 	if s.arrivedAtIdx == -1 {
+		// Try again elsehwere.
+		if s.bedOccupied(dwarves) {
+			s.dwarf.Needs.Sleep = dwarf.MAX
+			s.remove = true
+			return finished
+		}
+		// Put dwarf in bed.
 		s.arrivedAtIdx = s.dwarf.Idx
 		s.dwarf.Path = nil
 		s.dwarf.Idx = s.bedIdx
@@ -63,4 +70,13 @@ func (s *Sleep) HasInternalMove() bool {
 
 func (s *Sleep) String() string {
 	return "Sleep"
+}
+
+func (s *Sleep) bedOccupied(dwarves []*dwarf.Dwarf) bool {
+	for _, dwf := range dwarves {
+		if dwf.Idx == s.bedIdx {
+			return true
+		}
+	}
+	return false
 }

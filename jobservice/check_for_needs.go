@@ -44,23 +44,24 @@ func checkForSleep(dwf *dwarf.Dwarf, dwarves []*dwarf.Dwarf, s *Service, mp *m.M
 		return false
 	}
 	// Don't rest in occupied bed.
-	target := -1
-	for _, dst := range bedIdxs {
+	bedIdx := -1
+outer:
+	for _, possibleBedIdx := range bedIdxs {
 		for _, dwarf := range dwarves {
-			if dwarf.Idx == dst {
-				continue
+			if dwarf.Idx == possibleBedIdx {
+				continue outer
 			}
 		}
-		target = dst
+		bedIdx = possibleBedIdx
 		break
 	}
 	// No available beds.
-	if target == -1 {
+	if bedIdx == -1 {
 		return false
 	}
 	jb := job.NewSleep(
-		target,
-		m.NeighTileFour(target),
+		bedIdx,
+		m.NeighTileFour(bedIdx),
 	)
 	SetWorkerAndMove(jb, dwf, mp)
 	s.Jobs = append(s.Jobs, jb)
