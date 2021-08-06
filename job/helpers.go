@@ -1,7 +1,6 @@
 package job
 
 import (
-	"github.com/Holmqvist1990/WARF2/dwarf"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -12,9 +11,9 @@ func getNextIdx(destinations []int) int {
 	return destinations[len(destinations)-1]
 }
 
-func getPath(mp *m.Map, next int, dwarf *dwarf.Dwarf) ([]int, bool) {
+func getPath(mp *m.Map, next int, dwarfIdx int) ([]int, bool) {
 	return m.CreatePath(
-		&mp.Tiles[dwarf.Idx],
+		&mp.Tiles[dwarfIdx],
 		&mp.Tiles[next],
 	)
 }

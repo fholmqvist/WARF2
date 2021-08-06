@@ -48,7 +48,6 @@ func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) 
 	}
 	// Move.
 	f.dwarf.Idx = f.path[0]
-	f.destinations[0] = f.path[0]
 	f.path = f.path[1:]
 	return unfinished
 }

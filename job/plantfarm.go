@@ -77,7 +77,7 @@ func (p *PlantFarm) moveDwarf(mp *m.Map) bool {
 	if nextIdx-p.dwarf.Idx == 1 {
 		p.dwarf.Idx = nextIdx // Adjacent
 	} else {
-		path, ok := getPath(mp, nextIdx, p.dwarf) // Elsewhere
+		path, ok := getPath(mp, nextIdx, p.dwarf.Idx) // Elsewhere
 		if !ok {
 			return unfinished
 		}

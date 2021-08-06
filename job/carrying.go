@@ -141,7 +141,6 @@ func (c *Carrying) setupPath(mp *m.Map) {
 func moveAlongPath(c *Carrying, mp *m.Map) {
 	// Move indexes to current path index.
 	c.dwarf.Idx = c.path[0]
-	c.destinations[0] = c.path[0]
 	c.prev = c.path[0]
 	// Iterate path.
 	c.path = c.path[1:]

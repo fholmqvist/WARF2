@@ -28,7 +28,7 @@ func NewGetBeer(bar *room.Bar, st *room.StorageTile, refillIdx int, destinations
 }
 
 func (g *GetBeer) PerformWork(mp *m.Map, dwf []*dwarf.Dwarf, rs *room.Service) bool {
-	// Just arrived.
+	// Just arrived, pick up beer.
 	if g.path == nil {
 		g.amount = g.StorageTile.TakeAll()
 		g.setupPath(mp)
@@ -42,14 +42,13 @@ func (g *GetBeer) PerformWork(mp *m.Map, dwf []*dwarf.Dwarf, rs *room.Service) b
 	}
 	// Move.
 	g.dwarf.Idx = g.path[0]
-	g.destinations[0] = g.path[0]
 	g.path = g.path[1:]
 	return unfinished
 }
 
 func (g *GetBeer) setupPath(mp *m.Map) {
 	path, ok := m.CreatePath(
-		&mp.Tiles[g.StorageTile.Idx],
+		&mp.Tiles[g.dwarf.Idx],
 		&mp.Tiles[g.BeerRefillIndex],
 	)
 	if !ok {
@@ -79,7 +78,7 @@ func (g *GetBeer) GetDestinations() []int {
 }
 
 func (g *GetBeer) HasInternalMove() bool {
-	return true
+	return false
 }
 
 func (g *GetBeer) String() string {

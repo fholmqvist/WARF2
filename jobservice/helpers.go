@@ -22,6 +22,9 @@ func SetWorkerAndMove(j job.Job, w *dwarf.Dwarf, mp *m.Map) bool {
 	}
 	var foundDestination bool
 	for _, destination := range j.GetDestinations() {
+		if foundDestination {
+			break
+		}
 		ok := w.MoveTo(destination, mp)
 		if !ok {
 			continue

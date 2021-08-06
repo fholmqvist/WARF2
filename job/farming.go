@@ -59,6 +59,7 @@ func (f *Farming) String() string {
 }
 
 func (f *Farming) moveDwarf(mp *m.Map) bool {
+	// Harvest.
 	currentIdx := getNextIdx(f.destinations)
 	if f.dwarf.Idx == currentIdx {
 		mp.Items[currentIdx].Sprite = entity.Wheat
@@ -70,15 +71,17 @@ func (f *Farming) moveDwarf(mp *m.Map) bool {
 			return finished
 		}
 	}
+	// Move to next tile.
 	if f.path != nil {
 		f.moveAlongPath()
 		return unfinished
 	}
+	// Find next tile.
 	nextIdx := getNextIdx(f.destinations)
 	if nextIdx-f.dwarf.Idx == 1 {
 		f.dwarf.Idx = nextIdx // Adjacent
 	} else {
-		path, ok := getPath(mp, nextIdx, f.dwarf) // Elsewhere
+		path, ok := getPath(mp, nextIdx, f.dwarf.Idx) // Elsewhere
 		if !ok {
 			return unfinished
 		}

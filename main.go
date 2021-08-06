@@ -35,17 +35,17 @@ func main() {
 
 func handleArgs() []string {
 	g.GAME_SPEED = g.SUPER
-	if len(os.Args) > 2 {
-		var speed int
-		switch strings.ToLower(os.Args[2]) {
+	for _, arg := range os.Args[1:] {
+		switch strings.ToLower(arg) {
 		case "normal":
-			speed = g.NORMAL
+			g.GAME_SPEED = g.NORMAL
 		case "fast":
-			speed = g.FAST
+			g.GAME_SPEED = g.FAST
 		case "super":
-			speed = g.SUPER
+			g.GAME_SPEED = g.SUPER
+		case "pause":
+			globals.GAME_PAUSED = true
 		}
-		g.GAME_SPEED = speed
 	}
 	return os.Args[1:]
 }

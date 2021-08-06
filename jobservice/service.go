@@ -110,6 +110,7 @@ func (s *Service) performWork(rs *room.Service) {
 		}
 		for _, destination := range jb.GetDestinations() {
 			if dw.Idx == destination {
+				dw.Path = nil
 				dw.State = dwarf.Arrived
 				break
 			}
