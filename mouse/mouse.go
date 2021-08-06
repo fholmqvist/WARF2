@@ -115,6 +115,9 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 }
 
 func (s *System) mouseHover(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) string {
+	if currentMousePos < 0 || currentMousePos > globals.TilesT {
+		return ""
+	}
 	for _, dwarf := range *dwarves {
 		if dwarf.Idx == currentMousePos {
 			return dwarf.String()

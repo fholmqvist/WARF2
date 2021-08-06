@@ -62,6 +62,9 @@ func (s *Service) removeFinishedJobs(rs *room.Service) {
 	var jobs []job.Job
 	for _, job := range s.Jobs {
 		if job.Remove() {
+			if d := job.GetWorker(); d != nil {
+				d.SetToAvailable()
+			}
 			continue
 		}
 		jobs = append(jobs, job)
@@ -74,7 +77,6 @@ func (s *Service) assignWorkers() {
 		if HasWorker(job) {
 			continue
 		}
-	lookingForWorker:
 		for _, worker := range s.AvailableWorkers {
 			if worker.HasJob() {
 				continue
@@ -82,7 +84,7 @@ func (s *Service) assignWorkers() {
 			if !SetWorkerAndMove(job, worker, s.Map) {
 				continue
 			}
-			break lookingForWorker
+			break
 		}
 	}
 }

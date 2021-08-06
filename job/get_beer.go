@@ -28,20 +28,19 @@ func NewGetBeer(bar *room.Bar, st *room.StorageTile, refillIdx int, destinations
 }
 
 func (g *GetBeer) PerformWork(mp *m.Map, dwf []*dwarf.Dwarf, rs *room.Service) bool {
+	// Just arrived.
 	if g.path == nil {
 		g.amount = g.StorageTile.TakeAll()
 		g.setupPath(mp)
 		return unfinished
 	}
+	// Finished.
 	if len(g.path) == 0 {
 		g.Bar.AddBeer(g.amount)
-		g.path = nil
-		g.destinations = []int{}
 		g.remove = true
-		g.dwarf.SetToAvailable()
-		g.dwarf = nil
 		return finished
 	}
+	// Move.
 	g.dwarf.Idx = g.path[0]
 	g.destinations[0] = g.path[0]
 	g.path = g.path[1:]

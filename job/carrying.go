@@ -36,11 +36,12 @@ func NewCarrying(destinations []int, r entity.Resource, storageIdx int, goalDest
 }
 
 func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
+	// Try again with
+	// new storage.
 	if storageMissingOrFull(c, rs) {
-		// Try again with
-		// new storage.
 		return finished
 	}
+	// Just arrived.
 	if c.path == nil {
 		///////////////////////////////////
 		// TODO
@@ -55,10 +56,12 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servi
 		c.setupPath(mp)
 		return unfinished
 	}
+	// Finished.
 	if len(c.path) == 0 {
 		c.finish(mp, rs)
 		return finished
 	}
+	// Move.
 	moveAlongPath(c, mp)
 	return unfinished
 }
@@ -69,10 +72,6 @@ func (c *Carrying) Remove() bool {
 
 func (c *Carrying) finish(mp *m.Map, rs *room.Service) {
 	c.remove = true
-	defer func() {
-		c.dwarf.SetToAvailable()
-		c.dwarf = nil
-	}()
 	if c.sprite == m.None {
 		return
 	}

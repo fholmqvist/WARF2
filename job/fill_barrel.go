@@ -32,22 +32,21 @@ func (f *FillBarrel) Remove() bool {
 }
 
 func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) bool {
+	// Just arrived.
 	if f.path == nil {
 		f.amount = f.StorageTile.TakeAll()
 		f.setupPath(mp)
 		return unfinished
 	}
+	// Finished.
 	if len(f.path) == 0 {
-		f.dwarf.Idx = f.BarrelIndex
-		f.path = nil
-		f.destinations = []int{}
-		f.remove = true
 		mp.Items[f.BarrelIndex].Sprite = entity.FilledBarrel
 		mp.Items[f.BarrelIndex].ResourceAmount = f.amount
-		f.dwarf.SetToAvailable()
-		f.dwarf = nil
+		f.dwarf.Idx = f.BarrelIndex
+		f.remove = true
 		return finished
 	}
+	// Move.
 	f.dwarf.Idx = f.path[0]
 	f.destinations[0] = f.path[0]
 	f.path = f.path[1:]

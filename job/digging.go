@@ -25,13 +25,12 @@ func (d *Digging) Remove() bool {
 
 func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
 	t := &mp.Tiles[d.wallIdx]
+	// Job is, in a sense, done.
 	if !m.IsSelectedWall(t.Sprite) {
-		// Job is, in a sense, done.
 		d.remove = true
-		d.dwarf.SetToAvailable()
-		d.dwarf = nil
 		return finished
 	}
+	// Finished.
 	t.Sprite = m.Ground
 	mp.Items[t.Idx].Sprite = item.RandomCrumbledWall()
 	mp.Items[t.Idx].Resource = entity.ResourceRock
@@ -40,8 +39,6 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 		mp.FixWall(&mp.Tiles[nb.Idx])
 	}
 	d.remove = true
-	d.dwarf.SetToAvailable()
-	d.dwarf = nil
 	return finished
 }
 

@@ -115,7 +115,7 @@ func initWithArgs(args []string) *Game {
 		///////////////////////////////////////////////////////
 		// Debugging and testing sleep halls and sleeping.
 		///////////////////////////////////////////////////////
-		game = GenerateGame(8, m.BoundariesMap())
+		game = GenerateGame(32, m.BoundariesMap())
 		game.WorldMap.DrawOutline(6, 5, 38, 14, m.WallSolid)
 		game.WorldMap.DrawOutline(24, 13, 38, 22, m.WallSolid)
 		game.WorldMap.Tiles[252].Sprite = m.Ground
@@ -124,14 +124,9 @@ func initWithArgs(args []string) *Game {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
 		game.Rooms.AddRoomByType(game.WorldMap, globals.XYToIdx(7, 7), &room.SleepHall{})
-		game.JobService.Workers[0].Needs.Sleep = 200
-		game.JobService.Workers[1].Needs.Sleep = 200
-		game.JobService.Workers[2].Needs.Sleep = 200
-		game.JobService.Workers[3].Needs.Sleep = 200
-		game.JobService.Workers[4].Needs.Sleep = 200
-		game.JobService.Workers[5].Needs.Sleep = 200
-		game.JobService.Workers[6].Needs.Sleep = 200
-		game.JobService.Workers[7].Needs.Sleep = 200
+		for _, worker := range game.JobService.Workers {
+			worker.Needs.Sleep = 200
+		}
 	case "farm":
 		///////////////////////////////////////////////////////
 		// Debugging and testing farms and farming.

@@ -24,24 +24,17 @@ func (f *Farming) Remove() bool {
 }
 
 func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
-	if f.remove {
-		return finished
-	}
+	// No farm, abort.
 	if _, ok := rs.GetFarm(f.FarmID); !ok {
-		f.destinations = []int{}
-		f.path = nil
 		f.remove = true
-		f.dwarf.SetToAvailable()
-		f.dwarf = nil
 		return finished
 	}
+	// Finished.
 	if len(f.destinations) == 0 {
 		f.remove = true
 		return finished
 	}
-	if f.dwarf == nil {
-		return unfinished
-	}
+	// Move.
 	return f.moveDwarf(mp)
 }
 

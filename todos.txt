@@ -11,11 +11,11 @@ game\saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-job\carrying.go:45:
+job\carrying.go:46:
 	Item is no longer there, abort.
 	What should we actually do here?
 
-job\carrying.go:88:
+job\carrying.go:87:
 	Yeah.
 
 jobservice\check_for_job.go:186:

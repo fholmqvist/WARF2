@@ -27,20 +27,19 @@ func (s *Sleep) Remove() bool {
 }
 
 func (s *Sleep) PerformWork(*m.Map, []*dwarf.Dwarf, *room.Service) bool {
-	if s.dwarf.State == dwarf.Moving {
-		return unfinished
+	// Put dwarf in bed.
+	if s.arrivedAtIdx == -1 {
+		s.arrivedAtIdx = s.dwarf.Idx
+		s.dwarf.Path = nil
+		s.dwarf.Idx = s.bedIdx
 	}
+	// Finished.
 	if s.sleepTime == 0 {
 		s.remove = true
 		s.dwarf.Idx = s.arrivedAtIdx
-		s.dwarf.SetToAvailable()
-		s.dwarf = nil
 		return finished
 	}
-	if s.arrivedAtIdx == -1 {
-		s.arrivedAtIdx = s.dwarf.Idx
-		s.dwarf.Idx = s.bedIdx
-	}
+	// Sleep.
 	s.dwarf.Needs.Sleep = 0
 	s.sleepTime--
 	return unfinished

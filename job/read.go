@@ -25,19 +25,17 @@ func (l *Read) Remove() bool {
 }
 
 func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
-	if shouldGetChair(m, l) {
+	if needsChair(m, l) {
 		return getChair(m, l, dwarves)
 	}
-	// Still reading.
+	// Reading.
 	if l.readingTime > 1 {
 		l.readingTime--
 		return unfinished
 	}
-	// Done!
+	// Finished.
 	l.readingTime = 0
 	l.remove = true
-	l.dwarf.SetToAvailable()
-	l.dwarf = nil
 	return finished
 }
 
@@ -61,7 +59,7 @@ func (l *Read) String() string {
 	return "Library"
 }
 
-func shouldGetChair(m *worldmap.Map, l *Read) bool {
+func needsChair(m *worldmap.Map, l *Read) bool {
 	return !entity.IsChair(m.Items[l.dwarf.Idx].Sprite) &&
 		l.dwarf.State != dwarf.Moving
 }
