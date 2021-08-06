@@ -88,6 +88,5 @@ func (f *FillBarrel) setupPath(mp *m.Map) {
 	if len(path) == 0 {
 		return
 	}
-	mp.Items[f.dwarf.Idx].Sprite = entity.NoItem
 	f.path = path
 }
