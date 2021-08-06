@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Dwarves dont sleep in occupied beds."
+message="Updated README screenshot."
 git add --all
 git commit -m "$message"
 git push
