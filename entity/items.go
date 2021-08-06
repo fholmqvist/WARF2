@@ -182,6 +182,12 @@ const (
 const (
 	BedRed1 = iota + gl.TilesetW*4
 	BedRed2
+	BedBlue1
+	BedBlue2
+	BedGreen1
+	BedGreen2
+	BedPurple1
+	BedPurple2
 )
 
 var (
@@ -207,7 +213,7 @@ var (
 	Bar = []int{BarH, BarV, BarLeft, BarRight, BarTopLeft,
 		BarTopRight, BarDrinksLeft, BarDrinksRight, BarStool}
 	Beds = []int{
-		BedRed1, BedRed2,
+		BedRed1, BedRed2, BedBlue1, BedBlue2, BedGreen1, BedGreen2, BedPurple1, BedPurple2,
 	}
 )
 
@@ -304,9 +310,12 @@ func IsBarrel(sprite int) bool {
 }
 
 func IsBed(sprite int) bool {
-	return sprite >= BedRed1 && sprite <= BedRed2
+	return sprite >= BedRed1 && sprite <= BedPurple2
 }
 
 func IsBedTop(sprite int) bool {
-	return sprite == BedRed1
+	return sprite == BedRed1 ||
+		sprite == BedBlue1 ||
+		sprite == BedGreen1 ||
+		sprite == BedPurple1
 }

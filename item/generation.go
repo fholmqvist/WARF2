@@ -54,3 +54,8 @@ func RandomFurniture() int {
 func RandomCrumbledWall() int {
 	return rand.Intn(entity.WallCrumbled4-entity.WallCrumbled1+1) + entity.WallCrumbled1
 }
+
+func RandomBed() (int, int) {
+	n := rand.Intn(len(entity.Beds)/2) * 2
+	return entity.Beds[n], entity.Beds[n+1]
+}

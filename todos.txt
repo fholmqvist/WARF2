@@ -1,10 +1,10 @@
-entity\items.go:198:
+entity\items.go:204:
 	job.Carrying doesn't pick these
 	up if they are blocking. Extend
 	it to work with blocking items
 	by finding non-blocking neighbours.
 
-entity\items.go:287:
+entity\items.go:293:
 	Support more than Wheat.
 
 game\saveload.go:17:

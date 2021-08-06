@@ -4,6 +4,7 @@ import (
 	"sort"
 
 	"github.com/Holmqvist1990/WARF2/entity"
+	"github.com/Holmqvist1990/WARF2/item"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -42,8 +43,7 @@ func NewSleepHall(mp *m.Map, x, y int) (*SleepHall, bool) {
 		if m.IsNextToDoorOpening(mp, idx) || m.IsNextToDoorOpening(mp, m.OneDown(idx)) {
 			continue
 		}
-		mp.Items[idx].Sprite = entity.BedRed1
-		mp.Items[m.OneDown(idx)].Sprite = entity.BedRed2
+		mp.Items[idx].Sprite, mp.Items[m.OneDown(idx)].Sprite = item.RandomBed()
 	}
 	s.ID = sleepHallAutoID
 	sleepHallAutoID++
