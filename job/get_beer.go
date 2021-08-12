@@ -8,22 +8,20 @@ import (
 )
 
 type GetBeer struct {
+	JobBase
 	Bar             *room.Bar
 	StorageTile     *room.StorageTile
 	BeerRefillIndex int
-	destinations    []int
-	dwarf           *dwarf.Dwarf
 	path            []int
 	amount          uint
-	remove          bool
 }
 
 func NewGetBeer(bar *room.Bar, st *room.StorageTile, refillIdx int, destinations []int) *GetBeer {
 	return &GetBeer{
+		JobBase:         NewJobBase(destinations),
 		Bar:             bar,
 		StorageTile:     st,
 		BeerRefillIndex: refillIdx,
-		destinations:    destinations,
 	}
 }
 
@@ -59,22 +57,6 @@ func (g *GetBeer) setupPath(mp *m.Map) {
 	}
 	mp.Items[g.dwarf.Idx].Sprite = entity.NoItem
 	g.path = path
-}
-
-func (g *GetBeer) Remove() bool {
-	return g.remove
-}
-
-func (g *GetBeer) GetWorker() *dwarf.Dwarf {
-	return g.dwarf
-}
-
-func (g *GetBeer) SetWorker(d *dwarf.Dwarf) {
-	g.dwarf = d
-}
-
-func (g *GetBeer) GetDestinations() []int {
-	return g.destinations
 }
 
 func (g *GetBeer) HasInternalMove() bool {

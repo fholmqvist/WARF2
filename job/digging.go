@@ -9,18 +9,15 @@ import (
 )
 
 type Digging struct {
-	dwarf        *dwarf.Dwarf
-	destinations []int
-	wallIdx      int
-	remove       bool
+	JobBase
+	wallIdx int
 }
 
 func NewDigging(destinations []int, wallIdx int) *Digging {
-	return &Digging{nil, destinations, wallIdx, false}
-}
-
-func (d *Digging) Remove() bool {
-	return d.remove
+	return &Digging{
+		JobBase: NewJobBase(destinations),
+		wallIdx: wallIdx,
+	}
 }
 
 func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
@@ -40,18 +37,6 @@ func (d *Digging) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 	}
 	d.remove = true
 	return finished
-}
-
-func (d *Digging) GetWorker() *dwarf.Dwarf {
-	return d.dwarf
-}
-
-func (d *Digging) SetWorker(dw *dwarf.Dwarf) {
-	d.dwarf = dw
-}
-
-func (d *Digging) GetDestinations() []int {
-	return d.destinations
 }
 
 func (d *Digging) HasInternalMove() bool {

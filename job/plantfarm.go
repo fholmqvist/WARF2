@@ -7,19 +7,17 @@ import (
 )
 
 type PlantFarm struct {
-	Farm         *room.Farm
-	destinations []int
-	dwarf        *dwarf.Dwarf
-	path         []int
-	remove       bool
+	JobBase
+	Farm *room.Farm
+	path []int
 }
 
 func NewPlantFarm(farm *room.Farm, farmableDestinations []int) *PlantFarm {
-	return &PlantFarm{farm, farmableDestinations, nil, nil, false}
-}
-
-func (p *PlantFarm) Remove() bool {
-	return p.remove
+	return &PlantFarm{
+		NewJobBase(farmableDestinations),
+		farm,
+		nil,
+	}
 }
 
 func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
@@ -36,18 +34,6 @@ func (p *PlantFarm) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Serv
 	}
 	// Move.
 	return p.moveDwarf(mp)
-}
-
-func (p *PlantFarm) GetWorker() *dwarf.Dwarf {
-	return p.dwarf
-}
-
-func (p *PlantFarm) SetWorker(d *dwarf.Dwarf) {
-	p.dwarf = d
-}
-
-func (p *PlantFarm) GetDestinations() []int {
-	return p.destinations
 }
 
 func (p *PlantFarm) HasInternalMove() bool {

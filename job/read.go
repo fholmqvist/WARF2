@@ -10,18 +10,13 @@ import (
 )
 
 type Read struct {
-	dwarf        *dwarf.Dwarf
-	destinations []int
-	readingTime  int
-	remove       bool
+	JobBase
+	readingTime int
+	remove      bool
 }
 
 func NewRead(destinations []int, readingTime int) *Read {
-	return &Read{nil, destinations, readingTime, false}
-}
-
-func (l *Read) Remove() bool {
-	return l.remove
+	return &Read{NewJobBase(destinations), readingTime, false}
 }
 
 func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
@@ -37,18 +32,6 @@ func (l *Read) PerformWork(m *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) b
 	l.readingTime = 0
 	l.remove = true
 	return finished
-}
-
-func (l *Read) GetWorker() *dwarf.Dwarf {
-	return l.dwarf
-}
-
-func (l *Read) SetWorker(dw *dwarf.Dwarf) {
-	l.dwarf = dw
-}
-
-func (l *Read) GetDestinations() []int {
-	return l.destinations
 }
 
 func (l *Read) HasInternalMove() bool {

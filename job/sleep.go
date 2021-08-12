@@ -8,22 +8,20 @@ import (
 
 const SLEEP_TIME = 600
 
-// Just needs to walk to the destination.
 type Sleep struct {
+	JobBase
 	bedIdx       int
-	destinations []int
-	dwarf        *dwarf.Dwarf
 	sleepTime    int
 	arrivedAtIdx int
-	remove       bool
 }
 
 func NewSleep(bedIdx int, destinations []int) *Sleep {
-	return &Sleep{bedIdx, destinations, nil, SLEEP_TIME, -1, false}
-}
-
-func (s *Sleep) Remove() bool {
-	return s.remove
+	return &Sleep{
+		NewJobBase(destinations),
+		bedIdx,
+		SLEEP_TIME,
+		-1,
+	}
 }
 
 func (s *Sleep) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
@@ -50,18 +48,6 @@ func (s *Sleep) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service)
 	s.dwarf.Needs.Sleep = 0
 	s.sleepTime--
 	return unfinished
-}
-
-func (s *Sleep) GetWorker() *dwarf.Dwarf {
-	return s.dwarf
-}
-
-func (s *Sleep) SetWorker(d *dwarf.Dwarf) {
-	s.dwarf = d
-}
-
-func (s *Sleep) GetDestinations() []int {
-	return s.destinations
 }
 
 func (s *Sleep) HasInternalMove() bool {

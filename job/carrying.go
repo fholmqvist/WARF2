@@ -10,23 +10,20 @@ import (
 )
 
 type Carrying struct {
+	JobBase
 	resource        entity.Resource
 	amount          uint
-	dwarf           *dwarf.Dwarf
-	destinations    []int
 	goalDestination int
 	storageIdx      int
 	sprite          int
 	path            []int
 	prev            int
-	remove          bool
 }
 
 func NewCarrying(destinations []int, r entity.Resource, storageIdx int, goalDestination, sprite int) *Carrying {
 	return &Carrying{
+		JobBase:         NewJobBase(destinations),
 		resource:        r,
-		dwarf:           nil,
-		destinations:    destinations,
 		goalDestination: goalDestination,
 		storageIdx:      storageIdx,
 		sprite:          sprite,
@@ -93,18 +90,6 @@ func (c *Carrying) finish(mp *m.Map, rs *room.Service) {
 		return
 	}
 	mp.Items[dropIdx].Sprite = c.sprite
-}
-
-func (c *Carrying) GetWorker() *dwarf.Dwarf {
-	return c.dwarf
-}
-
-func (c *Carrying) SetWorker(dw *dwarf.Dwarf) {
-	c.dwarf = dw
-}
-
-func (c *Carrying) GetDestinations() []int {
-	return c.destinations
 }
 
 func (c *Carrying) HasInternalMove() bool {

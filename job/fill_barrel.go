@@ -8,27 +8,21 @@ import (
 )
 
 type FillBarrel struct {
-	StorageTile  *room.StorageTile
-	WheatIndex   int
-	BarrelIndex  int
-	destinations []int
-	dwarf        *dwarf.Dwarf
-	path         []int
-	amount       uint
-	remove       bool
+	JobBase
+	StorageTile *room.StorageTile
+	WheatIndex  int
+	BarrelIndex int
+	path        []int
+	amount      uint
 }
 
 func NewFillBrewer(st *room.StorageTile, barrelIdx int, destinations []int) *FillBarrel {
 	return &FillBarrel{
-		StorageTile:  st,
-		WheatIndex:   st.Idx,
-		BarrelIndex:  barrelIdx,
-		destinations: destinations,
+		JobBase:     NewJobBase(destinations),
+		StorageTile: st,
+		WheatIndex:  st.Idx,
+		BarrelIndex: barrelIdx,
 	}
-}
-
-func (f *FillBarrel) Remove() bool {
-	return f.remove
 }
 
 func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) bool {
@@ -50,18 +44,6 @@ func (f *FillBarrel) PerformWork(mp *m.Map, d []*dwarf.Dwarf, rs *room.Service) 
 	f.dwarf.Idx = f.path[0]
 	f.path = f.path[1:]
 	return unfinished
-}
-
-func (f *FillBarrel) GetWorker() *dwarf.Dwarf {
-	return f.dwarf
-}
-
-func (f *FillBarrel) SetWorker(d *dwarf.Dwarf) {
-	f.dwarf = d
-}
-
-func (f *FillBarrel) GetDestinations() []int {
-	return f.destinations
 }
 
 func (f *FillBarrel) HasInternalMove() bool {

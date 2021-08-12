@@ -26,3 +26,31 @@ type Job interface {
 	HasInternalMove() bool
 	String() string
 }
+
+type JobBase struct {
+	dwarf        *dwarf.Dwarf
+	destinations []int
+	remove       bool
+}
+
+func NewJobBase(destinations []int) JobBase {
+	return JobBase{
+		destinations: destinations,
+	}
+}
+
+func (j *JobBase) GetDestinations() []int {
+	return j.destinations
+}
+
+func (j *JobBase) Remove() bool {
+	return j.remove
+}
+
+func (j *JobBase) GetWorker() *dwarf.Dwarf {
+	return j.dwarf
+}
+
+func (j *JobBase) SetWorker(d *dwarf.Dwarf) {
+	j.dwarf = d
+}

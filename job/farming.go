@@ -8,19 +8,17 @@ import (
 )
 
 type Farming struct {
-	FarmID       int
-	dwarf        *dwarf.Dwarf
-	destinations []int
-	path         []int
-	remove       bool
+	JobBase
+	FarmID int
+	path   []int
 }
 
 func NewFarming(farmID int, destinations []int) *Farming {
-	return &Farming{farmID, nil, destinations, nil, false}
-}
-
-func (f *Farming) Remove() bool {
-	return f.remove
+	return &Farming{
+		NewJobBase(destinations),
+		farmID,
+		nil,
+	}
 }
 
 func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Service) bool {
@@ -36,18 +34,6 @@ func (f *Farming) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servic
 	}
 	// Move.
 	return f.moveDwarf(mp)
-}
-
-func (f *Farming) GetWorker() *dwarf.Dwarf {
-	return f.dwarf
-}
-
-func (f *Farming) SetWorker(dw *dwarf.Dwarf) {
-	f.dwarf = dw
-}
-
-func (f *Farming) GetDestinations() []int {
-	return f.destinations
 }
 
 func (f *Farming) HasInternalMove() bool {
