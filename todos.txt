@@ -1,34 +1,34 @@
-entity\items.go:204:
+entity/items.go:204:
 	job.Carrying doesn't pick these
 	up if they are blocking. Extend
 	it to work with blocking items
 	by finding non-blocking neighbours.
 
-entity\items.go:293:
+entity/items.go:293:
 	Support more than Wheat.
 
-game\saveload.go:17:
+game/saveload.go:17:
 	This is horribly wasteful.
 	Rewrite to a better format.
 
-job\carrying.go:43:
+job/carrying.go:43:
 	Item is no longer there, abort.
 	What should we actually do here?
 
-job\carrying.go:84:
+job/carrying.go:84:
 	Yeah.
 
-jobservice\check_for_job.go:186:
+jobservice/check_for_job.go:186:
 	FloorBrick is _not_ an
 	adequate definition of storage.
 
-jobservice\service.go:44:
+jobservice/service.go:44:
 	Keep track of failed checks
 	with backoff to reduce CPU
 	load for complex checks that
 	now fail on every frame.
 
-mouse\mouse.go:5:
+mouse/mouse.go:5:
 	Perhaps this entire system
 	should be baked into UI?
 	There are cross concerns here
@@ -36,10 +36,10 @@ mouse\mouse.go:5:
 	and click functionality of its own,
 	splitting and duplicating efforts.
 
-room\bar.go:100:
+room/bar.go:100:
 	This is crap.
 
-room\storage.go:13:
+room/storage.go:13:
 	If the storage is filled
 	with StorageTiles that
 	aren't maxxed, we should
@@ -54,14 +54,14 @@ room\storage.go:13:
 	Later, good:
 	[4 Rock, 4 Rock,   None,   None]
 
-room\storage_tile.go:17:
+room/storage_tile.go:17:
 	Switch amount on
 	resource type.
 
-ui\elements.go:40:
+ui/elements.go:40:
 	Height does nothing.
 
-worldmap\generation.go:74:
+worldmap/generation.go:74:
 	New feature:
 	Filling a room of the same type
 	should merge the two rooms,

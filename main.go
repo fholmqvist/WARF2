@@ -18,13 +18,7 @@ func main() {
 	log.SetFlags(log.Lshortfile)
 	args := handleArgs()
 	printLogo(args)
-	var game *g.Game
-	if len(args) > 0 {
-		game = g.NewGame(args)
-
-	} else {
-		game = g.NewGame([]string{""})
-	}
+	game := g.NewGame(args)
 	ebiten.SetWindowSize(globals.ScreenWidth*zoom, globals.ScreenHeight*zoom)
 	ebiten.SetWindowTitle("GOWARF")
 	ebiten.SetMaxTPS(globals.TPS)
@@ -35,6 +29,9 @@ func main() {
 
 func handleArgs() []string {
 	g.GAME_SPEED = g.SUPER
+	if len(os.Args) < 2 {
+		return []string{"default"}
+	}
 	for _, arg := range os.Args[1:] {
 		switch strings.ToLower(arg) {
 		case "normal":
@@ -51,20 +48,14 @@ func handleArgs() []string {
 }
 
 func printLogo(args []string) {
-	lines := []string{
-		"##########################",
-		"########          ########",
-		"########   WARF   ########",
-		"########          ########",
-		"##########################",
-		"by Fredrik Holmqvist",
-		"",
-	}
+	lines := `##########################
+########          ########
+########   WARF   ########
+########          ########
+##########################
+by Fredrik Holmqvist`
 	if len(args) > 0 {
-		lines = append(lines, fmt.Sprintf("Running with args: %v.", args))
+		lines += fmt.Sprintf("Running with args: %v.\n", args)
 	}
-	fmt.Println()
-	for _, line := range lines {
-		fmt.Println(line)
-	}
+	fmt.Println(lines)
 }

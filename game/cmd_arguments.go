@@ -22,7 +22,7 @@ func initWithArgs(args []string) *Game {
 	state := Gameplay
 	globals.DEBUG = true
 	switch args[0] {
-	case "":
+	case "default":
 		game = GenerateGame(4, m.NormalMap())
 		state = MainMenu
 		globals.DEBUG = false
@@ -326,8 +326,15 @@ func initWithArgs(args []string) *Game {
 			lines[1] += " " + arg
 		}
 		lines[1] += "\""
-		os.WriteFile(file, []byte(strings.Join(lines, "\n")), fs.FileMode(os.O_TRUNC))
-		_, err := exec.Command("C:/Program Files/Git/usr/bin/sh.exe", file).Output()
+		err := os.WriteFile(
+			file,
+			[]byte(strings.Join(lines, "\n")),
+			fs.FileMode(os.O_TRUNC),
+		)
+		if err != nil {
+			panic(err)
+		}
+		_, err = exec.Command("sh", file).Output()
 		if err != nil {
 			panic(err)
 		}
