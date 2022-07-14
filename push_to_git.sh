@@ -1,5 +1,5 @@
 #!/bin/bash
-message="Renamed Characteristics to Attributes. Shorter imports."
+message="Updated README."
 git add --all
 git commit -m "$message"
 git push
