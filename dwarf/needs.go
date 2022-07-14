@@ -12,7 +12,7 @@ type Needs struct {
 	Read  uint16
 }
 
-func (n *Needs) Update(c Characteristics) {
+func (n *Needs) Update(c Attributes) {
 	n.Sleep = inc(n.Sleep, SLEEP_INC)
 	n.Drink = inc(n.Drink, DRINK_INC)
 	n.Read = inc(n.Read, c.DesireToRead)

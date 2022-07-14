@@ -5,7 +5,7 @@ import (
 	"sort"
 
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -102,11 +102,11 @@ func (b *Bar) placeBar(mp *m.Map, tiles []int, idx int) bool {
 	// This is crap.
 	////////////////
 	placements := []int{}
-	idxX, idxY := globals.IdxToXY(idx)
+	idxX, idxY := gl.IdxToXY(idx)
 	width, height := 6, 5
 	for y := idxY; y < idxY+height; y++ {
 		for x := idxX; x < idxX+width; x++ {
-			curr := globals.XYToIdx(x, y)
+			curr := gl.XYToIdx(x, y)
 			if mp.Items[curr].Sprite != entity.NoItem {
 				return false
 			}

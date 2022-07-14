@@ -10,7 +10,7 @@ import (
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	rail "github.com/Holmqvist1990/WARF2/rail"
 	"github.com/Holmqvist1990/WARF2/room"
@@ -20,19 +20,19 @@ import (
 func initWithArgs(args []string) *Game {
 	var game Game
 	state := Gameplay
-	globals.DEBUG = true
+	gl.DEBUG = true
 	switch args[0] {
 	case "default":
 		game = GenerateGame(4, m.NormalMap())
 		state = MainMenu
-		globals.DEBUG = false
+		gl.DEBUG = false
 	case "fill":
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall selection.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
 		mp := game.WorldMap
-		mp.DrawSquare(1, 1, globals.TilesW-1, globals.TilesH-1, m.WallSolid)
+		mp.DrawSquare(1, 1, gl.TilesW-1, gl.TilesH-1, m.WallSolid)
 	case "walls":
 		///////////////////////////////////////////////////////
 		// Debugging and testing wall and floor fills.
@@ -42,14 +42,14 @@ func initWithArgs(args []string) *Game {
 		{
 			// Room 1.
 			mp.DrawOutline(5, 5, 10, 10, m.WallSolid)
-			mp.Tiles[globals.XYToIdx(5, 7)].Sprite = m.Ground
-			mp.Tiles[globals.XYToIdx(7, 5)].Sprite = m.Ground
+			mp.Tiles[gl.XYToIdx(5, 7)].Sprite = m.Ground
+			mp.Tiles[gl.XYToIdx(7, 5)].Sprite = m.Ground
 		}
 		{
 			// Room 2.
 			mp.DrawOutline(12, 5, 24, 12, m.WallSolid)
-			mp.Tiles[globals.XYToIdx(23, 8)].Sprite = m.Ground
-			mp.Tiles[globals.XYToIdx(16, 11)].Sprite = m.Ground
+			mp.Tiles[gl.XYToIdx(23, 8)].Sprite = m.Ground
+			mp.Tiles[gl.XYToIdx(16, 11)].Sprite = m.Ground
 		}
 		{
 			// Room 3.
@@ -80,17 +80,17 @@ func initWithArgs(args []string) *Game {
 			d := dwarf.New(282+i, fmt.Sprintf("test%v", i+1))
 			game.JobService.Workers = append(game.JobService.Workers, d)
 		}
-		game.Rooms.AddRoomByType(mp, globals.XYToIdx(6, 6), &room.Storage{})
+		game.Rooms.AddRoomByType(mp, gl.XYToIdx(6, 6), &room.Storage{})
 	case "wall-stress":
 		///////////////////////////////////////////////////////
 		// Stress test for digging jobs.
 		///////////////////////////////////////////////////////
 		mp := m.FilledMap()
-		for offset := 2; offset < globals.TilesW-2; offset += 4 {
-			mp.DrawSquareSprite(offset, 2, offset+2, globals.TilesH-4, m.WallSelectedExposed)
+		for offset := 2; offset < gl.TilesW-2; offset += 4 {
+			mp.DrawSquareSprite(offset, 2, offset+2, gl.TilesH-4, m.WallSelectedExposed)
 		}
-		for offset := 2; offset < globals.TilesH-2; offset += 4 {
-			mp.DrawSquareSprite(2, offset, globals.TilesW-4, offset+2, m.WallSelectedExposed)
+		for offset := 2; offset < gl.TilesH-2; offset += 4 {
+			mp.DrawSquareSprite(2, offset, gl.TilesW-4, offset+2, m.WallSelectedExposed)
 		}
 		mp.DrawSquareSprite(42, 26, 44, 28, m.Ground)
 		mp.DrawSquareSprite(2, 2, 4, 4, m.Ground)
@@ -123,7 +123,7 @@ func initWithArgs(args []string) *Game {
 		for idx := 623; idx <= 634; idx++ {
 			game.WorldMap.Tiles[idx].Sprite = m.Ground
 		}
-		game.Rooms.AddRoomByType(game.WorldMap, globals.XYToIdx(7, 7), &room.SleepHall{})
+		game.Rooms.AddRoomByType(game.WorldMap, gl.XYToIdx(7, 7), &room.SleepHall{})
 		for _, worker := range game.JobService.Workers {
 			worker.Needs.Sleep = 200
 		}
@@ -180,8 +180,8 @@ func initWithArgs(args []string) *Game {
 	case "bar":
 		game = GenerateGame(0, m.FilledMap())
 		mp := game.WorldMap
-		for y := 0; y < globals.TilesH-8; y += 7 {
-			for x := 0; x < globals.TilesW-8; x += 7 {
+		for y := 0; y < gl.TilesH-8; y += 7 {
+			for x := 0; x < gl.TilesW-8; x += 7 {
 				mp.DrawSquareSprite(2+x, 2+y, 8+x, 8+y, m.Ground)
 			}
 		}
@@ -194,7 +194,7 @@ func initWithArgs(args []string) *Game {
 			mp.Tiles[v].Sprite = m.Ground
 		}
 		for _, v := range []int{94, 101, 108, 115, 122, 129} {
-			x, y := globals.IdxToXY(v)
+			x, y := gl.IdxToXY(v)
 			if b, ok := room.NewBar(mp, x, y); ok {
 				game.Rooms.AddRoom(mp, b)
 			}
@@ -223,17 +223,17 @@ func initWithArgs(args []string) *Game {
 		addDwarfToGame(&game, "Test 1")
 		addDwarfToGame(&game, "Test 2")
 		d1 := game.JobService.Workers[0]
-		d1.Characteristics.DesireToRead = 20
+		d1.Attributes.DesireToRead = 20
 		d2 := game.JobService.Workers[1]
-		d2.Characteristics.DesireToRead = 30
+		d2.Attributes.DesireToRead = 30
 	case "all-rooms":
 		///////////////////////////////////////////////////////
 		// Generate all rooms.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.FilledMap())
 		mp := game.WorldMap
-		for y := 0; y < globals.TilesH-8; y += 7 {
-			for x := 0; x < globals.TilesW-8; x += 7 {
+		for y := 0; y < gl.TilesH-8; y += 7 {
+			for x := 0; x < gl.TilesW-8; x += 7 {
 				mp.DrawSquareSprite(2+x, 2+y, 8+x, 8+y, m.Ground)
 			}
 		}
@@ -256,13 +256,13 @@ func initWithArgs(args []string) *Game {
 		// Debugging rails.
 		///////////////////////////////////////////////////////
 		game = GenerateGame(0, m.BoundariesMap())
-		game.RailService.Carts = append(game.RailService.Carts, rail.NewCart(globals.XYToIdx(2, 2)))
+		game.RailService.Carts = append(game.RailService.Carts, rail.NewCart(gl.XYToIdx(2, 2)))
 		var halfCircle [][2]int
-		for line := 2; line < globals.TilesW-2; line++ {
+		for line := 2; line < gl.TilesW-2; line++ {
 			halfCircle = append(halfCircle, [2]int{line, 2})
 		}
-		for line := 2; line < globals.TilesH-2; line++ {
-			halfCircle = append(halfCircle, [2]int{globals.TilesW - 3, line})
+		for line := 2; line < gl.TilesH-2; line++ {
+			halfCircle = append(halfCircle, [2]int{gl.TilesW - 3, line})
 		}
 		game.RailService.PlaceRailsXY(halfCircle)
 		game.RailService.PlaceRailsXY([][2]int{
@@ -296,11 +296,11 @@ func initWithArgs(args []string) *Game {
 			if len(cart.Path) > 0 {
 				return
 			}
-			if cart.Idx == globals.XYToIdx(2, 2) {
-				g.RailService.Carts[0].InitiateRide(mp, &mp.Rails[globals.XYToIdx(43, 29)])
+			if cart.Idx == gl.XYToIdx(2, 2) {
+				g.RailService.Carts[0].InitiateRide(mp, &mp.Rails[gl.XYToIdx(43, 29)])
 			}
-			if cart.Idx == globals.XYToIdx(43, 29) {
-				cart.InitiateRide(mp, &mp.Rails[globals.XYToIdx(2, 2)])
+			if cart.Idx == gl.XYToIdx(43, 29) {
+				cart.InitiateRide(mp, &mp.Rails[gl.XYToIdx(2, 2)])
 			}
 		}
 		game.debugFunc = &f
@@ -353,7 +353,7 @@ func initWithArgs(args []string) *Game {
 		state = MainMenu
 	case "game":
 		game = GenerateGame(4, m.NormalMap())
-		globals.DEBUG = false
+		gl.DEBUG = false
 	default:
 		panic(fmt.Sprintf("unknown arg: %v", args[0]))
 	}
@@ -368,5 +368,5 @@ func maintenance() {
 	ds := dwarf.NewService()
 	ds.CleanNames()
 	fmt.Println("Generating Todo file...")
-	globals.GenerateTodos()
+	gl.GenerateTodos()
 }

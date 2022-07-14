@@ -90,7 +90,7 @@ func checkForReading(dwf *dwarf.Dwarf, s *Service, mp *m.Map) (added bool) {
 	}
 	jb := job.NewRead(
 		[]int{destination},
-		int(dwf.Characteristics.DesireToRead*TIME_FACTOR),
+		int(dwf.Attributes.DesireToRead*TIME_FACTOR),
 	)
 	SetWorkerAndMove(jb, dwf, mp)
 	s.Jobs = append(s.Jobs, jb)

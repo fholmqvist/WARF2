@@ -5,7 +5,7 @@ import (
 	"math"
 
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -26,7 +26,7 @@ func (s *Service) Update(mp *m.Map) {
 }
 
 func (s *Service) AddRoomByType(mp *m.Map, currentMousePos int, rm Room) {
-	x, y := globals.IdxToXY(currentMousePos)
+	x, y := gl.IdxToXY(currentMousePos)
 	var newRoom Room
 	var ok bool
 	switch rm.(type) {
@@ -98,8 +98,8 @@ func (s *Service) FindNearestStorage(mp *m.Map, x, y int, res entity.Resource) (
 		if !storage.HasSpace(res) {
 			continue
 		}
-		bx, by := globals.IdxToXY(storage.Center)
-		d := globals.Dist(x, y, bx, by)
+		bx, by := gl.IdxToXY(storage.Center)
+		d := gl.Dist(x, y, bx, by)
 		if d < closest {
 			closest = d
 			idx = i

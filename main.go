@@ -9,7 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 
 	g "github.com/Holmqvist1990/WARF2/game"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 var zoom = 1
@@ -19,9 +19,9 @@ func main() {
 	args := handleArgs()
 	printLogo(args)
 	game := g.NewGame(args)
-	ebiten.SetWindowSize(globals.ScreenWidth*zoom, globals.ScreenHeight*zoom)
+	ebiten.SetWindowSize(gl.ScreenWidth*zoom, gl.ScreenHeight*zoom)
 	ebiten.SetWindowTitle("GOWARF")
-	ebiten.SetMaxTPS(globals.TPS)
+	ebiten.SetMaxTPS(gl.TPS)
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +41,7 @@ func handleArgs() []string {
 		case "super":
 			g.GAME_SPEED = g.SUPER
 		case "pause":
-			globals.GAME_PAUSED = true
+			gl.GAME_PAUSED = true
 		}
 	}
 	return os.Args[1:]
@@ -55,7 +55,7 @@ func printLogo(args []string) {
 ##########################
 by Fredrik Holmqvist`
 	if len(args) > 0 {
-		lines += fmt.Sprintf("Running with args: %v.\n", args)
+		lines += fmt.Sprintf("\nRunning with args: %v.\n", args)
 	}
 	fmt.Println(lines)
 }

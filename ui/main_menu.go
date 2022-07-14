@@ -4,7 +4,7 @@ import (
 	"image/color"
 	"log"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 
 	"github.com/hajimehoshi/ebiten"
 	e "github.com/hajimehoshi/ebiten"
@@ -16,7 +16,7 @@ import (
 var (
 	width       = 20
 	height      = 1
-	xOffset     = (globals.ScreenWidth/globals.TileSize)/2 - width/2
+	xOffset     = (gl.ScreenWidth/gl.TileSize)/2 - width/2
 	yOffset     = 8
 	ySeparation = 4
 )
@@ -89,8 +89,8 @@ func (m *MainMenu) UpdateMainMenu() int {
 func (m *MainMenu) mouseAndSelect() (int, bool) {
 	for i, b := range m.buttons {
 		x, y := ebiten.CursorPosition()
-		x /= globals.TileSize
-		y /= globals.TileSize
+		x /= gl.TileSize
+		y /= gl.TileSize
 		if !b.MouseIsOver(x, y) {
 			continue
 		}
@@ -110,6 +110,6 @@ func drawLogo(m *MainMenu, screen *ebiten.Image) {
 	opt := &ebiten.DrawImageOptions{}
 	opt.GeoM.Scale(2, 2)
 	opt.GeoM.Translate(float64(-m.logo.Bounds().Dx()), 28)
-	opt.GeoM.Translate(globals.ScreenWidth/2, 0)
+	opt.GeoM.Translate(gl.ScreenWidth/2, 0)
 	_ = screen.DrawImage(m.logo, opt)
 }

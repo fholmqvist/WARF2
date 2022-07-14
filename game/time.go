@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 const (
@@ -27,12 +27,12 @@ type Time struct {
 // Decriments until one cycle
 // has been consumed, then resets.
 func (t *Time) Tick() bool {
-	if globals.GAME_PAUSED {
+	if gl.GAME_PAUSED {
 		return false
 	}
 	t.Frame--
 	if t.Frame <= -1 {
-		t.Frame = globals.CycleLength
+		t.Frame = gl.CycleLength
 	}
 	t.framesToMove--
 	if t.framesToMove <= -1 {
@@ -53,11 +53,11 @@ func (t *Time) NewCycle() bool {
 
 // Half a game cycle has passed.
 func (t *Time) HalfCycle() bool {
-	return t.NewCycle() || t.Frame == globals.CycleLength/2
+	return t.NewCycle() || t.Frame == gl.CycleLength/2
 }
 
 // A quarter of a game cycle has passed.
 func (t *Time) QuarterCycle() bool {
-	return t.HalfCycle() || t.Frame == globals.CycleLength/4 ||
-		t.Frame == globals.CycleLength/4*2 || t.Frame == globals.CycleLength/4*3
+	return t.HalfCycle() || t.Frame == gl.CycleLength/4 ||
+		t.Frame == gl.CycleLength/4*2 || t.Frame == gl.CycleLength/4*3
 }

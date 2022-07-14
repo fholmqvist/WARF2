@@ -4,7 +4,7 @@ import (
 	"math"
 
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -150,7 +150,7 @@ func determineCenter(mp *m.Map, tiles []int) int {
 	}
 	midx := minx + ((maxx - minx) / 2)
 	midy := miny + ((maxy - miny) / 2)
-	center := globals.XYToIdx(midx, midy)
+	center := gl.XYToIdx(midx, midy)
 	for m.IsAnyWall(mp.Tiles[center].Sprite) {
 		center++
 	}

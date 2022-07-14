@@ -158,7 +158,6 @@ func (f *Farm) PlantFarm(mp *m.Map, t m.Tile) {
 		return
 	}
 	item.Place(mp, t.X, t.Y, entity.FarmSingleEmpty)
-	return
 }
 
 func (f *Farm) farmableIndexes(mp *m.Map) []int {

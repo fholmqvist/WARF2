@@ -2,7 +2,7 @@ package dwarf
 
 import (
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -27,7 +27,7 @@ func (w *Walker) Move(mp *m.Map, e *entity.Entity, d m.Direction) bool {
 }
 
 func (w *Walker) moveUp(mp *m.Map, e *entity.Entity) bool {
-	if e.Idx > globals.TilesW && m.NotColliding(mp, e.Idx, m.Up) {
+	if e.Idx > gl.TilesW && m.NotColliding(mp, e.Idx, m.Up) {
 		e.Idx = m.OneUp(e.Idx)
 		return true
 	}
@@ -35,7 +35,7 @@ func (w *Walker) moveUp(mp *m.Map, e *entity.Entity) bool {
 }
 
 func (w *Walker) moveRight(mp *m.Map, e *entity.Entity) bool {
-	if e.Idx%globals.TilesW-(globals.TilesW-1) != 0 && m.NotColliding(mp, e.Idx, m.Right) {
+	if e.Idx%gl.TilesW-(gl.TilesW-1) != 0 && m.NotColliding(mp, e.Idx, m.Right) {
 		e.Idx = m.OneRight(e.Idx)
 		return true
 	}
@@ -43,7 +43,7 @@ func (w *Walker) moveRight(mp *m.Map, e *entity.Entity) bool {
 }
 
 func (w *Walker) moveDown(mp *m.Map, e *entity.Entity) bool {
-	if e.Idx < globals.TilesT-globals.TilesW && m.NotColliding(mp, e.Idx, m.Down) {
+	if e.Idx < gl.TilesT-gl.TilesW && m.NotColliding(mp, e.Idx, m.Down) {
 		e.Idx = m.OneDown(e.Idx)
 		return true
 	}
@@ -51,7 +51,7 @@ func (w *Walker) moveDown(mp *m.Map, e *entity.Entity) bool {
 }
 
 func (w *Walker) moveLeft(mp *m.Map, e *entity.Entity) bool {
-	if e.Idx%globals.TilesW != 0 && m.NotColliding(mp, e.Idx, m.Left) {
+	if e.Idx%gl.TilesW != 0 && m.NotColliding(mp, e.Idx, m.Left) {
 		e.Idx = m.OneLeft(e.Idx)
 		return true
 	}

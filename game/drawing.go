@@ -3,7 +3,7 @@ package game
 import (
 	"fmt"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -28,14 +28,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func DrawGraphic(idx, sprite int, screen *ebiten.Image, tileset *ebiten.Image, alpha float64) {
-	globals.DrawTile(sprite, screen, tileset, alpha, globals.DrawOptions(idx, alpha, 0))
+	gl.DrawTile(sprite, screen, tileset, alpha, gl.DrawOptions(idx, alpha, 0))
 }
 
 func DrawRailGraphic(idx, sprite int, screen *ebiten.Image, tileset *ebiten.Image, alpha, rotation float64) {
 	if sprite == 0 {
 		return
 	}
-	globals.DrawTile(sprite, screen, tileset, alpha, globals.DrawOptions(idx, alpha, rotation))
+	gl.DrawTile(sprite, screen, tileset, alpha, gl.DrawOptions(idx, alpha, rotation))
 }
 
 func drawMap(g *Game, screen *ebiten.Image) {
@@ -54,7 +54,7 @@ func drawMap(g *Game, screen *ebiten.Image) {
 }
 
 func drawTPS(g *Game, screen *ebiten.Image) {
-	if globals.DEBUG {
+	if gl.DEBUG {
 		ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f", ebiten.CurrentTPS()))
 	}
 }

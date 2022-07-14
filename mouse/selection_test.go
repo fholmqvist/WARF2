@@ -3,7 +3,7 @@ package mouse
 import (
 	"testing"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -29,7 +29,7 @@ func TestTileRange(t *testing.T) {
 		copy := mp
 
 		FuncOverRange(&copy, tt.start, tt.end, func(mp *m.Map, x, y int) {
-			idx := globals.XYToIdx(x, y)
+			idx := gl.XYToIdx(x, y)
 			mp.Tiles[idx].Sprite = -1
 		})
 

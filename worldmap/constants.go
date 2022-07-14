@@ -1,6 +1,6 @@
 package worldmap
 
-import "github.com/Holmqvist1990/WARF2/globals"
+import gl "github.com/Holmqvist1990/WARF2/globals"
 
 // World tile sprite constant.
 const (
@@ -18,7 +18,7 @@ const (
 	WallSelectedExposed
 )
 const (
-	StorageFloor1 = iota + globals.TilesetW
+	StorageFloor1 = iota + gl.TilesetW
 	StorageFloor2
 	StorageFloor3
 	StorageFloor4
@@ -30,7 +30,7 @@ const (
 	StorageFloor10
 )
 const (
-	LibraryFloor1 = iota + globals.TilesetW*2
+	LibraryFloor1 = iota + gl.TilesetW*2
 	LibraryFloor2
 	LibraryFloor3
 	LibraryFloor4

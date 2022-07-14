@@ -4,7 +4,6 @@ import (
 	"image/color"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
-	"github.com/Holmqvist1990/WARF2/globals"
 	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	"github.com/hajimehoshi/ebiten"
@@ -38,7 +37,10 @@ func NewGameplayUI() *GameplayUI {
 	}
 }
 
-func (g *GameplayUI) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face, ui *UI, dw []*dwarf.Dwarf) {
+func (g *GameplayUI) Draw(
+	screen *ebiten.Image, uiTiles *ebiten.Image,
+	font font.Face, ui *UI, dw []*dwarf.Dwarf,
+) {
 	drawMouseMode(screen, uiTiles, font, ui.MouseMode)
 	ui.BuildMenu.Draw(screen, uiTiles, font)
 	if ui.MouseOverInformation.Text == "" {
@@ -48,15 +50,15 @@ func (g *GameplayUI) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font
 	}
 	ui.MouseOverInformation.DrawWithText(screen, font)
 	g.handlePausing(screen, font)
-	if ebiten.IsKeyPressed(ebiten.KeyTab) && !globals.GAME_PAUSED {
+	if ebiten.IsKeyPressed(ebiten.KeyTab) && !gl.GAME_PAUSED {
 		drawOverview(screen, font, dw, ui.MouseMode)
 	}
 }
 
 func (g *GameplayUI) handlePausing(screen *ebiten.Image, font font.Face) {
-	if globals.ESC_MENU {
+	if gl.ESC_MENU {
 		g.PauseMenu.DrawESC(screen, font)
-	} else if globals.GAME_PAUSED {
+	} else if gl.GAME_PAUSED {
 		g.PauseMenu.DrawPause(screen, font)
 	}
 }
@@ -116,7 +118,7 @@ func drawOverview(screen *ebiten.Image, gameFont font.Face, dw []*dwarf.Dwarf, m
 	drawBackground(screen, x, y, (len(dw)*y)+y+yo)
 	text.Draw(screen, "Dwarves:", gameFont, x+xo, y*2, mouseMode.BackgroundColor)
 	for i, d := range dw {
-		text.Draw(screen, d.Characteristics.Name, gameFont, (x*2)+xo, yo+(y*(i+2)), mouseMode.TextColor)
+		text.Draw(screen, d.Attributes.Name, gameFont, (x*2)+xo, yo+(y*(i+2)), mouseMode.TextColor)
 	}
 }
 

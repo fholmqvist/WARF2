@@ -3,15 +3,15 @@ package worldmap
 import (
 	"math/rand"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 func (m *Map) CreateBoundaryWalls() {
-	m.DrawOutline(0, 0, globals.TilesW, globals.TilesH, BoundarySolid)
+	m.DrawOutline(0, 0, gl.TilesW, gl.TilesH, BoundarySolid)
 }
 
 func (m *Map) CreateOutmostWalls() {
-	m.DrawOutline(1, 1, globals.TilesW-1, globals.TilesH-1, WallSolid)
+	m.DrawOutline(1, 1, gl.TilesW-1, gl.TilesH-1, WallSolid)
 }
 
 func (m *Map) RandomizeWalls(chance int) {
@@ -38,7 +38,7 @@ func (m *Map) FixWalls() {
 // that solid and exposed variants match
 // with the surrounding environment.
 func (m *Map) FixWall(t *Tile) {
-	if t.Idx >= globals.TilesBottom {
+	if t.Idx >= gl.TilesBottom {
 		return
 	}
 	if IsBoundary(t.Sprite) {

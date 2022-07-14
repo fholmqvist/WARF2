@@ -5,7 +5,7 @@ import (
 	"math/rand"
 
 	e "github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -14,7 +14,7 @@ import (
 type Dwarf struct {
 	e.Entity
 	Walker
-	Characteristics
+	Attributes
 	Needs
 	State WorkState
 }
@@ -25,7 +25,7 @@ func New(startingIdx int, name string) *Dwarf {
 			Sprite: rand.Intn(DwarfTeal),
 			Idx:    startingIdx,
 		},
-		Characteristics: GenerateCharacteristics(name),
+		Attributes: GenerateAttributes(name),
 	}
 }
 
@@ -51,7 +51,7 @@ func (d *Dwarf) randomWalk(mp *m.Map) {
 	if rand.Intn(100) > 90 {
 		dir, err := m.GetDirection(rand.Intn(4))
 		if err != nil {
-			globals.GAME_PAUSED = true
+			gl.GAME_PAUSED = true
 			fmt.Println(err)
 		}
 		d.Move(mp, &d.Entity, dir)

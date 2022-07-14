@@ -8,7 +8,7 @@ package rail
 // better to be honest.
 
 import (
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -32,7 +32,7 @@ func (r *Service) PlaceRail(idx int) {
 }
 
 func (r *Service) PlaceRails(idxs []int) {
-	min := globals.TilesT + 1
+	min := gl.TilesT + 1
 	max := -1
 	for _, idx := range idxs {
 		t, ok := r.Map.GetTileByIndex(idx)
@@ -65,14 +65,14 @@ func (r *Service) PlaceRails(idxs []int) {
 }
 
 func (r *Service) PlaceRailXY(x, y int) {
-	idx := globals.XYToIdx(x, y)
+	idx := gl.XYToIdx(x, y)
 	r.PlaceRails([]int{idx})
 }
 
 func (r *Service) PlaceRailsXY(xys [][2]int) {
 	var idxs []int
 	for i := range xys {
-		idxs = append(idxs, globals.XYToIdx(xys[i][0], xys[i][1]))
+		idxs = append(idxs, gl.XYToIdx(xys[i][0], xys[i][1]))
 	}
 	r.PlaceRails(idxs)
 }

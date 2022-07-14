@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 // NotColliding is the inverse of IsColliding below.
@@ -65,21 +65,21 @@ func IndexOutOfBounds(idx int, dir Direction) bool {
 }
 
 func outOfBounds(idx int) bool {
-	return idx <= 0 || idx >= globals.TilesT-1
+	return idx <= 0 || idx >= gl.TilesT-1
 }
 
 func overflowUp(idx int) bool {
-	return idx < globals.TilesW
+	return idx < gl.TilesW
 }
 
 func overflowDown(idx int) bool {
-	return idx > (globals.TilesT - globals.TilesW)
+	return idx > (gl.TilesT - gl.TilesW)
 }
 
 func overflowUpLeft(idx int) bool {
-	return idx < globals.TilesW+1
+	return idx < gl.TilesW+1
 }
 
 func overflowDownRight(idx int) bool {
-	return idx > (globals.TilesT-globals.TilesW)-1
+	return idx > (gl.TilesT-gl.TilesW)-1
 }

@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	j "github.com/Holmqvist1990/WARF2/jobservice"
 	"github.com/Holmqvist1990/WARF2/mouse"
 	rail "github.com/Holmqvist1990/WARF2/rail"
@@ -75,7 +75,7 @@ func NewGame(args []string) *Game {
 
 // Layout implementation for Ebiten interface.
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return globals.ScreenWidth, globals.ScreenHeight
+	return gl.ScreenWidth, gl.ScreenHeight
 }
 
 func (g *Game) LoadAssets() {

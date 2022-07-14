@@ -1,7 +1,7 @@
 package mouse
 
 import (
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 
 	"github.com/hajimehoshi/ebiten"
@@ -43,8 +43,8 @@ func FuncOverRange(mp *m.Map, start, end int, f func(*m.Map, int, int)) {
 // between start and end,
 // regardless of direction.
 func TileRange(start, end int) (int, int, int, int) {
-	x1, y1 := globals.IdxToXY(start)
-	x2, y2 := globals.IdxToXY(end)
+	x1, y1 := gl.IdxToXY(start)
+	x2, y2 := gl.IdxToXY(end)
 
 	if x1 > x2 {
 		x1, x2 = x2, x1
@@ -59,11 +59,11 @@ func TileRange(start, end int) (int, int, int, int) {
 
 func MouseIdx() int {
 	mx, my := ebiten.CursorPosition()
-	mx, my = mx/globals.TileSize, my/globals.TileSize
-	if mx >= globals.TilesW {
+	mx, my = mx/gl.TileSize, my/gl.TileSize
+	if mx >= gl.TilesW {
 		return -1
 	}
-	return mx + (my * globals.TilesW)
+	return mx + (my * gl.TilesW)
 }
 
 func (s *System) setHasClicked(currentMousePos int) {

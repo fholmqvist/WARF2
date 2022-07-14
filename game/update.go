@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -17,7 +17,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	case HelpMenu:
 		g.updateHelpMenu()
 	case Gameplay:
-		if g.debugFunc != nil && globals.DEBUG {
+		if g.debugFunc != nil && gl.DEBUG {
 			f := *g.debugFunc
 			f(g)
 		}
@@ -47,13 +47,13 @@ func (g *Game) UpdateDwarves() {
 		return
 	}
 	for _, dwarf := range g.JobService.Workers {
-		dwarf.Needs.Update(dwarf.Characteristics)
+		dwarf.Needs.Update(dwarf.Attributes)
 	}
 }
 
 func (g *Game) handleInput() string {
 	HandleKeyboard(g)
-	if globals.GAME_PAUSED {
+	if gl.GAME_PAUSED {
 		return ""
 	}
 	if mode, changed := g.ui.UpdateGameplayMenus(); changed {
@@ -70,12 +70,12 @@ func (g *Game) updateMainMenu() {
 	case -1:
 		return
 	case 0:
-		globals.Delay(func() {
+		gl.Delay(func() {
 			g.state = Gameplay
 		})
 	case 1:
 		g.state = HelpMenu
-		globals.Delay(func() {
+		gl.Delay(func() {
 			g.ui.HelpMenu.Clickable = true
 		})
 	case 2:

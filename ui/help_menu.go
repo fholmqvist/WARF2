@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/text"
 	"golang.org/x/image/font"
@@ -19,7 +19,7 @@ func NewHelpMenu() *HelpMenu {
 		Back: Button{Element{
 			Text:      "Back",
 			X:         xOffset,
-			Y:         globals.TilesH / 2,
+			Y:         gl.TilesH / 2,
 			Width:     width,
 			Height:    1,
 			TextColor: textColor,
@@ -28,14 +28,14 @@ func NewHelpMenu() *HelpMenu {
 }
 
 func (h *HelpMenu) Draw(screen *ebiten.Image, uiTiles *ebiten.Image, font font.Face) {
-	text.Draw(screen, h.Description, font, xOffset*globals.TileSize, globals.TileSize*2, textColor)
+	text.Draw(screen, h.Description, font, xOffset*gl.TileSize, gl.TileSize*2, textColor)
 	h.Back.Draw(screen, uiTiles, font)
 }
 
 func (h *HelpMenu) Update() bool {
 	x, y := ebiten.CursorPosition()
-	x /= globals.TileSize
-	y /= globals.TileSize
+	x /= gl.TileSize
+	y /= gl.TileSize
 	if h.Back.MouseIsOver(x, y) {
 		h.Back.hovering = true
 		if !h.Clickable {

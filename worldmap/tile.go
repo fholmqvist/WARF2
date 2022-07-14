@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 // Tile data struct.
@@ -46,8 +46,8 @@ func (t Tiles) ToIdxs() []int {
 func CreateTile(idx, spr int, m *Map) Tile {
 	return Tile{
 		Idx:    idx,
-		X:      globals.IdxToX(idx),
-		Y:      globals.IdxToY(idx),
+		X:      gl.IdxToX(idx),
+		Y:      gl.IdxToY(idx),
 		Sprite: spr,
 		Map:    m,
 	}

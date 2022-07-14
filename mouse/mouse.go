@@ -17,7 +17,7 @@ import (
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
 	"github.com/Holmqvist1990/WARF2/entity"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	"github.com/Holmqvist1990/WARF2/room"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 	"github.com/hajimehoshi/ebiten"
@@ -46,7 +46,7 @@ func NewSystem() *System {
 // Handle all the mouse interactivity.
 func (s *System) Handle(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf) string {
 	mousePos := MouseIdx()
-	if mousePos < 0 || mousePos > globals.TilesT {
+	if mousePos < 0 || mousePos > gl.TilesT {
 		mp.ClearSelectedTiles()
 		s.unsetHasClicked()
 		return ""
@@ -95,7 +95,7 @@ func (s *System) mouseClick(mp *m.Map, rs *room.Service, dwarves *[]*dwarf.Dwarf
 		rs.AddRoomByType(mp, currentMousePos, rm)
 	}
 	s.justPlacedRoom = true
-	globals.Delay(func() { s.justPlacedRoom = false })
+	gl.Delay(func() { s.justPlacedRoom = false })
 }
 
 func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
@@ -115,7 +115,7 @@ func (s *System) mouseUp(mp *m.Map, rs *room.Service) {
 }
 
 func (s *System) mouseHover(mp *m.Map, dwarves *[]*dwarf.Dwarf, currentMousePos int) string {
-	if currentMousePos < 0 || currentMousePos > globals.TilesT {
+	if currentMousePos < 0 || currentMousePos > gl.TilesT {
 		return ""
 	}
 	for _, dwarf := range *dwarves {

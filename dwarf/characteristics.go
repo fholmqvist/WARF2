@@ -4,13 +4,13 @@ import (
 	"math/rand"
 )
 
-type Characteristics struct {
+type Attributes struct {
 	Name         string
 	DesireToRead uint16
 }
 
-func GenerateCharacteristics(name string) Characteristics {
-	return Characteristics{
+func GenerateAttributes(name string) Attributes {
+	return Attributes{
 		Name:         name,
 		DesireToRead: uint16(1 + rand.Intn(15)),
 	}

@@ -15,9 +15,9 @@ const (
 	Right
 	Fill
 
-	_reserved1
-	_reserved2
-	_reserved3
+	_
+	_
+	_
 
 	Highlighted_Full
 	Highlighted_OneLeft

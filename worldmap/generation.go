@@ -3,7 +3,7 @@ package worldmap
 import (
 	"math/rand"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 func RandomFloorBrick() int {
@@ -22,7 +22,7 @@ func RandomWoodFloor() int {
 // function and sets the tiles island
 // number to the given island number.
 func FloodFill(x, y int, m *Map, island int, predicate func(int) bool) {
-	idx := globals.XYToIdx(x, y)
+	idx := gl.XYToIdx(x, y)
 	ok := predicate(idx)
 	if !ok {
 		return
@@ -33,10 +33,10 @@ func FloodFill(x, y int, m *Map, island int, predicate func(int) bool) {
 	if x > 0 {
 		FloodFill(x-1, y, m, island, predicate)
 	}
-	if y < globals.TilesH-1 {
+	if y < gl.TilesH-1 {
 		FloodFill(x, y+1, m, island, predicate)
 	}
-	if x < globals.TilesW-1 {
+	if x < gl.TilesW-1 {
 		FloodFill(x+1, y, m, island, predicate)
 	}
 }
@@ -106,7 +106,7 @@ func (m *Map) FillIslands(inverse bool) {
 		if t.Island != 0 {
 			continue
 		}
-		x, y := globals.IdxToXY(i)
+		x, y := gl.IdxToXY(i)
 		if IsWall(t.Sprite) {
 			FloodFillWalls(x, y, m, island)
 			island++

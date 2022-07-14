@@ -63,10 +63,6 @@ func (c *Carrying) PerformWork(mp *m.Map, dwarves []*dwarf.Dwarf, rs *room.Servi
 	return unfinished
 }
 
-func (c *Carrying) Remove() bool {
-	return c.remove
-}
-
 func (c *Carrying) finish(mp *m.Map, rs *room.Service) {
 	c.remove = true
 	if c.sprite == m.None {

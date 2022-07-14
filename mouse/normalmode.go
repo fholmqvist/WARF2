@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Holmqvist1990/WARF2/dwarf"
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 	m "github.com/Holmqvist1990/WARF2/worldmap"
 )
 
@@ -125,7 +125,7 @@ func setToNormalInteractFalse(tile *m.Tile) {
 }
 
 func printMousePos(idx int) {
-	x, y := globals.IdxToXY(idx)
+	x, y := gl.IdxToXY(idx)
 	fmt.Printf("IDX: %d. XY: {%d, %d}.\n", idx, x, y)
 }
 

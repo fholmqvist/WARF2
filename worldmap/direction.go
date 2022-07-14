@@ -3,7 +3,7 @@ package worldmap
 import (
 	"fmt"
 
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 // TileDir contains an index
@@ -89,7 +89,7 @@ func IndexAtDirection(idx int, dir Direction) int {
 }
 
 func OneUp(idx int) int {
-	return idx - globals.TilesW
+	return idx - gl.TilesW
 }
 
 func (m *Map) OneTileUp(idx int) Tile {
@@ -101,7 +101,7 @@ func (m *Map) OneRailUp(idx int) Tile {
 }
 
 func OneDown(idx int) int {
-	return idx + globals.TilesW
+	return idx + gl.TilesW
 }
 
 func (m *Map) OneTileDown(idx int) Tile {
@@ -187,7 +187,7 @@ func NextIdxToDir(idx, next int) (Direction, error) {
 }
 
 func nextIdxToDirError(idx, next int) error {
-	x1, y1 := globals.IdxToXY(idx)
-	x2, y2 := globals.IdxToXY(next)
+	x1, y1 := gl.IdxToXY(idx)
+	x2, y2 := gl.IdxToXY(next)
 	return fmt.Errorf("NextIdxToDir error:\n\tidx %v and next %v not adjacent, vdiff %v, hdiff %v", idx, next, y1-y2, x1-x2)
 }

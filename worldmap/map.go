@@ -4,7 +4,7 @@
 package worldmap
 
 import (
-	"github.com/Holmqvist1990/WARF2/globals"
+	gl "github.com/Holmqvist1990/WARF2/globals"
 )
 
 // Map holds all the tiles
@@ -56,7 +56,7 @@ func FilledMap() *Map {
 }
 
 func newTiles(mp *Map, sprite int) []Tile {
-	t := make([]Tile, globals.TilesW*globals.TilesH)
+	t := make([]Tile, gl.TilesW*gl.TilesH)
 	for i := range t {
 		t[i] = CreateTile(i, sprite, mp)
 	}
@@ -64,7 +64,7 @@ func newTiles(mp *Map, sprite int) []Tile {
 }
 
 func newRailTiles(mp *Map, sprite int) []Tile {
-	t := make([]Tile, globals.TilesW*globals.TilesH)
+	t := make([]Tile, gl.TilesW*gl.TilesH)
 	for i := range t {
 		t[i] = CreateRailTile(i, mp)
 	}
@@ -86,7 +86,7 @@ func (m *Map) ClearSelectedTiles() {
 // and a bool to determine if the
 // function was successful.
 func (m Map) GetTile(x, y int) (*Tile, bool) {
-	return m.GetTileByIndex(x + y*globals.TilesW)
+	return m.GetTileByIndex(x + y*gl.TilesW)
 }
 
 // GetSelectionTile returns a pointer to
@@ -94,7 +94,7 @@ func (m Map) GetTile(x, y int) (*Tile, bool) {
 // the selected layer on map, and a bool
 // to determine if the function was successful.
 func (m Map) GetSelectionTile(x, y int) (*Tile, bool) {
-	return m.GetSelectionTileByIndex(x + y*globals.TilesW)
+	return m.GetSelectionTileByIndex(x + y*gl.TilesW)
 }
 
 // GetTileByIndex returns a pointer
@@ -126,7 +126,7 @@ func (m Map) GetItemTileByIndex(idx int) (*Tile, bool) {
 // a bool to determine if the function
 // was successful.
 func (m Map) GetItemTile(x, y int) (*Tile, bool) {
-	idx := globals.XYToIdx(x, y)
+	idx := gl.XYToIdx(x, y)
 	return getTileFrom(idx, m.Items)
 }
 
@@ -143,7 +143,7 @@ func (m Map) GetRailTileByIndex(idx int) (*Tile, bool) {
 // a bool to determine if the function
 // was successful.
 func (m Map) GetRailTile(x, y int) (*Tile, bool) {
-	idx := globals.XYToIdx(x, y)
+	idx := gl.XYToIdx(x, y)
 	return getTileFrom(idx, m.Rails)
 }
 
@@ -180,7 +180,7 @@ func (m *Map) TilesForIsland(island int) []Tile {
 // }
 
 func getTileFrom(idx int, tiles []Tile) (*Tile, bool) {
-	if idx < 0 || idx >= globals.TilesT {
+	if idx < 0 || idx >= gl.TilesT {
 		return nil, false
 	}
 	return &tiles[idx], true
